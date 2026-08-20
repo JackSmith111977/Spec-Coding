@@ -1,0 +1,104 @@
+schema_version: 1
+spec_coding_version: "0.1.0"
+status: baseline
+canonical_root: docs
+canonical_document_count: 34
+history_policy: git
+
+entrypoints:
+  greenfield:
+    stage: 01a-project-definition
+    description: 新项目：项目定义建立
+  brownfield:
+    stage: 01b-project-understanding
+    description: 存量项目：项目认知建立
+  converge_at: 02-requirement-clarification
+
+stages:
+  - id: 01a
+    name: project-definition
+    description: 项目定义建立
+    applies_to: greenfield
+    documents:
+      - 01a-project-definition/01-project-positioning.md
+      - 01a-project-definition/02-business-definition.md
+      - 01a-project-definition/03-system-definition.md
+      - 01a-project-definition/04-requirement-framework.md
+
+  - id: 01b
+    name: project-understanding
+    description: 项目认知建立
+    applies_to: brownfield
+    documents:
+      - 01b-project-understanding/01-project-orientation.md
+      - 01b-project-understanding/02-business-understanding.md
+      - 01b-project-understanding/03-system-understanding.md
+      - 01b-project-understanding/04-requirement-positioning.md
+
+  - id: "02"
+    name: requirement-clarification
+    description: 需求澄清
+    applies_to: all
+    documents:
+      - 02-requirement-clarification/01-requirement-interpretation.md
+      - 02-requirement-clarification/02-ambiguity-gap-identification.md
+      - 02-requirement-clarification/03-scope-rule-confirmation.md
+      - 02-requirement-clarification/04-acceptance-criteria-confirmation.md
+
+  - id: "03"
+    name: technical-design
+    description: 技术方案设计
+    applies_to: all
+    documents:
+      - 03-technical-design/01-current-state-impact-analysis.md
+      - 03-technical-design/02-solution-design-decision.md
+      - 03-technical-design/03-detailed-technical-design.md
+      - 03-technical-design/04-design-acceptance-convergence.md
+
+  - id: "04"
+    name: implementation-planning
+    description: 实施规划
+    applies_to: all
+    documents:
+      - 04-implementation-planning/01-implementation-baseline-handoff.md
+      - 04-implementation-planning/02-implementation-task-decomposition.md
+      - 04-implementation-planning/03-task-definition-and-orchestration.md
+      - 04-implementation-planning/04-task-set-validation.md
+
+  - id: "05"
+    name: development-execution
+    description: 开发实施
+    applies_to: all
+    documents:
+      - 05-development-execution/01-ready-task-scheduling.md
+      - 05-development-execution/02-autonomous-implementation-and-closure.md
+      - 05-development-execution/03-verification-and-exception-convergence.md
+      - 05-development-execution/04-state-commit-and-continuous-progression.md
+
+  - id: "06"
+    name: verification-convergence
+    description: 验证收敛
+    applies_to: all
+    documents:
+      - 06-verification-convergence/01-verification-baseline-establishment.md
+      - 06-verification-convergence/02-multi-dimensional-verification-execution.md
+      - 06-verification-convergence/03-verification-finding-triage-and-deviation-convergence.md
+      - 06-verification-convergence/04-evidence-closure-and-status-convergence.md
+
+  - id: "07"
+    name: process-review-improvement
+    description: 流程复盘改进
+    applies_to: all
+    documents:
+      - 07-process-review-improvement/01-evidence-collection.md
+      - 07-process-review-improvement/02-process-reconstruction.md
+      - 07-process-review-improvement/03-issue-detection.md
+      - 07-process-review-improvement/04-root-cause-analysis.md
+      - 07-process-review-improvement/05-improvement-design.md
+      - 07-process-review-improvement/06-implementation-and-validation.md
+
+rules:
+  - Only documents listed in this manifest are canonical stage documents for this version.
+  - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
+  - Add, delete, or rename a canonical stage document only together with a manifest update.
+  - Consumers should resolve the repository version first, then read this manifest before loading stage documents.
