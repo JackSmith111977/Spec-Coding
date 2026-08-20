@@ -2,7 +2,7 @@
 
 ## 4.1 目标
 
-基于 Project Positioning、Business Definition 与 System Definition，将项目能力转化为**结构化的需求空间**，明确核心需求领域、可独立讨论的需求单元及其关系，为后续 Requirement Clarification 提供清晰输入。
+基于 Project Positioning、Business Definition 与 System Definition，将项目能力转化为**结构化的需求空间**，明确核心需求领域、可独立讨论的需求单元及其关系，为后续 Requirement Clarification（需求澄清）提供清晰输入。
 
 需求框架只回答“**有哪些需求需要被进一步定义，它们彼此如何组织**”，不在本阶段提前确定详细范围、业务规则、交互细节或验收标准。
 
@@ -107,7 +107,7 @@ Requirement Unit
 
 ### 3. 保留开放项
 
-对于当前无法确认、但会影响后续需求定义的问题，显式记录为 Open Item，由 Requirement Clarification 继续处理。
+对于当前无法确认、但会影响后续需求定义的问题，显式记录为 Open Item（开放项），由 Requirement Clarification 继续处理。
 
 ---
 
@@ -132,20 +132,22 @@ Requirement Unit
 
 ## 4.8 下游使用约定
 
-Requirement Framework 是新建项目定义阶段的**需求组织层产物**。
+Requirement Framework 是 Greenfield（新项目）进入 Requirement Clarification 的正式需求入口。
 
-后续 Requirement Clarification 应以 Requirement Unit 为基本对象，进一步完成需求解读、歧义与缺口识别、范围与规则确认以及验收标准确认，不重新从项目定位或系统模型推导需求空间。
+后续 Requirement Clarification 应以当前 Requirement Unit 为基本对象，并按需复用 Project Positioning、Business Definition 与 System Definition 中的相关上下文，进一步完成需求解读、歧义与缺口识别、范围与规则确认以及验收标准确认。
+
+无需为新项目额外生成 Brownfield（存量项目）路径中的 Requirement Context，也不重新从项目定位或系统模型推导需求空间。
 
 ```text
-System Definition
-        ↓
-Requirement Framework
-        ↓
-Requirement Clarification
-        ↓
-Technical Design
+Project / Business / System Definition
+                +
+       Requirement Framework
+                ↓
+     Requirement Clarification
+                ↓
+        Technical Design
 ```
 
 因此，Requirement Framework 的最终职责是：
 
-> **将项目价值、业务能力与系统职责组织为清晰、可追溯的需求地图，使后续需求能够被逐项澄清，而不提前完成需求本身。**
+> **将项目价值、业务能力与系统职责组织为清晰、可追溯的需求地图，并作为新项目进入需求澄清的正式输入，使后续需求能够被逐项澄清，而不提前完成需求本身。**
