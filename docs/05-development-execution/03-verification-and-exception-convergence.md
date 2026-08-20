@@ -16,10 +16,11 @@
 
 核心输入：
 
-- **Task Contract**：Goal、Boundary、Coverage、Done。
+- **Task Contract**：Requirement、Goal、Boundary、Coverage、Done。
 - **Verification Contract**：必须执行和满足的验证要求。
 - **Verification-ready Result**：Worker 实际实施结果。
-- **Actual Changes**：Patch、Commit 或 Workspace 实际修改。
+- **Code Reference｜代码引用**：存在代码变更时，以 `code_ref` 指向的 Task Commit 为正式验收对象。
+- **Actual Changes**：由 `code_ref` 对应 Commit、Patch 或无代码任务的实际结果确定。
 - **Local Evidence**：Worker 局部证据，仅作参考和定位。
 - **Runtime / Environment**：正式 Gate 所需环境。
 
@@ -27,6 +28,8 @@
 What to Verify
       +
 What Result to Verify
+      +
+Exact Code Reference
       +
 Where to Verify
         ↓
@@ -43,6 +46,8 @@ Worker Self Verification 不直接视为正式证据，正式验收尽可能对�
 
 > **Deterministic Gate First｜确定性门禁优先。**
 
+存在 `code_ref` 时，Gate 必须针对该代码引用对应的实际变更执行，避免验收对象与 Worker 后续工作区状态漂移。
+
 机器难以判定的复杂 UX、语义行为、代码可维护性或高风险改动，可按任务风险补充 Fresh Reviewer。
 
 ---
@@ -51,7 +56,7 @@ Worker Self Verification 不直接视为正式证据，正式验收尽可能对�
 
 | 类型 | 典型情况 | 处理方式 |
 |---|---|---|
-| **Implementation Defect** | 实现 Bug、类型错误、测试失败、行为不符合 Task Contract | 返回原 Worker 修复，`Verifying → In Progress` |
+| **Implementation Defect** | 实现 Bug、类型错误、测试失败、行为不符合 Task Contract | 返回原 Worker 修复，`Verifying → In Progress`；修复后重新 Local Verification 与 Task Commit |
 | **Integration / Environment Issue** | 集成顺序、运行环境、临时依赖或验证设施异常 | 处理运行条件后重验；必要时暂时阻塞 |
 | **Task Contract Problem** | Boundary、Coverage、Depends On 或 Verification 定义不足 / 失效 | `Verifying → Blocked`，回实施规划纠偏 |
 | **Requirement / Design Problem** | Requirement 歧义、固定设计无法成立、上游冲突 | `Verifying → Blocked`，触发上游纠偏 |
@@ -66,6 +71,10 @@ Implementation Defect
 In Progress
     ↓
 Original Worker Repair
+    ↓
+Local Verification
+    ↓
+New Task Commit
     ↓
 Verifying
 ```
@@ -106,9 +115,11 @@ verdict = blocked
 形成 **Verification Result｜验收结果**，至少保留：
 
 - `task`
+- `requirement`
 - `verdict`
 - `target_status`
 - `evidence`
+- `code_ref`（存在代码变更时保留本次实际验收的 Task Commit）
 - `findings`（无则省略）
 - `blocker / required_action`（阻塞时）
 
@@ -118,7 +129,7 @@ verdict = blocked
 
 ## 3.7 完成标准
 
-正式 Gate 已执行，结果有可复核 Evidence；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏；最终明确目标状态。
+正式 Gate 已针对正确验收对象执行，结果有可复核 Evidence；存在代码变更时 Verification Result 保留实际验收的 `code_ref`；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏；最终明确目标状态。
 
 ---
 
@@ -126,4 +137,4 @@ verdict = blocked
 
 Verification Result 是 State Commit & Continuous Progression 的直接输入。
 
-> **以独立、确定性优先的 Gate 证明 Task 是否满足既定 Coverage 与 Done，并在失败时将问题路由到最短正确反馈路径。**
+> **以独立、确定性优先的 Gate 对可追溯实现结果进行正式验收，证明 Task 是否满足既定 Coverage 与 Done，并在失败时将问题路由到最短正确反馈路径。**

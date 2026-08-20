@@ -26,11 +26,12 @@ Task
 
 - In Scope 的需求是否都有任务承接。
 - Acceptance Criteria 是否有对应实施闭环。
+- 每个 Task 是否有且只有一个 Primary Requirement，并可稳定计算 `TasksOf(REQ-xx)`。
 - Structure、To-Be Flow、Contracts 中的关键变化是否有实施落点。
 - Boundary Handling 的重要异常与边界是否进入 Task Coverage。
 - Risks / Open Issues 是否已被任务承接或明确保留。
 
-重点发现：`Uncovered Requirement`、`Uncovered Design`、`Uncovered Boundary`、`Unowned Open Item`。
+重点发现：`Uncovered Requirement`、`Uncovered Design`、`Uncovered Boundary`、`Unowned Task`、`Unowned Open Item`。
 
 ---
 
@@ -39,6 +40,7 @@ Task
 重点确认：
 
 - Task 未超出 Scope。
+- Task 的 Primary Requirement 与 AC / Trace 不冲突。
 - Task 未重新改变 Fixed Decisions。
 - 不同 Task 对同一 Contract、状态或规则理解一致。
 - Task Boundary 与上游 Design 不冲突。
@@ -81,6 +83,8 @@ Verification
 ```
 
 重点确认 Coverage 足以证明关键行为、Verification 与 Coverage 匹配、Done 可实际验证，以及关键兼容 / 异常 / 边界没有“有实现、无证据”。
+
+同时确认同一 `REQ-xx` 下的 Task 合并后能够覆盖该 Requirement 的 Acceptance Criteria，为后续 Requirement AC Gate（需求级验收门禁）提供可计算边界。
 
 > **验证方式是否真的能够证明目标已经满足。**
 
@@ -148,9 +152,11 @@ Draft → Ready
 ## 4.8 完成标准
 
 - 需求、设计、边界与遗留事项有明确任务承接。
+- 每个 Task 有明确 Primary Requirement，`TasksOf(REQ-xx)` 可稳定推导。
 - Task 与 Scope、Decision、Contract 一致。
 - 依赖完整且无明显执行阻塞。
 - 每个 Task 的 Verification 能证明 Coverage 与 Done。
+- 同一 Requirement 下的任务集合能够支撑需求级 AC Gate。
 - 不存在未处理 Blocking 问题。
 - 校验问题已完成回源修正并重新对齐。
 
@@ -177,4 +183,4 @@ Development Execution
 
 因此，本步骤的最终职责是：
 
-> **确认任务集能够完整、无冲突且可验证地承接已确认方案，并为开发实施建立可靠的 Execution Ready 边界。**
+> **确认任务集能够完整、无冲突且可验证地承接已确认方案，并为开发实施及后续 Requirement 级收敛建立可靠的 Execution Ready 边界。**
