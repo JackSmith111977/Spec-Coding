@@ -60,6 +60,12 @@ Decision
 
 改进可以新增、修改、删除、合并或自动化。
 
+权限遵循全局 Human / Agent Authority Contract（人机决策权限契约）：
+
+- Agent 可 Autonomous（自主）完成证据整理、根因到改进点映射、候选方案生成、影响分析，以及不改变规则语义的文字 / 格式维护。
+- 会改变可复用 SDD / Harness 行为语义、Agent 权限、状态契约、阶段准入或自动化策略的改进，由 Agent 提议并进入 Confirm（Agent 提议 + Human 确认）后再成为正式规则。
+- 若改进会弱化强制 Verification（验证）、绕过安全 / 风险 Gate（门禁）或扩大 Agent 对业务语义与偏差接受的权限，必须进入 Human Decision（Human 决策）。
+
 > **优先选择能够直接解决根因、同时对现有流程侵入最小的方案。**
 
 ---
@@ -90,6 +96,7 @@ improvements.md
 | `title` | 改进名称。 |
 | `root_causes` | 一个或多个 `RC-xxx`。 |
 | `target` | 需要调整的可复用规则 / Harness 组件。 |
+| `authority` | 本次规则变化需要的 Autonomous / Confirm / Human Decision。 |
 | `current_state` | 当前规则或行为。 |
 | `expected_state` | 改进后期望行为。 |
 | `candidates` | 主要候选方案。 |
@@ -112,6 +119,8 @@ RC-xxx
   ↓
 设计最小有效改动
   ↓
+Authority Gate
+  ↓
 IMP-xxx
   ↓
 实施与验证
@@ -119,4 +128,4 @@ IMP-xxx
 
 因此，Improvement Design 的最终职责是：
 
-> **将确认的 SDD 根因转化为最小、可复用、可验证的规则改进，为后续实施和验证提供明确输入。**
+> **将确认的 SDD 根因转化为最小、可复用、可验证且权限边界明确的规则改进，为后续实施和验证提供可靠输入。**

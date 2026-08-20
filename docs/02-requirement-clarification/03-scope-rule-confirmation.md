@@ -43,6 +43,12 @@
 - 核心业务行为和规则决策。
 - 仍存在但不阻塞当前推进的 Open Item。
 
+权限遵循全局 Human / Agent Authority Contract（人机决策权限契约）：
+
+- Agent 可自主整理、归纳和结构化**已经明确确认**的需求事实，不需要重复请求 Human 确认。
+- 若仍需要决定 Requirement 语义、In Scope / Out of Scope、核心 Business Rule 或关键目标行为，应由 Human Decision（Human 决策）完成；Agent 负责提供证据、候选解释与影响分析。
+- 不允许 Agent 通过默认假设把未确认语义写成正式需求事实。
+
 未确认且会阻塞需求正确性的事项不能通过默认假设关闭，应返回澄清。
 
 ---
@@ -64,7 +70,7 @@
 
 ## 3.6 完成标准
 
-当 Human 或 Agent 能清楚说明本次做什么 / 不做什么、关键边界和业务规则、主要需求决策，且不存在仍会阻塞后续验收标准或技术设计的关键未知时，本步骤完成。
+当 Human 或 Agent 能清楚说明本次做什么 / 不做什么、关键边界和业务规则、主要需求决策，需要 Human Decision 的业务语义已经完成确认，且不存在仍会阻塞后续验收标准或技术设计的关键未知时，本步骤完成。
 
 若仍存在会改变目标行为、范围或关键规则的 Blocking 问题，应返回 Ambiguity & Gap Identification 继续澄清。
 
@@ -74,4 +80,4 @@
 
 Scope & Rule Definition 是 Acceptance Criteria Confirmation 与后续 Technical Design 的稳定需求边界。
 
-> **将已澄清的需求收敛为明确的范围、业务规则与关键决策，为验收标准与技术方案设计提供稳定边界。**
+> **将已澄清且完成必要 Human Decision 的需求收敛为明确的范围、业务规则与关键决策，为验收标准与技术方案设计提供稳定边界。**

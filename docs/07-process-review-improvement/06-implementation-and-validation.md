@@ -12,6 +12,14 @@
 
 根据 `IMP-xxx.target` 和 `IMP-xxx.change` 修改对应规则或 Harness 组件。
 
+实施前先检查 `IMP-xxx.authority`：
+
+- `Autonomous`：可直接按既定改进实施。
+- `Confirm`：只有 Human 已确认方案后才能写入 Canonical Rule（规范规则）。
+- `Human Decision`：只有对应人工决策完成后才能实施；不得通过实现过程绕过该决策。
+
+如果实施过程中出现会实质改变原 `decision`、扩大权限、弱化强制 Verification / Gate 或引入新的高影响行为，应停止按原授权继续，返回 Improvement Design 重新判定 Authority（权限）。
+
 实施后应建立：
 
 ```text
@@ -65,7 +73,7 @@ Cost
 - 持续产生明显副作用。
 - 成本高于收益。
 
-Harness 演进既包括新增，也包括修改和删除。
+Harness 演进既包括新增，也包括修改和删除；语义变化仍需重新经过对应 Authority Gate（权限门禁），不能因规则已经存在而默认获得后续修改权限。
 
 ---
 
@@ -76,6 +84,7 @@ Harness 演进既包括新增，也包括修改和删除。
 | 字段 | 说明 |
 |---|---|
 | `id` | 沿用 `IMP-xxx`。 |
+| `authority` | 当前实施所依据的 Autonomous / Confirm / Human Decision。 |
 | `target` | 实际改进落点。 |
 | `change` | 最终实施内容。 |
 | `validation_plan` | 既定验证方案。 |
@@ -103,6 +112,8 @@ RC-xxx
   ↓
 IMP-xxx
   ↓
+Authority Gate
+  ↓
 实施规则改进
   ↓
 下一轮 Spec Coding
@@ -116,4 +127,4 @@ Evolved Harness
 
 因此，Implementation & Validation 的最终职责是：
 
-> **将改进真正落入可复用规则，并通过后续真实开发持续验证其效果，使 Spec Coding / SDD Harness 在实践中逐步演进。**
+> **在既定人机权限边界内将改进真正落入可复用规则，并通过后续真实开发持续验证其效果，使 Spec Coding / SDD Harness 在实践中可控地演进。**

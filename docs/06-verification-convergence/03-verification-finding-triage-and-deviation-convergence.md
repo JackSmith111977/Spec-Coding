@@ -2,7 +2,7 @@
 
 ## 3.1 目标
 
-基于 Verification Results、Evidence 与 Findings，对未通过、未验证或存在争议的结果进行人工判定，并将需要处理的问题路由到正确层级完成纠正与重新验证。
+基于 Verification Results、Evidence 与 Findings，对未通过、未验证或存在争议的结果进行判定，并将需要处理的问题路由到正确层级完成纠正与重新验证。
 
 本步骤回答：
 
@@ -12,7 +12,7 @@
 
 ---
 
-## 3.2 人工判定 Finding
+## 3.2 判定 Finding
 
 以 Evidence 为主要依据：
 
@@ -23,11 +23,18 @@
 - **Accepted Deviation**：偏差客观存在，但经 Human 明确接受并保留风险记录。
 - **Unresolved**：证据不足，暂时无法可靠判定。
 
+权限遵循全局 Human / Agent Authority Contract（人机决策权限契约）：
+
+- 对证据明确、不会改变既定语义契约的 Invalid Finding、Verification Issue 或 Implementation Defect，Agent 可 Autonomous（自主）完成分类、路由与重验。
+- Agent 可以对 Upstream Deviation 提出 Suspected Origin（疑似来源）、Affected Trace（受影响追溯链）和建议回流点，但只要判定会导致 Requirement / AC / 固定 Design 等事实源失效或变化，应进入相应 Confirm / Human Decision。
+- **Accepted Deviation（接受偏差）始终属于 Human Decision（Human 决策）**；Agent 不得自行降低标准、跳过强制 Gate 或把已知偏差标记为 Pass。
+- 证据相互冲突、置信度不足或影响高风险 / 安全边界时，Agent 应先补证据，再按权限升级，而不是强行自动分类。
+
 Finding（验证发现）与 Open Item（开放项）不是同一对象：Finding 记录验证阶段观察到的事实及判定；只有其处置需要跨阶段继续等待决策、补充信息或后续承接时，才创建或关联稳定 `OI-xxx`。已有 Open Item 被验证命中时，继续引用原 ID，不创建副本。
 
 Risk（风险）同样独立于二者：风险可以由 Finding 或 Open Item 暴露，但只有存在具体未决问题时才需要 `OI-xxx`。
 
-Verifier 的 `Suspected Origin` 只作定位线索，不替代 Human Decision。
+Verifier 的 `Suspected Origin` 只作定位线索，不自动改变上游事实源。
 
 > **Evidence before Decision｜先看证据，再做判定。**
 
@@ -65,8 +72,8 @@ Requirement
 
 - **Verification Issue**：修正验证资产或环境后重新执行相关验证。
 - **Implementation Defect**：返回开发实施，在既定 Requirement / Design / Task 内修复。
-- **Upstream Deviation**：从最早失效层开始自上而下重新对齐。
-- **Accepted Deviation**：记录接受理由、影响与后续动作，不伪装为 `Pass`。
+- **Upstream Deviation**：从最早失效层开始自上而下重新对齐；涉及事实源变化时执行对应 Confirm / Human Decision。
+- **Accepted Deviation**：仅在 Human Decision 后记录接受理由、影响与后续动作，不伪装为 `Pass`。
 - **Unresolved**：保留 Finding 与所需决策，阻止无依据收敛；需要跨阶段持续承接时创建或关联 `OI-xxx`。
 
 本阶段只负责判定、路由与跟踪，不在当前上下文隐式完成上游修改。
@@ -102,6 +109,7 @@ Pass / Fail
 |---|---|
 | `Finding` | 原始 Finding 引用。 |
 | `Decision` | Invalid / Verification Issue / Implementation Defect / Upstream Deviation / Accepted / Unresolved。 |
+| `Authority` | 本次判定实际使用的 Autonomous / Confirm / Human Decision。 |
 | `Evidence` | 支撑当前判定的关键证据。 |
 | `Invalid Source` | 最早失效层；无需纠正时省略。 |
 | `Affected Trace` | 受影响 Requirement / Design / Task / Verification 链路。 |
@@ -116,8 +124,8 @@ Pass / Fail
 
 ## 3.7 完成标准
 
-所有有效 Finding 已 Human Triage，需要纠正的问题已定位最早失效层并回流正确阶段，修正不在验证上下文隐式完成，Affected Trace 已重新对齐并必要重验 / 回归，Accepted Deviation 有理由 / 影响 / 风险记录，需要跨阶段继续承接的问题均关联稳定 `OI-xxx`，无未处理关键 Finding；无法继续的问题明确 `Blocked`。
+所有有效 Finding 已按照 Authority Contract 完成必要判定；可自动处理的问题没有无意义等待 Human，需要改变事实源或接受偏差的问题完成相应 Confirm / Human Decision；Affected Trace 已重新对齐并必要重验 / 回归，需要跨阶段继续承接的问题均关联稳定 `OI-xxx`，无未处理关键 Finding；无法继续的问题明确 `Blocked`。
 
 最终：**Verification Converged** 或 **Verification Blocked**。
 
-> **基于验证证据由 Human 判定真实偏差，将问题路由到最早失效的事实层完成纠正，并仅重新验证受影响链路；需要持续承接的未决问题通过稳定 Open Item 保持追踪，使完整变更重新达到可证明的一致状态。**
+> **基于验证证据按影响与权限完成 Finding 判定，将问题路由到最早失效的事实层完成纠正，并仅重新验证受影响链路；既避免 Agent 越权接受偏差，也避免确定性问题被不必要的人工审批阻塞。**

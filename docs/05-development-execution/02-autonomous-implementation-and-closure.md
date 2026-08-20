@@ -57,7 +57,9 @@ Adjust
 
 实施过程中优先通过真实代码与运行证据推进。
 
-Worker 可以调整 Implementation Strategy，但不得自行改变 Requirement / Acceptance Criteria、已固定 Design Decision、Task Goal / Boundary / Coverage、Verification Contract。
+按全局 Human / Agent Authority Contract（人机决策权限契约），当前 Task Contract 内的实现选择、局部重构、缺陷修复和确定性检查默认属于 Autonomous（Agent 自主）。Worker 可以调整 Implementation Strategy，但不得自行改变 Requirement / Acceptance Criteria、已固定 Design Decision、Task Goal / Boundary / Coverage、Verification Contract。
+
+若继续实现必须改变上述契约，应停止将其作为“实现细节”处理：先收集证据、形成影响与建议，再按对应权限返回上游进入 Confirm（Agent 提议 + Human 确认）或 Human Decision（Human 决策）。
 
 > **Contract-bound Autonomy｜契约边界内自治。**
 
@@ -84,7 +86,7 @@ Repair
 
 > **Deterministic First｜确定性验证优先。**
 
-能够在当前 Task Contract 内解决的问题，由当前 Worker 直接诊断、修复并重验，不额外交接 Agent。
+能够在当前 Task Contract 内解决的问题，由当前 Worker 直接诊断、修复并重验，不额外交接 Agent，也不因普通实现失败升级 Human。
 
 ---
 
@@ -133,9 +135,9 @@ In Progress → Verifying
 
 ## 2.7 完成标准
 
-Worker 正确消费 Execution Unit，在 Boundary 内实现 Goal，按需获取局部上下文，已知局部问题已通过工具反馈诊断 / 修复，必要 Local Verification 通过；存在 Git 固化变更时 Task Commit 成功并形成 `code_ref`；不需要突破上游契约，并形成 Verification-ready Result，完成 `In Progress → Verifying`。
+Worker 正确消费 Execution Unit，在 Boundary 内实现 Goal，按需获取局部上下文，已知局部问题已通过工具反馈诊断 / 修复，必要 Local Verification 通过；存在 Git 固化变更时 Task Commit 成功并形成 `code_ref`；没有越权改变上游契约，并形成 Verification-ready Result，完成 `In Progress → Verifying`。
 
-若当前 Task Contract 内无法解决阻塞问题，则以 `Blocked` 退出并交由异常 / 纠偏机制。
+若当前 Task Contract 内无法解决阻塞问题，则以 `Blocked` 退出并交由异常 / 纠偏机制；若阻塞来自需要改变既定语义或高影响决策，则按 Authority Contract 升级，而不是由 Worker 默认补全。
 
 ---
 
@@ -161,4 +163,4 @@ Verification & Exception Convergence
 
 因此，本步骤的最终职责是：
 
-> **让 Worker 在既定任务契约内自主完成实现、运行反馈与局部修复，并以可追溯 Task Commit 将结果收敛为可由独立 Gate 正式验收的稳定实现。**
+> **让 Worker 在既定任务契约与清晰权限边界内自主完成实现、运行反馈与局部修复，并以可追溯 Task Commit 将结果收敛为可由独立 Gate 正式验收的稳定实现。**
