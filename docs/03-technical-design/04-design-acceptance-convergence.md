@@ -55,13 +55,14 @@ Detailed Design
 
 ## 4.5 结果收敛
 
-| 状态 | 含义 |
-|---|---|
-| `Resolved` | 已完成修正，不再影响方案。 |
-| `Open` | 尚未完全解决，但不阻塞后续实施。 |
-| `Blocking` | 会影响方案正确性或可实施性，必须先处理。 |
+对仍需后续处理的具体问题沿用 Open Item（开放项）契约，不重新生成新的“Open Issue”副本：
 
-若存在 Blocking 问题，应沿追溯链返回：
+- `status = open`：尚未解决，继续由 `owner_stage` 承接。
+- `status = resolved`：已完成修正或确认，记录必要 Resolution / Evidence。
+- `status = deferred`：明确延期且已有后续承接位置。
+- `blocking = true`：当前问题会影响方案正确性或可实施性，必须先处理；它与生命周期 `status` 分开记录。
+
+若存在 `blocking = true` 的 Open Item，应沿追溯链返回：
 
 ```text
 需求或规则问题
@@ -77,7 +78,9 @@ Detailed Design
     → 方案详细设计
 ```
 
-修正后重新验证受影响链路，而不是从头重复全部流程。
+修正后更新同一 `OI-xxx` 并重新验证受影响链路，而不是从头重复全部流程。
+
+Risk（风险）与 Open Item 分开维护：Risk 描述可能发生的不利影响；只有存在尚待处理的具体问题或决策时才关联 `OI-xxx`。
 
 ---
 
@@ -88,19 +91,20 @@ Detailed Design
 | `Requirement Coverage` | 需求、规则与验收标准的设计覆盖情况。 |
 | `Consistency Check` | 结构、链路与契约的一致性结论。 |
 | `Validated Assumptions` | 已验证的关键技术假设。 |
-| `Risks / Open Issues` | 剩余风险与未决问题；无则省略。 |
+| `Risks` | 已知风险；无则省略。 |
+| `Open Items` | 仍需后续承接的稳定 `OI-xxx` 引用及其状态 / 阻塞信息；无则省略。 |
 | `Readiness` | 当前设计是否可以进入实施。 |
 
 最终只给出明确准入结论：
 
 - `Ready`：不存在阻塞问题，可以进入任务规划与实施。
-- `Not Ready`：仍存在 Blocking 问题，需要回到对应上游阶段纠正。
+- `Not Ready`：仍存在 `blocking = true` 的问题，需要回到对应上游阶段纠正。
 
 ---
 
 ## 4.7 完成标准
 
-当 Human 或 Agent 能确认关键需求 / 规则 / AC 均有设计覆盖，结构 / 链路 / 契约闭环一致，关键假设有证据，阻塞风险已收敛，Open Issue 有承接位置且设计足以作为实施基线时，本步骤完成。
+当 Human 或 Agent 能确认关键需求 / 规则 / AC 均有设计覆盖，结构 / 链路 / 契约闭环一致，关键假设有证据，阻塞风险已收敛，Open Item 均保持稳定 ID 且有明确承接位置，设计足以作为实施基线时，本步骤完成。
 
 ---
 
@@ -117,7 +121,7 @@ Consistency Check
            ↓
 Assumption Validation
            ↓
-Issue Convergence
+Open Item Convergence
            ↓
         Ready?
        ↙      ↘
@@ -129,4 +133,4 @@ Upstream Fix   Task Planning /
 
 因此，本步骤的最终职责是：
 
-> **以需求覆盖、一致性与关键证据验证技术方案，收敛阻塞问题，并确认设计是否已经具备进入实施的条件。**
+> **以需求覆盖、一致性与关键证据验证技术方案，收敛阻塞问题，并以稳定 Open Item 引用承接剩余未决事项，确认设计是否已经具备进入实施的条件。**
