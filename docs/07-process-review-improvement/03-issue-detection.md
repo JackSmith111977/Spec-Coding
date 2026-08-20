@@ -13,7 +13,7 @@
 重点关注：
 
 - 需求在后续阶段重新澄清。
-- Requirement / Design / Spec / Plan / Task 后置修改。
+- Requirement / Acceptance Criteria / Design / Task / Change 后置修改。
 - 实现返工或重复开发。
 - Verification / Review 失败。
 - Human 需要纠正 Agent。
@@ -29,7 +29,7 @@
 
 - `requirement-gap`
 - `design-gap`
-- `spec-gap`
+- `task-gap`
 - `implementation-gap`
 - `verification-gap`
 - `agent-behavior`
@@ -44,7 +44,7 @@
 一个异常信号通常至少满足一项才晋升正式 Issue：
 
 - 导致重新澄清。
-- 导致 Requirement / Design / Spec / Plan / Task 后置修改。
+- 导致 Requirement / Acceptance Criteria / Design / Task / Change 后置修改。
 - 导致代码或方案返工。
 - 导致 Verification / Review 失败。
 - 需要人工介入或纠正 Agent。
@@ -71,9 +71,9 @@ issues.md
 | `category` | 初步分类。 |
 | `detected_stage` | 实际发现阶段。 |
 | `description` | 事实描述，不深入根因。 |
-| `impact` | 重新澄清、Spec 修改、代码返工、重复测试、人工介入、上线风险等。 |
+| `impact` | 重新澄清、验收标准 / 设计 / 任务调整、实现返工、重复验证、人工介入、上线风险等。 |
 | `evidence` | 一个或多个 `EV-xxx`。 |
-| `related` | `REQ-xx`、`DESIGN-xx`、`SPEC-xx`、`TASK-xx`、其他 `ISS-xx` 等。 |
+| `related` | Requirement、Acceptance Criteria、Design、Task、Change、Verification、其他 `ISS-xx` 等引用。 |
 | `status` | candidate / accepted / ignored / merged / analyzing / closed。 |
 
 ### 示例
@@ -85,10 +85,10 @@ category: requirement-gap
 detected_stage: verification
 description: >
   需求澄清阶段曾讨论合同来源是否支持搜索，但没有形成明确结论。
-  初始实现完成后，在验证阶段重新确认需要支持搜索，随后修改 Spec 并补充搜索链路。
+  初始实现完成后，在验证阶段重新确认需要支持搜索，随后补充验收标准并修正搜索链路。
 impact:
   - requirement-reclarification
-  - spec-change
+  - acceptance-criteria-change
   - implementation-rework
   - re-verification
 evidence:
@@ -99,7 +99,6 @@ evidence:
   - EV-057
 related:
   - REQ-07
-  - SPEC-04
   - TASK-12
 status: accepted
 ```

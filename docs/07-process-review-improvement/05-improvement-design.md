@@ -4,7 +4,7 @@
 
 基于已确认的 `RC-xxx` 根因，判断是否需要改进 Spec Coding / SDD 的可复用规则，并形成少量、明确、可验证的改进方案。
 
-> **改进对象是规则与 Harness 机制本身，而不是某个具体项目产生的 Spec、Plan、Task、Design 或代码。**
+> **改进对象是规则与 Harness 机制本身，而不是某个具体项目产生的 Requirement、Acceptance Criteria、Design、Task、Change、Verification 或代码等项目产物。**
 
 ---
 
@@ -26,10 +26,9 @@ No Process Change
 
 例如：
 
-- Requirement Rule
+- Requirement / Acceptance Criteria Rule
 - Design Rule
-- Spec Rule
-- Plan / Task Rule
+- Implementation Planning / Task Rule
 - Implementation Rule
 - Verification Rule
 - Skill / Rule / AGENTS

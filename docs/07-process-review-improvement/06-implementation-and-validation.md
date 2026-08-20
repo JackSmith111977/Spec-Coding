@@ -4,7 +4,7 @@
 
 将上一阶段形成的 `IMP-xxx` 真正实施到对应的 Spec Coding / SDD 规则或 Harness 组件中，并通过后续真实开发验证改进是否有效。
 
-> **实施对象是可复用规则与 Harness 机制，不是某个具体项目的 Spec、Plan、Task、Design 或代码。**
+> **实施对象是可复用规则与 Harness 机制，不是某个具体项目的 Requirement、Acceptance Criteria、Design、Task、Change、Verification 或代码等项目产物。**
 
 ---
 
