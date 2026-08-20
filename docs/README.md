@@ -2,7 +2,7 @@
 
 本目录按 Spec Coding 主流程阶段组织当前正式文档。
 
-当前 Canonical Corpus（规范文档集）的机器可读定义见 [`manifest.yaml`](manifest.yaml)。该 Manifest 是判断“哪些阶段文档属于当前版本”的唯一清单；本文件只负责导航和解释。
+当前 Canonical Corpus（规范文档集）的机器可读定义见 [`manifest.yaml`](manifest.yaml)。该 Manifest 是判断“哪些阶段文档属于当前版本”的唯一清单；本文件负责导航，并承载所有阶段默认继承的全局执行契约。
 
 ## 流程
 
@@ -29,8 +29,96 @@
 
 - 当前版本共有 34 份正式阶段文档；单次真实流程只消费其中一条入口分支，因此通常执行 30 份阶段规则。
 - `README.md`、`manifest.yaml`、`CHANGELOG.md` 等属于治理或导航文件，不计入正式阶段文档数量。
+- 本文件中的全局 Contract（契约）默认适用于全部正式阶段文档；阶段文档存在更严格规则时，以更严格规则为准。
 - 正式文件的新增、删除和重命名必须同步更新 `manifest.yaml`。
 - 历史版本由 Git 保存，不在 `docs/` 中保留带 `(1)`、`(2)`、`v1`、`old` 等后缀的并行正式副本。
+
+## Tailoring Contract｜流程裁剪契约
+
+Tailoring（流程裁剪）用于根据**变更风险、影响范围与不确定性**动态调整执行深度，而不是机械要求每次都以同样篇幅执行全部阶段。
+
+核心原则：
+
+> **Mandatory Invariants + Risk-based Depth｜核心不变量固定，执行深度按风险调整。**
+
+阶段责任不会因为裁剪而消失，但可以被已有、仍然有效的 Artifact（产物）或 Evidence（证据）直接满足，不要求重复分析或重新生成同类文档。
+
+### 执行深度
+
+| 深度 | 适用情况 | 执行方式 |
+|---|---|---|
+| `Reuse`（复用） | 已有上下文、设计或证据仍完整覆盖当前变化 | 验证其相关性与有效性后直接复用，只更新受影响 Trace（追溯链） |
+| `Light`（轻量） | 局部、低风险、边界清晰的变化 | 最小必要分析与产物更新，聚焦受影响路径和验证 |
+| `Standard`（标准） | 一般 Feature（功能）或常规跨层变化 | 按阶段正常展开，保留必要决策、任务与验证证据 |
+| `Deep`（深度） | 高风险、高不确定、跨系统或难回滚变化 | 扩大影响分析、方案比较、独立审查、Subagent 与验证范围 |
+
+默认选择**能够可靠证明正确性的最轻深度**；执行中发现风险或不确定性上升时动态升级，无需从头重跑全部流程。
+
+### 不可裁剪的核心不变量
+
+无论采用哪种深度，都必须保持：
+
+- **Intent & Scope（意图与范围）**：当前 Requirement（需求）、关键规则与 Acceptance Criteria（验收标准）明确且未被静默改变。
+- **Traceability（可追溯性）**：Requirement → Design → Task → Change → Verification 的受影响链可回查。
+- **Open Item / Gate（开放项 / 门禁）**：`blocking = true` 的问题不能通过裁剪绕过。
+- **Verification & Evidence（验证与证据）**：必须有与风险匹配、能够证明结果的验证与可复核证据。
+- **Authority（决策权限）**：Tailoring 不降低 Human / Agent Authority Contract 中既定的确认与人工决策边界。
+- **Correction（纠偏）**：发现上游事实源失效时仍遵循 `Correct the Earliest Invalid Source（修正最早失效事实源）` 与 `Affected Trace Only（仅处理受影响追溯链）`。
+- **Git Trace（代码追溯）**：存在需 Git 固化的代码变更时，仍遵循 Task Commit（任务提交）与 `code_ref` 契约。
+
+### 可以动态调整的内容
+
+根据深度可以减少或扩大：
+
+- 分析与文档展开程度。
+- 候选方案数量与 Trade-off（取舍）深度。
+- Task（任务）拆分细度，但仍需满足“可独立实施 + 可独立验证”。
+- Main Agent / Subagent 数量及独立审查强度。
+- Verification（验证）的覆盖广度与回归范围。
+- Evidence（证据）的详细程度，但关键结论仍需可复核。
+
+### 升级信号
+
+出现以下任一情况时，应考虑从 `Reuse / Light` 升级到 `Standard / Deep`：
+
+- Requirement、Scope、Business Rule 或 AC 仍存在关键不确定性。
+- 跨服务、跨系统、跨数据存储或外部依赖边界。
+- Schema、数据迁移、状态机、权限、安全、并发、异步、事务或兼容性变化。
+- 影响范围无法可靠判断，或实际实现明显超出原 Task Boundary（任务边界）。
+- 存在难回滚、长期维护或重大架构影响的技术决策。
+- 验证无法通过局部确定性证据充分证明正确性。
+- 运行中反复出现 Finding（验证发现）、返工或上游纠偏。
+
+### 裁剪示例
+
+```text
+小型局部修复
+已有 Context / Design 仍有效
+        ↓
+Reuse / Light
+        ↓
+确认 Requirement / AC
+        ↓
+最小 Task + Focused Verification
+        ↓
+Evidence
+```
+
+```text
+跨服务 + 数据模型 + 异步链路变化
+        ↓
+Deep
+        ↓
+完整影响分析 + 技术决策
+        ↓
+细化 Task / 独立审查
+        ↓
+Cross-Task / Regression / Risk Verification
+```
+
+因此，Tailoring 的目标不是“少走步骤”，而是：
+
+> **不重复已经可靠成立的工作，把精力集中到当前变化真正新增的风险、决策与验证上。**
 
 ## Open Item Contract｜开放项契约
 
