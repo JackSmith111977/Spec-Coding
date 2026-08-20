@@ -24,29 +24,29 @@ Question 已提出但 unresolved、Agent Assumption 后直接继续、待确认�
 
 ### 3. 信息是否已明确但未正确传到下游
 
-检查 Requirement、Design、Spec、Plan、Task 之间是否信息丢失或消费不完整：
+检查 Requirement（需求）、Acceptance Criteria（验收标准）、Design（设计）、Task（任务）、Change（变更）与 Verification（验证）之间是否信息丢失或消费不完整：
 
 ```text
 Requirement 已明确
     ↓
-Design 已覆盖
+Acceptance Criteria 已覆盖
     ↓
-Spec 遗漏
+Design / Task 遗漏
 ```
 
 或：
 
 ```text
-Spec 已明确
+Design 已明确
     ↓
-Plan / Task 未拆解
+Task 未正确承接
 ```
 
 可能对应 `traceability-gap`。
 
 ### 4. 下游机制存在，但检查失效
 
-如 Spec 明确但实现错误、测试存在但未覆盖关键路径、Verification 定义检查但执行遗漏。可能对应 `execution-gap` / `verification-gap`。
+如 Acceptance Criteria / Design / Task 已明确但实现错误、测试存在但未覆盖关键路径、Verification 定义检查但执行遗漏。可能对应 `execution-gap` / `verification-gap`。
 
 ### 5. Agent 行为或 Harness 约束是否失效
 
@@ -60,7 +60,7 @@ Plan / Task 未拆解
 
 ## 4.3 根因分析原则
 
-- **Evidence First**：每个根因能回溯到 `EV-xxx` 和 `ISS-xxx`。
+- **Evidence First（证据优先）**：每个根因能回溯到 `EV-xxx` 和 `ISS-xxx`。
 - **从表象追到机制**：不能停留在“漏做 / 写错 / Agent 没想到”。
 - **寻找最早可拦截点**。
 - **区分发现与逃逸**。
@@ -76,8 +76,8 @@ Plan / Task 未拆解
 |---|---|
 | `discovery-gap` | 前置阶段未识别本可提前发现的需求、边界、影响或约束。 |
 | `closure-gap` | 关键问题已出现，但没有形成明确结论或持续管理。 |
-| `traceability-gap` | Requirement → Design → Spec → Plan → Task 间信息丢失或消费不完整。 |
-| `execution-gap` | Spec / Task 已明确，但实施没有正确执行。 |
+| `traceability-gap` | Requirement → Acceptance Criteria → Design → Task → Change → Verification 间信息丢失或消费不完整。 |
+| `execution-gap` | Acceptance Criteria / Design / Task 已明确，但实施没有正确执行。 |
 | `verification-gap` | 问题存在，但测试、Verification 或 Review 未及时发现。 |
 | `workflow-gap` | Agent Workflow、Skill、Rule、Context、Tooling 或其他 Harness 机制缺失 / 失效。 |
 | `other` | 有充分证据但无法归入以上类型。 |
@@ -120,7 +120,7 @@ issues:
   - ISS-003
 earliest_stage: requirement-clarification
 escape_reason: >
-  未确认的问题没有阻止 Design 和 Spec 继续推进，后续实现因此基于不完整需求信息完成。
+  未确认的问题没有阻止 Design 与 Task 继续推进，后续实现因此基于不完整需求信息完成。
 failed_mechanism: >
   Requirement Clarification 缺少 unresolved item 的显式管理与 closure 机制。
 evidence:

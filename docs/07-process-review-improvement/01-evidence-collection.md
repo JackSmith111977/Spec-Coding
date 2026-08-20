@@ -21,12 +21,18 @@
 - 需求澄清、技术方案设计中的关键会话。
 - 对需求、设计、实现产生实际影响的确认、假设、决策与纠正记录。
 
-### 3. 规格 / 文档产物
+### 3. 流程产物证据
 
-- Spec。
-- Plan。
-- Task。
+围绕当前正式产物链，按需保留：
+
+- Requirement（需求）及 Acceptance Criteria（验收标准）。
+- Design（设计）。
+- Task（任务）。
+- Change（变更 / 实现结果）。
+- Verification（验证）相关结果。
 - 必要时保留关键版本变化。
+
+> `Spec Coding` 是整套流程与方法的名称，不默认对应一个独立 `Spec` 产物。若具体项目存在 Technical Contract（技术契约）或 Executable Specification（可执行规格）等真实产物，应按其实际名称记录。
 
 ### 4. 执行证据
 
@@ -42,7 +48,7 @@
 
 ### 6. 修正证据
 
-- 针对已发现偏差进行的代码、Spec、Plan、Task 等修正。
+- 针对已发现偏差进行的 Requirement、Acceptance Criteria、Design、Task、Change 或 Verification 修正。
 - 返工与修复记录。
 - 修正后的重新验证结果。
 
@@ -56,7 +62,7 @@
 
 - 理解
 - 决策
-- 规格
+- 产物 / 契约
 - 实现
 - 偏差
 - 返工
@@ -80,7 +86,7 @@ Evidence 保持客观，只描述可观察事实，不在本阶段加入根因�
 | `actor` | human、agent、tool、system 等直接产生者。 |
 | `fact` | 一句话客观事实描述。 |
 | `source` | PRD、会话、Git Commit、Diff、测试 / 验证记录等原始来源。 |
-| `related` | 相关 EV、Requirement、Design、Spec、Plan、Task 等 ID。 |
+| `related` | 相关 EV、Requirement、Acceptance Criteria、Design、Task、Change、Verification 等引用。 |
 
 ### 示例
 
@@ -97,7 +103,7 @@ source:
   - conversation/session-08#msg-32
   - verification/run-04
 related:
-  - SPEC-04
+  - REQ-07
   - TASK-12
 ```
 
