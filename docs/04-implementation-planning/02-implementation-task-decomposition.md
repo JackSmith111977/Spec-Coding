@@ -21,7 +21,9 @@ Design Baseline
 +
 Constraints
 +
-Risks / Open Issues
+Risks
++
+Open Items
 ```
 
 优先围绕业务 / 系统行为和端到端实现闭环组织，而不是按文件、Controller / Service / DAO、前后端层级或目录结构机械拆分。
@@ -82,15 +84,18 @@ Risks / Constraints
 
 ---
 
-## 2.6 承接 Risks / Open Issues
+## 2.6 承接 Risks / Open Items
+
+Risk（风险）与 Open Item（开放项）分开处理：
 
 | 情况 | 处理方式 |
 |---|---|
-| 不影响任务边界，但实施时需关注 | 绑定到相关候选 Task 的 Coverage 或后续验证要求。 |
-| 本身形成独立、可验证的实施目标 | 形成单独候选 Task。 |
-| 已实际阻塞任务拆解或使设计无法成立 | 触发纠偏，返回对应上游阶段。 |
+| Risk 影响实施或验证策略 | 绑定到相关候选 Task 的 Coverage 或后续验证要求。 |
+| `OI-xxx` 不影响任务边界，但实施 / 验证时需继续关注 | 在相关候选 Task 中引用同一 `OI-xxx`，不复制问题描述。 |
+| `OI-xxx` 本身形成独立、可验证的实施目标 | 形成候选 Task，并通过 Trace 关联原 `OI-xxx`。 |
+| `OI-xxx.blocking = true`，已阻塞任务拆解或使设计无法成立 | 触发纠偏，返回其 `owner_stage` 或最早失效上游阶段。 |
 
-不得为了继续拆 Task 而通过默认假设强行关闭仍然有效的 Open Issue。
+不得为了继续拆 Task 而通过默认假设强行关闭仍然有效的 Open Item；解决后应更新原 `OI-xxx` 的状态和 Resolution。
 
 ---
 
@@ -105,7 +110,7 @@ Risks / Constraints
 | `Trace` | 对应的 Requirement / Acceptance Criteria / Design 来源，可多来源关联。 |
 | `Boundary` | 当前 Task 覆盖与不覆盖的实施边界。 |
 | `Coverage` | 为证明该实施闭环成立必须覆盖的关键路径。 |
-| `Open Items` | 实施 / 验证中仍需承接的问题；无则省略。 |
+| `Open Items` | 需要当前 Task 承接的稳定 `OI-xxx` 引用；无则省略。 |
 
 本步骤不正式定义 `Depends On`、Verification Method、Done、Agent 或执行顺序。
 
@@ -113,12 +118,12 @@ Risks / Constraints
 
 ## 2.8 完成标准
 
-当 Candidate Task Set 能完整承接 Implementation Baseline，每个 Task 有明确 Primary Requirement，任务粒度均能形成独立实施 / 验证闭环，关键路径有 Coverage，风险和开放项有明确承接位置，且没有通过文件 / 技术层机械切分时，本步骤完成。
+当 Candidate Task Set 能完整承接 Implementation Baseline，每个 Task 有明确 Primary Requirement，任务粒度均能形成独立实施 / 验证闭环，关键路径有 Coverage，风险和 Open Item 有明确承接位置，且没有通过文件 / 技术层机械切分时，本步骤完成。
 
 ---
 
 ## 2.9 下游使用约定
 
-Candidate Task Set 是 Task Definition & Orchestration 的直接输入。下一步为每个候选任务建立稳定 ID、验证契约、Done、必要依赖与可执行组织方式，并保留其 Primary Requirement，不重新改变已收敛的任务边界。
+Candidate Task Set 是 Task Definition & Orchestration 的直接输入。下一步为每个候选任务建立稳定 ID、验证契约、Done、必要依赖与可执行组织方式，并保留其 Primary Requirement 与 `OI-xxx` 引用，不重新改变已收敛的任务边界。
 
-> **将设计基线拆解为带明确 Requirement 归属的最小可验证实施闭环，为后续正式任务定义与需求级收敛建立稳定粒度。**
+> **将设计基线拆解为带明确 Requirement 归属的最小可验证实施闭环，并以引用方式承接未关闭 Open Item，为后续正式任务定义与需求级收敛建立稳定粒度。**

@@ -22,7 +22,7 @@
 - **Code References｜代码引用**：已正式验收的 Task `code_ref` 与 Requirement Sync 中的集成 / Push 引用。
 - **Actual Change Set**：基于已确认代码引用还原的最终代码、配置、数据及接口变更。
 - **Requirement Sync**：Requirement Integration、AC Gate 与 Push 的已确认状态。
-- **Open Issues / Governance**：遗留风险及明确人工审批；无则省略。
+- **Open Items / Governance**：尚未关闭的稳定 `OI-xxx` 及明确人工审批；无则省略。
 
 只引用既有事实，必要时沿 Trace 回读上游产物，不重复复制。Requirement Push 仅作为远程同步事实，不替代本阶段最终 Verification。
 
@@ -38,6 +38,7 @@
 - 实际变更可能影响既有能力，需要回归验证。
 - 高风险、安全或关键约束需要独立复核。
 - 自动化无法充分证明最终用户或业务意图，需要人工验收。
+- 尚未关闭的 `OI-xxx` 是否需要验证证据、人工决策或阻塞最终 Gate。
 
 已有 Evidence 仍有效时优先复用，只重验真正存在缺口或风险的部分。
 
@@ -101,7 +102,9 @@ Build / Static Check、Unit / Integration / Regression Test、Contract / Permiss
 | `Human Acceptance` | 需要人工确认的端到端场景；无则省略。 |
 | `Gates` | 必须通过的质量、安全、风险或治理门禁。 |
 | `Environment` | 验证所需环境、依赖与数据。 |
-| `Open Items` | 尚未解决的问题；无则省略。 |
+| `Open Items` | 尚未关闭的 `OI-xxx` 引用及其验证 / 决策要求；无则省略。 |
+
+Open Item 只通过稳定 ID 进入验证基线；验证阶段不得复制问题形成新的 Open Item。若验证产生新的 Finding（验证发现），先作为 Finding 处理，只有确实需要跨阶段继续承接时才创建或关联 `OI-xxx`。
 
 不展开冗长测试计划，也不固化运行时 Agent 编排策略。
 
@@ -109,7 +112,7 @@ Build / Static Check、Unit / Integration / Regression Test、Contract / Permiss
 
 ## 1.7 完成标准
 
-关键 AC 有最终验证落点，实际 Change Set 可通过 `code_ref` 与 Requirement Sync 可靠还原，已区分可复用 Evidence 与缺口，Cross-Task / Cross-Requirement / Critical Flow / Regression / Risk / Security 无重大遗漏，三类验证边界明确，关键项有 Pass Condition / Evidence，环境可执行且无基线冲突或不可追溯结论。
+关键 AC 有最终验证落点，实际 Change Set 可通过 `code_ref` 与 Requirement Sync 可靠还原，已区分可复用 Evidence 与缺口，Cross-Task / Cross-Requirement / Critical Flow / Regression / Risk / Security 无重大遗漏，未关闭 Open Item 均有明确验证 / 决策位置且不存在被静默忽略的阻塞项，三类验证边界明确，关键项有 Pass Condition / Evidence，环境可执行且无基线冲突或不可追溯结论。
 
 最终状态：**Verification Ready**。
 
@@ -121,6 +124,8 @@ Completed Tasks / Evidence / code_ref
 Requirement Sync
         +
 Actual Change Set
+        +
+Open Items
         ↓
 Verification Gap Analysis
         ↓
@@ -135,4 +140,4 @@ Verification Baseline
 Verification Ready
 ```
 
-> **将已经完成任务级验收与需求级同步的完整变更提升到 Requirement / Change 级验证视角，识别剩余正确性证明缺口，并形成轻量、可执行、可追溯的最终验证基线。**
+> **将已经完成任务级验收与需求级同步的完整变更提升到 Requirement / Change 级验证视角，识别剩余正确性证明缺口，并继续承接稳定 Open Item，形成轻量、可执行、可追溯的最终验证基线。**

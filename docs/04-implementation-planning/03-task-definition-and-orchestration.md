@@ -22,7 +22,7 @@ Goal
 Trace
 Boundary
 Coverage
-Open Items（可选）
+Open Items（可选引用）
 ```
 
 并补齐正式任务定义：
@@ -39,8 +39,11 @@ Open Items（可选）
 | `Coverage` | 必须覆盖的关键执行路径。 |
 | `Verification` | 如何证明 Coverage 与目标已经满足。 |
 | `Done` | 什么结果可以判定任务完成。 |
+| `Open Items` | 当前 Task 需要承接的 `OI-xxx` 引用；无则省略，不复制 Open Item 正文。 |
 
 Primary Requirement 用于计算 `TasksOf(REQ-xx)`、Requirement 级 AC Gate 与 Git 同步边界；`Trace` 用于完整追溯，二者职责不同。
+
+Task 只引用 Open Item；Open Item 的权威状态、阻塞标记和 Resolution 仍更新在其原事实源中。Task 完成不自动意味着关联 `OI-xxx` 已关闭，只有对应问题确实解决并有结论时才更新为 `resolved`。
 
 Task 描述目标、边界与验证契约，不下沉为具体文件、函数或逐行修改脚本。
 
@@ -185,6 +188,7 @@ T07 → tasks/T07.md
 哪些路径必须覆盖？
 怎么验证？
 什么算完成？
+是否承接未关闭的 OI-xxx？
 ```
 
 ---
@@ -196,6 +200,7 @@ T07 → tasks/T07.md
 - Coverage 已绑定明确 Verification。
 - Done 描述真实完成结果。
 - 必要阻塞依赖已明确，不维护可推导的冗余调度关系。
+- 关联 Open Item 仅通过稳定 `OI-xxx` 引用承接，不产生重复事实源。
 - 普通 Task 集中维护，复杂 Task 按需下钻。
 - 可独立委派 Task 能被 Harness 基于独立性、上下文隔离与可验证性动态识别。
 - Task 可通过 Trace 按需获取上游上下文，无需复制完整 Requirement / Design。
@@ -220,4 +225,4 @@ Verification
 
 因此，本步骤的最终职责是：
 
-> **将候选任务定型为具有稳定 Requirement 归属、可执行、可验证、依赖清晰且具有统一生命周期的正式任务集，为后续 `Draft → Ready` 准入和需求级收敛建立基础。**
+> **将候选任务定型为具有稳定 Requirement 归属、可执行、可验证、依赖清晰且具有统一生命周期的正式任务集，同时通过稳定引用承接未关闭 Open Item，为后续 `Draft → Ready` 准入和需求级收敛建立基础。**
