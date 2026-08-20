@@ -2,7 +2,7 @@
 
 ## 4.1 目标
 
-基于 Project Positioning、Business Definition 与 System Definition，将项目能力转化为**结构化的需求空间**，明确核心需求领域、可独立讨论的需求单元及其关系，为后续 Requirement Clarification（需求澄清）提供清晰输入。
+基于 Project Positioning、Business Definition 与 System Definition，将项目能力转化为**结构化的需求空间**，明确核心需求领域、可独立讨论的需求单元及其关系，为后续 Requirement Clarification 提供清晰输入。
 
 需求框架只回答“**有哪些需求需要被进一步定义，它们彼此如何组织**”，不在本阶段提前确定详细范围、业务规则、交互细节或验收标准。
 
@@ -39,7 +39,10 @@ Requirement Area
 
 将需求领域拆分为可独立进入 Requirement Clarification 的 Requirement Unit（需求单元）。
 
+每个 Requirement Unit 分配稳定、唯一的 Requirement ID（需求标识），推荐使用 `REQ-xx`。该 ID 从需求框架开始沿后续需求澄清、设计、任务、实现与验证持续复用，不因文档调整或状态变化重新编号。
+
 ```text
+REQ-01
 Actor
   ↓
 Scenario
@@ -49,6 +52,7 @@ Expected Capability / Result
 
 重点保证：
 
+- 单元具有稳定 `REQ-xx` 标识。
 - 单元具有明确的业务目的。
 - 粒度足以独立讨论和澄清。
 - 不提前拆解为接口、数据库、类或具体实现任务。
@@ -72,12 +76,12 @@ Expected Capability / Result
 优先识别能够支撑项目核心价值的最小端到端链路：
 
 ```text
-Requirement A
-      ↓
-Requirement B
-      ↓
-Requirement C
-      ↓
+REQ-01
+  ↓
+REQ-02
+  ↓
+REQ-03
+  ↓
 Business Result
 ```
 
@@ -107,7 +111,7 @@ Requirement Unit
 
 ### 3. 保留开放项
 
-对于当前无法确认、但会影响后续需求定义的问题，显式记录为 Open Item（开放项），由 Requirement Clarification 继续处理。
+对于当前无法确认、但会影响后续需求定义的问题，显式记录为 Open Item，由 Requirement Clarification 继续处理。
 
 ---
 
@@ -116,7 +120,7 @@ Requirement Unit
 | 章节 | 内容 |
 |---|---|
 | `Requirement Map` | 核心需求领域及其关系。 |
-| `Requirement Units` | 可独立进入需求澄清的需求单元。 |
+| `Requirement Units` | 带稳定 `REQ-xx` ID、可独立进入需求澄清的需求单元。 |
 | `Core Flow` | 支撑项目核心价值的端到端需求链。 |
 | `Open Items` | 尚需在后续需求澄清中确认的问题；无则省略。 |
 
@@ -126,28 +130,28 @@ Requirement Unit
 
 需求框架不以“完成详细需求规格”为完成标准。
 
-当新的 Human 或 Agent 能仅依赖 Requirement Framework 说明核心需求领域、需求单元、核心业务链、关键依赖、业务能力覆盖和开放项时，本阶段完成。
+当新的 Human 或 Agent 能仅依赖 Requirement Framework 说明核心需求领域、稳定 `REQ-xx` 需求单元、核心业务链、关键依赖、业务能力覆盖和开放项时，本阶段完成。
 
 ---
 
 ## 4.8 下游使用约定
 
-Requirement Framework 是 Greenfield（新项目）进入 Requirement Clarification 的正式需求入口。
+Requirement Framework 是新建项目定义阶段的**需求组织层产物**。
 
-后续 Requirement Clarification 应以当前 Requirement Unit 为基本对象，并按需复用 Project Positioning、Business Definition 与 System Definition 中的相关上下文，进一步完成需求解读、歧义与缺口识别、范围与规则确认以及验收标准确认。
-
-无需为新项目额外生成 Brownfield（存量项目）路径中的 Requirement Context，也不重新从项目定位或系统模型推导需求空间。
+后续 Requirement Clarification 应以带稳定 `REQ-xx` 的 Requirement Unit 为基本对象，进一步完成需求解读、歧义与缺口识别、范围与规则确认以及验收标准确认，不重新从项目定位或系统模型推导需求空间，也不重新分配需求身份。
 
 ```text
-Project / Business / System Definition
-                +
-       Requirement Framework
-                ↓
-     Requirement Clarification
-                ↓
-        Technical Design
+System Definition
+        ↓
+Requirement Framework
+        ↓
+REQ-xx
+        ↓
+Requirement Clarification
+        ↓
+Technical Design
 ```
 
 因此，Requirement Framework 的最终职责是：
 
-> **将项目价值、业务能力与系统职责组织为清晰、可追溯的需求地图，并作为新项目进入需求澄清的正式输入，使后续需求能够被逐项澄清，而不提前完成需求本身。**
+> **将项目价值、业务能力与系统职责组织为清晰、可追溯且具有稳定身份的需求地图，使后续需求能够被逐项澄清，而不提前完成需求本身。**

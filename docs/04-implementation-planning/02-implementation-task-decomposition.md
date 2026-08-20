@@ -34,6 +34,8 @@ Risks / Open Issues
 
 例如跨前端、接口、服务、数据的一个用户行为，如果这些变化只有组合后才具备独立意义，通常应优先视为一个实施闭环，再根据复杂度继续下钻。
 
+每个候选 Task 同时绑定一个 Primary Requirement（主需求）`REQ-xx`，用于后续 Requirement 级汇合、AC Gate 与 Git 生命周期判断。Task 的 `Trace` 仍可关联多个 AC、Design 或其他相关来源。
+
 ---
 
 ## 2.4 收敛候选 Task 粒度
@@ -45,6 +47,8 @@ Risks / Open Issues
 不以文件数量、代码行数、技术层或固定开发时长作为通用任务粒度标准。
 
 Task 过粗的信号包括：目标不单一、边界过大、无法独立验证、执行上下文长期失控；Task 过细的信号包括：单独完成没有可观察价值、必须与另一个 Task 同时完成才能验证、只是文件或函数级机械切分。
+
+若一个 Task 无法明确归属于一个主 Requirement，优先检查任务边界是否过宽；确有跨需求共享实现时，选择其主要闭环所属 Requirement，并在 `Trace` 中保留其他关联需求。
 
 ---
 
@@ -96,8 +100,9 @@ Risks / Constraints
 
 | 字段 | 内容 |
 |---|---|
+| `Requirement` | 当前 Task 的 Primary Requirement，如 `REQ-01`。 |
 | `Goal` | 当前候选 Task 要达成的单一实施结果。 |
-| `Trace` | 对应的 Requirement / Acceptance Criteria / Design 来源。 |
+| `Trace` | 对应的 Requirement / Acceptance Criteria / Design 来源，可多来源关联。 |
 | `Boundary` | 当前 Task 覆盖与不覆盖的实施边界。 |
 | `Coverage` | 为证明该实施闭环成立必须覆盖的关键路径。 |
 | `Open Items` | 实施 / 验证中仍需承接的问题；无则省略。 |
@@ -108,12 +113,12 @@ Risks / Constraints
 
 ## 2.8 完成标准
 
-当 Candidate Task Set 能完整承接 Implementation Baseline，任务粒度均能形成独立实施 / 验证闭环，关键路径有 Coverage，风险和开放项有明确承接位置，且没有通过文件 / 技术层机械切分时，本步骤完成。
+当 Candidate Task Set 能完整承接 Implementation Baseline，每个 Task 有明确 Primary Requirement，任务粒度均能形成独立实施 / 验证闭环，关键路径有 Coverage，风险和开放项有明确承接位置，且没有通过文件 / 技术层机械切分时，本步骤完成。
 
 ---
 
 ## 2.9 下游使用约定
 
-Candidate Task Set 是 Task Definition & Orchestration 的直接输入。下一步为每个候选任务建立稳定 ID、验证契约、Done、必要依赖与可执行组织方式，而不重新改变已收敛的任务边界。
+Candidate Task Set 是 Task Definition & Orchestration 的直接输入。下一步为每个候选任务建立稳定 ID、验证契约、Done、必要依赖与可执行组织方式，并保留其 Primary Requirement，不重新改变已收敛的任务边界。
 
-> **将设计基线拆解为最小可验证实施闭环，为后续正式任务定义建立稳定粒度。**
+> **将设计基线拆解为带明确 Requirement 归属的最小可验证实施闭环，为后续正式任务定义与需求级收敛建立稳定粒度。**

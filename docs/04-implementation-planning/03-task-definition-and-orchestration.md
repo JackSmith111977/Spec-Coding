@@ -6,7 +6,7 @@
 
 本步骤重点回答：
 
-> **每个 Task 如何定义、如何验证、依赖什么、处于什么状态，以及如何组织。**
+> **每个 Task 如何定义、如何验证、依赖什么、属于哪个 Requirement、处于什么状态，以及如何组织。**
 
 本步骤不重新拆解任务边界；若发现任务过粗、过细或无法独立验证，应返回 Implementation Task Decomposition 调整。
 
@@ -17,6 +17,7 @@
 直接继承候选任务中的：
 
 ```text
+Requirement
 Goal
 Trace
 Boundary
@@ -29,14 +30,17 @@ Open Items（可选）
 | 字段 | 内容 |
 |---|---|
 | `ID` | 稳定、唯一的任务标识。 |
+| `Requirement` | 当前 Task 的 Primary Requirement，如 `REQ-01`；一个 Task 只设一个主归属。 |
 | `Status` | Task 当前生命周期状态；正式定型后初始为 `Draft`。 |
 | `Goal` | 当前任务需要完成的单一目标。 |
-| `Trace` | 对应的 Requirement / AC / Design 来源。 |
+| `Trace` | 对应的 Requirement / AC / Design 来源，可保留多个关联来源。 |
 | `Boundary` | 当前任务覆盖的实施边界。 |
 | `Depends On` | 真正存在的阻塞依赖；无则省略。 |
 | `Coverage` | 必须覆盖的关键执行路径。 |
 | `Verification` | 如何证明 Coverage 与目标已经满足。 |
 | `Done` | 什么结果可以判定任务完成。 |
+
+Primary Requirement 用于计算 `TasksOf(REQ-xx)`、Requirement 级 AC Gate 与 Git 同步边界；`Trace` 用于完整追溯，二者职责不同。
 
 Task 描述目标、边界与验证契约，不下沉为具体文件、函数或逐行修改脚本。
 
@@ -66,12 +70,12 @@ In Progress / Verifying
 - `Ready`：已通过任务集校验，可在依赖满足后执行。
 - `In Progress`：正在实施。
 - `Blocked`：存在阻塞，暂时无法继续。
-- `Verifying`：实现完成，正在执行 Verification。
+- `Verifying`：实现与必要 Local Verification 已完成；存在代码变更时，Task Commit 已形成并具有可追溯 `code_ref`，正在执行正式 Verification。
 - `Done`：Verification 通过，任务完成。
 
 本步骤只**定义状态模型并初始化 `Draft`**；`Ready` 准入由下一步 Task Set Validation 决定，其余状态由 Development Execution 持续推进。
 
-`tasks.md` 作为任务事实源，应保存 Task 的权威 `Status`，供 Human、Main Agent、Subagent 与 Harness 统一读取。
+`tasks.md` 作为任务事实源，应保存 Task 的权威 `Status` 与 Primary Requirement，供 Human、Main Agent、Subagent 与 Harness 统一读取。
 
 ---
 
@@ -141,10 +145,10 @@ Subagent 的主要价值是 **Context Isolation（上下文隔离）**，并行�
 
 ```text
 tasks.md
-├─ T01
-├─ T02
-├─ T03
-└─ T04
+├─ T01 [REQ-01]
+├─ T02 [REQ-01]
+├─ T03 [REQ-02]
+└─ T04 [REQ-02]
 ```
 
 当单个 Task 上下文较大、生命周期较长 / 跨会话恢复、由独立 Agent / Human 并行负责或持续产生较多 Evidence / Notes 时，可按需下钻：
@@ -155,7 +159,7 @@ tasks.md
 T07 → tasks/T07.md
 ```
 
-即使下钻，`tasks.md` 仍保留任务核心定义、依赖、状态与引用。
+即使下钻，`tasks.md` 仍保留任务核心定义、Primary Requirement、依赖、状态与引用。
 
 > **默认集中维护，复杂时按需下钻。**
 
@@ -172,6 +176,7 @@ T07 → tasks/T07.md
 每个 Task 至少能回答：
 
 ```text
+属于哪个 Requirement？
 为什么做？
 做成什么？
 当前处于什么状态？
@@ -186,7 +191,7 @@ T07 → tasks/T07.md
 
 ## 3.9 完成标准
 
-- 每个 Task 有稳定 ID、Goal、Trace 与 Boundary。
+- 每个 Task 有稳定 ID、Primary Requirement、Goal、Trace 与 Boundary。
 - 每个正式 Task 初始 `Status = Draft`。
 - Coverage 已绑定明确 Verification。
 - Done 描述真实完成结果。
@@ -202,11 +207,11 @@ T07 → tasks/T07.md
 Formal Task Set 是 Task Set Validation 的直接输入。
 
 ```text
-Requirement / AC
+REQ-xx / AC
        ↓
 Design
        ↓
-Task
+Task [Primary REQ]
        ↓
 Coverage
        ↓
@@ -215,4 +220,4 @@ Verification
 
 因此，本步骤的最终职责是：
 
-> **将候选任务定型为可执行、可验证、依赖清晰且具有统一生命周期的正式任务集，为后续 `Draft → Ready` 准入建立基础。**
+> **将候选任务定型为具有稳定 Requirement 归属、可执行、可验证、依赖清晰且具有统一生命周期的正式任务集，为后续 `Draft → Ready` 准入和需求级收敛建立基础。**
