@@ -5,6 +5,11 @@ canonical_root: docs
 canonical_document_count: 34
 history_policy: git
 
+terminology:
+  glossary: glossary.md
+  first_use_policy: "English Term（中文解释）"
+  canonical_translation: true
+
 entrypoints:
   greenfield:
     stage: 01a-project-definition
@@ -102,3 +107,4 @@ rules:
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
   - Add, delete, or rename a canonical stage document only together with a manifest update.
   - Consumers should resolve the repository version first, then read this manifest before loading stage documents.
+  - Core terminology and canonical Chinese explanations follow glossary.md; terminology changes that alter workflow semantics require semantic version governance.
