@@ -14,7 +14,7 @@
 
 ## 1.2 确认上游准入
 
-首先确认 Design Validation Result 中：
+首先确认 Design Acceptance Result（方案验收结果）中：
 
 - `Readiness = Ready`。
 - 不存在仍会阻塞任务规划与实施的 `Blocking` 问题。
@@ -32,7 +32,7 @@
 | `Acceptance Criteria` | 核心行为、关键边界与可验证结果 | 保留需求正确性的最终判定依据 |
 | `Solution Decision` | Decision、必要的 Trade-offs / Constraints | 固定已经收敛的技术方向 |
 | `Detailed Technical Design` | Structure、To-Be Flow、Contracts、Boundary Handling | 提供任务拆解所需的设计基线 |
-| `Design Validation Result` | Validated Assumptions、Risks / Open Issues、Readiness | 接管最终验证结论与仍需后续关注的问题 |
+| `Design Acceptance Result` | Validated Assumptions、Risks / Open Issues、Readiness | 接管最终验收结论与仍需后续关注的问题 |
 
 优先消费上游最终结论；只有结论不清、存在冲突或需要确认依据时，才沿追溯链回查原始文档、代码或 Evidence。
 
@@ -56,7 +56,7 @@
 
 确认需求范围 / 规则 / AC、关键技术决策、Structure / To-Be Flow / Contracts / Boundary Handling、兼容 / 依赖等约束、最终 Risks / Open Issues 均可稳定读取且可追溯，没有隐藏 Blocking 问题。
 
-这里只检查交接完整性，不重新执行 Design Validation。
+这里只检查交接完整性，不重新执行 Design Acceptance & Convergence（方案验收与收敛）。
 
 若发现阻塞问题：
 
@@ -70,8 +70,8 @@
 设计细节缺失
     → Detailed Technical Design
 
-验证结论失效
-    → Design Validation & Convergence
+验收结论失效
+    → Design Acceptance & Convergence
 ```
 
 修正后重新接管受影响结论即可。
@@ -86,7 +86,7 @@
 | `Fixed Decisions` | 已确认、不应在任务规划中重新发散的关键技术决策。 |
 | `Design Baseline` | Structure、To-Be Flow、Contracts 与 Boundary Handling 的有效设计结论。 |
 | `Constraints` | 兼容、依赖、架构、发布或其他需要在实施中保持的限制条件。 |
-| `Risks / Open Issues` | Design Validation 后仍需后续承接的问题；无则省略。 |
+| `Risks / Open Issues` | Design Acceptance 后仍需后续承接的问题；无则省略。 |
 
 Implementation Baseline 应尽量保存上游引用关系，只在需要降低下游理解成本时摘要关键内容，避免复制形成重复事实源。
 
@@ -107,7 +107,7 @@ Scope / Rules / Acceptance Criteria
               +
    Detailed Technical Design
               +
-    Design Validation Result
+    Design Acceptance Result
               ↓
  Implementation Baseline Handoff
               ↓
