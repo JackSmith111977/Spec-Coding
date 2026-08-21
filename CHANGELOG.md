@@ -10,7 +10,16 @@
 
 ## Unreleased｜未发布
 
-- 暂无。
+### Added｜新增
+
+- 新增面向 Human 的全流程概要，以及 1A / 1B / 2–7 各阶段概要 README，用于快速理解目标、输入、输出与完成条件。
+- 在根 README 与全流程概要中加入必读万能 Prompt，引导 Agent 读取完整流程并按需建立最小充分 Harness。
+
+### Changed｜调整
+
+- 将根 `README.md` 收敛为项目简介、快速使用方法与文档入口。
+- 将全局执行契约独立为 `docs/global-contracts.md`，将仓库维护与版本管理独立为 `docs/repository-governance.md`。
+- 将 `docs/README.md` 收敛为纯文档索引，提高 Human 阅读信噪比。
 
 ## 0.2.0 - 2026-08-21
 

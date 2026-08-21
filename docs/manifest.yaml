@@ -5,6 +5,25 @@ canonical_root: docs
 canonical_document_count: 34
 history_policy: git
 
+navigation:
+  project_readme: ../README.md
+  documentation_index: README.md
+  human_overview: overview.md
+  stage_overviews:
+    - 01a-project-definition/README.md
+    - 01b-project-understanding/README.md
+    - 02-requirement-clarification/README.md
+    - 03-technical-design/README.md
+    - 04-implementation-planning/README.md
+    - 05-development-execution/README.md
+    - 06-verification-convergence/README.md
+    - 07-process-review-improvement/README.md
+
+governance:
+  global_contracts: global-contracts.md
+  repository_governance: repository-governance.md
+  glossary: glossary.md
+
 terminology:
   glossary: glossary.md
   first_use_policy: "English Term（中文解释）"
@@ -103,9 +122,10 @@ stages:
       - 07-process-review-improvement/06-implementation-and-validation.md
 
 rules:
-  - Only documents listed in this manifest are canonical stage documents for this version.
+  - Only documents listed under stages.documents are canonical stage documents for this version.
+  - Human overview README files and navigation/governance documents are not counted as canonical stage documents.
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
-  - Add, delete, move, or rename a canonical stage document only together with a manifest update.
+  - Add, delete, or rename a canonical stage document only together with a manifest update.
   - Consumers should resolve the repository version first, then read this manifest before loading stage documents.
+  - All stage documents inherit global-contracts.md unless a stage defines a stricter rule.
   - Core terminology and canonical Chinese explanations follow glossary.md; terminology changes that alter workflow semantics require semantic version governance.
-  - Repository maintenance and version-management rules follow the root README.md.
