@@ -28,10 +28,22 @@
 ## Canonical 规则
 
 - 当前版本共有 34 份正式阶段文档；单次真实流程只消费其中一条入口分支，因此通常执行 30 份阶段规则。
-- `README.md`、`manifest.yaml`、`CHANGELOG.md` 等属于治理或导航文件，不计入正式阶段文档数量。
+- `README.md`、`manifest.yaml`、`glossary.md`、`CHANGELOG.md` 等属于治理或导航文件，不计入正式阶段文档数量。
 - 本文件中的全局 Contract（契约）默认适用于全部正式阶段文档；阶段文档存在更严格规则时，以更严格规则为准。
 - 正式文件的新增、删除和重命名必须同步更新 `manifest.yaml`。
 - 历史版本由 Git 保存，不在 `docs/` 中保留带 `(1)`、`(2)`、`v1`、`old` 等后缀的并行正式副本。
+
+## Terminology Contract｜术语治理契约
+
+所有核心英文术语及规范中文解释统一见 [`glossary.md`](glossary.md)。Glossary（术语表）是唯一术语锚点，阶段文档不得自行创造同义译法。
+
+- 非直观英文术语在单篇文档首次承担关键语义时，使用 `English Term（中文解释）`；含义建立后可直接使用英文。
+- Schema 字段、状态值、ID 与代码标识可保留英文，例如 `status = open`、`code_ref`、`REQ-01`，不要求机械双语化。
+- 中文解释以语义准确为优先，不做字面直译；例如 `Harness` 固定解释为“执行框架”。
+- 同一英文术语应使用 Glossary 中的唯一规范中文解释；如需改变译法或含义，应先更新 Glossary 并检查受影响定义点。
+- `Spec Coding` 是流程 / 方法名称，不默认对应独立 `Spec` 产物；真实 API / Schema 等规格应按 `Technical Contract（技术契约）`、`Executable Specification（可执行规格）` 等实际类型命名。
+
+> **First occurrence bilingual, terminology canonical｜首次关键出现双语，后续术语保持统一。**
 
 ## Tailoring Contract｜流程裁剪契约
 

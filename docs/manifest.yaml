@@ -1,9 +1,14 @@
 schema_version: 1
-spec_coding_version: "0.1.0"
-status: baseline
+spec_coding_version: "0.2.0"
+status: candidate
 canonical_root: docs
 canonical_document_count: 34
 history_policy: git
+
+terminology:
+  glossary: glossary.md
+  first_use_policy: "English Term（中文解释）"
+  canonical_translation: true
 
 entrypoints:
   greenfield:
@@ -100,5 +105,7 @@ stages:
 rules:
   - Only documents listed in this manifest are canonical stage documents for this version.
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
-  - Add, delete, or rename a canonical stage document only together with a manifest update.
+  - Add, delete, move, or rename a canonical stage document only together with a manifest update.
   - Consumers should resolve the repository version first, then read this manifest before loading stage documents.
+  - Core terminology and canonical Chinese explanations follow glossary.md; terminology changes that alter workflow semantics require semantic version governance.
+  - Repository maintenance and version-management rules follow the root README.md.
