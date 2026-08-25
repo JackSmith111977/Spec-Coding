@@ -1,6 +1,6 @@
 # Spec Coding 文档索引
 
-本目录分为四层：**Human 概要、正式阶段规则、跨阶段规则、全局治理**。
+Spec Coding 的规范本体分为两类：**Workflow（流程）**与 **Rules（规则）**。Workflow 规定事情如何推进；Rules 规定推进过程中持续适用的原则与约束。除此之外，仓库保留 Human 概要与 Meta / Governance（元规则与治理）文档用于导航、编译与版本管理。
 
 ## Human 概要
 
@@ -16,26 +16,37 @@
 
 这些 README 只用于快速理解与导航，不属于 34 份正式阶段文档。
 
-## 正式阶段规则
+## Workflow｜流程
 
-正式文档集合以 [`manifest.yaml`](manifest.yaml) 为唯一清单。Agent 执行流程时应读取对应阶段的正式文档，而不是仅依赖概要。
+### Main Workflow｜主流程
+
+正式阶段文档集合以 [`manifest.yaml`](manifest.yaml) 的 `stages.documents` 为唯一清单。Agent 执行流程时读取当前适用阶段文档，而不是仅依赖概要。
 
 ```text
 01A / 01B → 02 → 03 → 04 → 05 → 06 → 07
 ```
 
-## 跨阶段规则
+### Exception Workflow｜异常流程
 
-- [`harness-compilation-protocol.md`](harness-compilation-protocol.md)：将 Spec Coding 流程转换为当前项目最小充分 Harness 的统一协议，采用 `Read → Derive → Compose → Verify`。
 - [`exception-flows/`](exception-flows/)：跨阶段异常流程，按实际异常类型按需读取；当前 Debug & Defect Resolution（调试与缺陷处理）流程仍在建设中。
 
-跨阶段规则不计入 34 份正式阶段文档，除非后续明确纳入 `stages.documents`。
+Exception Workflow 不计入 34 份正式阶段文档，除非后续明确纳入 `stages.documents`。
 
-## 全局治理
+## Rules｜规则
 
-- [`global-contracts.md`](global-contracts.md)：Terminology、Tailoring、Open Item、Human / Agent Authority 等全局契约。
+正式跨阶段规则以 [`manifest.yaml`](manifest.yaml) 的 `rule_documents` 为机器可读入口，按当前阶段与任务加载适用规则。
+
+- [`global-contracts.md`](global-contracts.md)：Terminology、Tailoring、Open Item、Human / Agent Authority 等所有阶段默认继承的全局执行规则。
+- [`rules/`](rules/)：专项跨阶段规则。
+  - [`rules/code-quality.md`](rules/code-quality.md)：与具体语言、框架和架构无关的 Code Quality Rules（代码质量规则）。
+
+Rules 本身不推进阶段状态，也不计入 34 份正式阶段文档；阶段文档通过引用消费规则，不复制规则正文。
+
+## Meta / Governance｜元规则与治理
+
+- [`harness-compilation-protocol.md`](harness-compilation-protocol.md)：将适用 Workflow + Rules 转换为当前项目最小充分 Harness 的统一协议，采用 `Read → Derive → Compose → Verify`。
+- [`manifest.yaml`](manifest.yaml)：Canonical Corpus（规范文档集）、Workflow、Rules 与机器可读导航。
 - [`glossary.md`](glossary.md)：规范术语。
 - [`repository-governance.md`](repository-governance.md)：仓库维护与版本管理。
-- [`manifest.yaml`](manifest.yaml)：Canonical Corpus（规范文档集）与机器可读导航。
 
 历史版本由 Git 保存，不在当前文档目录维护并行旧副本。
