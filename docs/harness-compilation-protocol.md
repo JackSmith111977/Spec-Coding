@@ -1,6 +1,6 @@
 # Harness Compilation Protocol｜Harness 编译协议
 
-本协议定义如何将 Spec Coding 流程稳定转换为当前项目可执行的最小 Harness（执行框架）。
+本协议定义如何将 Spec Coding 的 Workflow（流程）与 Rules（规则）稳定转换为当前项目可执行的最小 Harness（执行框架）。
 
 对使用者保持单一入口，例如：
 
@@ -18,8 +18,8 @@ Build Harness
 - **Process as Cognition｜流程用于认知**：流程规定 Agent 如何理解、判断和推进，不强制把中间认知全部结构化。
 - **Artifact as Contract｜产物用于对齐**：只对需要稳定交接与验证的结果明确约束，减少重复对齐成本。
 - **Reuse before Add｜复用优先**：优先复用 Agent 原生能力、项目已有工具与既有 Harness，仅补齐真实缺口。
-- **Minimum Sufficient Harness｜最小充分 Harness**：以最低复杂度可靠满足当前流程要求，避免重复包装与过度设计。
-- **Constraint Preservation｜约束保持**：Harness 不得弱化原流程语义，也不应无依据增强约束。
+- **Minimum Sufficient Harness｜最小充分 Harness**：以最低复杂度可靠满足当前流程与规则要求，避免重复包装与过度设计。
+- **Constraint Preservation｜约束保持**：Harness 不得弱化原流程或规则语义，也不应无依据增强约束。
 - **Deterministic First｜确定性优先**：可由脚本、测试、Hook、Gate 等确定性机制保障的要求，不依赖模型自觉记忆。
 
 ---
@@ -44,20 +44,22 @@ Harness Ready
 
 随后以本地确定性搜索和文件读取为主，建立生成 Harness 所需的最小完整认知，重点识别：
 
-- 当前有效的 `VERSION`、`manifest.yaml`、Global Contracts（全局契约）与适用阶段文档；
+- 当前有效的 `VERSION`、`manifest.yaml`、Global Contracts（全局契约）、Applicable Rules（适用规则）与适用阶段文档；
 - 当前任务适用的异常流程与关键上游引用；
-- Gate、Verification、Traceability、Human / Agent Authority 等流程不变量；
-- 目标项目已有 Harness、工具、脚本、CI 与 Agent 原生能力。
+- Gate、Verification、Traceability、Human / Agent Authority、Code Quality 等持续约束；
+- 目标项目已有 Harness、规则、工具、脚本、CI 与 Agent 原生能力。
+
+Applicable Rules 以 `manifest.yaml` 中的 `rule_documents` 为机器可读入口，只加载与当前阶段 / 任务相关的规则，不要求无差别装载全部规则正文。
 
 **完成条件**
 
-Agent 已能明确判断：当前 Harness 必须保障哪些流程要求，以及哪些要求已经被现有环境可靠覆盖。
+Agent 已能明确判断：当前 Harness 必须保障哪些流程与规则要求，以及哪些要求已经被现有环境可靠覆盖。
 
 ---
 
 ### 2.2 Derive｜Harness 需求推导
 
-对照流程要求与现有能力，识别真正需要 Harness 补齐的缺口。
+对照适用 Workflow / Rules 与现有能力，识别真正需要 Harness 补齐的缺口。
 
 重点关注：
 
@@ -66,9 +68,10 @@ Agent 已能明确判断：当前 Harness 必须保障哪些流程要求，以�
 - Verification；
 - Human / Agent Authority；
 - Traceability；
+- 持续适用的质量与执行规则；
 - 明确的上下文与执行约束。
 
-优先判断现有能力是否已经可靠覆盖，避免将流程章节机械映射成 Skill、Agent 或其他 Harness 组件。
+优先判断现有能力是否已经可靠覆盖，避免将流程章节或规则条目机械映射成 Skill、Agent 或其他 Harness 组件。
 
 同时区分：
 
@@ -92,9 +95,9 @@ Agent 已能明确判断：当前 Harness 必须保障哪些流程要求，以�
 
 每一个待新增 Harness 都能回答：
 
-1. 它对应什么真实流程要求？
+1. 它对应什么真实流程或规则要求？
 2. 当前能力为什么不能可靠覆盖？
-3. 如果不补充，是否会影响流程正确性或可靠性？
+3. 如果不补充，是否会影响流程正确性、代码质量或可靠性？
 
 ---
 
@@ -120,7 +123,7 @@ Create
 4. 组合已有能力；
 5. 仅在确有缺口时新增 Harness。
 
-组件按问题性质选择，而不是按流程章节创建：
+组件按问题性质选择，而不是按流程章节或规则文件创建：
 
 | 需求性质 | 常见 Harness 机制 |
 |---|---|
@@ -132,7 +135,7 @@ Create
 | 不可绕过的流程边界 | Gate / Permission |
 | 固定多步协调逻辑 | Workflow |
 
-所选机制的执行强度不得低于原流程要求。生成完成后执行一次 Simplify Pass（简化检查），删除重复、无必要或可由现有能力替代的组件。
+所选机制的执行强度不得低于原流程 / 规则要求。生成完成后执行一次 Simplify Pass（简化检查），删除重复、无必要或可由现有能力替代的组件。
 
 **产物**
 
@@ -152,7 +155,7 @@ Create
 
 #### Coverage｜覆盖完整
 
-关键流程要求均得到可靠保障，尤其是 MUST / MUST NOT、Gate、Verification、Human / Agent Authority、Blocking Condition 与 Traceability。
+关键流程与规则要求均得到可靠保障，尤其是 MUST / MUST NOT、Gate、Verification、Human / Agent Authority、Blocking Condition、Traceability 与适用质量规则。
 
 不要求每条规则都生成独立文件，只要求其语义被可靠满足。
 
@@ -172,8 +175,8 @@ Human Decision → Agent 自主决定
 逐项反查新增组件：
 
 - 为什么存在？
-- 对应哪个真实缺口？
-- 删除后是否降低流程可靠性？
+- 对应哪个真实流程 / 规则缺口？
+- 删除后是否降低流程或规则执行可靠性？
 
 删除后无实质影响的组件应移除。
 
@@ -220,4 +223,4 @@ Harness 编译不要求将 Spec Coding 完全形式化，也不要求引入复�
 
 Agent 可以在内部自由完成理解与推理，但最终结果必须满足：
 
-> **完整承载必要流程语义，只补真实缺口，并以最低复杂度形成可执行、可验证的 Harness。**
+> **完整承载必要 Workflow 与 Rules 语义，只补真实缺口，并以最低复杂度形成可执行、可验证的 Harness。**
