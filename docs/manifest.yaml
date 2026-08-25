@@ -9,6 +9,8 @@ navigation:
   project_readme: ../README.md
   documentation_index: README.md
   human_overview: overview.md
+  harness_compilation: harness-compilation-protocol.md
+  exception_flows: exception-flows
   stage_overviews:
     - 01a-project-definition/README.md
     - 01b-project-understanding/README.md
@@ -123,7 +125,9 @@ stages:
 
 rules:
   - Only documents listed under stages.documents are canonical stage documents for this version.
-  - Human overview README files and navigation/governance documents are not counted as canonical stage documents.
+  - Human overview README files, cross-stage rules, and navigation/governance documents are not counted as canonical stage documents.
+  - Harness generation should follow harness-compilation-protocol.md; canonical stage documents and global contracts remain the source requirements.
+  - Exception flows are cross-stage supplements and are loaded only when applicable.
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
   - Add, delete, or rename a canonical stage document only together with a manifest update.
   - Consumers should resolve the repository version first, then read this manifest before loading stage documents.

@@ -1,6 +1,6 @@
 # Spec Coding 文档索引
 
-本目录分为三层：**Human 概要、正式阶段规则、全局治理**。
+本目录分为四层：**Human 概要、正式阶段规则、跨阶段规则、全局治理**。
 
 ## Human 概要
 
@@ -23,6 +23,13 @@
 ```text
 01A / 01B → 02 → 03 → 04 → 05 → 06 → 07
 ```
+
+## 跨阶段规则
+
+- [`harness-compilation-protocol.md`](harness-compilation-protocol.md)：将 Spec Coding 流程转换为当前项目最小充分 Harness 的统一协议，采用 `Read → Derive → Compose → Verify`。
+- [`exception-flows/`](exception-flows/)：跨阶段异常流程，按实际异常类型按需读取；当前 Debug & Defect Resolution（调试与缺陷处理）流程仍在建设中。
+
+跨阶段规则不计入 34 份正式阶段文档，除非后续明确纳入 `stages.documents`。
 
 ## 全局治理
 
