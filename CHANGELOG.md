@@ -10,9 +10,12 @@
 
 ## Unreleased｜未发布
 
+## 0.3.0 - 2026-08-25
+
 ### Added｜新增
 
 - 新增面向 Human 的全流程概要，以及 1A / 1B / 2–7 各阶段概要 README，用于快速理解目标、输入、输出与完成条件。
+- 新增 Debug / Defect Resolution（调试与缺陷解决）异常流程首个阶段 `Failure Intake & Reproduction（异常接管与复现）`，建立可信 Failure Baseline（故障基线）。
 - 新增 `docs/harness-compilation-protocol.md`，将 Harness 构建收敛为 `Read → Derive → Compose → Verify` 四步协议，并建立 Local First、Reuse before Add、Minimum Sufficient Harness、Constraint Preservation 与 Deterministic First 等原则。
 - 在文档索引与 `manifest.yaml` 中增加 Harness 编译协议和 Exception Flow 的跨阶段导航入口。
 
@@ -24,6 +27,11 @@
 - 将根 `README.md` 收敛为项目简介、快速使用方法与文档入口。
 - 将全局执行契约独立为 `docs/global-contracts.md`，将仓库维护与版本管理独立为 `docs/repository-governance.md`。
 - 将 `docs/README.md` 收敛为文档索引，并补充跨阶段规则入口。
+
+### Notes｜说明
+
+- 本版本完成 Harness 生成入口从开放式 Prompt 到轻量编译协议的收敛，正式阶段文档仍保持 34 份。
+- 当前状态继续为 `candidate`；Debug 异常流程仍在扩展中，Scenario Stress Test、Fresh-Agent Blind Run 与真实项目 Pilot 仍待完成。
 
 ## 0.2.0 - 2026-08-21
 
