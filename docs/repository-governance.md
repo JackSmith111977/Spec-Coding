@@ -7,12 +7,13 @@
 1. **Canonical Only｜只维护一个当前正式版本**：`main` 上每份正式文档只保留一个当前路径，不使用 `v1`、`v2`、`old`、`backup` 等副本保存历史。
 2. **Branch First｜先分支后修改**：功能、修复、审核与规则演进从 `main` 创建独立分支，再进入 Review / Verification。
 3. **Affected Trace Only｜只改受影响链路**：只修改真实受影响的定义点、消费者和治理文件，不顺手重写无关阶段。
-4. **Manifest 同步**：新增、删除、移动或重命名正式阶段文档，或改变机器可读导航入口时，同步更新 `manifest.yaml`。
+4. **Manifest 同步**：新增、删除、移动或重命名 Canonical Stage Document（正式阶段文档）或 Canonical Rule Document（正式规则文档），或改变机器可读导航入口时，同步更新 `manifest.yaml`。
 5. **Glossary 同步**：新增核心术语、修改规范译法或改变术语语义时，同步更新 `glossary.md`。
-6. **Global Contract 同步**：影响全部阶段的通用规则维护在 `global-contracts.md`，避免复制到各阶段形成重复事实源。
-7. **Changelog 同步**：改变流程语义、Artifact Contract、状态、Gate、Authority 或下游消费方式的变化进入 `CHANGELOG.md`。
-8. **Git Owns History｜历史交给 Git**：旧版本、删除内容与重命名关系由 Commit / PR / Changelog 保存。
-9. **No Silent Semantic Change｜禁止静默语义变化**：纯润色不得顺带改变正式契约；确需改变时按语义变更治理。
+6. **Rule Source of Truth｜规则事实源唯一**：跨阶段持续适用的规则维护在 `manifest.yaml` 登记的 Rule Document 中；阶段文档只引用适用规则，不复制规则正文形成并行事实源。
+7. **Global Contract 同步**：影响全部阶段的通用执行规则维护在 `global-contracts.md`，避免复制到各阶段形成重复事实源。
+8. **Changelog 同步**：改变 Workflow / Rule 语义、Artifact Contract、状态、Gate、Authority 或下游消费方式的变化进入 `CHANGELOG.md`。
+9. **Git Owns History｜历史交给 Git**：旧版本、删除内容与重命名关系由 Commit / PR / Changelog 保存。
+10. **No Silent Semantic Change｜禁止静默语义变化**：纯润色不得顺带改变正式契约或规则；确需改变时按语义变更治理。
 
 ## 版本管理
 
@@ -22,7 +23,7 @@
 |---|---|
 | `MAJOR` | 稳定版本后的不兼容阶段 / Artifact / 状态 / Gate / 消费者行为变化。 |
 | `MINOR` | 新增或增强兼容能力、规则、治理、验证或自动化机制；`0.x` 阶段的主要语义演进通常使用 MINOR。 |
-| `PATCH` | 不改变流程语义的拼写、链接、格式、说明或纯文档修复。 |
+| `PATCH` | 不改变流程或规则语义的拼写、链接、格式、说明或纯文档修复。 |
 
 普通分支提交不必每次修改 `VERSION`。形成版本时，在同一收敛变更中同步：
 
@@ -30,7 +31,7 @@
 - `docs/manifest.yaml` 中的 `spec_coding_version` 与 `status`
 - `CHANGELOG.md`
 
-若同时改变正式文档集合、全局契约或术语，再同步 `manifest.yaml`、`global-contracts.md`、`glossary.md` 等对应治理文件。
+若同时改变正式 Workflow / Rules 集合、全局契约或术语，再同步 `manifest.yaml`、对应 Rule Document、`global-contracts.md`、`glossary.md` 等治理文件。
 
 Git Tag 可用于稳定里程碑或长期引用，但不替代 `VERSION + manifest + CHANGELOG` 的版本判定。
 
@@ -41,7 +42,7 @@ main
   ↓
 独立分支
   ↓
-修改受影响规则 / 文档
+修改受影响 Workflow / Rules / 文档
   ↓
 Cross-Artifact Check
   ↓
@@ -56,10 +57,10 @@ Merge to main
 
 合入前至少确认：
 
-- 上下游术语、状态和 Artifact Contract 一致。
+- 上下游术语、状态、Artifact Contract 与适用 Rules 一致。
 - 没有引入并行事实源或废弃副本。
 - 受影响 Trace 可追溯。
-- 必要 Manifest / Glossary / Changelog 已同步。
+- 必要 Manifest / Rule Document / Glossary / Changelog 已同步。
 
 ## Agent 消费顺序
 
@@ -74,16 +75,18 @@ VERSION
   ↓
 manifest.yaml
   ↓
-global-contracts.md
+global-contracts.md + Applicable Rules
   ↓
 harness-compilation-protocol.md
   ↓
-当前阶段正式文档
+当前阶段正式 Workflow 文档
   ↓
-必要上游引用 / Exception Flow
+必要上游引用 / Exception Workflow
 ```
 
-Harness 达到 `Ready` 后，阶段执行继续以正式阶段文档和 `global-contracts.md` 为权威依据；Harness 只是承载这些要求的执行框架，不替代规范事实源。
+Applicable Rules 由 `manifest.yaml` 的 `rule_documents` 解析；不要求所有阶段无差别加载全部专项规则。
+
+Harness 达到 `Ready` 后，阶段执行继续以正式 Workflow 文档与 Applicable Rules 为权威依据；Harness 只是承载这些要求的执行框架，不替代规范事实源。
 
 Human 快速理解流程优先使用 [`overview.md`](overview.md) 与各阶段 README，不以概要替代正式执行规则。
 
