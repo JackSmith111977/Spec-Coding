@@ -7,7 +7,7 @@
 1. **Canonical Only｜只维护一个当前正式版本**：`main` 上每份正式文档只保留一个当前路径，不使用 `v1`、`v2`、`old`、`backup` 等副本保存历史。
 2. **Branch First｜先分支后修改**：功能、修复、审核与规则演进从 `main` 创建独立分支，再进入 Review / Verification。
 3. **Affected Trace Only｜只改受影响链路**：只修改真实受影响的定义点、消费者和治理文件，不顺手重写无关阶段。
-4. **Manifest 同步**：新增、删除、移动或重命名正式阶段文档时，同步更新 `manifest.yaml`。
+4. **Manifest 同步**：新增、删除、移动或重命名正式阶段文档，或改变机器可读导航入口时，同步更新 `manifest.yaml`。
 5. **Glossary 同步**：新增核心术语、修改规范译法或改变术语语义时，同步更新 `glossary.md`。
 6. **Global Contract 同步**：影响全部阶段的通用规则维护在 `global-contracts.md`，避免复制到各阶段形成重复事实源。
 7. **Changelog 同步**：改变流程语义、Artifact Contract、状态、Gate、Authority 或下游消费方式的变化进入 `CHANGELOG.md`。
@@ -63,19 +63,27 @@ Merge to main
 
 ## Agent 消费顺序
 
-Agent 开始执行前建议按顺序读取：
+执行与 Harness 构建优先使用本地一致视图。已有本地工作区时先同步并确认基线；尚无本地副本时先获取到本地。远程接口主要用于获取、同步、版本确认与必要补充。
+
+Agent 构建 Harness 时建议按顺序读取：
 
 ```text
+本地取得 Spec Coding 与目标项目的一致工作区
+  ↓
 VERSION
   ↓
 manifest.yaml
   ↓
 global-contracts.md
   ↓
+harness-compilation-protocol.md
+  ↓
 当前阶段正式文档
   ↓
-必要上游引用
+必要上游引用 / Exception Flow
 ```
+
+Harness 达到 `Ready` 后，阶段执行继续以正式阶段文档和 `global-contracts.md` 为权威依据；Harness 只是承载这些要求的执行框架，不替代规范事实源。
 
 Human 快速理解流程优先使用 [`overview.md`](overview.md) 与各阶段 README，不以概要替代正式执行规则。
 
