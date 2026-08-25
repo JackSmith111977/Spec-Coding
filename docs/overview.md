@@ -1,6 +1,6 @@
 # Spec Coding 全流程概要
 
-本文件面向 Human（人类），用于快速判断当前任务处于哪里、下一步要做什么。详细执行规则以各阶段正式文档为准。
+本文件面向 Human（人类），用于快速判断当前任务处于哪里、下一步要做什么。详细执行要求由当前 Workflow（流程）与 Applicable Rules（适用规则）共同定义。
 
 ## 全流程
 
@@ -46,8 +46,8 @@ Initial Context
 
 1. 先通过本页判断当前任务所处阶段。
 2. 让 Agent 执行 `Build Harness`。
-3. Agent 按 [`harness-compilation-protocol.md`](harness-compilation-protocol.md) 完成 `Read → Derive → Compose → Verify`，以本地仓库为主要事实源，复用已有能力并只补真实缺口。
-4. Harness 达到 `Ready` 后，按当前阶段正式文档推进；若执行中发现上游事实失效，回到最早失效位置纠正，只重新对齐受影响链路。
+3. Agent 按 [`harness-compilation-protocol.md`](harness-compilation-protocol.md) 完成 `Read → Derive → Compose → Verify`，以本地仓库为主要事实源，读取当前 Workflow 与 Applicable Rules，复用已有能力并只补真实缺口。
+4. Harness 达到 `Ready` 后，按当前阶段正式文档与适用规则推进；若执行中发现上游事实失效，回到最早失效位置纠正，只重新对齐受影响链路。
 
 ## Harness 构建入口
 
@@ -59,7 +59,8 @@ Build Harness
 
 ## 详细规则
 
+- Workflow / Rules 清单：[`manifest.yaml`](manifest.yaml)
 - Harness 编译协议：[`harness-compilation-protocol.md`](harness-compilation-protocol.md)
-- 正式文档清单：[`manifest.yaml`](manifest.yaml)
-- 全局执行契约：[`global-contracts.md`](global-contracts.md)
+- 全局执行规则：[`global-contracts.md`](global-contracts.md)
+- Code Quality Rules：[`rules/code-quality.md`](rules/code-quality.md)
 - 规范术语：[`glossary.md`](glossary.md)
