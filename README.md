@@ -151,3 +151,9 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 当前版本仍处于 `candidate` 阶段。正式阶段文档、Rules 与 Harness Compilation Protocol 已建立版本治理，但进入 `1.0.0` 前仍需要 Scenario Stress Test（场景压力测试）、Fresh-Agent Blind Run（新 Agent 盲跑）与真实项目 Pilot（试运行）。
 
 如果你第一次来到这里，建议从 [`Spec Coding 全流程概要`](docs/overview.md) 开始。
+
+---
+
+## License
+
+除非另有说明，本仓库的文档、规范、图示及其他非软件内容采用 [Creative Commons Attribution 4.0 International](LICENSE)（CC BY 4.0）许可。
