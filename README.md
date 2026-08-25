@@ -21,7 +21,7 @@ Spec Coding / SDD（Specification-Driven Development，规格驱动开发）是�
 1. Human 先通过全流程概要判断当前大致处于哪个阶段。
 2. 让 Agent 执行 `Build Harness`。
 3. Agent 按 [`docs/harness-compilation-protocol.md`](docs/harness-compilation-protocol.md) 完成 `Read → Derive → Compose → Verify`：先取得 Spec Coding 与目标项目的本地一致视图，再读取当前 Workflow 与 Applicable Rules（适用规则），识别真实缺口并生成最小充分 Harness。
-4. Harness 达到 `Ready` 后，Agent 按当前阶段正式文档、适用规则与全局契约推进任务。
+4. Harness 达到 `Ready` 后，Agent 按当前阶段正式文档与适用规则推进任务。
 
 ## Harness 构建入口
 
