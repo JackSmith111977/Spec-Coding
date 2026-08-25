@@ -10,6 +10,31 @@
 
 ## Unreleased｜未发布
 
+## 0.4.0 - 2026-08-25
+
+### Added｜新增
+
+- 新增 `docs/rules/code-quality.md`，建立与具体语言、框架、架构层次和代码组织方式无关的 Code Quality Rules（代码质量规则），覆盖 Understandability（可理解性）、Information Quality（信息质量）、Change Clarity（变更清晰度）与 Consistency（一致性）。
+- 新增 `docs/rules/README.md` 作为专项 Rules（规则）导航入口。
+- `manifest.yaml` 新增 `rule_documents` 与 `canonical_rule_document_count`，正式区分 Canonical Stage Document（正式阶段文档）与 Canonical Rule Document（正式规则文档）。
+- Glossary 新增 Workflow（流程）与 Rule（规则）规范定义。
+
+### Changed｜调整
+
+- 将 Spec Coding 规范本体明确划分为 Workflow（流程）与 Rules（规则）：Workflow 负责阶段 / 状态推进，Rules 负责跨阶段持续约束；Human 概要与 Meta / Governance 文档继续作为导航、编译和治理支持层。
+- Harness Compilation Protocol 改为读取当前 Workflow + Applicable Rules（适用规则），按 `manifest.yaml` 动态加载规则并转换为最小充分 Harness，不要求机械映射每条规则为独立组件。
+- Development Execution 在存在代码变更时正式消费 Code Quality Rules；Worker 仍保留契约边界内的实现自治，不因质量规则引入具体语言 / 框架约束。
+- Task Verification 与最终 Verification Convergence 在机器难以稳定判定代码质量时，使用 Fresh Reviewer / Fresh Verifier 对照同一 Code Quality Rules 审查，避免个人风格偏好成为事实源。
+- Repository Governance 增加 Canonical Rule Document、Rule Source of Truth 与 Applicable Rules 消费规则；阶段文档仅引用规则，不复制规则正文。
+- README、Human Overview 与文档索引同步 Workflow / Rules 新导航与消费方式。
+- `manifest.yaml` `schema_version` 升级为 `2`，正式表达阶段文档与规则文档两类规范事实源。
+
+### Notes｜说明
+
+- 34 份正式阶段文档数量保持不变；本版本没有新增流程阶段，也没有搬动 `global-contracts.md`。
+- Code Quality Rules 只定义普遍质量原则；具体语言、框架、格式、静态检查与 Reviewer 机制由目标项目及 Harness 动态决定。
+- 当前状态继续为 `candidate`。
+
 ## 0.3.0 - 2026-08-25
 
 ### Added｜新增
