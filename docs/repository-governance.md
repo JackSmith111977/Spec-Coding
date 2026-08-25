@@ -75,7 +75,7 @@ VERSION
   ↓
 manifest.yaml
   ↓
-global-contracts.md + Applicable Rules
+Applicable Rules
   ↓
 harness-compilation-protocol.md
   ↓
@@ -84,7 +84,7 @@ harness-compilation-protocol.md
 必要上游引用 / Exception Workflow
 ```
 
-Applicable Rules 由 `manifest.yaml` 的 `rule_documents` 解析；不要求所有阶段无差别加载全部专项规则。
+Applicable Rules 由 `manifest.yaml` 的 `rule_documents` 解析；`global-execution` 始终加载，其他专项规则只在适用阶段 / 任务加载。
 
 Harness 达到 `Ready` 后，阶段执行继续以正式 Workflow 文档与 Applicable Rules 为权威依据；Harness 只是承载这些要求的执行框架，不替代规范事实源。
 
