@@ -142,7 +142,7 @@ rules:
   - Only documents listed under stages.documents are canonical stage documents for this version.
   - Documents listed under rule_documents are canonical cross-stage rules and are not counted as canonical stage documents.
   - Human overview README files, exception workflows, and navigation/governance documents are not counted as canonical stage documents.
-  - Harness generation should follow harness-compilation-protocol.md; applicable stage documents, rule documents, and global contracts remain the source requirements.
+  - Harness generation should follow harness-compilation-protocol.md; applicable stage documents and rule documents remain the source requirements.
   - Exception flows are cross-stage workflows and are loaded only when applicable.
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
   - Add, delete, move, or rename a canonical stage or rule document only together with a manifest update.
