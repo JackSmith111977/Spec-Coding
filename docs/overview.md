@@ -45,20 +45,21 @@ Initial Context
 ## 使用方法
 
 1. 先通过本页判断当前任务所处阶段。
-2. 阅读对应阶段概要，了解目标、输入、输出和完成条件。
-3. 将下面的 Prompt 交给 Agent，让 Agent 阅读完整正式流程并自行建立最小充分 Harness。
-4. 执行中若发现上游事实失效，回到最早失效位置纠正，只重新对齐受影响链路。
+2. 让 Agent 执行 `Build Harness`。
+3. Agent 按 [`harness-compilation-protocol.md`](harness-compilation-protocol.md) 完成 `Read → Derive → Compose → Verify`，以本地仓库为主要事实源，复用已有能力并只补真实缺口。
+4. Harness 达到 `Ready` 后，按当前阶段正式文档推进；若执行中发现上游事实失效，回到最早失效位置纠正，只重新对齐受影响链路。
 
-## 必读万能 Prompt
+## Harness 构建入口
 
-> **先阅读并理解完整的 Spec Coding 流程，判断当前任务所处阶段，以及该阶段的目标、输入、输出和完成条件。**
->
-> **基于当前 Agent 的原生能力、项目环境和已有上下文，识别完成当前阶段所缺少的能力，并按需选择或建立最小充分 Harness，包括 Rules、Skills、Tools、Subagents、Checklists 等；已有能力足够时不要额外增加 Harness。**
->
-> **执行过程中根据新发现的能力缺口动态调整 Harness，始终以流程目标和验证结果为准，避免过度设计。**
+```text
+Build Harness
+```
+
+该入口不要求 Human 手工拆解 Harness。Agent 负责读取有效规范与目标项目、推导需求、组合最小充分 Harness，并验证覆盖、语义忠实、最小性与可执行性。
 
 ## 详细规则
 
+- Harness 编译协议：[`harness-compilation-protocol.md`](harness-compilation-protocol.md)
 - 正式文档清单：[`manifest.yaml`](manifest.yaml)
 - 全局执行契约：[`global-contracts.md`](global-contracts.md)
 - 规范术语：[`glossary.md`](glossary.md)
