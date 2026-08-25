@@ -1,8 +1,9 @@
-schema_version: 1
-spec_coding_version: "0.3.0"
+schema_version: 2
+spec_coding_version: "0.4.0"
 status: candidate
 canonical_root: docs
 canonical_document_count: 34
+canonical_rule_document_count: 2
 history_policy: git
 
 navigation:
@@ -10,6 +11,7 @@ navigation:
   documentation_index: README.md
   human_overview: overview.md
   harness_compilation: harness-compilation-protocol.md
+  rules_index: rules/README.md
   exception_flows: exception-flows
   stage_overviews:
     - 01a-project-definition/README.md
@@ -25,6 +27,19 @@ governance:
   global_contracts: global-contracts.md
   repository_governance: repository-governance.md
   glossary: glossary.md
+
+rule_documents:
+  - id: global-execution
+    path: global-contracts.md
+    description: 所有正式阶段默认继承的全局执行规则
+    applies_to: all
+
+  - id: code-quality
+    path: rules/code-quality.md
+    description: 代码产物的通用可理解性、信息质量、变更清晰度与一致性规则
+    applies_to:
+      - development-execution
+      - verification-convergence
 
 terminology:
   glossary: glossary.md
@@ -125,11 +140,12 @@ stages:
 
 rules:
   - Only documents listed under stages.documents are canonical stage documents for this version.
-  - Human overview README files, cross-stage rules, and navigation/governance documents are not counted as canonical stage documents.
-  - Harness generation should follow harness-compilation-protocol.md; canonical stage documents and global contracts remain the source requirements.
-  - Exception flows are cross-stage supplements and are loaded only when applicable.
+  - Documents listed under rule_documents are canonical cross-stage rules and are not counted as canonical stage documents.
+  - Human overview README files, exception workflows, and navigation/governance documents are not counted as canonical stage documents.
+  - Harness generation should follow harness-compilation-protocol.md; applicable stage documents, rule documents, and global contracts remain the source requirements.
+  - Exception flows are cross-stage workflows and are loaded only when applicable.
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
-  - Add, delete, or rename a canonical stage document only together with a manifest update.
-  - Consumers should resolve the repository version first, then read this manifest before loading stage documents.
+  - Add, delete, move, or rename a canonical stage or rule document only together with a manifest update.
+  - Consumers should resolve the repository version first, then read this manifest before loading applicable workflow documents and rule documents.
   - All stage documents inherit global-contracts.md unless a stage defines a stricter rule.
-  - Core terminology and canonical Chinese explanations follow glossary.md; terminology changes that alter workflow semantics require semantic version governance.
+  - Core terminology and canonical Chinese explanations follow glossary.md; terminology changes that alter workflow or rule semantics require semantic version governance.
