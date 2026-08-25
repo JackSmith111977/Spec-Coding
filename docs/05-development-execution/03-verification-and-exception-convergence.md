@@ -22,6 +22,7 @@
 - **Code Reference｜代码引用**：存在代码变更时，以 `code_ref` 指向的 Task Commit 为正式验收对象。
 - **Actual Changes**：由 `code_ref` 对应 Commit、Patch 或无代码任务的实际结果确定。
 - **Local Evidence**：Worker 局部证据，仅作参考和定位。
+- **Applicable Rules｜适用规则**：存在代码变更时，包括 [`Code Quality Rules`](../rules/code-quality.md) 及项目自身规则。
 - **Runtime / Environment**：正式 Gate 所需环境。
 
 ```text
@@ -30,6 +31,8 @@ What to Verify
 What Result to Verify
       +
 Exact Code Reference
+      +
+Applicable Rules
       +
 Where to Verify
         ↓
@@ -48,7 +51,7 @@ Worker Self Verification 不直接视为正式证据，正式验收尽可能对�
 
 存在 `code_ref` 时，Gate 必须针对该代码引用对应的实际变更执行，避免验收对象与 Worker 后续工作区状态漂移。
 
-机器难以判定的复杂 UX、语义行为、代码可维护性或高风险改动，可按任务风险补充 Fresh Reviewer。
+机器难以稳定判定的复杂 UX、语义行为、代码可理解性 / 信息质量 / 变更清晰度 / 一致性或高风险改动，可按任务风险补充 Fresh Reviewer；涉及代码质量时以 Code Quality Rules 为判断依据，不以个人风格偏好替代正式规则。
 
 ---
 
@@ -56,7 +59,7 @@ Worker Self Verification 不直接视为正式证据，正式验收尽可能对�
 
 | 类型 | 典型情况 | 处理方式 |
 |---|---|---|
-| **Implementation Defect** | 实现 Bug、类型错误、测试失败、行为不符合 Task Contract | 返回原 Worker 修复，`Verifying → In Progress`；修复后重新 Local Verification 与 Task Commit |
+| **Implementation Defect** | 实现 Bug、类型错误、测试失败、行为不符合 Task Contract，或明显违反适用代码质量规则 | 返回原 Worker 修复，`Verifying → In Progress`；修复后重新 Local Verification 与 Task Commit |
 | **Integration / Environment Issue** | 集成顺序、运行环境、临时依赖或验证设施异常 | 处理运行条件后重验；必要时暂时阻塞 |
 | **Task Contract Problem** | Boundary、Coverage、Depends On 或 Verification 定义不足 / 失效 | `Verifying → Blocked`，回实施规划纠偏 |
 | **Requirement / Design Problem** | Requirement 歧义、固定设计无法成立、上游冲突 | `Verifying → Blocked`，触发上游纠偏 |
@@ -129,7 +132,7 @@ verdict = blocked
 
 ## 3.7 完成标准
 
-正式 Gate 已针对正确验收对象执行，结果有可复核 Evidence；存在代码变更时 Verification Result 保留实际验收的 `code_ref`；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏；最终明确目标状态。
+正式 Gate 已针对正确验收对象执行，结果有可复核 Evidence；存在代码变更时已按风险检查适用 Code Quality Rules；Verification Result 保留实际验收的 `code_ref`；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏；最终明确目标状态。
 
 ---
 
@@ -137,4 +140,4 @@ verdict = blocked
 
 Verification Result 是 State Commit & Continuous Progression 的直接输入。
 
-> **以独立、确定性优先的 Gate 对可追溯实现结果进行正式验收，证明 Task 是否满足既定 Coverage 与 Done，并在失败时将问题路由到最短正确反馈路径。**
+> **以独立、确定性优先的 Gate 对可追溯实现结果进行正式验收，并在需要人工推理的代码质量问题上使用统一 Rule 作为判断依据，证明 Task 是否满足既定 Coverage 与 Done，并在失败时将问题路由到最短正确反馈路径。**

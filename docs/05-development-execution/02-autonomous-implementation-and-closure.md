@@ -42,6 +42,8 @@ Execution Unit
 
 Worker 在 Task Contract 内自主选择具体实施路径，可动态搜索 / 阅读代码、选择文件与局部结构、增加辅助代码 / 测试 / 调试脚本，并利用 API、Browser、DB、Logs、Trace 等运行时能力理解真实行为。
 
+存在代码变更时，Worker 同时遵守当前项目已有约束与适用的 [`Code Quality Rules`](../rules/code-quality.md)。规则只约束通用的可理解性、信息质量、变更清晰度与一致性，不替代项目自身语言 / 框架规范，也不要求为了形式统一扩大当前 Task Boundary。
+
 ```text
 Inspect
    ↓
@@ -135,7 +137,7 @@ In Progress → Verifying
 
 ## 2.7 完成标准
 
-Worker 正确消费 Execution Unit，在 Boundary 内实现 Goal，按需获取局部上下文，已知局部问题已通过工具反馈诊断 / 修复，必要 Local Verification 通过；存在 Git 固化变更时 Task Commit 成功并形成 `code_ref`；没有越权改变上游契约，并形成 Verification-ready Result，完成 `In Progress → Verifying`。
+Worker 正确消费 Execution Unit，在 Boundary 内实现 Goal，按需获取局部上下文；存在代码变更时已遵守适用 Code Quality Rules 与项目已有约束；已知局部问题已通过工具反馈诊断 / 修复，必要 Local Verification 通过；存在 Git 固化变更时 Task Commit 成功并形成 `code_ref`；没有越权改变上游契约，并形成 Verification-ready Result，完成 `In Progress → Verifying`。
 
 若当前 Task Contract 内无法解决阻塞问题，则以 `Blocked` 退出并交由异常 / 纠偏机制；若阻塞来自需要改变既定语义或高影响决策，则按 Authority Contract 升级，而不是由 Worker 默认补全。
 
@@ -163,4 +165,4 @@ Verification & Exception Convergence
 
 因此，本步骤的最终职责是：
 
-> **让 Worker 在既定任务契约与清晰权限边界内自主完成实现、运行反馈与局部修复，并以可追溯 Task Commit 将结果收敛为可由独立 Gate 正式验收的稳定实现。**
+> **让 Worker 在既定任务契约、清晰权限边界与适用代码质量规则内自主完成实现、运行反馈与局部修复，并以可追溯 Task Commit 将结果收敛为可由独立 Gate 正式验收的稳定实现。**

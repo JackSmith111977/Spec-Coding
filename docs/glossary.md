@@ -18,7 +18,9 @@
 | Specification-Driven Development (SDD) | 规格驱动开发 | 以明确需求、设计、任务和验证契约驱动实施的开发方式。 |
 | Canonical Corpus | 规范文档集 | 当前版本唯一有效的正式文档集合。 |
 | Canonical Source of Truth | 规范事实源 | 当前应被下游视为权威依据的唯一来源。 |
-| Manifest | 清单 | 机器可读的正式文档与阶段结构定义。 |
+| Manifest | 清单 | 机器可读的正式文档、流程与规则结构定义。 |
+| Workflow | 流程 | 规定活动如何按阶段、状态与反馈路径推进的执行路径。 |
+| Rule | 规则 | 执行过程中持续适用的原则、约束或质量要求；本身不负责推进阶段状态。 |
 | Artifact | 产物 | 流程中形成并可被后续阶段消费的结构化结果。 |
 | Requirement | 需求 | 需要实现或改变的业务 / 系统目标与行为。 |
 | Acceptance Criteria (AC) | 验收标准 | 用于明确判断 Requirement 是否成立的可验证标准。 |
@@ -49,10 +51,10 @@
 | Worker Agent | 执行 Agent | 在既定 Task Contract 内完成具体实施的 Agent。 |
 | Subagent | 子 Agent | 为上下文隔离、并行或独立检查而临时委派的 Agent。 |
 | Harness | 执行框架 | 组织 Agent、工具、上下文、状态、规则与验证的运行机制。 |
-| Harness Compilation | Harness 编译 | 将 Spec Coding 流程要求结合目标项目与现有能力，通过固定转换协议生成最小充分 Harness 的过程。 |
-| Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程要求所需的最少 Harness 组件，避免重复能力与过度设计。 |
-| Capability Gap | 能力缺口 | 当前 Agent 或项目环境缺少完成某项流程要求所需的能力。 |
-| Reliability Gap | 可靠性缺口 | 所需能力已经存在，但当前机制无法稳定保证流程要求被执行。 |
+| Harness Compilation | Harness 编译 | 将 Spec Coding 流程与规则结合目标项目与现有能力，通过固定转换协议生成最小充分 Harness 的过程。 |
+| Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程与规则要求所需的最少 Harness 组件，避免重复能力与过度设计。 |
+| Capability Gap | 能力缺口 | 当前 Agent 或项目环境缺少完成某项流程 / 规则要求所需的能力。 |
+| Reliability Gap | 可靠性缺口 | 所需能力已经存在，但当前机制无法稳定保证流程 / 规则要求被执行。 |
 | Context Isolation | 上下文隔离 | 只给执行单元提供最小必要上下文，降低相互干扰。 |
 | Runnable | 当前可执行 | 当前依赖与运行条件均满足，可立即被调度执行。 |
 | Blocked | 阻塞 | 当前对象因缺失条件或未决问题无法继续推进。 |
