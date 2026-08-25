@@ -13,13 +13,17 @@
 ### Added｜新增
 
 - 新增面向 Human 的全流程概要，以及 1A / 1B / 2–7 各阶段概要 README，用于快速理解目标、输入、输出与完成条件。
-- 在根 README 与全流程概要中加入必读万能 Prompt，引导 Agent 读取完整流程并按需建立最小充分 Harness。
+- 新增 `docs/harness-compilation-protocol.md`，将 Harness 构建收敛为 `Read → Derive → Compose → Verify` 四步协议，并建立 Local First、Reuse before Add、Minimum Sufficient Harness、Constraint Preservation 与 Deterministic First 等原则。
+- 在文档索引与 `manifest.yaml` 中增加 Harness 编译协议和 Exception Flow 的跨阶段导航入口。
 
 ### Changed｜调整
 
+- 将根 README 与全流程概要中的“必读万能 Prompt”替换为轻量 `Build Harness` 入口，由 Agent 内部完成 Harness 编译协议，不把转换步骤转嫁给 Human。
+- 明确 Harness 构建优先基于 Spec Coding 与目标项目的本地一致工作区，远程接口主要用于获取、同步、版本确认与必要补充。
+- 明确 Harness 只承载正式阶段文档和 Global Contracts 的流程要求，不替代规范事实源；生成时优先复用现有能力，只补真实 Capability Gap / Reliability Gap。
 - 将根 `README.md` 收敛为项目简介、快速使用方法与文档入口。
 - 将全局执行契约独立为 `docs/global-contracts.md`，将仓库维护与版本管理独立为 `docs/repository-governance.md`。
-- 将 `docs/README.md` 收敛为纯文档索引，提高 Human 阅读信噪比。
+- 将 `docs/README.md` 收敛为文档索引，并补充跨阶段规则入口。
 
 ## 0.2.0 - 2026-08-21
 
