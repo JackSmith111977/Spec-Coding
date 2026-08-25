@@ -49,6 +49,10 @@
 | Worker Agent | 执行 Agent | 在既定 Task Contract 内完成具体实施的 Agent。 |
 | Subagent | 子 Agent | 为上下文隔离、并行或独立检查而临时委派的 Agent。 |
 | Harness | 执行框架 | 组织 Agent、工具、上下文、状态、规则与验证的运行机制。 |
+| Harness Compilation | Harness 编译 | 将 Spec Coding 流程要求结合目标项目与现有能力，通过固定转换协议生成最小充分 Harness 的过程。 |
+| Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程要求所需的最少 Harness 组件，避免重复能力与过度设计。 |
+| Capability Gap | 能力缺口 | 当前 Agent 或项目环境缺少完成某项流程要求所需的能力。 |
+| Reliability Gap | 可靠性缺口 | 所需能力已经存在，但当前机制无法稳定保证流程要求被执行。 |
 | Context Isolation | 上下文隔离 | 只给执行单元提供最小必要上下文，降低相互干扰。 |
 | Runnable | 当前可执行 | 当前依赖与运行条件均满足，可立即被调度执行。 |
 | Blocked | 阻塞 | 当前对象因缺失条件或未决问题无法继续推进。 |
