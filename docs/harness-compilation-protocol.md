@@ -44,12 +44,12 @@ Harness Ready
 
 随后以本地确定性搜索和文件读取为主，建立生成 Harness 所需的最小完整认知，重点识别：
 
-- 当前有效的 `VERSION`、`manifest.yaml`、Global Contracts（全局契约）、Applicable Rules（适用规则）与适用阶段文档；
+- 当前有效的 `VERSION`、`manifest.yaml`、Applicable Rules（适用规则）与适用阶段文档；
 - 当前任务适用的异常流程与关键上游引用；
 - Gate、Verification、Traceability、Human / Agent Authority、Code Quality 等持续约束；
 - 目标项目已有 Harness、规则、工具、脚本、CI 与 Agent 原生能力。
 
-Applicable Rules 以 `manifest.yaml` 中的 `rule_documents` 为机器可读入口，只加载与当前阶段 / 任务相关的规则，不要求无差别装载全部规则正文。
+Applicable Rules 以 `manifest.yaml` 中的 `rule_documents` 为机器可读入口；其中 `global-execution` 始终适用，其他专项规则只在对应阶段 / 任务加载，不要求无差别装载全部规则正文。
 
 **完成条件**
 
