@@ -10,6 +10,33 @@
 
 ## Unreleased｜未发布
 
+## 0.5.0 - 2026-08-28
+
+### Added｜新增
+
+- 完成 Debug & Defect Resolution（调试与缺陷解决）四阶段 Exception Workflow（异常流程）：Failure Intake & Reproduction、Evidence Collection & Fault Localization、Root Cause Confirmation & Correction Routing、Fix Verification & Failure Convergence。
+- 新增 `docs/exception-flows/README.md` 与 Debug Workflow 概要 README，建立异常流程的 Human 导航入口。
+- 新增 `Failure Baseline`、`Fault Localization Result`、`Root Cause Resolution` 与 `Failure Closure` 等跨阶段 Debug 产物契约。
+- `manifest.yaml` 新增 `exception_workflows` 与 `canonical_exception_document_count`，正式登记 4 份 Canonical Exception Workflow Document（正式异常流程文档）。
+- Glossary 新增 Main Workflow、Exception Workflow、Reproduction、Failure Baseline、Fault Boundary、Root Cause、Root Cause Resolution、Failure Closure 与 Reverification 等规范术语。
+
+### Changed｜调整
+
+- `manifest.yaml` `schema_version` 升级为 `3`，机器可读规范从 Stage Documents + Rule Documents 扩展为 Stage + Rule + Exception Workflow 三类正式文档。
+- Global Contracts 从“所有正式阶段默认继承”扩展为“所有正式 Workflow 默认继承”，使 Exception Workflow 正式继承 Tailoring、Open Item 与 Human / Agent Authority 等全局规则。
+- Harness Compilation Protocol 通过 `manifest.yaml.exception_workflows` 识别并仅在 Trigger 成立时加载 Exception Workflow；Applicable Workflow 明确为 Current Main Workflow + Triggered Exception Workflow。
+- Development Execution 在 Task Verification 无法可靠归因时进入 Debug Workflow；可明确归因的普通 Implementation Defect 仍保持最短局部修复路径。
+- Verification Convergence 在 `Unresolved` Finding 需要进一步诊断故障边界或根因时进入 Debug Workflow，并在获得 Root Cause / Failure Closure Evidence 后回到原 Finding 流程继续收敛。
+- 明确 Debug 只形成调查、纠正与 Failure Closure Evidence，不复制或替代 Task、Finding、Open Item、Verification 等主流程权威状态；`Failure Closure = Resolved` 不等于 Requirement `Verified`。
+- Repository Governance 增加 Canonical Exception Workflow Document 与 Exception Workflow Source of Truth 治理规则。
+- README、Human Overview 与文档索引同步异常流程入口、主流程回接关系与 `0.5.0` 版本信息。
+
+### Notes｜说明
+
+- Main Workflow 仍保持 34 份正式阶段文档，Rule Documents 仍为 2 份；新增 4 份正式 Exception Workflow 文档，不引入 Stage 8。
+- Debug Workflow 按需触发，不要求普通 Task 内可局部闭环的 `Diagnose → Repair → Recheck` 全部升级为正式异常流程。
+- 当前状态继续为 `candidate`；Scenario Stress Test、Fresh-Agent Blind Run 与真实项目 Pilot 仍待完成。
+
 ## 0.4.0 - 2026-08-25
 
 ### Added｜新增
