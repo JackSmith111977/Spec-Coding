@@ -1,6 +1,6 @@
 # Harness Compilation Protocol｜Harness 编译协议
 
-本协议定义如何将 Spec Coding 的 Workflow（流程）与 Rules（规则）稳定转换为当前项目可执行的最小 Harness（执行框架）。
+本协议定义如何将 Spec Coding 的 Workflow（流程）与 Rules（规则）稳定转换为当前项目可执行的最小 Harness（执行框架）。Workflow 包括当前适用的 Main Workflow（主流程）以及由实际异常触发的 Exception Workflow（异常流程）。
 
 对使用者保持单一入口，例如：
 
@@ -44,22 +44,31 @@ Harness Ready
 
 随后以本地确定性搜索和文件读取为主，建立生成 Harness 所需的最小完整认知，重点识别：
 
-- 当前有效的 `VERSION`、`manifest.yaml`、Applicable Rules（适用规则）与适用阶段文档；
-- 当前任务适用的异常流程与关键上游引用；
+- 当前有效的 `VERSION`、`manifest.yaml`、Applicable Rules（适用规则）与当前 Main Workflow 文档；
+- `manifest.yaml` 中已登记的 Exception Workflow，以及当前 Failure / Finding 是否触发其中某一流程；
+- 当前任务需要的关键上游引用；
 - Gate、Verification、Traceability、Human / Agent Authority、Code Quality 等持续约束；
 - 目标项目已有 Harness、规则、工具、脚本、CI 与 Agent 原生能力。
 
-Applicable Rules 以 `manifest.yaml` 中的 `rule_documents` 为机器可读入口；其中 `global-execution` 始终适用，其他专项规则只在对应阶段 / 任务加载，不要求无差别装载全部规则正文。
+Applicable Rules 以 `manifest.yaml` 中的 `rule_documents` 为机器可读入口；其中 `global-execution` 始终适用，其他专项规则只在对应阶段 / 任务加载。Exception Workflow 以 `exception_workflows` 为机器可读入口，仅在其 Trigger（触发条件）成立时加载对应正式文档，不要求常驻全部异常流程。
+
+```text
+Applicable Workflow
+=
+Current Main Workflow
++
+Triggered Exception Workflow（若有）
+```
 
 **完成条件**
 
-Agent 已能明确判断：当前 Harness 必须保障哪些流程与规则要求，以及哪些要求已经被现有环境可靠覆盖。
+Agent 已能明确判断：当前 Harness 必须保障哪些流程与规则要求、是否存在已触发的 Exception Workflow，以及哪些要求已经被现有环境可靠覆盖。
 
 ---
 
 ### 2.2 Derive｜Harness 需求推导
 
-对照适用 Workflow / Rules 与现有能力，识别真正需要 Harness 补齐的缺口。
+对照 Applicable Workflow / Rules 与现有能力，识别真正需要 Harness 补齐的缺口。
 
 重点关注：
 
@@ -155,9 +164,9 @@ Create
 
 #### Coverage｜覆盖完整
 
-关键流程与规则要求均得到可靠保障，尤其是 MUST / MUST NOT、Gate、Verification、Human / Agent Authority、Blocking Condition、Traceability 与适用质量规则。
+关键流程与规则要求均得到可靠保障，尤其是 MUST / MUST NOT、Gate、Verification、Human / Agent Authority、Blocking Condition、Traceability 与适用质量规则；存在已触发 Exception Workflow 时，其必要语义同样必须被覆盖。
 
-不要求每条规则都生成独立文件，只要求其语义被可靠满足。
+不要求每条规则或异常流程步骤都生成独立文件，只要求其语义被可靠满足。
 
 #### Fidelity｜语义忠实
 
@@ -223,4 +232,4 @@ Harness 编译不要求将 Spec Coding 完全形式化，也不要求引入复�
 
 Agent 可以在内部自由完成理解与推理，但最终结果必须满足：
 
-> **完整承载必要 Workflow 与 Rules 语义，只补真实缺口，并以最低复杂度形成可执行、可验证的 Harness。**
+> **完整承载当前 Applicable Workflow 与 Rules 语义，只补真实缺口，并以最低复杂度形成可执行、可验证的 Harness。**
