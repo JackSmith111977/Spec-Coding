@@ -1,6 +1,6 @@
 # Global Contracts｜全局执行契约
 
-本文件定义所有正式阶段默认继承的通用规则。阶段文档存在更严格规则时，以更严格规则为准。
+本文件定义所有正式 Workflow（包括 Main Workflow 与 Exception Workflow）默认继承的通用规则。具体 Workflow 存在更严格规则时，以更严格规则为准。
 
 ## Terminology｜术语
 
@@ -21,7 +21,7 @@
 | `Standard` | 一般 Feature 或常规跨层变化。 |
 | `Deep` | 高风险、高不确定、跨系统或难回滚变化。 |
 
-阶段责任可以被已有有效证据直接满足，但以下内容不能因裁剪而消失：
+Workflow 责任可以被已有有效证据直接满足，但以下内容不能因裁剪而消失：
 
 - Requirement / Scope / Acceptance Criteria 的正确性。
 - Requirement → Design → Task → Change → Verification 的 Traceability（可追溯性）。
@@ -35,7 +35,7 @@
 
 ## Open Item｜开放项
 
-Open Item 表示尚未解决、需要后续阶段继续承接的具体问题或决策。
+Open Item 表示尚未解决、需要后续阶段或 Workflow 继续承接的具体问题或决策。
 
 最小字段：
 
