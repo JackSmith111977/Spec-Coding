@@ -57,12 +57,29 @@ Worker Self Verification 不直接视为正式证据，正式验收尽可能对�
 
 ## 3.4 归因失败并分流异常
 
+失败应先基于现有 Evidence 尝试归因；只有能够可靠判断所属层级时，才直接进入对应修复 / 纠偏路径。
+
 | 类型 | 典型情况 | 处理方式 |
 |---|---|---|
 | **Implementation Defect** | 实现 Bug、类型错误、测试失败、行为不符合 Task Contract，或明显违反适用代码质量规则 | 返回原 Worker 修复，`Verifying → In Progress`；修复后重新 Local Verification 与 Task Commit |
 | **Integration / Environment Issue** | 集成顺序、运行环境、临时依赖或验证设施异常 | 处理运行条件后重验；必要时暂时阻塞 |
 | **Task Contract Problem** | Boundary、Coverage、Depends On 或 Verification 定义不足 / 失效 | `Verifying → Blocked`，回实施规划纠偏 |
 | **Requirement / Design Problem** | Requirement 歧义、固定设计无法成立、上游冲突 | `Verifying → Blocked`，触发上游纠偏 |
+
+```text
+Gate Failed
+    ↓
+Can attribute reliably?
+   ┌────┴────┐
+  Yes        No
+   ↓          ↓
+Existing     Debug & Defect Resolution
+Routing      Exception Workflow
+```
+
+若异常无法可靠归因、需要跨层定位或现有证据不足以判断最早失效位置，应进入 [`Debug & Defect Resolution`](../exception-flows/debug-and-defect-resolution/README.md)。Debug 负责形成 Root Cause / Correction / Failure Closure Evidence，正式 Task 状态仍由当前 Development Execution 流程写回，不由异常流程维护并行状态。
+
+对于可明确归因的 Implementation Defect，仍优先保持最短局部修复路径：
 
 ```text
 Verifying
@@ -132,12 +149,12 @@ verdict = blocked
 
 ## 3.7 完成标准
 
-正式 Gate 已针对正确验收对象执行，结果有可复核 Evidence；存在代码变更时已按风险检查适用 Code Quality Rules；Verification Result 保留实际验收的 `code_ref`；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏；最终明确目标状态。
+正式 Gate 已针对正确验收对象执行，结果有可复核 Evidence；存在代码变更时已按风险检查适用 Code Quality Rules；Verification Result 保留实际验收的 `code_ref`；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏，无法可靠归因的问题进入 Debug & Defect Resolution；最终明确目标状态或异常承接路径。
 
 ---
 
 ## 3.8 下游使用约定
 
-Verification Result 是 State Commit & Continuous Progression 的直接输入。
+Verification Result 是 State Commit & Continuous Progression 的直接输入；进入 Debug 的异常在形成可信 Resolution Evidence 后回到对应 Owner Stage，再由主流程继续状态收敛。
 
-> **以独立、确定性优先的 Gate 对可追溯实现结果进行正式验收，并在需要人工推理的代码质量问题上使用统一 Rule 作为判断依据，证明 Task 是否满足既定 Coverage 与 Done，并在失败时将问题路由到最短正确反馈路径。**
+> **以独立、确定性优先的 Gate 对可追溯实现结果进行正式验收，并在失败时先完成可靠归因；明确问题走最短修复路径，无法可靠归因的问题交由 Debug 异常流程定位，再回到既有事实源继续推进。**
