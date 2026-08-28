@@ -1,9 +1,10 @@
-schema_version: 2
-spec_coding_version: "0.4.0"
+schema_version: 3
+spec_coding_version: "0.5.0"
 status: candidate
 canonical_root: docs
 canonical_document_count: 34
 canonical_rule_document_count: 2
+canonical_exception_document_count: 4
 history_policy: git
 
 navigation:
@@ -12,7 +13,7 @@ navigation:
   human_overview: overview.md
   harness_compilation: harness-compilation-protocol.md
   rules_index: rules/README.md
-  exception_flows: exception-flows
+  exception_flows: exception-flows/README.md
   stage_overviews:
     - 01a-project-definition/README.md
     - 01b-project-understanding/README.md
@@ -31,7 +32,7 @@ governance:
 rule_documents:
   - id: global-execution
     path: global-contracts.md
-    description: 所有正式阶段默认继承的全局执行规则
+    description: 所有正式 Workflow 默认继承的全局执行规则
     applies_to: all
 
   - id: code-quality
@@ -138,14 +139,31 @@ stages:
       - 07-process-review-improvement/05-improvement-design.md
       - 07-process-review-improvement/06-implementation-and-validation.md
 
+exception_workflows:
+  - id: debug-and-defect-resolution
+    name: debug-and-defect-resolution
+    description: 调试与缺陷解决
+    applies_to: all
+    entry: exception-flows/debug-and-defect-resolution/README.md
+    triggers:
+      - failure-signal
+      - unexpected-behavior
+      - unreliable-attribution
+      - unresolved-finding
+    documents:
+      - exception-flows/debug-and-defect-resolution/01-failure-intake-and-reproduction.md
+      - exception-flows/debug-and-defect-resolution/02-evidence-collection-and-fault-localization.md
+      - exception-flows/debug-and-defect-resolution/03-root-cause-confirmation-and-correction-routing.md
+      - exception-flows/debug-and-defect-resolution/04-fix-verification-and-failure-convergence.md
+
 rules:
   - Only documents listed under stages.documents are canonical stage documents for this version.
   - Documents listed under rule_documents are canonical cross-stage rules and are not counted as canonical stage documents.
-  - Human overview README files, exception workflows, and navigation/governance documents are not counted as canonical stage documents.
-  - Harness generation should follow harness-compilation-protocol.md; applicable stage documents and rule documents remain the source requirements.
-  - Exception flows are cross-stage workflows and are loaded only when applicable.
+  - Documents listed under exception_workflows.documents are canonical exception workflow documents and are loaded only when their trigger applies.
+  - Human overview README files and navigation/governance documents are not counted as canonical stage, rule, or exception workflow documents.
+  - Harness generation should follow harness-compilation-protocol.md; applicable stage, exception workflow, and rule documents remain the source requirements.
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
-  - Add, delete, move, or rename a canonical stage or rule document only together with a manifest update.
+  - Add, delete, move, or rename a canonical stage, rule, or exception workflow document only together with a manifest update.
   - Consumers should resolve the repository version first, then read this manifest before loading applicable workflow documents and rule documents.
-  - All stage documents inherit global-contracts.md unless a stage defines a stricter rule.
+  - All formal workflows inherit global-contracts.md unless a workflow defines a stricter rule.
   - Core terminology and canonical Chinese explanations follow glossary.md; terminology changes that alter workflow or rule semantics require semantic version governance.
