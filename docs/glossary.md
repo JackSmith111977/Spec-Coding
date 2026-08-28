@@ -1,6 +1,6 @@
 # Glossary｜术语表
 
-本文件定义 Spec Coding 文档中的 Canonical Terminology（规范术语）。它属于治理文档，不计入 34 份正式阶段文档。
+本文件定义 Spec Coding 文档中的 Canonical Terminology（规范术语）。它属于治理文档，不计入正式 Workflow 文档。
 
 ## 使用规则
 
@@ -9,7 +9,7 @@
 - 中文解释以**语义准确**为优先，不做机械直译。例如 `Harness` 统一为“执行框架”，不采用字面翻译。
 - Schema 字段、状态值、ID、代码标识等可以保留英文，例如 `status = open`、`code_ref`、`REQ-01`；必要说明使用中文。
 - `Spec Coding` 是整套流程 / 方法名称，不默认对应独立 `Spec` 产物。具体项目存在真实机器规格时，使用 `Technical Contract（技术契约）` 或 `Executable Specification（可执行规格）` 等准确名称。
-- 新增会影响流程理解的核心英文术语时，优先先更新本表，再在阶段文档中使用。
+- 新增会影响流程理解的核心英文术语时，优先先更新本表，再在 Workflow 文档中使用。
 
 ## 核心流程术语
 
@@ -20,6 +20,8 @@
 | Canonical Source of Truth | 规范事实源 | 当前应被下游视为权威依据的唯一来源。 |
 | Manifest | 清单 | 机器可读的正式文档、流程与规则结构定义。 |
 | Workflow | 流程 | 规定活动如何按阶段、状态与反馈路径推进的执行路径。 |
+| Main Workflow | 主流程 | Spec Coding 正常情况下由项目定义 / 认知建立推进到流程复盘改进的主路径。 |
+| Exception Workflow | 异常流程 | 由故障、异常或未决问题按需触发的跨阶段流程，完成处理后将可信结论回交主流程。 |
 | Rule | 规则 | 执行过程中持续适用的原则、约束或质量要求；本身不负责推进阶段状态。 |
 | Artifact | 产物 | 流程中形成并可被后续阶段消费的结构化结果。 |
 | Requirement | 需求 | 需要实现或改变的业务 / 系统目标与行为。 |
@@ -31,7 +33,7 @@
 | Context | 上下文 | 当前任务理解与执行所需的相关信息集合。 |
 | Trace | 追溯链 | 当前对象与其上游 / 下游来源之间的关联链。 |
 | Traceability | 可追溯性 | 能从结果回查其 Requirement、Design、Task、Change 与 Evidence 的能力。 |
-| Handoff | 交接 | 一个阶段将已收敛结果交给下游继续消费的过程。 |
+| Handoff | 交接 | 一个阶段或 Workflow 将已收敛结果交给下游继续消费的过程。 |
 | Tailoring | 流程裁剪 | 根据风险和影响范围动态调整流程执行深度。 |
 | Gate | 门禁 | 必须满足后才能进入下一状态或阶段的准入条件。 |
 
@@ -73,6 +75,18 @@
 | Human Acceptance | 人工验收 | 机器证据不足以替代业务 / UX 判断时，由 Human 完成最终确认。 |
 | Fresh Context | 新上下文 | Reviewer / Verifier 不继承实现过程中的中间推理和偏见。 |
 | Evidence over Claim | 证据优于声明 | 结论以可复核证据为准，而不是以执行者自述为准。 |
+| Reverification | 重新验证 | 在纠正后仅对受影响范围及必要回归重新执行 Verification，并形成新的有效 Evidence。 |
+
+## 异常与调试术语
+
+| English | 中文 | 含义 |
+|---|---|---|
+| Reproduction | 复现 | 在明确条件下重新观察原始 Failure，或建立可靠的替代观察方式。 |
+| Failure Baseline | 故障基线 | 对 Failure 的现象、Expected / Actual、上下文、复现状态与原始 Evidence 的稳定记录。 |
+| Fault Boundary | 故障边界 | 基于 Evidence 已经收敛出的具体异常范围，用于限制后续根因调查空间。 |
+| Root Cause | 根因 | 能够以充分 Evidence 解释关键 Failure 与 Divergence 的底层原因。 |
+| Root Cause Resolution | 根因处置结果 | Root Cause、Invalid Source、Affected Trace、Correction Route 与 Reverification Scope 的结构化结论。 |
+| Failure Closure | 故障关闭结果 | 对当前 Failure 的纠正、原始故障回归、受影响链路 Reverification 与 Resolved / Blocked 状态的最终记录；不替代主流程权威状态。 |
 
 ## 偏差与纠偏术语
 
