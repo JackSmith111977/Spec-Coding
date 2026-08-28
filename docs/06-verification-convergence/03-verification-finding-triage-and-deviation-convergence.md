@@ -36,6 +36,8 @@ Risk（风险）同样独立于二者：风险可以由 Finding 或 Open Item �
 
 Verifier 的 `Suspected Origin` 只作定位线索，不自动改变上游事实源。
 
+当 Finding 为 `Unresolved` 且问题本身仍可可靠观察，但当前证据不足以判断故障边界、根因或最早失效层时，应进入 [`Debug & Defect Resolution`](../exception-flows/debug-and-defect-resolution/README.md) 补充定位与根因证据。Debug 形成的 Root Cause / Failure Closure Evidence 回到本步骤继续 Finding 判定与状态收敛；异常流程不直接替代 Finding 的权威状态。
+
 > **Evidence before Decision｜先看证据，再做判定。**
 
 ---
@@ -74,7 +76,7 @@ Requirement
 - **Implementation Defect**：返回开发实施，在既定 Requirement / Design / Task 内修复。
 - **Upstream Deviation**：从最早失效层开始自上而下重新对齐；涉及事实源变化时执行对应 Confirm / Human Decision。
 - **Accepted Deviation**：仅在 Human Decision 后记录接受理由、影响与后续动作，不伪装为 `Pass`。
-- **Unresolved**：保留 Finding 与所需决策，阻止无依据收敛；需要跨阶段持续承接时创建或关联 `OI-xxx`。
+- **Unresolved**：若只是缺失决策或外部信息，保留 Finding 与所需决策；若需要进一步诊断故障边界 / 根因，则进入 Debug & Defect Resolution。需要跨阶段持续承接时创建或关联 `OI-xxx`。
 
 本阶段只负责判定、路由与跟踪，不在当前上下文隐式完成上游修改。
 
@@ -97,6 +99,8 @@ Pass / Fail
 
 若仍失败，带新 Evidence 重新进入 Finding 判定；通过则关闭对应 Finding。若 Finding 关联 `OI-xxx`，只有对应未决问题也已形成明确结论时才同步将 Open Item 更新为 `resolved`。
 
+Debug 返回的 Failure Closure 仅作为当前 Finding 的 Resolution Evidence 输入；Finding 是否 `Resolved / Accepted / Blocked / Open` 仍由本步骤依据完整 Verification Evidence 判定。
+
 > **Affected Trace Only｜只重新对齐并验证受影响链路。**
 
 ---
@@ -113,7 +117,7 @@ Pass / Fail
 | `Evidence` | 支撑当前判定的关键证据。 |
 | `Invalid Source` | 最早失效层；无需纠正时省略。 |
 | `Affected Trace` | 受影响 Requirement / Design / Task / Verification 链路。 |
-| `Route` | 返回验证、开发实施、实施规划、技术设计或需求澄清。 |
+| `Route` | 返回验证、开发实施、实施规划、技术设计、需求澄清或 Debug 异常流程。 |
 | `Reverification Scope` | 纠正后需要重新验证的范围。 |
 | `Open Item` | 需要跨阶段继续承接时关联的 `OI-xxx`；无则省略。 |
 | `Status` | Resolved / Accepted / Blocked / Open。 |
@@ -124,8 +128,8 @@ Pass / Fail
 
 ## 3.7 完成标准
 
-所有有效 Finding 已按照 Authority Contract 完成必要判定；可自动处理的问题没有无意义等待 Human，需要改变事实源或接受偏差的问题完成相应 Confirm / Human Decision；Affected Trace 已重新对齐并必要重验 / 回归，需要跨阶段继续承接的问题均关联稳定 `OI-xxx`，无未处理关键 Finding；无法继续的问题明确 `Blocked`。
+所有有效 Finding 已按照 Authority Contract 完成必要判定；可自动处理的问题没有无意义等待 Human，需要改变事实源或接受偏差的问题完成相应 Confirm / Human Decision；需要进一步诊断的问题已由 Debug 提供必要 Root Cause / Failure Closure Evidence；Affected Trace 已重新对齐并必要重验 / 回归，需要跨阶段继续承接的问题均关联稳定 `OI-xxx`，无未处理关键 Finding；无法继续的问题明确 `Blocked`。
 
 最终：**Verification Converged** 或 **Verification Blocked**。
 
-> **基于验证证据按影响与权限完成 Finding 判定，将问题路由到最早失效的事实层完成纠正，并仅重新验证受影响链路；既避免 Agent 越权接受偏差，也避免确定性问题被不必要的人工审批阻塞。**
+> **基于验证证据按影响与权限完成 Finding 判定；可可靠归因的问题直接路由到最早失效层，需要进一步诊断的问题交由 Debug 异常流程补充证据，再回到本阶段完成纠正与验证收敛。**
