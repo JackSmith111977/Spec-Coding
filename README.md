@@ -6,7 +6,7 @@ Spec Coding / SDD（Specification-Driven Development，规格驱动开发）是�
 
 它不尝试规定某一种语言、框架或 Agent，而是把模糊意图逐步收敛为可追溯的 Requirement → Design → Task → Change → Verification，并结合项目上下文，将适用的 Workflow（流程）与 Rules（规则）转换成当前项目真正需要的最小 Harness（执行框架）。
 
-**Version:** [`0.4.0`](VERSION) · **Status:** `candidate`
+**Version:** [`0.5.0`](VERSION) · **Status:** `candidate`
 
 ---
 
@@ -112,7 +112,7 @@ Spec Coding 同时支持 Greenfield（新项目）与 Brownfield（存量项目�
 6. **验证收敛**：独立验证完整 Change Set，并用 Evidence 收敛结果。
 7. **流程复盘改进**：从真实执行证据中改进可复用的 Workflow、Rules 与 Harness 机制。
 
-异常不会被强行塞进 Happy Path：跨阶段 Debug、Defect、Deviation 等问题由独立 Exception Workflow（异常流程）承接。
+异常不会被强行塞进 Happy Path：跨阶段 Failure、Defect 或无法可靠归因的问题由独立 [`Exception Workflow`](docs/exception-flows/README.md) 按需承接。目前已完成 [`Debug & Defect Resolution`](docs/exception-flows/debug-and-defect-resolution/README.md) 四阶段流程，处理异常接管、证据定位、根因确认、纠正路由与故障关闭，并在完成后回接主流程。
 
 ---
 
@@ -136,8 +136,9 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 |---|---|
 | 快速理解整套方法 | [`docs/overview.md`](docs/overview.md) |
 | 查看完整 Workflow / Rules | [`docs/README.md`](docs/README.md) |
+| 处理 Debug / Defect / 难以归因的异常 | [`docs/exception-flows/debug-and-defect-resolution/README.md`](docs/exception-flows/debug-and-defect-resolution/README.md) |
 | 把 Spec Coding 适配到一个项目 | [`docs/harness-compilation-protocol.md`](docs/harness-compilation-protocol.md) |
-| 查看所有阶段共同继承的规则 | [`docs/global-contracts.md`](docs/global-contracts.md) |
+| 查看所有 Workflow 共同继承的规则 | [`docs/global-contracts.md`](docs/global-contracts.md) |
 | 查看通用代码质量原则 | [`docs/rules/code-quality.md`](docs/rules/code-quality.md) |
 | 查术语与规范中文解释 | [`docs/glossary.md`](docs/glossary.md) |
 | 维护或演进 Spec Coding 本身 | [`docs/repository-governance.md`](docs/repository-governance.md) |
@@ -148,7 +149,7 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 
 ## Project status
 
-当前版本仍处于 `candidate` 阶段。正式阶段文档、Rules 与 Harness Compilation Protocol 已建立版本治理，但进入 `1.0.0` 前仍需要 Scenario Stress Test（场景压力测试）、Fresh-Agent Blind Run（新 Agent 盲跑）与真实项目 Pilot（试运行）。
+当前版本仍处于 `candidate` 阶段。Main Workflow、Rules、Debug Exception Workflow 与 Harness Compilation Protocol 已建立版本治理，但进入 `1.0.0` 前仍需要 Scenario Stress Test（场景压力测试）、Fresh-Agent Blind Run（新 Agent 盲跑）与真实项目 Pilot（试运行）。
 
 如果你第一次来到这里，建议从 [`Spec Coding 全流程概要`](docs/overview.md) 开始。
 
