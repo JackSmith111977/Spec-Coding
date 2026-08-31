@@ -28,7 +28,7 @@
 
 已有 Evidence 仍然有效时优先复用；Cross-Task、关键 Gate、已失效 Evidence 或仍有缺口的部分重新执行。
 
-存在代码变更时，同时确认适用的 [`Code Quality Rules`](../../../rules/code-quality.md) 与项目自身规则；只验证与当前 Change Set、风险和影响范围相关的规则，不机械扩大审查范围。
+存在代码变更时，同时确认适用的 [`Code Quality Rules`](../../../rules/code-quality.md)、[`Agent Delegation & Coordination Rules`](../../../rules/agent-delegation-and-coordination.md) 与项目自身规则；只验证与当前 Change Set、风险和影响范围相关的规则，不机械扩大审查范围。
 
 ---
 
@@ -44,11 +44,13 @@
 
 ## 2.5 Independent Review 与 Human Acceptance
 
-对于需要跨链路推理、correctness / regression / security / boundary 等高风险内容，可使用 Fresh Verifier 独立审查；规模和风险较大时可并行多个 Verifier，再汇总结论。
+对于需要跨链路推理、correctness / regression / security / boundary 等高风险内容，可使用 Fresh Reviewer 独立审查；规模和风险较大时可并行多个 Reviewer，再由 Main Agent 汇总结论。
 
-存在代码变更时，对机器难以稳定判定的可理解性、信息质量、变更清晰度与一致性，可按风险使用 Fresh Verifier 对照 Code Quality Rules 审查；项目自身语言、框架或格式约束仍以项目规则和确定性工具为准。
+`Verifier` 表示本 Workflow 中承担验证职责的执行者 / 机制，`Reviewer` 则是 Agent Delegation & Coordination Rules 中用于独立推理审查的 Subagent Role。Verifier 可以是确定性工具、Agent 或组合机制；Reviewer 只在独立推理有真实价值时使用，不替代 Deterministic Verification。
 
-Writer / Verifier 尽量分离，审查主动寻找反例，以 Evidence 而非 Agent 声明作为通过依据，也不以个人风格偏好替代正式规则。
+存在代码变更时，对机器难以稳定判定的可理解性、信息质量、变更清晰度与一致性，可按风险使用 Fresh Reviewer 对照 Code Quality Rules 审查；项目自身语言、框架或格式约束仍以项目规则和确定性工具为准。
+
+Writer / Reviewer 尽量分离，审查主动寻找反例，以 Evidence 而非 Agent 声明作为通过依据，也不以个人风格偏好替代正式规则。Reviewer 的 Model / Thinking / Context 由 Harness 根据当前 Runtime、任务复杂度与风险动态选择；复杂 Review 的有效能力不应明显低于被审查结果所需能力，但不把具体模型写入 Verification Artifact。
 
 对真实用户端到端、UI / UX、视觉体验或业务最终确认场景，执行必要 Human Acceptance。进入 Human Acceptance 前同时遵循 [`Human-Agent Collaboration Rules`](../../../rules/human-agent-collaboration.md)：优先向 Human 提供 Requirement / AC、实际 Change、已有 Deterministic Verification、已知 Finding 与本次真正需要人工判断的内容，使 Human 不需要从原始 Change Set 自行重建上下文。
 
@@ -68,7 +70,9 @@ Evidence
 Finding
 ```
 
-Verifier 对失败或争议项记录现象、复现方式、Evidence、影响 / 严重性和 `Suspected Origin`，但不直接修改业务实现，也不越权改变 Requirement / Design 等事实源。
+Reviewer / Verifier 对失败或争议项记录现象、复现方式、Evidence、影响 / 严重性和 `Suspected Origin`，但不直接修改业务实现，也不越权改变 Requirement / Design 等事实源。
+
+如果当前失败来自验证 Agent / Model / Tool 本身的 Capability Problem，而不是被测对象，应先由 Harness 调整 Context、Thinking、Model、Tool 或 Fallback 后重新验证，不把能力不足误写成业务 Finding 或 Human Authority Escalation。
 
 后续由 Verification Finding Triage 按全局 Human / Agent Authority Contract 判定：证据明确且不改变既定语义契约的 Invalid Finding、Verification Issue、Implementation Defect 可由 Agent Autonomous 分类和路由；涉及 Requirement / AC / 固定 Design 等事实源变化、Accepted Deviation 或其他 Human 权限边界时，再进入对应 Confirm / Human Decision。
 
@@ -88,6 +92,7 @@ Verifier 对失败或争议项记录现象、复现方式、Evidence、影响 / 
 - Deterministic Verification 已优先执行并形成证据。
 - 必要 Independent Review 和 Human Acceptance 已完成。
 - 存在代码变更时，适用 Code Quality Rules 已按风险验证或明确由已有项目机制覆盖。
+- Reviewer 只承担需要独立推理的审查，不替代确定性 Gate，也未修改被验证业务实现。
 - 所有失败项有可复现 Evidence 与清晰 Finding。
 - 验证过程中未修改业务实现。
 - 未通过 / 未验证 / 有争议结果均已准备移交下一阶段。
@@ -110,4 +115,4 @@ Verification Baseline
 Verification Results Ready
 ```
 
-> **通过确定性工具、独立 Agent 与必要的人工验收，对完整变更进行只读验证，并以适用正式规则约束机器难以判定的代码质量判断，将所有结果沉淀为可复核 Evidence 与 Findings，为后续按权限完成偏差判定与收敛提供事实依据。**
+> **通过确定性工具、按需独立 Reviewer 与必要人工验收，对完整变更进行只读验证，并以适用正式规则约束机器难以判定的代码质量判断，将所有结果沉淀为可复核 Evidence 与 Findings，为后续按权限完成偏差判定与收敛提供事实依据。**
