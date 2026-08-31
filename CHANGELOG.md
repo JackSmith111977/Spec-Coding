@@ -12,6 +12,36 @@
 
 当前无未发布语义变更。
 
+## 0.9.0 - 2026-08-31
+
+### Added｜新增
+
+- 新增 `docs/rules/agent-delegation-and-coordination.md`，建立 Agent Delegation & Coordination Rules（Agent 委派与协调规则），统一 Main Agent / Subagent 的角色、权限、委派、协调、结果回传与升级语义。
+- 正式定义 `Scout / Researcher / Worker / Reviewer / Oracle` 五类 Canonical Subagent Role（规范子 Agent 角色），按认知职责而非前端 / 后端 / 数据库等技术领域划分。
+- 新增 Effective Runtime Capability（有效运行时能力）、Capability-aware Routing（能力感知路由）、Minimum Sufficient Capability（最低充分能力）、Thinking Effort（思考强度）、Selection Gap（选择缺口）、Capability / Boundary Problem 等运行时能力语义。
+- Harness Compilation 增加 Runtime Capability Discovery：先扫描当前 Coding Agent 实际可用的 Agent / Model / Thinking / Context / Tool / Isolation / Quota，再按需补充 Artificial Analysis、OpenRouter、SWE-bench / Hugging Face Benchmark 或 Local Execution Evidence。
+
+### Changed｜调整
+
+- Global Contracts 明确三层职责：Human / Agent Authority 决定“谁有权决定”，Human-Agent Collaboration 负责 Human ↔ Main Agent，共享认知与决策就绪；Agent Delegation & Coordination 负责 Main Agent ↔ Subagent。
+- Human-Agent Collaboration 在 Multi-Agent Harness 中明确 Main Agent 为默认 Human Interaction Surface；Subagent 的局部 Evidence / Finding / Decision Need 先返回 Main Agent，不建立平行的人机决策链。
+- Formal Task 继续复用现有 Task Contract + Execution Unit，不新增第二套 Delegation Contract；`tasks.md` 不持久化 Agent、Role、Model、Thinking、Fresh / Fork、Workspace、Attempt 或 Wave。
+- Task Set Validation 的大规模独立检查统一映射为 Fresh Reviewer / 其他只读 Subagent；Subagent Review 不成为新的 Gate 或 Task State。
+- Ready Task Scheduling 增强 Single Writer Boundary、冲突上报、Execution Attempt 与最低充分 Agent Capability 语义；Model / Thinking / Workspace 等仍由 Harness 运行时推导。
+- Autonomous Implementation 明确 Worker 是标准 Worker Role；Capability Problem 优先通过 Context / Thinking / Model / Tool / Strategy 调整解决，不误升级为 Human Authority 问题。
+- Task Verification 与 Verification Convergence 统一 Reviewer / Verifier 分工：Verifier 是 Workflow 验证职责，Reviewer 是按需独立推理型 Subagent Role；Reviewer 不替代 Deterministic Gate，也不默认修改被验证实现。
+- State Commit 明确 Worker / Role / Model / Thinking / Attempt / Workspace / Fallback 为短生命周期 Execution Metadata，不写入任务权威事实源。
+- Harness Compilation 将 `Agent Capability` 深化为 `Discover Runtime → Normalize → External Evidence（按需）→ Role + Work Match → Model + Thinking + Context + Tools + Workspace`，并要求 Fallback 继续满足当前 Capability Requirement。
+- README、Human Overview、Rules / Meta Protocol Index、Glossary 与 Manifest 同步 Agent Delegation、能力路由与第 4 份 Canonical Rule Document。
+
+### Notes｜说明
+
+- 本版本不新增 Main Workflow 阶段、Exception Workflow、Meta Protocol 或 Task 状态；34 份 Canonical Stage Documents、4 份 Debug Exception Workflow Documents 与 2 份 Meta Protocol Documents 保持不变。
+- Canonical Rule Documents 从 3 份增加到 4 份；`schema_version` 保持 `4`，因为 Manifest 数据模型没有变化。
+- 具体模型名称、模型排行榜与 Benchmark 数据不成为 Spec Coding 长期事实源；Harness 始终先发现当前 Runtime Candidate Set，再按真实 Selection Gap 决定是否补外部能力证据。
+- `Reviewer ≠ Verification`、`Subagent Result ≠ Canonical Truth`、`Capability Problem ≠ Boundary Problem ≠ Authority Escalation` 均作为兼容现有流程的运行时约束，不引入平行状态机。
+- 当前状态继续为 `candidate`；Scenario Stress Test、Fresh-Agent Blind Run 与 2–3 个真实项目 Pilot 仍是进入 `1.0.0` 前的稳定门槛。
+
 ## 0.8.0 - 2026-08-31
 
 ### Added｜新增
