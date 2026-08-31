@@ -50,7 +50,7 @@ And 后续处理不阻塞上传结果返回
 
 Agent 可基于已经确认的 Scope、Rule 与 Decision 自主起草、检查和补全表达形式；若新增 AC、改变 AC 语义或重新定义“什么算正确”，应进入 Human Decision（Human 决策）。已经由上游明确确认、只是被机械转写为可验证表达的内容不重复请求确认。
 
-涉及 Human Decision 的 AC 语义变化同时遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)：Human 应能够从当前共享上下文理解对应 Requirement、Scope / Rule、发生变化的正确性语义、关键 Evidence 与影响；认知不足时先同步，再确认“什么算正确”。
+涉及 Human Decision 的 AC 语义变化同时遵循 [`Human-Agent Collaboration Rules`](../../../rules/human-agent-collaboration.md)：Human 应能够从当前共享上下文理解对应 Requirement、Scope / Rule、发生变化的正确性语义、关键 Evidence 与影响；认知不足时先同步，再确认“什么算正确”。
 
 ---
 

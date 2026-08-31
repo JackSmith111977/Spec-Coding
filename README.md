@@ -4,9 +4,9 @@
 
 Spec Coding / SDD（Specification-Driven Development，规格驱动开发）是一套面向 AI Coding 的轻量、可追溯开发方法。
 
-它不尝试规定某一种语言、框架或 Agent，而是把模糊意图逐步收敛为可追溯的 Requirement → Design → Task → Change → Verification，并结合项目上下文，将适用的 Workflow（流程）与 Rules（规则）转换成当前项目真正需要的最小 Harness（执行框架）。
+它不尝试规定某一种语言、框架或 Agent，而是把模糊意图逐步收敛为可追溯的 Requirement → Design → Task → Change → Verification，并通过 Meta Protocol（元协议）把适用的 Workflow（流程）、Rules（规则）与项目上下文转换成当前项目真正需要的最小 Harness（执行框架）。
 
-**Version:** [`0.6.0`](VERSION) · **Status:** `candidate`
+**Version:** [`0.7.0`](VERSION) · **Status:** `candidate`
 
 ---
 
@@ -33,7 +33,7 @@ Spec Coding 关注的不是“怎样让 Agent 多写代码”，而是：
 - **Bounded Autonomy｜有边界的自治**：Agent 在明确契约内自主推进，超出边界时回到正确上游。
 - **Human-Agent Collaboration｜人机协作**：Human 不跟踪 Agent 的全部工作上下文，但在关键认知变化与决策边界保持足够的判断上下文。
 - **Verification｜验证**：用可复核证据证明结果，而不是接受 Agent 的自我声明。
-- **Adaptation｜适配**：规则保持稳定，具体 Harness 根据项目已有能力动态生成。
+- **Adaptation｜适配**：规范保持稳定，具体 Harness 根据项目已有能力动态生成。
 
 ---
 
@@ -48,20 +48,22 @@ flowchart LR
     C --> V[Verification]
     V --> E[Evidence]
 
-    W[Workflow] --> H[Harness]
-    Q[Rules] --> H
-    P[Project Context] --> H
+    W[Workflow] --> M[Meta Protocol]
+    Q[Rules] --> M
+    P[Project Context] --> M
+    M --> H[Harness]
 ```
 
-可以把 Spec Coding 理解成三个层次：
+可以把 Spec Coding 理解成三个规范层，以及一个项目侧运行结果：
 
-| Core | 它回答的问题 |
+| Layer | 它回答的问题 |
 |---|---|
 | **Workflow｜流程** | 下一步应该做什么，状态如何推进？ |
 | **Rules｜规则** | 推进过程中必须持续保持什么？ |
-| **Harness｜执行框架** | 如何把 Workflow + Rules 适配成当前项目可执行的机制？ |
+| **Meta Protocol｜元协议** | Spec Coding 如何被项目接入、装配和转换为可执行机制？ |
+| **Harness｜执行框架** | 当前项目最终由哪些 Agent、Rule、Tool、Gate、Script 等机制实际承载这些要求？ |
 
-> **Workflow tells the Agent where to go. Rules tell it what must remain true. Harness makes both executable.**
+> **Workflow tells the Agent where to go. Rules tell it what must remain true. Meta Protocols make them project-executable. Harness is the project-side result.**
 
 ---
 
@@ -75,7 +77,7 @@ flowchart LR
 根据 Spec Coding，为当前项目构建最小充分 Harness，并按当前任务继续推进。
 ```
 
-Agent 应按照 [`Harness Compilation Protocol`](docs/harness-compilation-protocol.md) 完成：
+Agent 应按照 [`Harness Compilation Protocol`](docs/meta-protocols/harness-compilation.md) 完成：
 
 ```text
 Read
@@ -113,7 +115,7 @@ Spec Coding 同时支持 Greenfield（新项目）与 Brownfield（存量项目�
 6. **验证收敛**：独立验证完整 Change Set，并用 Evidence 收敛结果。
 7. **流程复盘改进**：从真实执行证据中改进可复用的 Workflow、Rules 与 Harness 机制。
 
-异常不会被强行塞进 Happy Path：跨阶段 Failure、Defect 或无法可靠归因的问题由独立 [`Exception Workflow`](docs/exception-flows/README.md) 按需承接。目前已完成 [`Debug & Defect Resolution`](docs/exception-flows/debug-and-defect-resolution/README.md) 四阶段流程，处理异常接管、证据定位、根因确认、纠正路由与故障关闭，并在完成后回接主流程。
+异常不会被强行塞进 Happy Path：跨阶段 Failure、Defect 或无法可靠归因的问题由独立 [`Exception Workflow`](docs/workflows/exceptions/README.md) 按需承接。目前已完成 [`Debug & Defect Resolution`](docs/workflows/exceptions/debug-and-defect-resolution/README.md) 四阶段流程，处理异常接管、证据定位、根因确认、纠正路由与故障关闭，并在完成后回接主流程。
 
 ---
 
@@ -137,14 +139,16 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 | 我想…… | 从这里开始 |
 |---|---|
 | 快速理解整套方法 | [`docs/overview.md`](docs/overview.md) |
-| 查看完整 Workflow / Rules | [`docs/README.md`](docs/README.md) |
+| 查看完整文档架构 | [`docs/README.md`](docs/README.md) |
+| 查看 Main / Exception Workflow | [`docs/workflows/README.md`](docs/workflows/README.md) |
 | 查看人机共享认知与决策协作规则 | [`docs/rules/human-agent-collaboration.md`](docs/rules/human-agent-collaboration.md) |
-| 处理 Debug / Defect / 难以归因的异常 | [`docs/exception-flows/debug-and-defect-resolution/README.md`](docs/exception-flows/debug-and-defect-resolution/README.md) |
-| 把 Spec Coding 适配到一个项目 | [`docs/harness-compilation-protocol.md`](docs/harness-compilation-protocol.md) |
-| 查看所有 Workflow 共同继承的规则 | [`docs/global-contracts.md`](docs/global-contracts.md) |
+| 处理 Debug / Defect / 难以归因的异常 | [`docs/workflows/exceptions/debug-and-defect-resolution/README.md`](docs/workflows/exceptions/debug-and-defect-resolution/README.md) |
+| 把 Spec Coding 适配到一个项目 | [`docs/meta-protocols/harness-compilation.md`](docs/meta-protocols/harness-compilation.md) |
+| 查看 Meta Protocol 层 | [`docs/meta-protocols/README.md`](docs/meta-protocols/README.md) |
+| 查看所有 Workflow 共同继承的规则 | [`docs/rules/global-contracts.md`](docs/rules/global-contracts.md) |
 | 查看通用代码质量原则 | [`docs/rules/code-quality.md`](docs/rules/code-quality.md) |
-| 查术语与规范中文解释 | [`docs/glossary.md`](docs/glossary.md) |
-| 维护或演进 Spec Coding 本身 | [`docs/repository-governance.md`](docs/repository-governance.md) |
+| 查术语与规范中文解释 | [`docs/reference/glossary.md`](docs/reference/glossary.md) |
+| 维护或演进 Spec Coding 本身 | [`docs/governance/repository-governance.md`](docs/governance/repository-governance.md) |
 | 查看机器可读规范入口 | [`docs/manifest.yaml`](docs/manifest.yaml) |
 | 查看版本变化 | [`CHANGELOG.md`](CHANGELOG.md) |
 
@@ -152,7 +156,7 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 
 ## Project status
 
-当前版本仍处于 `candidate` 阶段。Main Workflow、Rules、Debug Exception Workflow 与 Harness Compilation Protocol 已建立版本治理，但进入 `1.0.0` 前仍需要 Scenario Stress Test（场景压力测试）、Fresh-Agent Blind Run（新 Agent 盲跑）与真实项目 Pilot（试运行）。
+当前版本仍处于 `candidate` 阶段。Main Workflow、Rules、Debug Exception Workflow 与 Meta Protocol 层（当前包含 Harness Compilation Protocol）已建立版本治理，但进入 `1.0.0` 前仍需要 Scenario Stress Test（场景压力测试）、Fresh-Agent Blind Run（新 Agent 盲跑）与真实项目 Pilot（试运行）。
 
 如果你第一次来到这里，建议从 [`Spec Coding 全流程概要`](docs/overview.md) 开始。
 

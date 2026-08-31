@@ -1,6 +1,6 @@
 # Harness Compilation Protocol｜Harness 编译协议
 
-本协议定义如何将 Spec Coding 的 Workflow（流程）与 Rules（规则）稳定转换为当前项目可执行的最小 Harness（执行框架）。Workflow 包括当前适用的 Main Workflow（主流程）以及由实际异常触发的 Exception Workflow（异常流程）。
+本协议属于 Meta Protocol（元协议），定义如何将 Spec Coding 的 Workflow（流程）与 Rules（规则）稳定转换为当前项目可执行的最小 Harness（执行框架）。Workflow 包括当前适用的 Main Workflow（主流程）以及由实际异常触发的 Exception Workflow（异常流程）。
 
 对使用者保持单一入口，例如：
 

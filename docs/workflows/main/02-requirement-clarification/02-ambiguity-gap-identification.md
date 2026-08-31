@@ -51,7 +51,7 @@
 - 能得到明确结论。
 - 必要时附带当前理解或候选选项，降低沟通成本。
 
-向 Human 发起澄清前，应遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)：先利用现有 Context / Evidence 缩小问题，说明当前理解、关键不确定性及其影响；能够通过项目证据自主确认的信息不转交 Human。若澄清结果会直接改变 Requirement 语义、Scope、核心 Business Rule 或正确性标准，则后续进入对应 Human Decision 前应满足 Decision Readiness（决策就绪）。
+向 Human 发起澄清前，应遵循 [`Human-Agent Collaboration Rules`](../../../rules/human-agent-collaboration.md)：先利用现有 Context / Evidence 缩小问题，说明当前理解、关键不确定性及其影响；能够通过项目证据自主确认的信息不转交 Human。若澄清结果会直接改变 Requirement 语义、Scope、核心 Business Rule 或正确性标准，则后续进入对应 Human Decision 前应满足 Decision Readiness（决策就绪）。
 
 例如：
 

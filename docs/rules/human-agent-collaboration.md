@@ -108,7 +108,7 @@ Evidence（按需深入）
 
 如果 Human 已通过前序共享上下文掌握这些信息，不重复同步；如果关键模型已经变化或 Human 无法从当前上下文可靠判断，应先执行 Cognitive Sync，再请求决策。
 
-Authority 仍由 [`../global-contracts.md`](../global-contracts.md) 的 Human / Agent Authority 决定；Decision Readiness 只约束**如何使已需要的 Human 判断具备有效上下文**，不把 Autonomous 动作升级为人工审批。
+Authority 仍由 [`global-contracts.md`](global-contracts.md) 的 Human / Agent Authority 决定；Decision Readiness 只约束**如何使已需要的 Human 判断具备有效上下文**，不把 Autonomous 动作升级为人工审批。
 
 ---
 

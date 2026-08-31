@@ -28,7 +28,7 @@
 
 已有 Evidence 仍然有效时优先复用；Cross-Task、关键 Gate、已失效 Evidence 或仍有缺口的部分重新执行。
 
-存在代码变更时，同时确认适用的 [`Code Quality Rules`](../rules/code-quality.md) 与项目自身规则；只验证与当前 Change Set、风险和影响范围相关的规则，不机械扩大审查范围。
+存在代码变更时，同时确认适用的 [`Code Quality Rules`](../../../rules/code-quality.md) 与项目自身规则；只验证与当前 Change Set、风险和影响范围相关的规则，不机械扩大审查范围。
 
 ---
 
@@ -50,7 +50,7 @@
 
 Writer / Verifier 尽量分离，审查主动寻找反例，以 Evidence 而非 Agent 声明作为通过依据，也不以个人风格偏好替代正式规则。
 
-对真实用户端到端、UI / UX、视觉体验或业务最终确认场景，执行必要 Human Acceptance。进入 Human Acceptance 前同时遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)：优先向 Human 提供 Requirement / AC、实际 Change、已有 Deterministic Verification、已知 Finding 与本次真正需要人工判断的内容，使 Human 不需要从原始 Change Set 自行重建上下文。
+对真实用户端到端、UI / UX、视觉体验或业务最终确认场景，执行必要 Human Acceptance。进入 Human Acceptance 前同时遵循 [`Human-Agent Collaboration Rules`](../../../rules/human-agent-collaboration.md)：优先向 Human 提供 Requirement / AC、实际 Change、已有 Deterministic Verification、已知 Finding 与本次真正需要人工判断的内容，使 Human 不需要从原始 Change Set 自行重建上下文。
 
 ---
 
