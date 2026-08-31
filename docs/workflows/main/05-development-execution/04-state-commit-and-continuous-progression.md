@@ -46,7 +46,7 @@ blocked
 
 进入 `Blocked` 时至少记录：Reason、Evidence、Affected Contract、Required Action / Decision、Resume From。
 
-`tasks.md` 始终是 Task Definition、Primary Requirement 与 Status 的权威事实源；Worker、Attempt、Workspace 等短生命周期信息由 Harness 独立维护。
+`tasks.md` 始终是 Task Definition、Primary Requirement 与 Status 的权威事实源；Worker / Role、Model、Thinking、Attempt、Workspace、Fallback 等短生命周期 Execution Metadata 由 Harness 独立维护，不写入 Task 核心定义。
 
 ---
 
@@ -163,7 +163,7 @@ Schedule   判断整体状态
 | `requirement_sync` | 当前 `REQ-xx` 的 task completion、integration、AC gate、push 状态及必要代码引用；只是聚合视图，尚未触发时可省略。 |
 | `next_action` | 下一轮调度、继续修复、Requirement Sync、等待 Blocker 或结束开发实施。 |
 
-只保存已确认事实与必要运行时结论，不复制完整执行过程。
+只保存已确认事实与必要运行时结论，不复制完整执行过程，也不把 Agent / Model / Thinking 等 Execution Metadata 固化为新的任务事实源。
 
 ---
 
