@@ -17,7 +17,9 @@
 
 ## 输入
 
-Completed Tasks、`code_ref`、Requirement Sync、Actual Change Set、已有 Evidence 与 Open Item。
+Implementation Baseline、Completed Tasks、`code_ref`、Requirement Sync、Actual Change Set、已有 Evidence 与 Open Item。
+
+其中 Requirement Sync（需求同步）是 Requirement Integration、Requirement AC Gate 与 Requirement Push 状态 / 代码引用的聚合消费视图，不形成新的权威事实源。
 
 ## 输出
 
