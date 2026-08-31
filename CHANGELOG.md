@@ -19,8 +19,10 @@
 ### Changed｜调整
 
 - Global Contracts 将 Human / Agent Authority 与 Human-Agent Collaboration 明确分工：Authority 决定“谁能决定”，Collaboration 决定“什么时候协作、Human 判断前需要同步什么，以及反馈如何回到事实源”。
+- Tailoring 的核心不变量补充 Human-Agent Collaboration：真实 Sync Trigger 或 Human 决策边界成立时，必要 Cognitive Sync / Decision Readiness 不得因流程裁剪而消失，同时不为未触发场景增加人工审批。
 - Harness Compilation Protocol 将 Human-Agent Collaboration 纳入 Applicable Rules 的 Read / Derive / Verify，并明确不得把事件驱动同步机械编译成每阶段 Human Review。
 - Business Understanding 在形成或显著修正关键业务模型时按 Trigger 进行必要 Cognitive Sync，要求 Agent 先完成证据探索，再请求 Human 校正业务语义。
+- Ambiguity & Gap Identification 在向 Human 发起澄清前先基于 Context / Evidence 缩小问题，提供当前理解、不确定性与影响；可自主确认的信息不转交 Human，涉及关键语义决策时继续满足 Decision Readiness。
 - Scope / Rule、Acceptance Criteria 与 Technical Decision 在进入关键 Human Decision / Confirm 前要求满足 Decision Readiness；已有共享上下文仍有效时只同步关键 Delta。
 - Development Execution 保持 Contract-bound Autonomy：普通 Task 内搜索、实现、局部修复与验证不触发 Human；只有 Contract Boundary / Authority Escalation 等真实 Trigger 才升级协作。
 - Human Acceptance 与 Verification Finding Triage 改为提供可判断上下文；Accepted Deviation 或上游共享模型失效时先同步 Expected / Actual、Evidence、Impact / Risk 与 Affected Trace，再进入 Human 判断。
