@@ -5,7 +5,7 @@ canonical_root: docs
 canonical_document_count: 34
 canonical_rule_document_count: 3
 canonical_exception_document_count: 4
-canonical_meta_protocol_document_count: 1
+canonical_meta_protocol_document_count: 2
 history_policy: git
 
 navigation:
@@ -15,6 +15,7 @@ navigation:
   workflows_index: workflows/README.md
   rules_index: rules/README.md
   meta_protocols_index: meta-protocols/README.md
+  project_onboarding: meta-protocols/project-onboarding.md
   harness_compilation: meta-protocols/harness-compilation.md
   exception_flows: workflows/exceptions/README.md
   repository_governance: governance/repository-governance.md
@@ -43,7 +44,7 @@ rule_documents:
 
   - id: human-agent-collaboration
     path: rules/human-agent-collaboration.md
-    description: 人机共享认知、同步触发、决策就绪与反馈吸收规则
+    description: 正式 Workflow 与涉及 Human 意图 / 权限 / 关键判断的 Meta Protocol 共用的人机协作规则
     applies_to: all
 
   - id: code-quality
@@ -54,9 +55,13 @@ rule_documents:
       - verification-convergence
 
 meta_protocols:
+  - id: project-onboarding
+    path: meta-protocols/project-onboarding.md
+    description: 在 Harness 编译前建立、复用、刷新或迁移 Target 的 Adoption Baseline
+
   - id: harness-compilation
     path: meta-protocols/harness-compilation.md
-    description: 将 Applicable Workflow + Rules 与目标项目现有能力转换为最小充分 Harness 的统一元协议
+    description: 消费有效 Adoption Baseline、Applicable Workflow + Rules 与当前项目能力，转换为最小充分 Harness
 
 terminology:
   glossary: reference/glossary.md
@@ -174,13 +179,15 @@ exception_workflows:
 
 rules:
   - Only documents listed under stages.documents are canonical stage documents for this version.
-  - Documents listed under rule_documents are canonical cross-stage rules and are not counted as canonical stage documents.
+  - Documents listed under rule_documents are canonical rules and are not counted as canonical stage documents; their actual applicability follows each rule document and current context.
   - Documents listed under exception_workflows.documents are canonical exception workflow documents and are loaded only when their trigger applies.
   - Documents listed under meta_protocols are canonical meta protocol documents and define Spec Coding onboarding, composition, or transformation behavior without becoming workflow stages.
   - Human overview README files and navigation, governance, and reference documents are not counted as canonical stage, rule, exception workflow, or meta protocol documents.
-  - Harness generation should follow meta-protocols/harness-compilation.md; applicable workflow and rule documents remain the source requirements.
+  - Project adoption should follow meta-protocols/project-onboarding.md before Harness compilation when no valid Adoption Baseline exists.
+  - Harness generation should follow meta-protocols/harness-compilation.md and consume a valid Adoption Baseline; applicable workflow and rule documents remain the normative source requirements.
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
   - Add, delete, move, or rename a canonical stage, rule, exception workflow, or meta protocol document only together with a manifest update.
-  - Consumers should resolve the repository version first, then read this manifest before loading applicable rules, meta protocols, and workflow documents.
+  - Consumers should resolve the repository version first, then read this manifest, resolve or validate Project Onboarding, and only then load the final Workflow Route, Applicable Rules, and Harness Compilation inputs.
   - All formal workflows inherit rules/global-contracts.md unless a workflow defines a stricter rule.
+  - Human-Agent Collaboration applies to all formal workflows and to Meta Protocol interactions that involve Human intent, authority, or key judgment.
   - Core terminology and canonical Chinese explanations follow reference/glossary.md; terminology changes that alter workflow, rule, or meta protocol semantics require semantic version governance.
