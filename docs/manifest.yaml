@@ -3,7 +3,7 @@ spec_coding_version: "0.8.0"
 status: candidate
 canonical_root: docs
 canonical_document_count: 34
-canonical_rule_document_count: 3
+canonical_rule_document_count: 4
 canonical_exception_document_count: 4
 canonical_meta_protocol_document_count: 2
 history_policy: git
@@ -45,6 +45,11 @@ rule_documents:
   - id: human-agent-collaboration
     path: rules/human-agent-collaboration.md
     description: 正式 Workflow 与涉及 Human 意图 / 权限 / 关键判断的 Meta Protocol 共用的人机协作规则
+    applies_to: all
+
+  - id: agent-delegation-and-coordination
+    path: rules/agent-delegation-and-coordination.md
+    description: Main Agent / Subagent 角色、委派协调、运行时能力与模型路由、结果验证与升级规则
     applies_to: all
 
   - id: code-quality
@@ -190,4 +195,5 @@ rules:
   - Consumers should resolve the repository version first, then read this manifest, resolve or validate Project Onboarding, and only then load the final Workflow Route, Applicable Rules, and Harness Compilation inputs.
   - All formal workflows inherit rules/global-contracts.md unless a workflow defines a stricter rule.
   - Human-Agent Collaboration applies to all formal workflows and to Meta Protocol interactions that involve Human intent, authority, or key judgment.
+  - Agent Delegation & Coordination applies whenever Main Agent delegates bounded work, independent review, context isolation, or runtime capability/model routing is used; workflows and Meta Protocols reference rather than duplicate its semantics.
   - Core terminology and canonical Chinese explanations follow reference/glossary.md; terminology changes that alter workflow, rule, or meta protocol semantics require semantic version governance.
