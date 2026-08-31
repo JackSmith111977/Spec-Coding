@@ -132,11 +132,13 @@ In Progress / Verifying
 - **Context-Isolated｜上下文可隔离**：可以只提供当前 Task 所需 Requirement / Design、直接依赖结果与相关代码。
 - **Verifiable｜结果可验证**：完成后能够独立执行 Verification 并判断结果。
 
-满足条件时，可由 Harness 在开发实施阶段动态委派；否则由主 Agent 顺序推进。
+满足条件时，可由 Harness 在开发实施阶段动态委派；否则由 Main Agent 顺序推进。一般性 Main Agent / Subagent 角色、权限、上下文隔离、冲突控制与结果收敛遵循 [`Agent Delegation & Coordination Rules`](../../../rules/agent-delegation-and-coordination.md)。本步骤保留 Task 层最直接的独立性、上下文隔离与可验证性准入，不复制 Rule 中可由 Authority、Boundary 与运行时冲突检查推导的通用规则。
 
-Subagent 的主要价值是 **Context Isolation（上下文隔离）**，并行只是额外收益。每个 Subagent 只获得当前 Task 的最小必要上下文，结果统一回到主任务集汇合。
+Formal Task 的 `Goal / Boundary / Coverage / Verification / Done` 已构成 Task Contract；下游 `Task Contract + Scoped Context + Agent / Model + Tools + Workspace + Verification Contract` 构成 Execution Unit，因此**不为正式 Task 再生成第二套 Delegation Contract**。
 
-不在 `tasks.md` 中固定 Agent、Model 或 Wave。
+Subagent 的主要价值是 Context Isolation（上下文隔离），并行只是额外收益。每个 Subagent 只获得当前 Task 的最小必要上下文，结果统一回到主任务集汇合。
+
+不在 `tasks.md` 中固定 Agent、Role、Model、Thinking、Fresh / Fork、Workspace、Attempt 或 Wave；这些均由 Development Execution + Harness 按当前运行条件动态推导。
 
 > **Persist constraints, derive execution｜持久化约束，运行时推导执行策略。**
 
@@ -202,7 +204,7 @@ T07 → tasks/T07.md
 - 必要阻塞依赖已明确，不维护可推导的冗余调度关系。
 - 关联 Open Item 仅通过稳定 `OI-xxx` 引用承接，不产生重复事实源。
 - 普通 Task 集中维护，复杂 Task 按需下钻。
-- 可独立委派 Task 能被 Harness 基于独立性、上下文隔离与可验证性动态识别。
+- 可独立委派 Task 能被 Harness 基于独立性、上下文隔离与可验证性动态识别，并继续受 Agent Delegation & Coordination Rules 的通用边界约束。
 - Task 可通过 Trace 按需获取上游上下文，无需复制完整 Requirement / Design。
 
 ---
