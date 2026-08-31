@@ -4,6 +4,8 @@
 
 本规则不要求 Human 跟随 Agent 的全部搜索、推理与执行过程，也不为每个阶段或 Meta Protocol 步骤增加人工审批。核心目标是：**让 Agent 保持最大化的契约内自治，同时确保 Human 在真正需要判断时仍具备足够认知。**
 
+当 Harness 使用 Main Agent / Subagent 结构时，本规则中的 Human ↔ Agent 默认指 Human ↔ Main Agent：Main Agent 持有 Shared Cognitive Baseline 与 Human Interaction；Subagent 的局部调查、执行与审查遵循 [`agent-delegation-and-coordination.md`](agent-delegation-and-coordination.md)，需要 Human 判断时先返回 Main Agent，不建立平行的人机决策链。
+
 ---
 
 ## 1. Collaboration Principles｜协作原则
@@ -149,6 +151,7 @@ Continue Autonomous Work
 - Project Onboarding 中 Agent 应先自动发现 Target / Repository / Existing Adoption 等事实，只把无法安全推导的 Collaboration Intent、Publication / Authority 边界等交给 Human；
 - 认知、需求、技术决策、验证与规则演进阶段通常更容易触发同步；
 - Implementation Planning 与 Task Contract 内的 Development Execution 默认保持低干扰自治，只有真实 Trigger 成立时升级协作；
+- 使用 Subagent 时，Subagent 的局部 Evidence / Finding / Decision Need 先回 Main Agent，由 Main Agent 判断是否形成 Shared Model Delta 或 Decision Boundary，再按本规则与 Human 交互；
 - Workflow / Meta Protocol 文档只声明局部 Trigger / Authority 边界并引用本规则，不复制本规则正文。
 
 Harness 可以根据目标项目将本规则映射为轻量 Summary、Decision Packet、Checkpoint、UI 提示、结构化会话状态或其他机制，但不得要求 Human 持续跟踪 Agent 全部 Working Context，也不得通过新增无必要 Gate 降低已有 Autonomous 边界。
