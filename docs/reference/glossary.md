@@ -99,6 +99,7 @@
 |---|---|---|
 | Verification | 验证 | 使用证据证明结果满足既定 Requirement / Design / Task 契约。 |
 | Validation | 有效性确认 | 判断对象是否适合当前用途或满足预期；避免与当前流程正式 `Verification` 产物混用。 |
+| Verifier | 验证执行者 | 在 Workflow 中承担 Verification 职责的 Agent、工具或组合机制；可以调用 Reviewer，但不与 Reviewer Role 等同。 |
 | Evidence | 证据 | 可复核、可追溯并支持某个结论的事实。 |
 | Finding | 验证发现 | Verification 中观察到、需要判定或处理的具体事实。 |
 | Deterministic Verification | 确定性验证 | 能由工具产生明确 Pass / Fail 或可判定结果的验证。 |
