@@ -68,14 +68,27 @@
 | Primary Requirement | 主需求 | Task 用于 Requirement 级汇合的唯一主要归属。 |
 | Coverage | 覆盖范围 | Task 或 Verification 必须覆盖的关键行为路径。 |
 | Task Contract | 任务契约 | Task 的 Goal、Boundary、Coverage、Verification、Done 等约束集合。 |
-| Main Agent | 主 Agent | 负责整体编排、汇总与跨任务协调的 Agent。 |
-| Worker Agent | 执行 Agent | 在既定 Task Contract 内完成具体实施的 Agent。 |
-| Subagent | 子 Agent | 为上下文隔离、并行或独立检查而临时委派的 Agent。 |
+| Main Agent | 主 Agent | 当前 Workflow 的全局协调与收敛主体，持有 Workflow State、跨 Agent 协调、结果整合、Authority Routing 与最终责任。 |
+| Subagent | 子 Agent | 由 Main Agent 为上下文隔离、独立执行、独立审查或其他有界工作临时委派的 Agent。 |
+| Scout | 侦察 Agent | 探索项目内部事实、定位入口与链路，并返回最小充分 Context / Evidence 的 Subagent Role。 |
+| Researcher | 研究 Agent | 获取外部官方资料、标准、当前行为、Benchmark 与技术证据的 Subagent Role，不拥有项目决策权。 |
+| Worker | 执行 Agent | 在既定 Delegation / Task Contract 内完成具体修改、局部验证与必要修复的 Subagent Role。 |
+| Reviewer | 审查 Agent | 对候选结果执行独立、证据驱动审查并形成 Finding / Verdict 的 Subagent Role；不替代正式 Verification。 |
+| Oracle | 一致性顾问 Agent | 检查当前方向是否偏离继承决策、约束或已确认事实的只读 Challenge Role，不拥有最终决策权。 |
+| Delegation | 委派 | Main Agent 将目标、边界、上下文、权限与预期结果明确交给 Subagent 执行的运行时协作行为。 |
+| Single Writer Boundary | 单写入者边界 | 同一可变工作边界在同一时刻默认只有一个 Worker Owner，避免共享写入冲突。 |
 | Harness | 执行框架 | 组织 Agent、工具、上下文、状态、规则与验证的运行机制。 |
-| Harness Compilation | Harness 编译 | 通过 Harness Compilation Meta Protocol，将 Applicable Workflow / Rules、有效 Adoption Baseline 与当前 Target Environment 结合，生成最小充分 Harness 的过程。 |
+| Harness Compilation | Harness 编译 | 通过 Harness Compilation Meta Protocol，将 Applicable Workflow / Rules、有效 Adoption Baseline 与当前 Target Environment / Agent Capability 结合，生成最小充分 Harness 的过程。 |
 | Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程、规则与接入约束所需的最少 Harness 组件，避免重复能力与过度设计。 |
+| Effective Runtime Capability | 有效运行时能力 | 当前 Coding Agent Runtime 实际暴露并可执行的 Model、Thinking、Context、Tool、Isolation、Quota 等能力，而非 Provider 理论能力。 |
+| Capability-aware Routing | 能力感知路由 | 先发现当前 Runtime 可用能力，再结合 Role、任务特征与必要证据选择 Model / Thinking / Context / Tool 等执行配置。 |
+| Minimum Sufficient Capability | 最低充分能力 | 能够可靠满足当前 Delegation / Execution Contract 的最低充分运行时能力配置。 |
+| Thinking Effort | 思考强度 | Runtime 对模型推理预算或推理深度的可调级别；具体档位由当前 Coding Agent / Model 实现决定。 |
 | Capability Gap | 能力缺口 | 当前 Agent 或项目环境缺少完成某项流程 / 规则要求所需的能力。 |
 | Reliability Gap | 可靠性缺口 | 所需能力已经存在，但当前机制无法稳定保证流程 / 规则要求被执行。 |
+| Selection Gap | 选择缺口 | 当前 Runtime 存在多个有效候选且不同配置会实质影响质量、成本或延迟，但缺少可靠路由依据。 |
+| Capability Problem | 能力问题 | 当前失败主要来自 Context、Model、Thinking、Tool 或 Runtime 能力不足，而不是业务契约或权限本身失效。 |
+| Boundary Problem | 边界问题 | 继续工作必须突破当前 Delegation / Task Boundary，需要 Main Agent 重新判断工作划分或上游事实。 |
 | Context Isolation | 上下文隔离 | 只给执行单元提供最小必要上下文，降低相互干扰。 |
 | Runnable | 当前可执行 | 当前依赖与运行条件均满足，可立即被调度执行。 |
 | Blocked | 阻塞 | 当前对象因缺失条件或未决问题无法继续推进。 |
