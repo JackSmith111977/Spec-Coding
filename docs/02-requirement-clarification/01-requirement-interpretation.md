@@ -23,6 +23,8 @@
 - System Definition 中相关系统职责、链路、数据与约束。
 - Requirement Framework 中当前 Requirement Unit（需求单元）、关联需求、Core Flow 与 Open Items。
 
+Greenfield 直接复用 Requirement Framework 已分配的稳定 `REQ-xx`，不得在需求澄清阶段重新编号。
+
 ### Brownfield｜存量项目
 
 重点读取：
@@ -31,6 +33,8 @@
 - Business Context 中相关业务能力、对象、场景与规则。
 - System Context 中相关组件、链路、数据与约束。
 - Requirement Context 中的 Change Points、Business Position、System Position 与 Gaps。
+
+Brownfield 若当前需求尚无稳定 Requirement ID，应在进入本需求澄清链时**分配一次稳定 `REQ-xx` 并持续复用**。Requirement ID 只建立需求身份，不代表范围、规则或 Acceptance Criteria 已经确认。
 
 ### 共同输入
 
@@ -83,6 +87,7 @@ To-Be 只表达目标行为与结果，不提前夹带技术实现。
 
 | 章节 | 内容 |
 |---|---|
+| `Requirement` | 当前稳定 Requirement ID，如 `REQ-01`；Greenfield 继承上游，Brownfield 首次进入本链时分配。 |
 | `Intent` | 需求为什么存在、希望解决什么问题。 |
 | `As-Is / Existing Situation` | 与需求直接相关的当前行为或现有状态。 |
 | `Problem` | 当前状态与目标之间的核心问题。 |
@@ -98,6 +103,7 @@ To-Be 只表达目标行为与结果，不提前夹带技术实现。
 当 Human 或 Agent 可以清楚回答以下问题时，本步骤完成：
 
 - 当前需求来自 Greenfield 还是 Brownfield，使用了哪组上游上下文？
+- 当前 Requirement 的稳定 `REQ-xx` 是什么？
 - 为什么提出本次需求？
 - 当前行为或现有状态与问题是什么？
 - 希望形成什么目标行为？
@@ -117,14 +123,14 @@ Project / Business / System Definition
               │
               ├─────────────┐
               │             ↓
-Brownfield:   │   Requirement Interpretation
+Brownfield:   │   REQ-xx + Requirement Interpretation
 Project / Business / System Context
               +             ↓
       Requirement Context  Ambiguity & Gap Identification
 ```
 
-两条入口在 Requirement Interpretation 汇合，此后使用同一套需求澄清流程。
+两条入口在 Requirement Interpretation 汇合，此后使用同一套稳定 Requirement Identity 与需求澄清流程。
 
 因此，本步骤的最终职责是：
 
-> **基于对应项目入口的既有上下文，将原始需求还原为“现状—问题—目标”，明确当前理解的确定性，并形成新项目与存量项目都可稳定消费的统一需求澄清入口。**
+> **基于对应项目入口的既有上下文，建立或继承稳定 Requirement 身份，将原始需求还原为“现状—问题—目标”，明确当前理解的确定性，并形成新项目与存量项目都可稳定消费的统一需求澄清入口。**
