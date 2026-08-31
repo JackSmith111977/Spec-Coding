@@ -51,7 +51,7 @@ Harness Ready
 ```
 
 - [`Project Onboarding Protocol`](meta-protocols/project-onboarding.md)：识别 Target 与 Existing Adoption，建立 Usage Contract，对齐 Relevant Delta，最终形成有效 Adoption Baseline 与 Workflow Route。
-- [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md)：消费 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment，复用已有能力并只补真实缺口。
+- [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md)：消费 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment，复用已有能力并只补真实缺口；需要 Agent 委派时先发现当前 Runtime 的有效能力，再动态编译 Role、Model、Thinking、Context、Tools 与 Workspace。
 
 当 Adoption 或 Harness 已经有效时对应步骤直接 Reuse，不为每个 Requirement / Task 增加初始化开销。
 
@@ -88,6 +88,26 @@ Exception Workflow 不作为新的主流程阶段，也不维护主流程权威�
 Human 不需要跟踪 Agent 的全部搜索、推理和 Task 级执行。正式 Workflow，以及 Project Onboarding 等涉及 Human 意图、权限或关键判断的 Meta Protocol Interaction，适用 [`Human-Agent Collaboration Rules`](rules/human-agent-collaboration.md)。
 
 核心原则是：**Agent 先发现事实并保持契约内自治；Human 只在真实意图 / 决策边界保持 Decision Readiness（决策就绪）。** 已有上下文仍有效时只同步关键 Delta，不重复重放整个项目；Human 的有效反馈应更新对应 Canonical Source of Truth，例如 Adoption Intent 更新 Adoption Baseline，Requirement / Design 语义更新相应 Workflow Artifact。
+
+## Agent Delegation & Coordination｜Agent 委派与协调
+
+当上下文隔离、并行、独立审查、专门能力或决策一致性检查有真实收益时，Main Agent 可按 [`Agent Delegation & Coordination Rules`](rules/agent-delegation-and-coordination.md) 动态委派 Scout、Researcher、Worker、Reviewer 或 Oracle。
+
+```text
+Human
+  ↕
+Main Agent
+  ├─ Scout / Researcher
+  ├─ Worker
+  ├─ Reviewer
+  └─ Oracle
+       ↓
+Result / Evidence
+       ↓
+Main Agent → Canonical State
+```
+
+Main Agent 始终保留 Workflow State、跨 Agent 协调、结果整合与最终责任；Subagent 只在有界 Contract 内自治。Formal Task 继续使用既有 Task Contract + Execution Unit；Agent、Model、Thinking、Fresh / Fork、Workspace 与并行策略均由 Harness 根据当前 Runtime 动态推导，不进入 `tasks.md` 等长期事实源。
 
 ## 阶段一览
 
@@ -135,6 +155,7 @@ Human 不需要手工依次执行 `Onboard Project`、`Build Harness` 等命令�
 - Project Onboarding：[`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)
 - Harness 编译协议：[`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)
 - Human-Agent Collaboration Rules：[`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md)
+- Agent Delegation & Coordination Rules：[`rules/agent-delegation-and-coordination.md`](rules/agent-delegation-and-coordination.md)
 - Exception Workflow：[`workflows/exceptions/README.md`](workflows/exceptions/README.md)
 - 全局执行规则：[`rules/global-contracts.md`](rules/global-contracts.md)
 - Code Quality Rules：[`rules/code-quality.md`](rules/code-quality.md)
