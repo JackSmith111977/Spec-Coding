@@ -68,9 +68,9 @@ Evidence
 Finding
 ```
 
-Verifier 对失败或争议项记录现象、复现方式、Evidence、影响 / 严重性和 `Suspected Origin`，但不直接修改业务实现或替 Human 做最终归因。
+Verifier 对失败或争议项记录现象、复现方式、Evidence、影响 / 严重性和 `Suspected Origin`，但不直接修改业务实现，也不越权改变 Requirement / Design 等事实源。
 
-后续由 Human Triage 判定为 Verification Issue、Implementation Defect、Upstream Deviation、Accepted Deviation 等。
+后续由 Verification Finding Triage 按全局 Human / Agent Authority Contract 判定：证据明确且不改变既定语义契约的 Invalid Finding、Verification Issue、Implementation Defect 可由 Agent Autonomous 分类和路由；涉及 Requirement / AC / 固定 Design 等事实源变化、Accepted Deviation 或其他 Human 权限边界时，再进入对应 Confirm / Human Decision。
 
 ### 产物
 
@@ -110,4 +110,4 @@ Verification Baseline
 Verification Results Ready
 ```
 
-> **通过确定性工具、独立 Agent 与必要的人工验收，对完整变更进行只读验证，并以适用正式规则约束机器难以判定的代码质量判断，将所有结果沉淀为可复核 Evidence 与 Findings，为后续偏差判定与收敛提供事实依据。**
+> **通过确定性工具、独立 Agent 与必要的人工验收，对完整变更进行只读验证，并以适用正式规则约束机器难以判定的代码质量判断，将所有结果沉淀为可复核 Evidence 与 Findings，为后续按权限完成偏差判定与收敛提供事实依据。**
