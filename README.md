@@ -4,7 +4,7 @@
 
 Spec Coding / SDD（Specification-Driven Development，规格驱动开发）是一套面向 AI Coding 的轻量、可追溯开发方法。
 
-它不尝试规定某一种语言、框架或 Agent，而是把模糊意图逐步收敛为可追溯的 Requirement → Design → Task → Change → Verification，并通过 Meta Protocol（元协议）把适用的 Workflow（流程）、Rules（规则）与项目上下文转换成当前项目真正需要的最小 Harness（执行框架）。
+它不尝试规定某一种语言、框架或 Agent，而是把模糊意图逐步收敛为可追溯的 Requirement → Design → Task → Change → Verification，并通过 Meta Protocol（元协议）先建立项目接入关系，再把适用 Workflow（流程）、Rules（规则）与项目环境转换成当前项目真正需要的最小 Harness（执行框架）。
 
 **Version:** [`0.7.0`](VERSION) · **Status:** `candidate`
 
@@ -33,7 +33,7 @@ Spec Coding 关注的不是“怎样让 Agent 多写代码”，而是：
 - **Bounded Autonomy｜有边界的自治**：Agent 在明确契约内自主推进，超出边界时回到正确上游。
 - **Human-Agent Collaboration｜人机协作**：Human 不跟踪 Agent 的全部工作上下文，但在关键认知变化与决策边界保持足够的判断上下文。
 - **Verification｜验证**：用可复核证据证明结果，而不是接受 Agent 的自我声明。
-- **Adaptation｜适配**：规范保持稳定，具体 Harness 根据项目已有能力动态生成。
+- **Adaptation｜适配**：规范保持稳定，具体接入与 Harness 根据使用意图、项目约束和现有能力动态适配。
 
 ---
 
@@ -41,68 +41,77 @@ Spec Coding 关注的不是“怎样让 Agent 多写代码”，而是：
 
 ```mermaid
 flowchart LR
-    I[Intent] --> R[Requirement]
-    R --> D[Design]
-    D --> T[Task]
-    T --> C[Change]
-    C --> V[Verification]
-    V --> E[Evidence]
+    I[Target / Intent] --> O[Project Onboarding]
+    O --> A[Adoption Baseline]
 
-    W[Workflow] --> M[Meta Protocol]
-    Q[Rules] --> M
-    P[Project Context] --> M
-    M --> H[Harness]
+    W[Workflow] --> C[Harness Compilation]
+    Q[Rules] --> C
+    A --> C
+    P[Target Environment] --> C
+    C --> H[Harness]
+    H --> R[Enter / Resume Workflow]
+
+    R --> REQ[Requirement]
+    REQ --> D[Design]
+    D --> T[Task]
+    T --> CH[Change]
+    CH --> V[Verification]
+    V --> E[Evidence]
 ```
 
-可以把 Spec Coding 理解成三个规范层，以及一个项目侧运行结果：
+可以把 Spec Coding 理解成三个规范层，以及两个项目侧运行结果：
 
 | Layer | 它回答的问题 |
 |---|---|
 | **Workflow｜流程** | 下一步应该做什么，状态如何推进？ |
-| **Rules｜规则** | 推进过程中必须持续保持什么？ |
-| **Meta Protocol｜元协议** | Spec Coding 如何被项目接入、装配和转换为可执行机制？ |
+| **Rules｜规则** | 推进与协作过程中必须持续保持什么？ |
+| **Meta Protocol｜元协议** | Spec Coding 如何被项目接入，并转换为可执行机制？ |
+| **Adoption Baseline｜接入基线** | 当前 Target 如何使用 Spec Coding，哪些意图、绑定与约束需要长期稳定？ |
 | **Harness｜执行框架** | 当前项目最终由哪些 Agent、Rule、Tool、Gate、Script 等机制实际承载这些要求？ |
 
-> **Workflow tells the Agent where to go. Rules tell it what must remain true. Meta Protocols make them project-executable. Harness is the project-side result.**
+> **Onboarding establishes the relationship. Workflow and Rules define the contract. Harness Compilation makes it executable.**
 
 ---
 
 ## Use it with your coding agent
 
-这里没有一个名为 `Build Harness` 的 CLI，也不要求你手工把流程翻译成 Skill、Rule 或 Agent 配置。
+不要求你手工执行 `Onboard Project`、`Build Harness` 或把流程翻译成 Skill、Rule、Agent 配置。
 
-把 **Spec Coding 仓库**与**目标项目**提供给 Coding Agent，然后给它一个明确意图即可，例如：
+把 **Spec Coding** 与**目标项目 / Intent** 提供给 Coding Agent，然后直接表达目标，例如：
 
 ```text
-根据 Spec Coding，为当前项目构建最小充分 Harness，并按当前任务继续推进。
+按照 Spec Coding 接入当前项目，并按当前任务继续推进。
 ```
 
-Agent 应按照 [`Harness Compilation Protocol`](docs/meta-protocols/harness-compilation.md) 完成：
+Agent 应自行完成：
 
 ```text
-Read
- ↓
-Derive
- ↓
-Compose
- ↓
-Verify
- ↓
+Project Onboarding（若需要）
+        ↓
+Adoption Baseline
+        ↓
+Harness Compilation（若需要）
+        ↓
 Harness Ready
+        ↓
+01A / 01B / Resume
 ```
 
-核心原则是：**先复用，再补缺口；只生成当前项目真正需要的 Harness。**
+- [`Project Onboarding Protocol`](docs/meta-protocols/project-onboarding.md) 负责识别 Target、协作 / 发布方式、Spec Workspace、稳定 Repository / Authority 约束，以及 Existing Adoption 是否需要 Reuse / Refresh / Migrate。
+- [`Harness Compilation Protocol`](docs/meta-protocols/harness-compilation.md) 消费有效 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment，优先复用已有能力，只补真实 Capability / Reliability Gap。
+
+已有 Adoption Baseline 与 Harness 仍有效时直接复用，因此普通 Requirement / Task 不需要重复初始化。
 
 ---
 
 ## Workflow
 
-Spec Coding 同时支持 Greenfield（新项目）与 Brownfield（存量项目）：
+Spec Coding 同时支持 Greenfield（新项目）、Brownfield（存量项目）与 Existing State Resume（已有流程状态恢复）：
 
 ```text
 新项目：项目定义建立 ─┐
-                    ├→ 需求澄清 → 技术方案设计 → 实施规划 → 开发实施 → 验证收敛 → 流程复盘改进
-存量项目：项目认知建立 ─┘
+存量项目：项目认知建立 ┼→ 需求澄清 → 技术方案设计 → 实施规划 → 开发实施 → 验证收敛 → 流程复盘改进
+已有状态：Resume ─────┘
 ```
 
 其中：
@@ -130,6 +139,7 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 - **Evidence over Claim｜证据优于声明**：是否完成由证据决定，不由执行者自述决定。
 - **Decision-ready Human｜保持 Human 可判断**：需要 Human 介入时先同步最小充分认知，而不是让 Human 从 Agent 的全部工作历史重建上下文。
 - **Affected Trace Only｜只处理受影响链路**：发现偏差时修正最早失效事实源，只重新对齐真正受影响的部分。
+- **Persist Intent, Rediscover Facts｜持久化意图，重发现动态事实**：接入基线只保存长期意图与稳定绑定，不复制易变环境。
 - **Minimum Sufficient Harness｜最小充分 Harness**：优先复用项目已有能力，只补真实 Capability / Reliability Gap。
 
 ---
@@ -140,11 +150,12 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 |---|---|
 | 快速理解整套方法 | [`docs/overview.md`](docs/overview.md) |
 | 查看完整文档架构 | [`docs/README.md`](docs/README.md) |
+| 把 Spec Coding 接入当前项目 | [`docs/meta-protocols/project-onboarding.md`](docs/meta-protocols/project-onboarding.md) |
+| 构建 / 重编译最小 Harness | [`docs/meta-protocols/harness-compilation.md`](docs/meta-protocols/harness-compilation.md) |
+| 查看 Meta Protocol 层 | [`docs/meta-protocols/README.md`](docs/meta-protocols/README.md) |
 | 查看 Main / Exception Workflow | [`docs/workflows/README.md`](docs/workflows/README.md) |
 | 查看人机共享认知与决策协作规则 | [`docs/rules/human-agent-collaboration.md`](docs/rules/human-agent-collaboration.md) |
 | 处理 Debug / Defect / 难以归因的异常 | [`docs/workflows/exceptions/debug-and-defect-resolution/README.md`](docs/workflows/exceptions/debug-and-defect-resolution/README.md) |
-| 把 Spec Coding 适配到一个项目 | [`docs/meta-protocols/harness-compilation.md`](docs/meta-protocols/harness-compilation.md) |
-| 查看 Meta Protocol 层 | [`docs/meta-protocols/README.md`](docs/meta-protocols/README.md) |
 | 查看所有 Workflow 共同继承的规则 | [`docs/rules/global-contracts.md`](docs/rules/global-contracts.md) |
 | 查看通用代码质量原则 | [`docs/rules/code-quality.md`](docs/rules/code-quality.md) |
 | 查术语与规范中文解释 | [`docs/reference/glossary.md`](docs/reference/glossary.md) |
@@ -156,7 +167,7 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 
 ## Project status
 
-当前版本仍处于 `candidate` 阶段。Main Workflow、Rules、Debug Exception Workflow 与 Meta Protocol 层（当前包含 Harness Compilation Protocol）已建立版本治理，但进入 `1.0.0` 前仍需要 Scenario Stress Test（场景压力测试）、Fresh-Agent Blind Run（新 Agent 盲跑）与真实项目 Pilot（试运行）。
+当前版本仍处于 `candidate` 阶段。Main Workflow、Rules、Debug Exception Workflow 与 Meta Protocol 层已建立版本治理；Meta Protocol 当前包含 Project Onboarding 与 Harness Compilation。进入 `1.0.0` 前仍需要 Scenario Stress Test（场景压力测试）、Fresh-Agent Blind Run（新 Agent 盲跑）与真实项目 Pilot（试运行）。
 
 如果你第一次来到这里，建议从 [`Spec Coding 全流程概要`](docs/overview.md) 开始。
 
