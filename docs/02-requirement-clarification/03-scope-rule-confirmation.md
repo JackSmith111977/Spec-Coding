@@ -49,6 +49,8 @@
 - 若仍需要决定 Requirement 语义、In Scope / Out of Scope、核心 Business Rule 或关键目标行为，应由 Human Decision（Human 决策）完成；Agent 负责提供证据、候选解释与影响分析。
 - 不允许 Agent 通过默认假设把未确认语义写成正式需求事实。
 
+当进入 Human Decision 时，同时遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)：如果 Human 尚未掌握当前 Requirement Interpretation、关键歧义 / Delta、相关 Evidence 与主要影响，应先完成必要 Cognitive Sync 并恢复 Decision Readiness，再请求范围或规则判断；已有共享上下文仍有效时不重复同步。
+
 未确认且会阻塞需求正确性的事项不能通过默认假设关闭，应返回澄清。
 
 ---

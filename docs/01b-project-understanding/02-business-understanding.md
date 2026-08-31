@@ -75,7 +75,7 @@ Next Action / Business Result
 
 ## 2.5 验证并固化业务认知
 
-将业务认知与实际系统、业务文档、验收规则、测试、代码行为等证据交叉验证，并通过 Human-Agent 共同校正关键业务语义。
+将业务认知与实际系统、业务文档、验收规则、测试、代码行为等证据交叉验证。形成后续持续依赖的重要 Business Model，或关键业务语义发生 Meaningful Model Delta（关键认知变化）时，按 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md) 判断是否需要 Cognitive Sync（认知同步），由 Human 对 Agent 无法仅凭证据可靠确定的业务语义进行必要校正。
 
 ### 验证原则
 
@@ -83,6 +83,7 @@ Next Action / Business Result
 - 明确区分已确认事实、合理推断和仍无法确认的信息。
 - 当前代码行为只能作为业务事实的证据之一，不默认等同于正确业务规则。
 - 无法确认的重要信息应保留为开放项。
+- Agent 应先完成可由证据支持的业务探索，再请求 Human 校正，不把未完成调查直接转交 Human。
 
 ### 结构化产物
 

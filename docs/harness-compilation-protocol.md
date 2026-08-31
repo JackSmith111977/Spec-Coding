@@ -47,10 +47,10 @@ Harness Ready
 - 当前有效的 `VERSION`、`manifest.yaml`、Applicable Rules（适用规则）与当前 Main Workflow 文档；
 - `manifest.yaml` 中已登记的 Exception Workflow，以及当前 Failure / Finding 是否触发其中某一流程；
 - 当前任务需要的关键上游引用；
-- Gate、Verification、Traceability、Human / Agent Authority、Code Quality 等持续约束；
+- Gate、Verification、Traceability、Human / Agent Authority、Human-Agent Collaboration、Code Quality 等持续约束；
 - 目标项目已有 Harness、规则、工具、脚本、CI 与 Agent 原生能力。
 
-Applicable Rules 以 `manifest.yaml` 中的 `rule_documents` 为机器可读入口；其中 `global-execution` 始终适用，其他专项规则只在对应阶段 / 任务加载。Exception Workflow 以 `exception_workflows` 为机器可读入口，仅在其 Trigger（触发条件）成立时加载对应正式文档，不要求常驻全部异常流程。
+Applicable Rules 以 `manifest.yaml` 中的 `rule_documents` 为机器可读入口；其中 `global-execution` 与 `human-agent-collaboration` 始终适用，其他专项规则只在对应阶段 / 任务加载。Exception Workflow 以 `exception_workflows` 为机器可读入口，仅在其 Trigger（触发条件）成立时加载对应正式文档，不要求常驻全部异常流程。
 
 ```text
 Applicable Workflow
@@ -76,11 +76,12 @@ Agent 已能明确判断：当前 Harness 必须保障哪些流程与规则要�
 - Gate 与 Blocking Condition；
 - Verification；
 - Human / Agent Authority；
+- Cognitive Sync / Decision Readiness 等 Human-Agent Collaboration 要求；
 - Traceability；
 - 持续适用的质量与执行规则；
 - 明确的上下文与执行约束。
 
-优先判断现有能力是否已经可靠覆盖，避免将流程章节或规则条目机械映射成 Skill、Agent 或其他 Harness 组件。
+优先判断现有能力是否已经可靠覆盖，避免将流程章节或规则条目机械映射成 Skill、Agent 或其他 Harness 组件。尤其不应把 Human-Agent Collaboration 机械转换为每阶段人工审批；只有真实 Sync Trigger 或 Authority Boundary 成立时才需要 Human Interaction。
 
 同时区分：
 
@@ -144,6 +145,8 @@ Create
 | 不可绕过的流程边界 | Gate / Permission |
 | 固定多步协调逻辑 | Workflow |
 
+Human-Agent Collaboration 可按项目能力映射为轻量 Summary、Decision Packet、Checkpoint、UI 提示或共享状态，但不得要求 Human 持续跟踪 Agent 全部 Working Context，也不得无依据增加强制 Gate。
+
 所选机制的执行强度不得低于原流程 / 规则要求。生成完成后执行一次 Simplify Pass（简化检查），删除重复、无必要或可由现有能力替代的组件。
 
 **产物**
@@ -164,7 +167,7 @@ Create
 
 #### Coverage｜覆盖完整
 
-关键流程与规则要求均得到可靠保障，尤其是 MUST / MUST NOT、Gate、Verification、Human / Agent Authority、Blocking Condition、Traceability 与适用质量规则；存在已触发 Exception Workflow 时，其必要语义同样必须被覆盖。
+关键流程与规则要求均得到可靠保障，尤其是 MUST / MUST NOT、Gate、Verification、Human / Agent Authority、必要 Cognitive Sync / Decision Readiness、Blocking Condition、Traceability 与适用质量规则；存在已触发 Exception Workflow 时，其必要语义同样必须被覆盖。
 
 不要求每条规则或异常流程步骤都生成独立文件，只要求其语义被可靠满足。
 
@@ -176,6 +179,7 @@ Create
 MUST      → SHOULD
 MUST NOT  → “注意避免”
 Human Decision → Agent 自主决定
+Trigger-driven Sync → 每阶段强制 Human Review
 不可绕过 Gate → 可跳过 Checklist
 ```
 
@@ -232,4 +236,4 @@ Harness 编译不要求将 Spec Coding 完全形式化，也不要求引入复�
 
 Agent 可以在内部自由完成理解与推理，但最终结果必须满足：
 
-> **完整承载当前 Applicable Workflow 与 Rules 语义，只补真实缺口，并以最低复杂度形成可执行、可验证的 Harness。**
+> **完整承载当前 Applicable Workflow 与 Rules 语义，只补真实缺口，并以最低复杂度形成可执行、可验证的 Harness；需要 Human 判断时保持 Decision Readiness，不需要 Human 时保持契约内自治。**

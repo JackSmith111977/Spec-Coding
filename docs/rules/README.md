@@ -5,5 +5,6 @@
 当前专项规则：
 
 - [`code-quality.md`](code-quality.md)：Code Quality Rules（代码质量规则），定义代码产物的可理解性、信息质量、变更清晰度与一致性原则。
+- [`human-agent-collaboration.md`](human-agent-collaboration.md)：Human-Agent Collaboration Rules（人机协作规则），定义共享认知、同步触发、决策就绪与 Human 反馈吸收原则。
 
-全局执行规则仍由 [`../global-contracts.md`](../global-contracts.md) 维护，并与本目录规则一起通过 `manifest.yaml` 的 `rule_documents` 进入 Applicable Rules；为避免无意义路径迁移，本次不搬动既有文件。
+全局执行规则仍由 [`../global-contracts.md`](../global-contracts.md) 维护，并与本目录规则一起通过 `manifest.yaml` 的 `rule_documents` 进入 Applicable Rules；为避免无意义路径迁移，不搬动既有文件。

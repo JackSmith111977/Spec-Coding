@@ -78,3 +78,11 @@ OI-xxx / open
 典型 Human Decision 包括 Requirement 语义、In / Out Scope、核心 Business Rule、AC 语义变化、Accepted Deviation，以及对强制 Gate 的豁免。
 
 > **Evidence before Escalation｜先取证，再升级。** Agent 应先缩小问题；Human 已确认的边界不重复请求确认。
+
+## Human-Agent Collaboration｜人机协作
+
+Human / Agent Authority 回答“谁有权决定”；[`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md) 回答“什么时候需要协作、Human 做判断前需要同步什么，以及反馈如何重新进入事实源”。
+
+所有正式 Workflow 默认适用 Human-Agent Collaboration Rules，但**全局适用不代表每个阶段都必须发生 Human Interaction**：Agent 在 Autonomous 边界内继续自主推进，只有 Shared Model 建立 / 变化、Decision Boundary、Authority Escalation、Shared Model Invalidated、Major Closure 等真实 Trigger 成立时才同步。
+
+进入重要 Confirm、Human Decision 或 Human Acceptance 前，应满足与当前风险匹配的 Decision Readiness；如果 Human 已掌握必要上下文则直接复用，不重复汇报。Human 的有效反馈若改变后续依赖的事实或语义，应更新对应 Canonical Source of Truth，并只重新对齐受影响 Trace。

@@ -35,7 +35,7 @@ Spec Coding 的规范本体分为三类：**Main Workflow（主流程）**、**E
 
 Exception Workflow 不作为 Main Workflow 的新增阶段，也不维护 Task、Finding、Open Item 或 Verification 的并行状态事实源。
 
-当前规范数量：34 份正式阶段文档、2 份正式规则文档、4 份正式异常流程文档。
+当前规范数量：34 份正式阶段文档、3 份正式规则文档、4 份正式异常流程文档。
 
 ## Rules｜规则
 
@@ -43,6 +43,7 @@ Exception Workflow 不作为 Main Workflow 的新增阶段，也不维护 Task�
 
 - [`global-contracts.md`](global-contracts.md)：Terminology、Tailoring、Open Item、Human / Agent Authority 等所有正式 Workflow 默认继承的全局执行规则。
 - [`rules/`](rules/)：专项跨阶段规则。
+  - [`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md)：Human-Agent Collaboration Rules（人机协作规则），维护 Shared Cognitive Baseline、Cognitive Sync、Decision Readiness 与反馈吸收。
   - [`rules/code-quality.md`](rules/code-quality.md)：与具体语言、框架和架构无关的 Code Quality Rules（代码质量规则）。
 
 Rules 本身不推进阶段状态；Workflow 文档通过引用消费规则，不复制规则正文。

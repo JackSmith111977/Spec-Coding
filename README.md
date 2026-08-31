@@ -31,6 +31,7 @@ Spec Coding 关注的不是“怎样让 Agent 多写代码”，而是：
 - **Alignment｜对齐**：需求、设计、任务与实现持续指向同一个目标。
 - **Traceability｜可追溯**：结果可以回查到它来自哪个 Requirement、Design、Task 与 Evidence。
 - **Bounded Autonomy｜有边界的自治**：Agent 在明确契约内自主推进，超出边界时回到正确上游。
+- **Human-Agent Collaboration｜人机协作**：Human 不跟踪 Agent 的全部工作上下文，但在关键认知变化与决策边界保持足够的判断上下文。
 - **Verification｜验证**：用可复核证据证明结果，而不是接受 Agent 的自我声明。
 - **Adaptation｜适配**：规则保持稳定，具体 Harness 根据项目已有能力动态生成。
 
@@ -125,6 +126,7 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 - **Process as Cognition｜流程用于认知**：流程帮助 Agent 正确理解与推进，不要求把所有中间思考形式化。
 - **Artifact as Contract｜产物用于对齐**：只对真正需要跨阶段交接和验证的结果建立稳定契约。
 - **Evidence over Claim｜证据优于声明**：是否完成由证据决定，不由执行者自述决定。
+- **Decision-ready Human｜保持 Human 可判断**：需要 Human 介入时先同步最小充分认知，而不是让 Human 从 Agent 的全部工作历史重建上下文。
 - **Affected Trace Only｜只处理受影响链路**：发现偏差时修正最早失效事实源，只重新对齐真正受影响的部分。
 - **Minimum Sufficient Harness｜最小充分 Harness**：优先复用项目已有能力，只补真实 Capability / Reliability Gap。
 
@@ -136,6 +138,7 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 |---|---|
 | 快速理解整套方法 | [`docs/overview.md`](docs/overview.md) |
 | 查看完整 Workflow / Rules | [`docs/README.md`](docs/README.md) |
+| 查看人机共享认知与决策协作规则 | [`docs/rules/human-agent-collaboration.md`](docs/rules/human-agent-collaboration.md) |
 | 处理 Debug / Defect / 难以归因的异常 | [`docs/exception-flows/debug-and-defect-resolution/README.md`](docs/exception-flows/debug-and-defect-resolution/README.md) |
 | 把 Spec Coding 适配到一个项目 | [`docs/harness-compilation-protocol.md`](docs/harness-compilation-protocol.md) |
 | 查看所有 Workflow 共同继承的规则 | [`docs/global-contracts.md`](docs/global-contracts.md) |

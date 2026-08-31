@@ -77,6 +77,8 @@ Technical Problem
 - 如果技术方案成立的前提是改变 Requirement / Acceptance Criteria、接受已知偏差或改变风险边界，应回到对应事实源进入 Human Decision（Human 决策），不得在技术方案中隐式完成。
 - Human 已确认的技术原则或项目约束可直接作为后续 Agent 自治边界，不重复确认。
 
+进入重要 Confirm / Human Decision 时同时遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)：Human 应先具备对 Technical Problem、关键现状 / 影响、主要候选、Trade-off、Evidence 与 Agent Recommendation 的 Decision Readiness；若前序共享模型仍有效则只同步本次关键 Delta。
+
 必要时保留重要备选方案及放弃原因，但无需记录所有曾考虑过的可能性。
 
 ---
