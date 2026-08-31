@@ -21,7 +21,7 @@
 
 ## 输出
 
-Impact Analysis、Technical Decisions、Detailed Technical Design、Design Acceptance Result。
+Impact Baseline、Solution Decision、Detailed Technical Design、Design Acceptance Result。
 
 ## 完成条件
 
