@@ -2,9 +2,9 @@
 
 ## 5.1 目标
 
-基于已确认的 `RC-xxx` 根因，判断是否需要改进 Spec Coding / SDD 的可复用规则，并形成少量、明确、可验证的改进方案。
+基于已确认的 `RC-xxx` 根因，判断是否需要改进 Spec Coding / SDD 的可复用 Workflow（流程）、Rules（规则）或 Harness（执行框架）机制，并形成少量、明确、可验证的改进方案。
 
-> **改进对象是规则与 Harness 机制本身，而不是某个具体项目产生的 Requirement、Acceptance Criteria、Design、Task、Change、Verification 或代码等项目产物。**
+> **改进对象是可复用的 Workflow / Rules / Harness 机制本身，而不是某个具体项目产生的 Requirement、Acceptance Criteria、Design、Task、Change、Verification 或代码等项目产物。**
 
 ---
 
@@ -12,7 +12,7 @@
 
 ### 1. 判断是否值得改
 
-结合根因的影响、重复性、风险和现有机制效果，判断是否需要调整规则。
+结合根因的影响、重复性、风险和现有机制效果，判断是否需要调整现有机制。
 
 允许结论：
 
@@ -20,22 +20,21 @@
 No Process Change
 ```
 
-避免为了复盘而强行增加规则。
+避免为了复盘而强行增加规则或步骤。
 
 ### 2. 判断改进落点
 
 例如：
 
+- Main / Exception Workflow
 - Requirement / Acceptance Criteria Rule
-- Design Rule
-- Implementation Planning / Task Rule
-- Implementation Rule
-- Verification Rule
+- Design / Implementation / Verification Rule
+- Harness Workflow / Checklist / Gate
 - Skill / Rule / AGENTS
-- Template / Checklist
+- Template
 - Tooling / Automation
 
-改进应落到最直接承担该问题的规则位置。
+改进应落到最直接承担该问题的 Canonical Workflow / Rule 或实际 Harness 机制；跨阶段持续约束优先落到 Rule，状态推进责任优先落到 Workflow，项目执行保障优先落到 Harness。
 
 ---
 
@@ -43,10 +42,10 @@ No Process Change
 
 ```text
 Current State
-当前规则或行为
+当前机制或行为
     ↓
 Expected State
-期望规则或行为
+期望机制或行为
     ↓
 Candidate Solutions
 候选方案
@@ -62,11 +61,11 @@ Decision
 
 权限遵循全局 Human / Agent Authority Contract（人机决策权限契约）：
 
-- Agent 可 Autonomous（自主）完成证据整理、根因到改进点映射、候选方案生成、影响分析，以及不改变规则语义的文字 / 格式维护。
-- 会改变可复用 SDD / Harness 行为语义、Agent 权限、状态契约、阶段准入或自动化策略的改进，由 Agent 提议并进入 Confirm（Agent 提议 + Human 确认）后再成为正式规则。
+- Agent 可 Autonomous（自主）完成证据整理、根因到改进点映射、候选方案生成、影响分析，以及不改变 Workflow / Rule / Harness 行为语义的文字 / 格式维护。
+- 会改变可复用 SDD / Harness 行为语义、Agent 权限、状态契约、阶段准入或自动化策略的改进，由 Agent 提议并进入 Confirm（Agent 提议 + Human 确认）后再成为正式机制。
 - 若改进会弱化强制 Verification（验证）、绕过安全 / 风险 Gate（门禁）或扩大 Agent 对业务语义与偏差接受的权限，必须进入 Human Decision（Human 决策）。
 
-进入规则语义相关 Confirm / Human Decision 时，同时遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)：优先向 Human 呈现 Current Behavior → Proposed Behavior 的 Behavior Delta、对应 Root Cause / Evidence、预期收益以及新增成本 / 风险，而不是要求 Human 从完整规则 Diff 自行重建影响。
+进入机制语义相关 Confirm / Human Decision 时，同时遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)：优先向 Human 呈现 Current Behavior → Proposed Behavior 的 Behavior Delta、对应 Root Cause / Evidence、预期收益以及新增成本 / 风险，而不是要求 Human 从完整 Diff 自行重建影响。
 
 > **优先选择能够直接解决根因、同时对现有流程侵入最小的方案。**
 
@@ -97,13 +96,13 @@ improvements.md
 | `id` | 唯一 `IMP-xxx`。 |
 | `title` | 改进名称。 |
 | `root_causes` | 一个或多个 `RC-xxx`。 |
-| `target` | 需要调整的可复用规则 / Harness 组件。 |
-| `authority` | 本次规则变化需要的 Autonomous / Confirm / Human Decision。 |
-| `current_state` | 当前规则或行为。 |
+| `target` | 需要调整的 Workflow / Rule / Harness 组件。 |
+| `authority` | 本次机制变化需要的 Autonomous / Confirm / Human Decision。 |
+| `current_state` | 当前机制或行为。 |
 | `expected_state` | 改进后期望行为。 |
 | `candidates` | 主要候选方案。 |
 | `decision` | 最终方案。 |
-| `change` | 实际需要修改的规则 / Harness 内容。 |
+| `change` | 实际需要修改的 Workflow / Rule / Harness 内容。 |
 | `validation_plan` | 下一轮如何判断改进有效。 |
 | `validation_result` | 下一轮运行后填写。 |
 | `status` | 当前生命周期状态。 |
@@ -117,7 +116,7 @@ RC-xxx
   ↓
 筛选是否改进
   ↓
-确定改进落点
+确定 Workflow / Rule / Harness 落点
   ↓
 设计最小有效改动
   ↓
@@ -130,4 +129,4 @@ IMP-xxx
 
 因此，Improvement Design 的最终职责是：
 
-> **将确认的 SDD 根因转化为最小、可复用、可验证且权限边界明确的规则改进，为后续实施和验证提供可靠输入。**
+> **将确认的 SDD 根因转化为最小、可复用、可验证且权限边界明确的 Workflow / Rules / Harness 改进，为后续实施和验证提供可靠输入。**
