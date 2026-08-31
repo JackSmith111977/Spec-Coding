@@ -1,4 +1,4 @@
-# 4. Task Set Validation｜任务集校验
+# 4. Task Set Validation｜任务集有效性确认
 
 ## 4.1 目标
 
@@ -92,9 +92,9 @@ Verification
 
 ## 4.6 校验方式
 
-默认采用 **Read-only Validation｜只读校验**。
+默认采用 **Read-only Validation｜只读有效性确认**。
 
-校验只发现和定位问题，不静默修改 Requirement、Design 或 Task。
+本步骤只发现和定位问题，不静默修改 Requirement、Design 或 Task。
 
 ```text
 Requirement / Rule Gap
@@ -110,7 +110,7 @@ Task Definition / Dependency Gap
     → Task Definition & Orchestration
 ```
 
-修正后只重新校验受影响链路。
+修正后只重新确认受影响链路。
 
 简单 Feature 可由单一 Agent 完成；规模较大时，可按覆盖、一致性、依赖、验证维度使用 Subagent 独立检查，再由主 Agent 汇总。
 
@@ -141,7 +141,7 @@ Recommended Return Point
 
 需要跨阶段持续承接的未决问题统一创建或关联稳定 `OI-xxx`；不得通过 `Open Issue` 等平行对象形成新的事实源。
 
-通过校验的 Task 完成：
+通过有效性确认的 Task 完成：
 
 ```text
 Draft → Ready
@@ -160,7 +160,7 @@ Draft → Ready
 - 每个 Task 的 Verification 能证明 Coverage 与 Done。
 - 同一 Requirement 下的任务集合能够支撑需求级 AC Gate。
 - 不存在未处理 Blocking 问题。
-- 校验问题已完成回源修正并重新对齐。
+- 发现的问题已完成回源修正并重新对齐。
 
 最终结果：**Execution Ready**。
 
