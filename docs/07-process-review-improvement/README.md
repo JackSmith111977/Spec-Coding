@@ -5,7 +5,7 @@
 ## 阶段流程
 
 ```text
-收集证据 → 重建过程 → 发现问题 → 分析根因 → 形成改进方案 → 实施与验证
+收集证据 → 重建过程 → 发现问题 → 分析根因 → 形成改进方案 → 实施与有效性确认
 ```
 
 | 步骤 | 主要做什么 |
@@ -15,7 +15,7 @@
 | 发现问题 | 从异常信号中形成明确 `ISS-xxx`。 |
 | 分析根因 | 定位 Workflow / Rules / Harness 层真正根因 `RC-xxx`。 |
 | 形成改进方案 | 设计最小、可复用、可验证的 `IMP-xxx`。 |
-| 实施与验证 | 修改 Workflow / Rules / Harness，并通过后续真实运行验证效果。 |
+| 实施与有效性确认 | 修改 Workflow / Rules / Harness，并通过后续真实运行确认效果。 |
 
 ## 输入
 
@@ -38,6 +38,6 @@
 3. [发现问题](03-issue-detection.md)
 4. [分析根因](04-root-cause-analysis.md)
 5. [形成改进方案](05-improvement-design.md)
-6. [实施与验证](06-implementation-and-validation.md)
+6. [实施与有效性确认](06-implementation-and-validation.md)
 
 完成后，改进进入后续真实 Spec Coding 运行继续验证。
