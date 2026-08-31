@@ -29,7 +29,7 @@ Task
 - 每个 Task 是否有且只有一个 Primary Requirement，并可稳定计算 `TasksOf(REQ-xx)`。
 - Structure、To-Be Flow、Contracts 中的关键变化是否有实施落点。
 - Boundary Handling 的重要异常与边界是否进入 Task Coverage。
-- Risks / Open Issues 是否已被任务承接或明确保留。
+- Risks / Open Items 是否已被任务承接或明确保留。
 
 重点发现：`Uncovered Requirement`、`Uncovered Design`、`Uncovered Boundary`、`Unowned Task`、`Unowned Open Item`。
 
@@ -64,7 +64,7 @@ Task
 - 必要 Blocking Dependency 已显式记录。
 - Task 能获得实施所需上游与依赖上下文。
 - 不存在尚未定义但会阻塞实施的中间 Contract 或基础能力。
-- Risks / Open Issues 中不存在被遗漏的 Blocking 问题。
+- Risks / Open Items 中不存在被遗漏的 Blocking 问题。
 
 没有显式依赖的并行与执行 Wave 仍由 Harness / Agent 在运行时推导。
 
@@ -139,6 +139,8 @@ Impact
 Recommended Return Point
 ```
 
+需要跨阶段持续承接的未决问题统一创建或关联稳定 `OI-xxx`；不得通过 `Open Issue` 等平行对象形成新的事实源。
+
 通过校验的 Task 完成：
 
 ```text
@@ -183,4 +185,4 @@ Development Execution
 
 因此，本步骤的最终职责是：
 
-> **确认任务集能够完整、无冲突且可验证地承接已确认方案，并为开发实施及后续 Requirement 级收敛建立可靠的 Execution Ready 边界。**
+> **确认任务集能够完整、无冲突且可验证地承接已确认方案，并以稳定 Open Item 机制承接未决事项，为开发实施及后续 Requirement 级收敛建立可靠的 Execution Ready 边界。**
