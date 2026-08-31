@@ -54,6 +54,7 @@ Exception Workflow 不作为 Main Workflow 的新增阶段，也不维护 Task�
 
 - [`rules/global-contracts.md`](rules/global-contracts.md)：所有正式 Workflow 默认继承的 Global Contracts（全局执行契约）。
 - [`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md)：Human-Agent Collaboration Rules（人机协作规则），同时适用于需要 Human 意图、权限或关键判断的 Meta Protocol Interaction。
+- [`rules/agent-delegation-and-coordination.md`](rules/agent-delegation-and-coordination.md)：Agent Delegation & Coordination Rules（Agent 委派与协调规则），定义 Main Agent / Subagent 角色、委派协调、运行时能力与模型路由、结果验证与升级原则。
 - [`rules/code-quality.md`](rules/code-quality.md)：Code Quality Rules（代码质量规则）。
 
 Rules 本身不推进阶段状态；消费者通过引用使用规则，不复制规则正文。
@@ -64,7 +65,7 @@ Meta Protocol 定义 Spec Coding 如何被项目接入、解释、装配或转�
 
 - [`meta-protocols/README.md`](meta-protocols/README.md)：Meta Protocol 导航与依赖顺序。
 - [`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)：Project Onboarding Protocol，在 Harness 之前建立或校验 Adoption Baseline。
-- [`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)：Harness Compilation Protocol，消费 Adoption Baseline、Applicable Workflow / Rules 与当前项目能力，形成最小充分 Harness。
+- [`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)：Harness Compilation Protocol，消费 Adoption Baseline、Applicable Workflow / Rules 与当前项目能力，形成最小充分 Harness；需要 Agent 委派时动态发现 Runtime Agent / Model / Thinking / Tool / Context 能力并进行最低充分能力路由。
 
 正常关系：
 
@@ -93,7 +94,7 @@ Workflow
 当前版本包含：
 
 - 34 份 Canonical Stage Documents。
-- 3 份 Canonical Rule Documents。
+- 4 份 Canonical Rule Documents。
 - 4 份 Canonical Exception Workflow Documents。
 - 2 份 Canonical Meta Protocol Documents。
 
