@@ -1,18 +1,25 @@
 # Spec Coding 全流程概要
 
-本文件面向 Human（人类），用于快速判断当前任务处于哪里、下一步要做什么。详细执行要求由当前 Workflow（流程）与 Applicable Rules（适用规则）共同定义；Spec Coding 如何接入和转换为项目执行机制，由 Applicable Meta Protocol（适用元协议）负责。
+本文件面向 Human（人类），用于快速理解 Spec Coding 如何接入项目、当前任务处于哪里、下一步要做什么。详细执行要求由当前 Workflow（流程）与 Applicable Rules（适用规则）共同定义；Spec Coding 的项目接入与执行机制转换由 Applicable Meta Protocol（适用元协议）负责。
 
-## 全流程
+## 总体使用模型
 
 ```text
-Initial Context
+Target / Intent
       ↓
- ┌───────────────┬────────────────┐
- │ Greenfield    │ Brownfield     │
- │ 新项目         │ 存量项目        │
- ↓               ↓
-项目定义建立      项目认知建立
- └───────┬───────┘
+Project Onboarding（按需）
+      ↓
+Adoption Baseline
+      ↓
+Harness Compilation（按需）
+      ↓
+Harness Ready
+      ↓
+ ┌───────────────┬────────────────┬───────────────┐
+ │ Greenfield    │ Brownfield     │ Existing State│
+ ↓               ↓                ↓
+项目定义建立      项目认知建立       Resume Owner Stage
+ └───────┬───────┴────────────────┘
          ↓
       需求澄清
          ↓
@@ -29,7 +36,36 @@ Initial Context
  Evolved Workflow / Rules / Meta Protocol / Harness
 ```
 
-Main Workflow（主流程）描述正常推进路径。任一阶段出现无法可靠归因的 Failure（故障）、Unexpected Behavior（异常行为）或需要进一步诊断的 Unresolved Finding（未决验证发现）时，可按需进入 Exception Workflow（异常流程）：
+Project Onboarding 不作为 Stage 0：它只建立 Spec Coding 与当前 Target 的接入关系。已有 Adoption Baseline 仍有效时直接复用；Harness 仍满足当前 Workflow / Rules / Adoption 约束时同样直接复用。
+
+## Meta Protocol Flow｜元协议链
+
+```text
+Project Onboarding
+  ↓
+Adoption Baseline
+  ↓
+Harness Compilation
+  ↓
+Harness Ready
+```
+
+- [`Project Onboarding Protocol`](meta-protocols/project-onboarding.md)：识别 Target 与 Existing Adoption，建立 Usage Contract，对齐 Relevant Delta，最终形成有效 Adoption Baseline 与 Workflow Route。
+- [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md)：消费 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment，复用已有能力并只补真实缺口。
+
+当 Adoption 或 Harness 已经有效时对应步骤直接 Reuse，不为每个 Requirement / Task 增加初始化开销。
+
+## Main / Exception Workflow
+
+Main Workflow（主流程）描述正常推进路径：
+
+```text
+01A / 01B / Resume
+        ↓
+02 → 03 → 04 → 05 → 06 → 07
+```
+
+任一阶段出现无法可靠归因的 Failure（故障）、Unexpected Behavior（异常行为）或需要进一步诊断的 Unresolved Finding（未决验证发现）时，可按需进入 Exception Workflow（异常流程）：
 
 ```text
 Any Main-flow Stage
@@ -49,9 +85,9 @@ Exception Workflow 不作为新的主流程阶段，也不维护主流程权威�
 
 ## Human-Agent Collaboration｜人机协作
 
-Human 不需要跟踪 Agent 的全部搜索、推理和 Task 级执行。所有正式 Workflow 适用 [`Human-Agent Collaboration Rules`](rules/human-agent-collaboration.md)，但交互由事件触发：当重要共享模型建立或变化、即将进入 Human 决策边界、权限需要升级、既有共享模型被证据推翻，或重要 Requirement / Design / Verification 等完成收敛时，Agent 才同步 Human 判断所需的最小认知。
+Human 不需要跟踪 Agent 的全部搜索、推理和 Task 级执行。正式 Workflow，以及 Project Onboarding 等涉及 Human 意图、权限或关键判断的 Meta Protocol Interaction，适用 [`Human-Agent Collaboration Rules`](rules/human-agent-collaboration.md)。
 
-核心原则是：**Agent 保持契约内自治；Human 在真正需要介入时保持 Decision Readiness（决策就绪）。** 已有上下文仍有效时只同步关键 Delta，不重复重放整个项目；Human 的有效反馈应更新对应 Canonical Source of Truth，而不是只停留在会话里。
+核心原则是：**Agent 先发现事实并保持契约内自治；Human 只在真实意图 / 决策边界保持 Decision Readiness（决策就绪）。** 已有上下文仍有效时只同步关键 Delta，不重复重放整个项目；Human 的有效反馈应更新对应 Canonical Source of Truth，例如 Adoption Intent 更新 Adoption Baseline，Requirement / Design 语义更新相应 Workflow Artifact。
 
 ## 阶段一览
 
@@ -74,29 +110,32 @@ Human 不需要跟踪 Agent 的全部搜索、推理和 Task 级执行。所有�
 
 ## 使用方法
 
-1. 先通过本页判断当前任务所处阶段；若存在异常，再判断是否触发 Exception Workflow。
-2. 让 Agent 执行 `Build Harness`。
-3. Agent 按 [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md) 完成 `Read → Derive → Compose → Verify`，以本地仓库为主要事实源，读取当前 Main Workflow、Triggered Exception Workflow（若有）与 Applicable Rules，复用已有能力并只补真实缺口。
-4. Harness 达到 `Ready` 后，按当前 Workflow 与适用规则推进；Human-Agent Collaboration 按 Trigger 发生，不为普通 Autonomous 工作增加人工审批；若发现上游事实失效，回到最早失效位置纠正，只重新对齐受影响链路。
-
-## Meta Protocol 与 Harness
-
-当前正式 Harness 构建入口仍为：
+给 Coding Agent 提供 **Spec Coding** 与目标项目 / Intent，然后直接表达目标，例如：
 
 ```text
-Build Harness
+按照 Spec Coding 接入当前项目，并按当前任务继续推进。
 ```
 
-该入口由 `harness-compilation` Meta Protocol 承接。Meta Protocol 定义如何读取与转换 Spec Coding，Harness 则是最终在目标项目中生成或复用的执行机制；两者都不替代 Workflow / Rules 的规范事实源。
+Agent 应自行：
+
+1. 读取 `VERSION` 与 [`manifest.yaml`](manifest.yaml)。
+2. 根据 [`Project Onboarding Protocol`](meta-protocols/project-onboarding.md) 判断 Adoption Baseline 是否可复用；不存在或失效时执行 Initialize / Refresh / Migrate。
+3. 解析最终 Workflow Route 与 Applicable Rules。
+4. 根据 [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md) Reuse / Compile 最小充分 Harness。
+5. Harness 达到 `Ready` 后进入 01A / 01B 或 Resume 当前 Owner Stage；之后按正式 Workflow 与 Rules 推进。
+6. 若发现上游事实失效，回到最早失效事实源纠正，只重新对齐受影响链路。
+
+Human 不需要手工依次执行 `Onboard Project`、`Build Harness` 等命令；Meta Protocol 的路由由 Agent 根据当前状态内部完成。
 
 ## 详细规则
 
 - Workflow 清单：[`workflows/`](workflows/)
 - Rules 清单：[`rules/`](rules/)
 - Meta Protocols：[`meta-protocols/`](meta-protocols/)
+- Project Onboarding：[`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)
+- Harness 编译协议：[`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)
 - Human-Agent Collaboration Rules：[`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md)
 - Exception Workflow：[`workflows/exceptions/README.md`](workflows/exceptions/README.md)
-- Harness 编译协议：[`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)
 - 全局执行规则：[`rules/global-contracts.md`](rules/global-contracts.md)
 - Code Quality Rules：[`rules/code-quality.md`](rules/code-quality.md)
 - 规范术语：[`reference/glossary.md`](reference/glossary.md)
