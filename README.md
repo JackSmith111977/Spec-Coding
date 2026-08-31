@@ -32,6 +32,7 @@ Spec Coding 关注的不是“怎样让 Agent 多写代码”，而是：
 - **Traceability｜可追溯**：结果可以回查到它来自哪个 Requirement、Design、Task 与 Evidence。
 - **Bounded Autonomy｜有边界的自治**：Agent 在明确契约内自主推进，超出边界时回到正确上游。
 - **Human-Agent Collaboration｜人机协作**：Human 不跟踪 Agent 的全部工作上下文，但在关键认知变化与决策边界保持足够的判断上下文。
+- **Agent Delegation｜Agent 委派**：Main Agent 持有全局一致性与最终责任，Subagent 只承担可隔离、可验证且权限有界的局部工作。
 - **Verification｜验证**：用可复核证据证明结果，而不是接受 Agent 的自我声明。
 - **Adaptation｜适配**：规范保持稳定，具体接入与 Harness 根据使用意图、项目约束和现有能力动态适配。
 
@@ -98,7 +99,7 @@ Harness Ready
 ```
 
 - [`Project Onboarding Protocol`](docs/meta-protocols/project-onboarding.md) 负责识别 Target、协作 / 发布方式、Spec Workspace、稳定 Repository / Authority 约束，以及 Existing Adoption 是否需要 Reuse / Refresh / Migrate。
-- [`Harness Compilation Protocol`](docs/meta-protocols/harness-compilation.md) 消费有效 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment，优先复用已有能力，只补真实 Capability / Reliability Gap。
+- [`Harness Compilation Protocol`](docs/meta-protocols/harness-compilation.md) 消费有效 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment，优先复用已有能力，只补真实 Capability / Reliability / Selection Gap；需要 Agent 委派时先发现当前 Runtime 实际可用模型、Thinking、Tools、Context 与隔离能力，再按最低充分能力形成运行时路由。
 
 已有 Adoption Baseline 与 Harness 仍有效时直接复用，因此普通 Requirement / Task 不需要重复初始化。
 
@@ -138,9 +139,11 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 - **Artifact as Contract｜产物用于对齐**：只对真正需要跨阶段交接和验证的结果建立稳定契约。
 - **Evidence over Claim｜证据优于声明**：是否完成由证据决定，不由执行者自述决定。
 - **Decision-ready Human｜保持 Human 可判断**：需要 Human 介入时先同步最小充分认知，而不是让 Human 从 Agent 的全部工作历史重建上下文。
+- **Delegate Work, Not Accountability｜委派工作，不转移责任**：Main Agent 可以委派局部工作，但继续持有 Workflow State、结果整合与最终责任。
 - **Affected Trace Only｜只处理受影响链路**：发现偏差时修正最早失效事实源，只重新对齐真正受影响的部分。
 - **Persist Intent, Rediscover Facts｜持久化意图，重发现动态事实**：接入基线只保存长期意图与稳定绑定，不复制易变环境。
 - **Minimum Sufficient Harness｜最小充分 Harness**：优先复用项目已有能力，只补真实 Capability / Reliability Gap。
+- **Minimum Sufficient Capability｜最低充分能力**：模型与 Thinking 选择以可靠满足当前 Contract 为目标，不统一使用最强或最便宜配置。
 
 ---
 
@@ -155,6 +158,7 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 | 查看 Meta Protocol 层 | [`docs/meta-protocols/README.md`](docs/meta-protocols/README.md) |
 | 查看 Main / Exception Workflow | [`docs/workflows/README.md`](docs/workflows/README.md) |
 | 查看人机共享认知与决策协作规则 | [`docs/rules/human-agent-collaboration.md`](docs/rules/human-agent-collaboration.md) |
+| 查看 Main Agent / Subagent 委派与模型路由规则 | [`docs/rules/agent-delegation-and-coordination.md`](docs/rules/agent-delegation-and-coordination.md) |
 | 处理 Debug / Defect / 难以归因的异常 | [`docs/workflows/exceptions/debug-and-defect-resolution/README.md`](docs/workflows/exceptions/debug-and-defect-resolution/README.md) |
 | 查看所有 Workflow 共同继承的规则 | [`docs/rules/global-contracts.md`](docs/rules/global-contracts.md) |
 | 查看通用代码质量原则 | [`docs/rules/code-quality.md`](docs/rules/code-quality.md) |
