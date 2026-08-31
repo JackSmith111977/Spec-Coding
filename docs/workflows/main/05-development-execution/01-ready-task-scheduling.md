@@ -55,6 +55,8 @@ Runnable Task
 
 Worktree 是并行写任务的隔离机制，不作为 Task 固定属性，由当前 Execution Set 动态决定。
 
+Subagent 的一般协调、Single Writer Boundary（单写入者边界）与冲突上报遵循 [`Agent Delegation & Coordination Rules`](../../../rules/agent-delegation-and-coordination.md)。Subagent 不自行协商共享 Ownership；发现写边界重叠、依赖变化或运行时冲突时返回 Main Agent / Harness 重新调度。
+
 > **Persist constraints, derive execution｜持久化约束，运行时推导执行策略。**
 
 ---
@@ -95,7 +97,9 @@ Active Constraints
 
 > **Artifact 保持完整，Context 保持最小。**
 
-Agent、Model、Fresh / Fork、Scout、Worktree 等属于运行时策略，不写回 Task 核心定义。
+Execution Unit 已是 Formal Task 的正式运行时委派输入，不再叠加第二套 Delegation Contract。Agent Role、Model、Thinking、Fresh / Fork、Scout、Tools、Workspace、Attempt 与 Fallback 属于运行时策略，由当前 Task、Agent Delegation Rules 与 Harness Compilation 动态推导，不写回 Task 核心定义。
+
+模型选择遵循 Harness Compilation 的 Capability-aware Routing（能力感知路由）：先发现当前 Runtime 实际可用模型 / Thinking / Tool / Context，再按 Role 与当前 Task 的复杂度、风险和约束选择最低充分能力配置。
 
 ---
 
@@ -113,9 +117,9 @@ Ready → In Progress
   Worker Execution
 ```
 
-任务权威状态写回 `tasks.md`；Worker、Workspace、Attempt 等短生命周期信息可由 Harness 作为 Execution Metadata 独立维护。
+任务权威状态写回 `tasks.md`；Worker、Role、Model、Thinking、Workspace、Attempt 等短生命周期信息可由 Harness 作为 Execution Metadata 独立维护。
 
-Agent、Worktree 或运行环境启动失败，优先作为 Execution Attempt 异常；只有任务本身无法继续时才进入 `Blocked`。
+Agent、Model、Worktree 或运行环境启动失败，优先作为 Execution Attempt 异常；Harness 可在仍满足 Required Capability 的前提下调整 Context、Thinking、Model 或 Fallback。只有任务本身无法继续时才进入 `Blocked`，不新增 `CapabilityBlocked` 等持久状态。
 
 ---
 
@@ -135,7 +139,7 @@ Execution Unit 是单 Worker 的直接输入契约。Execution Dispatch 是短�
 
 ## 1.7 完成标准
 
-当前轮次已识别 Runnable Task、检查依赖 / 冲突 / 环境、动态确定串并行和 Workspace 策略、为待执行 Task 构造最小 Execution Unit，并完成被启动任务 `Ready → In Progress`；未调度 Ready Task 保持原状态。
+当前轮次已识别 Runnable Task、检查依赖 / 冲突 / 环境、动态确定串并行和 Workspace 策略、为待执行 Task 构造最小 Execution Unit，并完成被启动任务 `Ready → In Progress`；Agent / Model / Thinking 选择满足当前 Runtime 与最低充分能力要求；未调度 Ready Task 保持原状态。
 
 ---
 
@@ -157,4 +161,4 @@ Autonomous Implementation & Closure
 
 因此，本步骤的最终职责是：
 
-> **将规划世界中的 `Ready` Task 动态转换为运行时世界中的高质量执行单元，并以最低冲突成本启动最适合当前条件的 Agent 执行。**
+> **将规划世界中的 `Ready` Task 动态转换为运行时世界中的高质量执行单元，并以最低冲突成本和最低充分 Agent Capability 启动最适合当前条件的 Worker 执行。**
