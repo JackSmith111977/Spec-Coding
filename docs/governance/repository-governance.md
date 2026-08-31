@@ -9,7 +9,7 @@
 ```text
 docs/
 ├── workflows/       # Main / Exception Workflow
-├── rules/           # 跨阶段持续规则
+├── rules/           # 持续适用规则
 ├── meta-protocols/  # Spec Coding 接入、装配与转换协议
 ├── governance/      # 仓库与版本治理
 ├── reference/       # 术语等参考资料
@@ -27,13 +27,14 @@ docs/
 3. **Affected Trace Only｜只改受影响链路**：只修改真实受影响的定义点、消费者和治理文件，不顺手重写无关阶段。
 4. **Manifest 同步**：新增、删除、移动或重命名 Canonical Stage Document（正式阶段文档）、Canonical Rule Document（正式规则文档）、Canonical Exception Workflow Document（正式异常流程文档）或 Canonical Meta Protocol Document（正式元协议文档），或改变机器可读导航入口时，同步更新 `manifest.yaml`。
 5. **Glossary 同步**：新增核心术语、修改规范译法或改变术语语义时，同步更新 `reference/glossary.md`。
-6. **Rule Source of Truth｜规则事实源唯一**：跨阶段持续适用的规则维护在 `manifest.yaml` 登记的 Rule Document 中；Workflow 文档只引用适用规则，不复制规则正文形成并行事实源。
+6. **Rule Source of Truth｜规则事实源唯一**：持续适用规则维护在 `manifest.yaml` 登记的 Rule Document 中；Workflow / Meta Protocol 只引用适用规则，不复制规则正文形成并行事实源。
 7. **Exception Workflow Source of Truth｜异常流程事实源唯一**：正式 Exception Workflow 维护在 `manifest.yaml` 的 `exception_workflows` 中，仅在 Trigger 成立时加载；异常流程形成调查、纠正与关闭证据，不复制主流程自身状态事实源。
 8. **Meta Protocol Source of Truth｜元协议事实源唯一**：正式 Meta Protocol 维护在 `manifest.yaml` 的 `meta_protocols` 中，负责 Spec Coding 的项目接入、装配或转换，不替代 Workflow / Rules 本身的规范语义。
-9. **Global Contract 同步**：影响全部正式 Workflow 的通用执行规则维护在 `rules/global-contracts.md`，避免复制形成重复事实源。
-10. **Changelog 同步**：改变 Workflow / Rule / Meta Protocol 语义、Artifact Contract、状态、Gate、Authority、目录消费路径或下游消费方式的变化进入 `CHANGELOG.md`。
-11. **Git Owns History｜历史交给 Git**：旧版本、删除内容与重命名关系由 Commit / PR / Changelog 保存。
-12. **No Silent Semantic Change｜禁止静默语义变化**：纯润色或结构迁移不得顺带改变正式契约或规则；确需改变时按语义变更治理。
+9. **Adoption Source of Truth｜接入事实源唯一**：Project Onboarding 形成的 Adoption Baseline 是目标项目侧的接入事实源，只保存 Declared Intent、Stable Binding 与 Override / Constraint；项目动态环境、Workflow Artifact 与 Harness 事实继续由各自来源承担。
+10. **Global Contract 同步**：影响全部正式 Workflow 的通用执行规则维护在 `rules/global-contracts.md`，避免复制形成重复事实源。
+11. **Changelog 同步**：改变 Workflow / Rule / Meta Protocol 语义、Artifact Contract、状态、Gate、Authority、目录消费路径或下游消费方式的变化进入 `CHANGELOG.md`。
+12. **Git Owns History｜历史交给 Git**：旧版本、删除内容与重命名关系由 Commit / PR / Changelog 保存。
+13. **No Silent Semantic Change｜禁止静默语义变化**：纯润色或结构迁移不得顺带改变正式契约或规则；确需改变时按语义变更治理。
 
 ## 版本管理
 
@@ -79,39 +80,48 @@ Merge to main
 
 - 上下游术语、状态、Artifact Contract 与适用 Rules 一致。
 - 目录职责、Manifest 路径与 Human 导航一致。
+- Meta Protocol 的先后依赖、目标项目侧 Adoption Baseline 与 Harness 输入关系一致。
 - 没有引入并行事实源、废弃副本或旧路径残留。
 - 受影响 Trace 可追溯。
 - 必要 Manifest / Rule / Exception Workflow / Meta Protocol / Glossary / Changelog 已同步。
 
 ## Agent 消费顺序
 
-执行与 Harness 构建优先使用本地一致视图。已有本地工作区时先同步并确认基线；尚无本地副本时先获取到本地。远程接口主要用于获取、同步、版本确认与必要补充。
+执行、接入与 Harness 构建优先使用本地一致视图。已有本地工作区时先同步并确认基线；尚无本地副本时先获取到本地。远程接口主要用于获取、同步、版本确认与必要补充。
 
-当前构建 Harness 时建议按顺序读取：
+建议按顺序处理：
 
 ```text
-本地取得 Spec Coding 与目标项目的一致工作区
+取得 Spec Coding 与 Target 的可用一致视图
   ↓
 VERSION
   ↓
 docs/manifest.yaml
   ↓
-Applicable Rules
+Project Onboarding
+  ├─ Valid Adoption Baseline → Reuse
+  └─ Missing / Relevant Delta → Initialize / Refresh / Migrate
   ↓
-Applicable Meta Protocol
+Adoption Baseline + Final Workflow Route
   ↓
-meta-protocols/harness-compilation.md
+Load Applicable Workflow / Rules
   ↓
-当前 Main Workflow 文档
+Harness Compilation
+  ↓
+Harness Ready
+  ↓
+Enter / Resume Main Workflow
   ↓
 Triggered Exception Workflow（若有）
-  ↓
-必要上游引用
 ```
 
-Applicable Rules 由 `manifest.yaml` 的 `rule_documents` 解析；`global-execution` 与 `human-agent-collaboration` 始终加载，其他专项规则只在适用阶段 / 任务加载。Exception Workflow 由 `exception_workflows` 解析，只在对应 Trigger 成立时加载。Meta Protocol 由 `meta_protocols` 解析；当前 Harness 构建使用 `harness-compilation`。
+Project Onboarding 只需读取接入判断所需的最小规范与 Target Evidence，不要求预加载全部 Workflow。Human-Agent Collaboration 在 Onboarding 中涉及 Human Intent、Authority 或关键判断时适用；Global Contracts 仍由正式 Workflow 默认继承，不因 Meta Protocol 引用 Authority 语义而整体扩展到 Meta Protocol。
 
-Harness 达到 `Ready` 后，执行继续以正式 Workflow 文档与 Applicable Rules 为权威依据；Meta Protocol 定义接入 / 转换方法，Harness 是项目侧执行机制，二者都不替代 Workflow / Rules 的规范事实源。
+Harness Compilation 消费三类上下文：Applicable Workflow / Rules 作为 Normative Context、Adoption Baseline 作为 Adoption Context、当前 Target Environment / Existing Harness / Agent Capability 作为 Execution Context。动态项目事实不应为了 Harness 编译被复制到 Adoption Baseline。
+
+Applicable Rules 由 `manifest.yaml` 的 `rule_documents` 解析；Human-Agent Collaboration 在正式 Workflow 与需要 Human Interaction 的 Meta Protocol 中加载，其他专项规则只在适用阶段 / 任务加载。Exception Workflow 由 `exception_workflows` 解析，只在对应 Trigger 成立时加载。Meta Protocol 由 `meta_protocols` 解析，Project Onboarding 在 Harness Compilation 之前建立或验证接入基线。
+
+Harness 达到 `Ready` 后，执行继续以正式 Workflow 文档与 Applicable Rules 为权威依据；Meta Protocol 定义接入 / 转换方法，Adoption Baseline 是目标项目侧接入事实，Harness 是项目侧执行机制，三者都不替代 Workflow / Rules 的规范事实源。
 
 Human 快速理解流程优先使用 [`../overview.md`](../overview.md)、[`../workflows/README.md`](../workflows/README.md)、各阶段 README 与 [`../workflows/exceptions/README.md`](../workflows/exceptions/README.md)，不以概要替代正式执行规则。
 
