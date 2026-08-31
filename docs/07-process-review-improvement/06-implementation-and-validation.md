@@ -1,8 +1,8 @@
-# 6. Implementation & Validation｜实施和验证
+# 6. Implementation & Validation｜实施与有效性确认
 
 ## 6.1 目标
 
-将上一阶段形成的 `IMP-xxx` 真正实施到对应的 Spec Coding / SDD Workflow、Rules 或 Harness 组件中，并通过后续真实开发验证改进是否有效。
+将上一阶段形成的 `IMP-xxx` 真正实施到对应的 Spec Coding / SDD Workflow、Rules 或 Harness 组件中，并通过后续真实开发确认改进是否有效。
 
 > **实施对象是可复用 Workflow / Rules / Harness 机制，不是某个具体项目的 Requirement、Acceptance Criteria、Design、Task、Change、Verification 或代码等项目产物。**
 
@@ -42,7 +42,7 @@ EV-xxx
 
 ---
 
-## 6.3 后续验证
+## 6.3 后续有效性确认
 
 在下一轮真实 Spec Coding 中，根据 `IMP-xxx.validation_plan` 观察实际结果。
 
@@ -87,8 +87,8 @@ Harness 演进既包括新增，也包括修改和删除；Workflow / Rule 的�
 | `authority` | 当前实施所依据的 Autonomous / Confirm / Human Decision。 |
 | `target` | 实际改进落点。 |
 | `change` | 最终实施内容。 |
-| `validation_plan` | 既定验证方案。 |
-| `validation_result` | 实际验证结果。 |
+| `validation_plan` | 既定有效性确认方案。 |
+| `validation_result` | 实际确认结果。 |
 | `status` | 当前状态。 |
 | `related` | 相关 Workflow / Rule / Harness、文件、提交或其他位置。 |
 | `side_effects` | 可选，副作用或额外成本。 |
@@ -118,7 +118,7 @@ Authority Gate
   ↓
 下一轮 Spec Coding
   ↓
-验证效果
+确认效果
   ↓
 Keep / Modify / Remove
   ↓
@@ -127,4 +127,4 @@ Evolved Workflow / Rules / Harness
 
 因此，Implementation & Validation 的最终职责是：
 
-> **在既定人机权限边界内将改进真正落入可复用 Workflow / Rules / Harness，并通过后续真实开发持续验证其效果，使 Spec Coding / SDD 机制在实践中可控地演进。**
+> **在既定人机权限边界内将改进真正落入可复用 Workflow / Rules / Harness，并通过后续真实开发持续确认其效果，使 Spec Coding / SDD 机制在实践中可控地演进。**
