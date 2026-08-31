@@ -1,6 +1,6 @@
 # Glossary｜术语表
 
-本文件定义 Spec Coding 文档中的 Canonical Terminology（规范术语）。它属于治理文档，不计入正式 Workflow 文档。
+本文件定义 Spec Coding 文档中的 Canonical Terminology（规范术语）。它属于 Reference（参考）文档，不计入正式 Workflow、Rule 或 Meta Protocol 文档。
 
 ## 使用规则
 
@@ -9,7 +9,7 @@
 - 中文解释以**语义准确**为优先，不做机械直译。例如 `Harness` 统一为“执行框架”，不采用字面翻译。
 - Schema 字段、状态值、ID、代码标识等可以保留英文，例如 `status = open`、`code_ref`、`REQ-01`；必要说明使用中文。
 - `Spec Coding` 是整套流程 / 方法名称，不默认对应独立 `Spec` 产物。具体项目存在真实机器规格时，使用 `Technical Contract（技术契约）` 或 `Executable Specification（可执行规格）` 等准确名称。
-- 新增会影响流程理解的核心英文术语时，优先先更新本表，再在 Workflow 文档中使用。
+- 新增会影响规范理解的核心英文术语时，优先先更新本表，再在正式文档中使用。
 
 ## 核心流程术语
 
@@ -18,11 +18,12 @@
 | Specification-Driven Development (SDD) | 规格驱动开发 | 以明确需求、设计、任务和验证契约驱动实施的开发方式。 |
 | Canonical Corpus | 规范文档集 | 当前版本唯一有效的正式文档集合。 |
 | Canonical Source of Truth | 规范事实源 | 当前应被下游视为权威依据的唯一来源。 |
-| Manifest | 清单 | 机器可读的正式文档、流程与规则结构定义。 |
+| Manifest | 清单 | 机器可读的正式 Workflow、Rule、Meta Protocol 与导航结构定义。 |
 | Workflow | 流程 | 规定活动如何按阶段、状态与反馈路径推进的执行路径。 |
 | Main Workflow | 主流程 | Spec Coding 正常情况下由项目定义 / 认知建立推进到流程复盘改进的主路径。 |
 | Exception Workflow | 异常流程 | 由故障、异常或未决问题按需触发的跨阶段流程，完成处理后将可信结论回交主流程。 |
 | Rule | 规则 | 执行过程中持续适用的原则、约束或质量要求；本身不负责推进阶段状态。 |
+| Meta Protocol | 元协议 | 定义 Spec Coding 如何被项目接入、解释、装配或转换为可执行机制的上层协议；本身不作为业务开发阶段推进。 |
 | Artifact | 产物 | 流程中形成并可被后续阶段消费的结构化结果。 |
 | Requirement | 需求 | 需要实现或改变的业务 / 系统目标与行为。 |
 | Acceptance Criteria (AC) | 验收标准 | 用于明确判断 Requirement 是否成立的可验证标准。 |
@@ -53,7 +54,7 @@
 | Worker Agent | 执行 Agent | 在既定 Task Contract 内完成具体实施的 Agent。 |
 | Subagent | 子 Agent | 为上下文隔离、并行或独立检查而临时委派的 Agent。 |
 | Harness | 执行框架 | 组织 Agent、工具、上下文、状态、规则与验证的运行机制。 |
-| Harness Compilation | Harness 编译 | 将 Spec Coding 流程与规则结合目标项目与现有能力，通过固定转换协议生成最小充分 Harness 的过程。 |
+| Harness Compilation | Harness 编译 | 通过 Harness Compilation Meta Protocol，将 Spec Coding Workflow 与 Rules 结合目标项目与现有能力，生成最小充分 Harness 的过程。 |
 | Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程与规则要求所需的最少 Harness 组件，避免重复能力与过度设计。 |
 | Capability Gap | 能力缺口 | 当前 Agent 或项目环境缺少完成某项流程 / 规则要求所需的能力。 |
 | Reliability Gap | 可靠性缺口 | 所需能力已经存在，但当前机制无法稳定保证流程 / 规则要求被执行。 |
@@ -128,8 +129,8 @@
 | Shared Cognitive Baseline | 共享认知基线 | Human 与 Agent 为继续协作共同依赖的最小充分认知，包括目标、关键模型、状态、变化、不确定性、下一步与必要证据入口。 |
 | Cognitive Sync | 认知同步 | 在关键认知建立、变化、失效或决策边界出现时，向 Human 同步做出后续判断所需的最小信息。 |
 | Decision Readiness | 决策就绪 | Human 已拥有理解当前目标、模型、关键变化、证据、选项与影响所需的最小上下文，可以进行有效 Confirm / Human Decision / Human Acceptance。 |
-| Process Review | 流程复盘 | 基于真实执行证据分析 Workflow / Rules / Harness 的可复用机制问题。 |
-| Improvement | 改进 | 对可复用 Workflow / Rules / Harness 机制进行可验证调整。 |
+| Process Review | 流程复盘 | 基于真实执行证据分析 Workflow / Rules / Meta Protocol / Harness 的可复用机制问题。 |
+| Improvement | 改进 | 对可复用 Workflow / Rules / Meta Protocol / Harness 机制进行可验证调整。 |
 
 ## 术语变更规则
 

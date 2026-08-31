@@ -4,7 +4,7 @@
 
 ## Terminology｜术语
 
-核心英文术语及规范中文解释统一见 [`glossary.md`](glossary.md)。
+核心英文术语及规范中文解释统一见 [`../reference/glossary.md`](../reference/glossary.md)。
 
 - 非直观术语首次承担关键语义时使用 `English Term（中文解释）`。
 - Schema 字段、状态值、ID、代码标识可直接保留英文。
@@ -82,7 +82,7 @@ OI-xxx / open
 
 ## Human-Agent Collaboration｜人机协作
 
-Human / Agent Authority 回答“谁有权决定”；[`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md) 回答“什么时候需要协作、Human 做判断前需要同步什么，以及反馈如何重新进入事实源”。
+Human / Agent Authority 回答“谁有权决定”；[`human-agent-collaboration.md`](human-agent-collaboration.md) 回答“什么时候需要协作、Human 做判断前需要同步什么，以及反馈如何重新进入事实源”。
 
 所有正式 Workflow 默认适用 Human-Agent Collaboration Rules，但**全局适用不代表每个阶段都必须发生 Human Interaction**：Agent 在 Autonomous 边界内继续自主推进，只有 Shared Model 建立 / 变化、Decision Boundary、Authority Escalation、Shared Model Invalidated、Major Closure 等真实 Trigger 成立时才同步。
 

@@ -22,7 +22,7 @@
 - **Code Reference｜代码引用**：存在代码变更时，以 `code_ref` 指向的 Task Commit 为正式验证对象。
 - **Actual Changes**：由 `code_ref` 对应 Commit、Patch 或无代码任务的实际结果确定。
 - **Local Evidence**：Worker 局部证据，仅作参考和定位。
-- **Applicable Rules｜适用规则**：存在代码变更时，包括 [`Code Quality Rules`](../rules/code-quality.md) 及项目自身规则。
+- **Applicable Rules｜适用规则**：存在代码变更时，包括 [`Code Quality Rules`](../../../rules/code-quality.md) 及项目自身规则。
 - **Runtime / Environment**：正式 Gate 所需环境。
 
 ```text
@@ -77,7 +77,7 @@ Existing     Debug & Defect Resolution
 Routing      Exception Workflow
 ```
 
-若异常无法可靠归因、需要跨层定位或现有证据不足以判断最早失效位置，应进入 [`Debug & Defect Resolution`](../exception-flows/debug-and-defect-resolution/README.md)。Debug 负责形成 Root Cause / Correction / Failure Closure Evidence，正式 Task 状态仍由当前 Development Execution 流程写回，不由异常流程维护并行状态。
+若异常无法可靠归因、需要跨层定位或现有证据不足以判断最早失效位置，应进入 [`Debug & Defect Resolution`](../../exceptions/debug-and-defect-resolution/README.md)。Debug 负责形成 Root Cause / Correction / Failure Closure Evidence，正式 Task 状态仍由当前 Development Execution 流程写回，不由异常流程维护并行状态。
 
 对于可明确归因的 Implementation Defect，仍优先保持最短局部修复路径：
 

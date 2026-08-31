@@ -30,4 +30,4 @@ Main Workflow Continues
 - **Affected Trace Only｜只处理受影响链路**：只重新对齐和验证真实受影响部分。
 - **Return to Owner Stage｜回交承接阶段**：异常流程形成 Resolution Evidence，不替代主流程自身的 Task、Finding、Open Item 或 Verification 状态管理。
 
-正式 Exception Workflow 文档清单以 [`../manifest.yaml`](../manifest.yaml) 的 `exception_workflows` 为机器可读事实源。
+正式 Exception Workflow 文档清单以 [`../../manifest.yaml`](../../manifest.yaml) 的 `exception_workflows` 为机器可读事实源。

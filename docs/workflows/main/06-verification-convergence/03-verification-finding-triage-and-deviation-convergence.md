@@ -30,7 +30,7 @@
 - **Accepted Deviation（接受偏差）始终属于 Human Decision（Human 决策）**；Agent 不得自行降低标准、跳过强制 Gate 或把已知偏差标记为 Pass。
 - 证据相互冲突、置信度不足或影响高风险 / 安全边界时，Agent 应先补证据，再按权限升级，而不是强行自动分类。
 
-进入 Upstream Deviation 的 Confirm / Human Decision 或 Accepted Deviation 判断前，同时遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)。Human 至少应理解 Expected / Actual、关键 Evidence、影响与风险、Affected Trace 以及 Agent Recommendation；如果 Debug 或 Verification 已使既有共享模型失效，应先完成 Shared Model Repair，再请求偏差判断。
+进入 Upstream Deviation 的 Confirm / Human Decision 或 Accepted Deviation 判断前，同时遵循 [`Human-Agent Collaboration Rules`](../../../rules/human-agent-collaboration.md)。Human 至少应理解 Expected / Actual、关键 Evidence、影响与风险、Affected Trace 以及 Agent Recommendation；如果 Debug 或 Verification 已使既有共享模型失效，应先完成 Shared Model Repair，再请求偏差判断。
 
 Finding（验证发现）与 Open Item（开放项）不是同一对象：Finding 记录验证阶段观察到的事实及判定；只有其处置需要跨阶段继续等待决策、补充信息或后续承接时，才创建或关联稳定 `OI-xxx`。已有 Open Item 被验证命中时，继续引用原 ID，不创建副本。
 
@@ -38,7 +38,7 @@ Risk（风险）同样独立于二者：风险可以由 Finding 或 Open Item �
 
 Verifier 的 `Suspected Origin` 只作定位线索，不自动改变上游事实源。
 
-当 Finding 为 `Unresolved` 且问题本身仍可可靠观察，但当前证据不足以判断故障边界、根因或最早失效层时，应进入 [`Debug & Defect Resolution`](../exception-flows/debug-and-defect-resolution/README.md) 补充定位与根因证据。Debug 形成的 Root Cause / Failure Closure Evidence 回到本步骤继续 Finding 判定与状态收敛；异常流程不直接替代 Finding 的权威状态。
+当 Finding 为 `Unresolved` 且问题本身仍可可靠观察，但当前证据不足以判断故障边界、根因或最早失效层时，应进入 [`Debug & Defect Resolution`](../../exceptions/debug-and-defect-resolution/README.md) 补充定位与根因证据。Debug 形成的 Root Cause / Failure Closure Evidence 回到本步骤继续 Finding 判定与状态收敛；异常流程不直接替代 Finding 的权威状态。
 
 > **Evidence before Decision｜先看证据，再做判定。**
 

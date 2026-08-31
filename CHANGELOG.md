@@ -12,6 +12,33 @@
 
 当前无未发布语义变更。
 
+## 0.7.0 - 2026-08-31
+
+### Added｜新增
+
+- 新增 `docs/workflows/README.md`，将 Main Workflow 与 Exception Workflow 统一收敛到 Workflow 层，并分别归入 `workflows/main/` 与 `workflows/exceptions/`。
+- 新增 `docs/meta-protocols/README.md`，正式建立 Meta Protocol（元协议）层；Harness Compilation Protocol 作为首个 Canonical Meta Protocol 登记，不提前创建尚未设计完成的项目接入协议占位文档。
+- `manifest.yaml` 新增 `meta_protocols` 与 `canonical_meta_protocol_document_count`，正式登记 1 份 Canonical Meta Protocol Document。
+- Glossary 新增 `Meta Protocol（元协议）`，明确其负责 Spec Coding 的项目接入、解释、装配与转换，不作为业务开发阶段推进。
+
+### Changed｜调整
+
+- 文档物理结构按 `workflows / rules / meta-protocols / governance / reference` 五类职责重新组织，使文件系统架构与规范概念模型一致。
+- 34 份 Main Workflow Stage Documents 迁移到 `docs/workflows/main/`；4 份 Debug Exception Workflow Documents 迁移到 `docs/workflows/exceptions/`，Stage Identity、顺序与流程语义保持不变。
+- `docs/global-contracts.md` 迁移为 `docs/rules/global-contracts.md`，使 3 份 Canonical Rule Documents 统一位于 Rules 层。
+- `docs/harness-compilation-protocol.md` 迁移并规范命名为 `docs/meta-protocols/harness-compilation.md`，明确 Meta Protocol 与最终项目侧 Harness 的职责边界。
+- `docs/repository-governance.md` 迁移为 `docs/governance/repository-governance.md`；`docs/glossary.md` 迁移为 `docs/reference/glossary.md`。
+- `manifest.yaml` `schema_version` 从 `3` 升级为 `4`，同步全部 Canonical 路径、Human 导航入口、治理 / 参考入口与 Agent 消费顺序。
+- 根 README、Documentation Index、Human Overview、Rules Index 与 Repository Governance 同步五层目录模型、Meta Protocol 定义和新路径。
+- 修正因目录迁移受到影响的 Human-Agent Collaboration、Code Quality、Debug Exception Workflow 与 Manifest 相对引用；未受影响的阶段正文继续复用原 Git blob，避免结构调整引入无关语义 Diff。
+
+### Notes｜说明
+
+- 本版本属于 Directory Architecture Refactor（目录架构重构）：不新增 Main Workflow 阶段，不改变 Stage、Artifact Contract、状态、Gate、Authority、Trigger 或既有流程行为语义。
+- Main Workflow 保持 34 份 Canonical Stage Documents，Canonical Rule Documents 保持 3 份，Canonical Exception Workflow Documents 保持 4 份；新增 1 份 Canonical Meta Protocol Document。
+- `docs/README.md`、`docs/overview.md` 与 `docs/manifest.yaml` 继续留在 `docs/` 根目录，分别承担 Human Navigation、Human Overview 与 Machine Entry Point。
+- 当前状态继续为 `candidate`；Scenario Stress Test、Fresh-Agent Blind Run 与 2–3 个真实项目 Pilot 仍是进入 `1.0.0` 前的稳定门槛。
+
 ## 0.6.0 - 2026-08-31
 
 ### Added｜新增
