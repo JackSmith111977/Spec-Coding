@@ -28,6 +28,7 @@ Workflow 责任可以被已有有效证据直接满足，但以下内容不能�
 - Blocking Open Item 与必要 Gate。
 - 与风险匹配的 Verification 与 Evidence。
 - Human / Agent Authority 边界。
+- 当真实 Sync Trigger 或 Human 决策边界成立时，必要的 Human-Agent Collaboration 与 Decision Readiness。
 - 发现偏差后的纠偏链路。
 - 有 Git 固化变更时的 Task Commit 与 `code_ref`。
 
