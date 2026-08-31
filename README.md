@@ -113,7 +113,7 @@ Spec Coding 同时支持 Greenfield（新项目）与 Brownfield（存量项目�
 4. **实施规划**：把设计拆成可执行、可验证、可追踪的 Task。
 5. **开发实施**：Agent 在 Task Contract 内自治实现、局部验证并形成稳定代码引用。
 6. **验证收敛**：独立验证完整 Change Set，并用 Evidence 收敛结果。
-7. **流程复盘改进**：从真实执行证据中改进可复用的 Workflow、Rules 与 Harness 机制。
+7. **流程复盘改进**：从真实执行证据中改进可复用的 Workflow、Rules、Meta Protocol 与 Harness 机制。
 
 异常不会被强行塞进 Happy Path：跨阶段 Failure、Defect 或无法可靠归因的问题由独立 [`Exception Workflow`](docs/workflows/exceptions/README.md) 按需承接。目前已完成 [`Debug & Defect Resolution`](docs/workflows/exceptions/debug-and-defect-resolution/README.md) 四阶段流程，处理异常接管、证据定位、根因确认、纠正路由与故障关闭，并在完成后回接主流程。
 
