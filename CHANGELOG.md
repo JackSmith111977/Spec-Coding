@@ -12,6 +12,32 @@
 
 当前无未发布语义变更。
 
+## 0.8.0 - 2026-08-31
+
+### Added｜新增
+
+- 新增 `docs/meta-protocols/project-onboarding.md`，正式建立 Project Onboarding Protocol（项目接入协议），作为 Harness Compilation 前置的 Canonical Meta Protocol。
+- 新增 Adoption Baseline（接入基线）、Usage Contract（使用契约）、Spec Workspace（Spec Coding 工作空间）、Collaboration Mode（协作模式）、Target Identity / Scope、Repository Binding 与 Relevant Delta 等接入语义。
+- Project Onboarding 支持 `Initialize / Reuse / Refresh / Migrate` 接入操作，并以 Target / Usage / Spec Coding / Integration Delta 驱动 Affected Trace Only 的增量对齐。
+- `manifest.yaml` 正式登记第二份 Canonical Meta Protocol Document，并增加 `project_onboarding` 机器导航入口。
+
+### Changed｜调整
+
+- Spec Coding 使用模型从“直接 Build Harness”调整为 `Project Onboarding → Adoption Baseline → Harness Compilation → 01A / 01B / Resume`，同时保持 Human 只需表达一个自然语言意图，不要求手工执行多个协议命令。
+- Harness Compilation 增加 Adoption Context 前置输入，并明确 `Normative Context + Adoption Context + Execution Context → Minimum Sufficient Harness`；Adoption Baseline 缺失或失效时回到 Project Onboarding，而不是静默猜测接入方式。
+- Usage Contract 改为由 Collaboration Mode 派生：Local 优先 Human Working Convention，Shared 优先 Team / Shared Workspace Convention，Repository-native 优先 Applicable Repository Convention；Spec Artifact 是否进入目标仓库不再与 Canonical 语义绑定。
+- 明确 Workflow 决定 Artifact Contract 与 Task Commit / Requirement Push 语义；Onboarding 只解析 Spec Workspace、Publication Boundary、稳定 Repository / Remote Binding 与 Authority / Integration Constraint，不重复定义 Git 时机或 Worktree 等运行时策略。
+- Human-Agent Collaboration Rules 扩展到涉及 Human 意图、权限或关键判断的 Applicable Meta Protocol；Project Onboarding 复用 Evidence before Interaction、Decision Readiness 与 Feedback Integration，不新增独立人工审批层。
+- Repository Governance、Human Overview、Documentation Index、Meta Protocol Index 与根 README 同步 Onboarding-first 消费顺序、Adoption Source of Truth 与两份 Meta Protocol 的职责边界。
+- Glossary 同步 Project Onboarding / Adoption 相关规范术语，并更新 Harness Compilation / Minimum Sufficient Harness 的定义以包含 Adoption Context。
+
+### Notes｜说明
+
+- 本版本不新增 Stage 0，不修改 34 份 Main Workflow Stage Documents 或 4 份 Debug Exception Workflow Documents；Project Onboarding 属于 Meta Protocol，不推进业务开发阶段。
+- Main Workflow 继续拥有 Requirement / Design / Task / Verification 与 Task Commit + Requirement Push 等正式语义；Worktree、Agent、Model 与并行方式继续运行时推导。
+- `schema_version` 保持 `4`：本版本只在现有 `meta_protocols` / `navigation` 结构中登记新的 Canonical Meta Protocol 与入口，没有改变 Manifest 数据模型。
+- 当前状态继续为 `candidate`；Scenario Stress Test、Fresh-Agent Blind Run 与 2–3 个真实项目 Pilot 仍是进入 `1.0.0` 前的稳定门槛。
+
 ## 0.7.0 - 2026-08-31
 
 ### Added｜新增

@@ -5,7 +5,7 @@ Spec Coding 的规范按职责分为五个目录层：**Workflows（流程）**�
 ```text
 docs/
 ├── workflows/       # Main / Exception Workflow
-├── rules/           # 跨阶段持续规则
+├── rules/           # 持续适用规则
 ├── meta-protocols/  # 项目接入、装配与转换协议
 ├── governance/      # 仓库与版本治理
 ├── reference/       # 术语等参考资料
@@ -16,7 +16,7 @@ docs/
 
 ## Human 概要
 
-- [`overview.md`](overview.md)：全流程概要、使用方法与阶段入口。
+- [`overview.md`](overview.md)：全流程概要、接入方式、使用方法与阶段入口。
 - [`workflows/README.md`](workflows/README.md)：Main / Exception Workflow 总入口。
 - [`workflows/main/01a-project-definition/README.md`](workflows/main/01a-project-definition/README.md)：项目定义建立（新项目）。
 - [`workflows/main/01b-project-understanding/README.md`](workflows/main/01b-project-understanding/README.md)：项目认知建立（存量项目）。
@@ -50,26 +50,39 @@ Exception Workflow 不作为 Main Workflow 的新增阶段，也不维护 Task�
 
 ## Rules｜规则
 
-正式跨阶段规则以 [`manifest.yaml`](manifest.yaml) 的 `rule_documents` 为机器可读入口，按当前阶段与任务加载适用规则。
+正式规则以 [`manifest.yaml`](manifest.yaml) 的 `rule_documents` 为机器可读入口，按当前 Workflow / Meta Protocol 与任务加载适用规则。
 
 - [`rules/global-contracts.md`](rules/global-contracts.md)：所有正式 Workflow 默认继承的 Global Contracts（全局执行契约）。
-- [`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md)：Human-Agent Collaboration Rules（人机协作规则）。
+- [`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md)：Human-Agent Collaboration Rules（人机协作规则），同时适用于需要 Human 意图、权限或关键判断的 Meta Protocol Interaction。
 - [`rules/code-quality.md`](rules/code-quality.md)：Code Quality Rules（代码质量规则）。
 
-Rules 本身不推进阶段状态；Workflow 文档通过引用消费规则，不复制规则正文。
+Rules 本身不推进阶段状态；消费者通过引用使用规则，不复制规则正文。
 
 ## Meta Protocols｜元协议
 
 Meta Protocol 定义 Spec Coding 如何被项目接入、解释、装配或转换为可执行机制，本身不作为 Main / Exception Workflow 阶段。
 
-- [`meta-protocols/README.md`](meta-protocols/README.md)：Meta Protocol 导航。
-- [`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)：Harness Compilation Protocol，将 Applicable Workflow + Rules 转换为当前项目最小充分 Harness。
+- [`meta-protocols/README.md`](meta-protocols/README.md)：Meta Protocol 导航与依赖顺序。
+- [`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)：Project Onboarding Protocol，在 Harness 之前建立或校验 Adoption Baseline。
+- [`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)：Harness Compilation Protocol，消费 Adoption Baseline、Applicable Workflow / Rules 与当前项目能力，形成最小充分 Harness。
 
-当前正式 Meta Protocol 以 [`manifest.yaml`](manifest.yaml) 的 `meta_protocols` 为机器可读入口。未来协议在完成正式设计后再登记，不维护空占位事实源。
+正常关系：
+
+```text
+Project Onboarding（按需）
+        ↓
+Adoption Baseline
+        ↓
+Harness Compilation（按需）
+        ↓
+Workflow
+```
+
+当前正式 Meta Protocol 以 [`manifest.yaml`](manifest.yaml) 的 `meta_protocols` 为机器可读入口。已有 Adoption / Harness 仍有效时直接复用，不为普通 Requirement / Task 机械重跑。
 
 ## Governance｜治理
 
-- [`governance/repository-governance.md`](governance/repository-governance.md)：Canonical、目录职责、仓库维护与版本管理。
+- [`governance/repository-governance.md`](governance/repository-governance.md)：Canonical、目录职责、仓库维护、Agent 消费顺序与版本管理。
 
 ## Reference｜参考
 
@@ -82,6 +95,6 @@ Meta Protocol 定义 Spec Coding 如何被项目接入、解释、装配或转�
 - 34 份 Canonical Stage Documents。
 - 3 份 Canonical Rule Documents。
 - 4 份 Canonical Exception Workflow Documents。
-- 1 份 Canonical Meta Protocol Document。
+- 2 份 Canonical Meta Protocol Documents。
 
 历史版本由 Git 保存，不在当前文档目录维护并行旧副本。
