@@ -112,7 +112,7 @@ Task Definition / Dependency Gap
 
 修正后只重新确认受影响链路。
 
-简单 Feature 可由单一 Agent 完成；规模较大时，可按覆盖、一致性、依赖、验证维度使用 Subagent 独立检查，再由主 Agent 汇总。
+简单 Feature 可由 Main Agent 完成；规模较大时，可按覆盖、一致性、依赖、验证维度使用 Fresh Reviewer / 其他只读 Subagent 独立检查，再由 Main Agent 汇总。具体角色、上下文隔离与结果整合遵循 [`Agent Delegation & Coordination Rules`](../../../rules/agent-delegation-and-coordination.md)，不把 Subagent 独立检查本身变成新的 Gate 或 Task State。
 
 ---
 
