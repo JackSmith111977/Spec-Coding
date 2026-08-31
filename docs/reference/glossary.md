@@ -38,6 +38,24 @@
 | Tailoring | 流程裁剪 | 根据风险和影响范围动态调整流程执行深度。 |
 | Gate | 门禁 | 必须满足后才能进入下一状态或阶段的准入条件。 |
 
+## 接入与元协议术语
+
+| English | 中文 | 含义 |
+|---|---|---|
+| Project Onboarding | 项目接入 | 在 Harness Compilation 之前，建立、复用、刷新或迁移 Spec Coding 与当前 Target 的稳定接入关系。 |
+| Adoption Baseline | 接入基线 | 当前 Target 如何采用 Spec Coding 的唯一接入事实源，只保存长期使用意图、稳定绑定及必要 Override / Constraint。 |
+| Usage Contract | 使用契约 | 由 Collaboration Mode 派生的 Spec Workspace、Artifact Publication、Repository Binding、Authority 与 Integration 等长期使用约定。 |
+| Spec Workspace | Spec Coding 工作空间 | Requirement、Design、Task、Evidence、Adoption Baseline 等 Spec Coding 持久工作状态的承载空间；可与目标 Repository 分离。 |
+| Collaboration Mode | 协作模式 | Spec Coding 工作状态的共享边界；当前规范使用 `Local`、`Shared`、`Repository-native` 三类语义。 |
+| Target Identity | 目标身份 | 用于稳定识别当前 Spec Coding 接入对象的身份锚点，防止不同 clone、fork、Repository 或项目之间误复用接入状态。 |
+| Target Scope | 目标范围 | Spec Coding 当前负责管理和追踪的变化边界；不等同于 Harness 放置范围。 |
+| Repository Binding | 仓库绑定 | 为执行现有 Workflow Git 语义而解析的稳定 Repository、Remote、Base / Development Branch、Push / PR Target 等绑定关系。 |
+| Relevant Delta | 相关变化 | 足以使当前 Adoption Fact 或其派生约定失效的 Target、Usage、Spec Coding 或 Integration 变化。 |
+| Initialize | 初始化接入 | 当前 Target 尚无可复用 Adoption 时建立新的接入基线。 |
+| Reuse | 复用接入 | 当前 Adoption 仍有效，无需重建或修改。 |
+| Refresh | 刷新接入 | Target / Usage 等项目侧事实变化后，只更新受影响接入链路。 |
+| Migrate | 迁移接入 | Spec Coding / Integration 语义变化导致旧 Adoption 需要转换时，只迁移受影响语义。 |
+
 ## 设计与实施术语
 
 | English | 中文 | 含义 |
@@ -54,8 +72,8 @@
 | Worker Agent | 执行 Agent | 在既定 Task Contract 内完成具体实施的 Agent。 |
 | Subagent | 子 Agent | 为上下文隔离、并行或独立检查而临时委派的 Agent。 |
 | Harness | 执行框架 | 组织 Agent、工具、上下文、状态、规则与验证的运行机制。 |
-| Harness Compilation | Harness 编译 | 通过 Harness Compilation Meta Protocol，将 Spec Coding Workflow 与 Rules 结合目标项目与现有能力，生成最小充分 Harness 的过程。 |
-| Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程与规则要求所需的最少 Harness 组件，避免重复能力与过度设计。 |
+| Harness Compilation | Harness 编译 | 通过 Harness Compilation Meta Protocol，将 Applicable Workflow / Rules、有效 Adoption Baseline 与当前 Target Environment 结合，生成最小充分 Harness 的过程。 |
+| Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程、规则与接入约束所需的最少 Harness 组件，避免重复能力与过度设计。 |
 | Capability Gap | 能力缺口 | 当前 Agent 或项目环境缺少完成某项流程 / 规则要求所需的能力。 |
 | Reliability Gap | 可靠性缺口 | 所需能力已经存在，但当前机制无法稳定保证流程 / 规则要求被执行。 |
 | Context Isolation | 上下文隔离 | 只给执行单元提供最小必要上下文，降低相互干扰。 |
