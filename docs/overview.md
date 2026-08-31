@@ -51,7 +51,9 @@ Harness Ready
 ```
 
 - [`Project Onboarding Protocol`](meta-protocols/project-onboarding.md)：识别 Target 与 Existing Adoption，建立 Usage Contract，对齐 Relevant Delta，最终形成有效 Adoption Baseline 与 Workflow Route。
-- [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md)：消费 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment，复用已有能力并只补真实缺口；需要 Agent 委派时先发现当前 Runtime 的有效能力，再动态编译 Role、Model、Thinking、Context、Tools 与 Workspace。
+- [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md)：消费 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment；先将规范要求归一为必要 Harness Primitive，再结合 Runtime Architecture Reference、当前官方资料与 Local Runtime Evidence 映射为实际 Runtime Surface，只补真实 Capability / Reliability / Selection Gap，并动态编译 Role、Model、Thinking、Context、Tools 与 Workspace。
+
+Harness Compilation 可按需读取 [`Harness Primitives`](reference/harness-primitives.md) 与 [`Coding Agent Runtime Reference`](reference/coding-agent-runtimes.md)。两者都是非规范 Reference：用于提供共同语言、架构不变量与官方事实入口，当前 Runtime Capability 仍由编译时证据决定。
 
 当 Adoption 或 Harness 已经有效时对应步骤直接 Reuse，不为每个 Requirement / Task 增加初始化开销。
 
@@ -141,7 +143,7 @@ Agent 应自行：
 1. 读取 `VERSION` 与 [`manifest.yaml`](manifest.yaml)。
 2. 根据 [`Project Onboarding Protocol`](meta-protocols/project-onboarding.md) 判断 Adoption Baseline 是否可复用；不存在或失效时执行 Initialize / Refresh / Migrate。
 3. 解析最终 Workflow Route 与 Applicable Rules。
-4. 根据 [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md) Reuse / Compile 最小充分 Harness。
+4. 根据 [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md) Reuse / Compile 最小充分 Harness；按需读取 Primitive / Runtime Reference，并以 Current Official / Local Evidence 确认真实 Runtime Capability。
 5. Harness 达到 `Ready` 后进入 01A / 01B 或 Resume 当前 Owner Stage；之后按正式 Workflow 与 Rules 推进。
 6. 若发现上游事实失效，回到最早失效事实源纠正，只重新对齐受影响链路。
 
@@ -154,6 +156,8 @@ Human 不需要手工依次执行 `Onboard Project`、`Build Harness` 等命令�
 - Meta Protocols：[`meta-protocols/`](meta-protocols/)
 - Project Onboarding：[`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)
 - Harness 编译协议：[`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)
+- Harness Primitive 参考：[`reference/harness-primitives.md`](reference/harness-primitives.md)
+- Coding Agent Runtime 参考：[`reference/coding-agent-runtimes.md`](reference/coding-agent-runtimes.md)
 - Human-Agent Collaboration Rules：[`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md)
 - Agent Delegation & Coordination Rules：[`rules/agent-delegation-and-coordination.md`](rules/agent-delegation-and-coordination.md)
 - Exception Workflow：[`workflows/exceptions/README.md`](workflows/exceptions/README.md)

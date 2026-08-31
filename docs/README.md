@@ -8,7 +8,7 @@ docs/
 ├── rules/           # 持续适用规则
 ├── meta-protocols/  # 项目接入、装配与转换协议
 ├── governance/      # 仓库与版本治理
-├── reference/       # 术语等参考资料
+├── reference/       # 术语、Harness Primitive 与 Runtime 参考资料
 ├── README.md        # Human 文档导航
 ├── overview.md      # Human 全流程概要
 └── manifest.yaml    # Machine Entry Point
@@ -65,7 +65,7 @@ Meta Protocol 定义 Spec Coding 如何被项目接入、解释、装配或转�
 
 - [`meta-protocols/README.md`](meta-protocols/README.md)：Meta Protocol 导航与依赖顺序。
 - [`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)：Project Onboarding Protocol，在 Harness 之前建立或校验 Adoption Baseline。
-- [`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)：Harness Compilation Protocol，消费 Adoption Baseline、Applicable Workflow / Rules 与当前项目能力，形成最小充分 Harness；需要 Agent 委派时动态发现 Runtime Agent / Model / Thinking / Tool / Context 能力并进行最低充分能力路由。
+- [`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)：Harness Compilation Protocol，消费 Adoption Baseline、Applicable Workflow / Rules 与当前项目能力；先把规范要求归一为 Harness Primitive，再结合 Runtime Architecture Reference、当前官方资料与本地 Runtime Evidence 映射为最小充分 Harness。
 
 正常关系：
 
@@ -83,11 +83,15 @@ Workflow
 
 ## Governance｜治理
 
-- [`governance/repository-governance.md`](governance/repository-governance.md)：Canonical、目录职责、仓库维护、Agent 消费顺序与版本管理。
+- [`governance/repository-governance.md`](governance/repository-governance.md)：Canonical、目录职责、Reference 生命周期、仓库维护、Agent 消费顺序与版本管理。
 
 ## Reference｜参考
 
+Reference 提供非规范知识，不替代 Workflow / Rules / Meta Protocol 或当前 Runtime Evidence。
+
 - [`reference/glossary.md`](reference/glossary.md)：规范术语及中文解释。
+- [`reference/harness-primitives.md`](reference/harness-primitives.md)：跨 Coding Agent 的开放标准、事实约定与 Common Harness Primitive（常见 Harness 原语）。
+- [`reference/coding-agent-runtimes.md`](reference/coding-agent-runtimes.md)：主流 Coding Agent Runtime 的架构不变量、Harness 映射倾向与官方资料入口。
 
 ## Canonical Corpus｜规范文档集
 
@@ -98,4 +102,4 @@ Workflow
 - 4 份 Canonical Exception Workflow Documents。
 - 2 份 Canonical Meta Protocol Documents。
 
-历史版本由 Git 保存，不在当前文档目录维护并行旧副本。
+Reference 不计入以上 Canonical Document 数量。历史版本由 Git 保存，不在当前文档目录维护并行旧副本。

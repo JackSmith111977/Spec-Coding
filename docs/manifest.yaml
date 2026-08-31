@@ -1,5 +1,5 @@
 schema_version: 4
-spec_coding_version: "0.9.0"
+spec_coding_version: "0.10.0"
 status: candidate
 canonical_root: docs
 canonical_document_count: 34
@@ -20,6 +20,8 @@ navigation:
   exception_flows: workflows/exceptions/README.md
   repository_governance: governance/repository-governance.md
   glossary: reference/glossary.md
+  harness_primitives: reference/harness-primitives.md
+  coding_agent_runtimes: reference/coding-agent-runtimes.md
   stage_overviews:
     - workflows/main/01a-project-definition/README.md
     - workflows/main/01b-project-understanding/README.md
@@ -35,6 +37,8 @@ governance:
 
 reference:
   glossary: reference/glossary.md
+  harness_primitives: reference/harness-primitives.md
+  coding_agent_runtimes: reference/coding-agent-runtimes.md
 
 rule_documents:
   - id: global-execution
@@ -66,7 +70,7 @@ meta_protocols:
 
   - id: harness-compilation
     path: meta-protocols/harness-compilation.md
-    description: 消费有效 Adoption Baseline、Applicable Workflow + Rules 与当前项目能力，转换为最小充分 Harness
+    description: 消费有效 Adoption Baseline、Applicable Workflow + Rules 与当前项目能力，借助 Harness Primitive / Runtime Reference 与当前证据转换为最小充分 Harness
 
 terminology:
   glossary: reference/glossary.md
@@ -188,6 +192,7 @@ rules:
   - Documents listed under exception_workflows.documents are canonical exception workflow documents and are loaded only when their trigger applies.
   - Documents listed under meta_protocols are canonical meta protocol documents and define Spec Coding onboarding, composition, or transformation behavior without becoming workflow stages.
   - Human overview README files and navigation, governance, and reference documents are not counted as canonical stage, rule, exception workflow, or meta protocol documents.
+  - Reference documents are non-normative knowledge sources; Harness Compilation may consume harness_primitives and coding_agent_runtimes for semantic normalization, runtime architecture guidance, and official source discovery, but current runtime capability is resolved from current executable / official evidence.
   - Project adoption should follow meta-protocols/project-onboarding.md before Harness compilation when no valid Adoption Baseline exists.
   - Harness generation should follow meta-protocols/harness-compilation.md and consume a valid Adoption Baseline; applicable workflow and rule documents remain the normative source requirements.
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.

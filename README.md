@@ -6,7 +6,7 @@ Spec Coding / SDD（Specification-Driven Development，规格驱动开发）是�
 
 它不尝试规定某一种语言、框架或 Agent，而是把模糊意图逐步收敛为可追溯的 Requirement → Design → Task → Change → Verification，并通过 Meta Protocol（元协议）先建立项目接入关系，再把适用 Workflow（流程）、Rules（规则）与项目环境转换成当前项目真正需要的最小 Harness（执行框架）。
 
-**Version:** [`0.9.0`](VERSION) · **Status:** `candidate`
+**Version:** [`0.10.0`](VERSION) · **Status:** `candidate`
 
 ---
 
@@ -34,7 +34,7 @@ Spec Coding 关注的不是“怎样让 Agent 多写代码”，而是：
 - **Human-Agent Collaboration｜人机协作**：Human 不跟踪 Agent 的全部工作上下文，但在关键认知变化与决策边界保持足够的判断上下文。
 - **Agent Delegation｜Agent 委派**：Main Agent 持有全局一致性与最终责任，Subagent 只承担可隔离、可验证且权限有界的局部工作。
 - **Verification｜验证**：用可复核证据证明结果，而不是接受 Agent 的自我声明。
-- **Adaptation｜适配**：规范保持稳定，具体接入与 Harness 根据使用意图、项目约束和现有能力动态适配。
+- **Adaptation｜适配**：规范保持稳定，具体接入与 Harness 根据使用意图、项目约束和当前 Coding Agent Runtime 能力动态适配。
 
 ---
 
@@ -49,6 +49,7 @@ flowchart LR
     Q[Rules] --> C
     A --> C
     P[Target Environment] --> C
+    K[Runtime Knowledge] --> C
     C --> H[Harness]
     H --> R[Enter / Resume Workflow]
 
@@ -69,6 +70,8 @@ flowchart LR
 | **Meta Protocol｜元协议** | Spec Coding 如何被项目接入，并转换为可执行机制？ |
 | **Adoption Baseline｜接入基线** | 当前 Target 如何使用 Spec Coding，哪些意图、绑定与约束需要长期稳定？ |
 | **Harness｜执行框架** | 当前项目最终由哪些 Agent、Rule、Tool、Gate、Script 等机制实际承载这些要求？ |
+
+Reference 作为非规范知识层，为 Harness Compilation 提供跨 Runtime 的 Harness Primitive、Coding Agent Architecture Invariant 与官方事实入口；当前 Runtime Capability 仍由编译时的 Official / Local Evidence 决定。
 
 > **Onboarding establishes the relationship. Workflow and Rules define the contract. Harness Compilation makes it executable.**
 
@@ -99,7 +102,7 @@ Harness Ready
 ```
 
 - [`Project Onboarding Protocol`](docs/meta-protocols/project-onboarding.md) 负责识别 Target、协作 / 发布方式、Spec Workspace、稳定 Repository / Authority 约束，以及 Existing Adoption 是否需要 Reuse / Refresh / Migrate。
-- [`Harness Compilation Protocol`](docs/meta-protocols/harness-compilation.md) 消费有效 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment，优先复用已有能力，只补真实 Capability / Reliability / Selection Gap；需要 Agent 委派时先发现当前 Runtime 实际可用模型、Thinking、Tools、Context 与隔离能力，再按最低充分能力形成运行时路由。
+- [`Harness Compilation Protocol`](docs/meta-protocols/harness-compilation.md) 消费有效 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment；先把规范要求归一为必要 Harness Primitive，再结合 Runtime Architecture Reference、当前官方资料与 Local Runtime Evidence 映射为当前 Coding Agent 的真实 Surface，只补真实 Capability / Reliability / Selection Gap，并按最低充分能力形成 Agent / Model / Thinking / Context / Tool / Workspace 路由。
 
 已有 Adoption Baseline 与 Harness 仍有效时直接复用，因此普通 Requirement / Task 不需要重复初始化。
 
@@ -142,6 +145,7 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 - **Delegate Work, Not Accountability｜委派工作，不转移责任**：Main Agent 可以委派局部工作，但继续持有 Workflow State、结果整合与最终责任。
 - **Affected Trace Only｜只处理受影响链路**：发现偏差时修正最早失效事实源，只重新对齐真正受影响的部分。
 - **Persist Intent, Rediscover Facts｜持久化意图，重发现动态事实**：接入基线只保存长期意图与稳定绑定，不复制易变环境。
+- **Reference Guides Discovery｜参考指导发现**：固化跨 Runtime 的共同语言、架构不变量与官方入口，但不把 Reference 当成当前 Runtime 真相。
 - **Minimum Sufficient Harness｜最小充分 Harness**：优先复用项目已有能力，只补真实 Capability / Reliability / Selection Gap。
 - **Minimum Sufficient Capability｜最低充分能力**：模型与 Thinking 选择以可靠满足当前 Contract 为目标，不统一使用最强或最便宜配置。
 
@@ -155,6 +159,8 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 | 查看完整文档架构 | [`docs/README.md`](docs/README.md) |
 | 把 Spec Coding 接入当前项目 | [`docs/meta-protocols/project-onboarding.md`](docs/meta-protocols/project-onboarding.md) |
 | 构建 / 重编译最小 Harness | [`docs/meta-protocols/harness-compilation.md`](docs/meta-protocols/harness-compilation.md) |
+| 查看 Harness Primitive / 开放标准参考 | [`docs/reference/harness-primitives.md`](docs/reference/harness-primitives.md) |
+| 查看 Coding Agent Runtime 架构与官方入口 | [`docs/reference/coding-agent-runtimes.md`](docs/reference/coding-agent-runtimes.md) |
 | 查看 Meta Protocol 层 | [`docs/meta-protocols/README.md`](docs/meta-protocols/README.md) |
 | 查看 Main / Exception Workflow | [`docs/workflows/README.md`](docs/workflows/README.md) |
 | 查看人机共享认知与决策协作规则 | [`docs/rules/human-agent-collaboration.md`](docs/rules/human-agent-collaboration.md) |

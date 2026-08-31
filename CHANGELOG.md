@@ -12,6 +12,35 @@
 
 当前无未发布语义变更。
 
+## 0.10.0 - 2026-08-31
+
+### Added｜新增
+
+- 新增 `docs/reference/harness-primitives.md`，建立跨 Coding Agent Runtime 的 Harness Primitive（Harness 原语）共同语言，并区分 Open Standard / Open Format、De facto Convention 与 Common Harness Primitive。
+- 新增 `docs/reference/coding-agent-runtimes.md`，建立 Coding Agent Runtime Reference（运行时参考），首批覆盖 Claude Code、OpenAI Codex、Cursor、GitHub Copilot / VS Code Agent、Gemini CLI、Grok Build、OpenCode、Pi、TRAE / TraeCode、CodeBuddy Code、Qoder CLI、Qwen Code、Kimi Code、ZCode、DeepSeek Harness / DSH 与 MiniMax Code。
+- Runtime Reference 对每个 Runtime 只固化 Architecture Invariant（架构不变量）、Harness Implication、Lifecycle 与 Official Sources；当前模型、Thinking、Hook、Feature Flag、Quota 与版本参数继续运行时重新发现。
+- 新增 Runtime Capability `native / composable / external / unavailable / unknown` 的轻量归一语义，并明确 `Unknown ≠ Unavailable`。
+
+### Changed｜调整
+
+- Harness Compilation 在既有 `Read → Derive → Compose → Verify` 四步上补齐 `Semantic Guarantee → Harness Primitive → Runtime Architecture → Current Runtime Evidence → Runtime-native Surface` 编译链，不新增第三个 Meta Protocol。
+- Read 阶段增加 Runtime Knowledge Resolution：识别实际 Execution Runtime，按需加载 Primitive / Runtime Reference，再结合 Version-matched Official Documentation 与 Local Executable Evidence 建立 Effective Runtime Capability。
+- Derive 阶段明确禁止从 Workflow / Rule 直接机械映射到 Vendor-specific Skill / Agent / Workflow 配置；同一 Requirement 可由多个 Primitive 与 Runtime Surface 组合承载。
+- Compose 阶段增加 `Portable when equivalent; native when necessary` 原则，并将 Plugin / Extension 纳入 Runtime-specific 组合机制。
+- Verify 阶段增加 Runtime Mapping、Version-specific Source Validity、Unknown Closure 与 Reference Drift 检查；Reference 与当前 Runtime 证据冲突时始终以 Current Evidence 为准。
+- Repository Governance 明确 Reference 是 non-normative knowledge source，并建立 Feature Delta、Source / Lifecycle Delta、Architecture Delta 三类 Runtime Reference 演进治理。
+- `manifest.yaml` 在现有 `reference` / `navigation` 结构中登记 `harness_primitives` 与 `coding_agent_runtimes`；`schema_version` 保持 `4`。
+- Glossary 新增 Harness Primitive、Runtime Reference、Runtime Architecture Invariant、Runtime Discovery，并更新 Harness Compilation 定义。
+- 根 README、Human Overview、Documentation Index 与 Meta Protocol Index 同步 Runtime-aware Harness Compilation 与两个 Reference 入口。
+
+### Notes｜说明
+
+- 本版本不新增或修改 Main Workflow、Exception Workflow、Canonical Rule 或 Canonical Meta Protocol 集合；34 份 Canonical Stage Documents、4 份 Canonical Rule Documents、4 份 Debug Exception Workflow Documents 与 2 份 Canonical Meta Protocol Documents 保持不变。
+- Project Onboarding 与 Agent Delegation & Coordination 语义保持不变：Adoption Baseline 继续不持久化 Agent Capability；Main Agent / Subagent 稳定协作语义继续由现有 Rule 定义，Harness 只负责 Runtime-specific 映射。
+- Reference 不是 Runtime Truth，也不是新的 Canonical Source of Truth；其目标是为 Fresh Agent 提供稳定 Bootstrap Knowledge，并通过官方入口引导编译时重新发现版本事实。
+- 本次版本收敛前已完成受影响文件完整性检查、Canonical / Manifest 检查、Runtime Fact / Reference 边界检查与跨文档术语 / 消费顺序对齐检查。
+- 当前状态继续为 `candidate`；Scenario Stress Test、Fresh-Agent Blind Run 与 2–3 个真实项目 Pilot 仍是进入 `1.0.0` 前的稳定门槛。
+
 ## 0.9.0 - 2026-08-31
 
 ### Added｜新增

@@ -78,7 +78,11 @@
 | Delegation | 委派 | Main Agent 将目标、边界、上下文、权限与预期结果明确交给 Subagent 执行的运行时协作行为。 |
 | Single Writer Boundary | 单写入者边界 | 同一可变工作边界在同一时刻默认只有一个 Worker Owner，避免共享写入冲突。 |
 | Harness | 执行框架 | 组织 Agent、工具、上下文、状态、规则与验证的运行机制。 |
-| Harness Compilation | Harness 编译 | 通过 Harness Compilation Meta Protocol，将 Applicable Workflow / Rules、有效 Adoption Baseline 与当前 Target Environment / Agent Capability 结合，生成最小充分 Harness 的过程。 |
+| Harness Primitive | Harness 原语 | 跨 Coding Agent Runtime 描述 Rule、Skill、Tool、Subagent、Hook、Permission、Sandbox、Workspace 等稳定能力语义的中间抽象；具体实现由当前 Runtime 决定。 |
+| Runtime Reference | 运行时参考 | 为 Harness Compilation 提供 Coding Agent 的架构不变量与官方事实入口的非规范 Reference；不作为当前 Runtime Capability 的权威来源。 |
+| Runtime Architecture Invariant | 运行时架构不变量 | 会实质影响 Harness 编译策略、跨版本相对稳定且具有官方证据的 Runtime 底层设计特征。 |
+| Runtime Discovery | 运行时发现 | 在 Harness Compilation 中识别当前执行 Runtime，并结合当前官方资料与本地可执行证据确认实际 Capability 的过程。 |
+| Harness Compilation | Harness 编译 | 通过 Harness Compilation Meta Protocol，将 Applicable Workflow / Rules 与有效 Adoption Baseline 的语义要求归一为必要 Harness Primitive，再结合 Runtime Architecture 与当前 Runtime Evidence 映射为最小充分 Harness 的过程。 |
 | Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程、规则与接入约束所需的最少 Harness 组件，避免重复能力与过度设计。 |
 | Effective Runtime Capability | 有效运行时能力 | 当前 Coding Agent Runtime 实际暴露并可执行的 Model、Thinking、Context、Tool、Isolation、Quota 等能力，而非 Provider 理论能力。 |
 | Capability-aware Routing | 能力感知路由 | 先发现当前 Runtime 可用能力，再结合 Role、任务特征与必要证据选择 Model / Thinking / Context / Tool 等执行配置。 |
