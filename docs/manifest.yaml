@@ -3,7 +3,7 @@ spec_coding_version: "0.5.0"
 status: candidate
 canonical_root: docs
 canonical_document_count: 34
-canonical_rule_document_count: 2
+canonical_rule_document_count: 3
 canonical_exception_document_count: 4
 history_policy: git
 
@@ -33,6 +33,11 @@ rule_documents:
   - id: global-execution
     path: global-contracts.md
     description: 所有正式 Workflow 默认继承的全局执行规则
+    applies_to: all
+
+  - id: human-agent-collaboration
+    path: rules/human-agent-collaboration.md
+    description: 人机共享认知、同步触发、决策就绪与反馈吸收规则
     applies_to: all
 
   - id: code-quality

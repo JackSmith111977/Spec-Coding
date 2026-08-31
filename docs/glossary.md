@@ -123,6 +123,10 @@
 | Autonomous | Agent 自主 | 在既定契约内可直接执行，无需重复请求确认。 |
 | Confirm | Agent 提议 + Human 确认 | Agent 先基于证据给出建议，由 Human 确认后生效。 |
 | Human Decision | Human 决策 | 直接改变业务意图、正确性标准或风险接受边界的决策。 |
+| Human-Agent Collaboration | 人机协作 | Human 与 Agent 在保持权限边界的同时，通过必要认知同步、决策就绪和反馈吸收共同推进工作。 |
+| Shared Cognitive Baseline | 共享认知基线 | Human 与 Agent 为继续协作共同依赖的最小充分认知，包括目标、关键模型、状态、变化、不确定性、下一步与必要证据入口。 |
+| Cognitive Sync | 认知同步 | 在关键认知建立、变化、失效或决策边界出现时，向 Human 同步做出后续判断所需的最小信息。 |
+| Decision Readiness | 决策就绪 | Human 已拥有理解当前目标、模型、关键变化、证据、选项与影响所需的最小上下文，可以进行有效 Confirm / Human Decision / Human Acceptance。 |
 | Process Review | 流程复盘 | 基于真实执行证据分析流程问题与可复用机制缺口。 |
 | Improvement | 改进 | 对可复用 SDD / Harness 规则本身进行可验证调整。 |
 
