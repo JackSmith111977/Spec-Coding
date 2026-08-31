@@ -1,5 +1,5 @@
 schema_version: 4
-spec_coding_version: "0.9.0"
+spec_coding_version: "0.10.0"
 status: candidate
 canonical_root: docs
 canonical_document_count: 34
