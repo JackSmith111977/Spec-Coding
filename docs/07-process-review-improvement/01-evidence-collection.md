@@ -112,16 +112,20 @@ related:
 ## 1.5 下游使用约定
 
 ```text
-IMP-xxx
-  ↓
-RC-xxx
-  ↓
-ISS-xxx
+source
   ↓
 EV-xxx
   ↓
-source
+Process Timeline
+  ↓
+ISS-xxx
+  ↓
+RC-xxx
+  ↓
+IMP-xxx
 ```
+
+需要从改进结论回查依据时，可沿同一引用链反向追溯到原始 `source`；这里的主箭头表示正式复盘流程的前向消费方向。
 
 因此，Evidence Collection 的最终职责是：
 
