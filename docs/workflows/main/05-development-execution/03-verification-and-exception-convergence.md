@@ -22,7 +22,7 @@
 - **Code Reference｜代码引用**：存在代码变更时，以 `code_ref` 指向的 Task Commit 为正式验证对象。
 - **Actual Changes**：由 `code_ref` 对应 Commit、Patch 或无代码任务的实际结果确定。
 - **Local Evidence**：Worker 局部证据，仅作参考和定位。
-- **Applicable Rules｜适用规则**：存在代码变更时，包括 [`Code Quality Rules`](../../../rules/code-quality.md) 及项目自身规则。
+- **Applicable Rules｜适用规则**：存在代码变更时，包括 [`Code Quality Rules`](../../../rules/code-quality.md)、[`Agent Delegation & Coordination Rules`](../../../rules/agent-delegation-and-coordination.md) 及项目自身规则。
 - **Runtime / Environment**：正式 Gate 所需环境。
 
 ```text
@@ -51,7 +51,9 @@ Worker Self Verification 不直接视为正式证据，正式验证尽可能对�
 
 存在 `code_ref` 时，Gate 必须针对该代码引用对应的实际变更执行，避免验证对象与 Worker 后续工作区状态漂移。
 
-机器难以稳定判定的复杂 UX、语义行为、代码可理解性 / 信息质量 / 变更清晰度 / 一致性或高风险改动，可按任务风险补充 Fresh Reviewer；涉及代码质量时以 Code Quality Rules 为判断依据，不以个人风格偏好替代正式规则。
+机器难以稳定判定的复杂 UX、语义行为、代码可理解性 / 信息质量 / 变更清晰度 / 一致性或高风险改动，可按任务风险补充 Fresh Reviewer。`Reviewer` 是 Agent Delegation & Coordination Rules 中的独立审查 Subagent Role，`Verifier` 则表示本步骤承担的正式 Verification 职责；Reviewer 只补充独立推理和 Finding，不替代 Deterministic Gate，也不默认直接修复被审查实现。
+
+Reviewer 的 Context 应尽量与原 Worker 实施过程隔离；复杂 Review 的有效能力不应明显低于被审查结果所需的推理能力。具体 Model / Thinking 由 Harness 基于当前 Runtime 动态路由，不写回 Task Contract。
 
 ---
 
@@ -99,6 +101,8 @@ New Task Commit
 Verifying
 ```
 
+如果失败主要来自当前验证 Agent / Model / Tool 的 Capability Problem，而不是被验证实现本身，不应形成 Implementation Defect 或 Human Authority Escalation；优先由 Harness 调整 Context、Thinking、Model、Tool 或 Fallback 后重新执行同一 Verification Contract。
+
 > **Attribution before Escalation｜先归因，再升级。**
 
 ---
@@ -143,13 +147,13 @@ verdict = blocked
 - `findings`（无则省略）
 - `blocker / required_action`（阻塞时）
 
-只保存正式验证和下游状态推进需要的事实。
+只保存正式验证和下游状态推进需要的事实。Reviewer Role、Model、Thinking、Attempt 等只属于运行时执行信息，不进入 Verification Result 的长期契约，除非其差异本身影响 Evidence 解释。
 
 ---
 
 ## 3.7 完成标准
 
-正式 Gate 已针对正确验证对象执行，结果有可复核 Evidence；存在代码变更时已按风险检查适用 Code Quality Rules；Verification Result 保留实际验证的 `code_ref`；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏，无法可靠归因的问题进入 Debug & Defect Resolution；最终明确目标状态或异常承接路径。
+正式 Gate 已针对正确验证对象执行，结果有可复核 Evidence；存在代码变更时已按风险检查适用 Code Quality Rules；必要 Fresh Reviewer 已作为独立审查补充而非替代 Gate；Verification Result 保留实际验证的 `code_ref`；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏，无法可靠归因的问题进入 Debug & Defect Resolution；最终明确目标状态或异常承接路径。
 
 ---
 
@@ -157,4 +161,4 @@ verdict = blocked
 
 Verification Result 是 State Commit & Continuous Progression 的直接输入；进入 Debug 的异常在形成可信 Resolution Evidence 后回到对应 Owner Stage，再由主流程继续状态收敛。
 
-> **以独立、确定性优先的 Gate 对可追溯实现结果进行正式验证，并在失败时先完成可靠归因；明确问题走最短修复路径，无法可靠归因的问题交由 Debug 异常流程定位，再回到既有事实源继续推进。**
+> **以独立、确定性优先的 Gate 对可追溯实现结果进行正式验证，并在失败时先完成可靠归因；Reviewer 仅在需要独立推理时补充审查，明确问题走最短修复路径，无法可靠归因的问题交由 Debug 异常流程定位，再回到既有事实源继续推进。**
