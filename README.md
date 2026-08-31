@@ -142,7 +142,7 @@ Spec Coding 尽量保持轻量，核心设计可以压缩成几句话：
 - **Delegate Work, Not Accountability｜委派工作，不转移责任**：Main Agent 可以委派局部工作，但继续持有 Workflow State、结果整合与最终责任。
 - **Affected Trace Only｜只处理受影响链路**：发现偏差时修正最早失效事实源，只重新对齐真正受影响的部分。
 - **Persist Intent, Rediscover Facts｜持久化意图，重发现动态事实**：接入基线只保存长期意图与稳定绑定，不复制易变环境。
-- **Minimum Sufficient Harness｜最小充分 Harness**：优先复用项目已有能力，只补真实 Capability / Reliability Gap。
+- **Minimum Sufficient Harness｜最小充分 Harness**：优先复用项目已有能力，只补真实 Capability / Reliability / Selection Gap。
 - **Minimum Sufficient Capability｜最低充分能力**：模型与 Thinking 选择以可靠满足当前 Contract 为目标，不统一使用最强或最便宜配置。
 
 ---
