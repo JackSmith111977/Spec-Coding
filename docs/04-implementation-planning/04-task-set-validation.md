@@ -1,4 +1,4 @@
-# 4. Task Set Validation｜任务集校验
+# 4. Task Set Validation｜任务集有效性确认
 
 ## 4.1 目标
 
@@ -29,7 +29,7 @@ Task
 - 每个 Task 是否有且只有一个 Primary Requirement，并可稳定计算 `TasksOf(REQ-xx)`。
 - Structure、To-Be Flow、Contracts 中的关键变化是否有实施落点。
 - Boundary Handling 的重要异常与边界是否进入 Task Coverage。
-- Risks / Open Issues 是否已被任务承接或明确保留。
+- Risks / Open Items 是否已被任务承接或明确保留。
 
 重点发现：`Uncovered Requirement`、`Uncovered Design`、`Uncovered Boundary`、`Unowned Task`、`Unowned Open Item`。
 
@@ -64,7 +64,7 @@ Task
 - 必要 Blocking Dependency 已显式记录。
 - Task 能获得实施所需上游与依赖上下文。
 - 不存在尚未定义但会阻塞实施的中间 Contract 或基础能力。
-- Risks / Open Issues 中不存在被遗漏的 Blocking 问题。
+- Risks / Open Items 中不存在被遗漏的 Blocking 问题。
 
 没有显式依赖的并行与执行 Wave 仍由 Harness / Agent 在运行时推导。
 
@@ -92,9 +92,9 @@ Verification
 
 ## 4.6 校验方式
 
-默认采用 **Read-only Validation｜只读校验**。
+默认采用 **Read-only Validation｜只读有效性确认**。
 
-校验只发现和定位问题，不静默修改 Requirement、Design 或 Task。
+本步骤只发现和定位问题，不静默修改 Requirement、Design 或 Task。
 
 ```text
 Requirement / Rule Gap
@@ -110,7 +110,7 @@ Task Definition / Dependency Gap
     → Task Definition & Orchestration
 ```
 
-修正后只重新校验受影响链路。
+修正后只重新确认受影响链路。
 
 简单 Feature 可由单一 Agent 完成；规模较大时，可按覆盖、一致性、依赖、验证维度使用 Subagent 独立检查，再由主 Agent 汇总。
 
@@ -139,7 +139,9 @@ Impact
 Recommended Return Point
 ```
 
-通过校验的 Task 完成：
+需要跨阶段持续承接的未决问题统一创建或关联稳定 `OI-xxx`；不得通过 `Open Issue` 等平行对象形成新的事实源。
+
+通过有效性确认的 Task 完成：
 
 ```text
 Draft → Ready
@@ -158,7 +160,7 @@ Draft → Ready
 - 每个 Task 的 Verification 能证明 Coverage 与 Done。
 - 同一 Requirement 下的任务集合能够支撑需求级 AC Gate。
 - 不存在未处理 Blocking 问题。
-- 校验问题已完成回源修正并重新对齐。
+- 发现的问题已完成回源修正并重新对齐。
 
 最终结果：**Execution Ready**。
 
@@ -183,4 +185,4 @@ Development Execution
 
 因此，本步骤的最终职责是：
 
-> **确认任务集能够完整、无冲突且可验证地承接已确认方案，并为开发实施及后续 Requirement 级收敛建立可靠的 Execution Ready 边界。**
+> **确认任务集能够完整、无冲突且可验证地承接已确认方案，并以稳定 Open Item 机制承接未决事项，为开发实施及后续 Requirement 级收敛建立可靠的 Execution Ready 边界。**

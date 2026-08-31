@@ -16,7 +16,7 @@
 
 包括：
 
-- Task 级验收 Evidence。
+- Task 级验证 Evidence。
 - Deterministic Verification Evidence。
 - Independent Review Evidence。
 - Human Acceptance Evidence。
@@ -65,7 +65,7 @@ Finding Resolution
 
 - Required Verification 已完成。
 - 必要 Gate 已通过。
-- 关键 Finding 已 Resolved、Invalid 或明确 Accepted。
+- 关键 Finding 的生命周期 `Status` 已收敛为 `Resolved` 或 `Accepted`；其中 `Decision = Invalid Finding` 的 Finding 也应以 `Status = Resolved` 明确关闭。
 - 不存在阻断性 Open Item。
 - Requirement → Evidence 追溯链完整。
 
@@ -87,7 +87,7 @@ Accepted Deviation 不等于 `Pass`，应保留原始偏差、接受理由、影
 |---|---|
 | `Trace` | Requirement → Design → Task → Change → Verification 最终追溯关系。 |
 | `Evidence` | 最终有效 Evidence 引用。 |
-| `Findings` | Resolved / Invalid / Accepted / Blocked 状态。 |
+| `Findings` | 各 Finding 的 `Decision` 与生命周期 `Status`，保持分类与状态两个正交维度。 |
 | `Gates` | 必要质量、安全、风险或治理门禁结果。 |
 | `Status` | Verified / Blocked。 |
 | `Open Items` | 非阻断遗留项；无则省略。 |
@@ -98,7 +98,7 @@ Accepted Deviation 不等于 `Pass`，应保留原始偏差、接受理由、影
 
 ## 4.6 完成标准
 
-Required Verification 已完成或明确阻断原因，Requirement / Design / Task / Change / Evidence Trace 完整，关键 Finding 已处置，Accepted Deviation 有风险记录，无证据缺失 / 状态冲突 / 未处理关键问题，最终状态写入 Closure Record。
+Required Verification 已完成或明确阻断原因，Requirement / Design / Task / Change / Evidence Trace 完整，关键 Finding 已完成 Decision 与 Status 收敛，Accepted Deviation 有风险记录，无证据缺失 / 状态冲突 / 未处理关键问题，最终状态写入 Closure Record。
 
 最终结果：**Verified** 或 **Blocked**。
 

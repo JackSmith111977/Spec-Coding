@@ -26,7 +26,7 @@ Initial Context
          ↓
     流程复盘改进
          ↓
- Evolved Harness / Rules
+ Evolved Workflow / Rules / Harness
 ```
 
 Main Workflow（主流程）描述正常推进路径。任一阶段出现无法可靠归因的 Failure（故障）、Unexpected Behavior（异常行为）或需要进一步诊断的 Unresolved Finding（未决验证发现）时，可按需进入 Exception Workflow（异常流程）：
@@ -64,7 +64,7 @@ Human 不需要跟踪 Agent 的全部搜索、推理和 Task 级执行。所有�
 | 4 实施规划 | 将设计拆成可执行、可验证的 Task | [查看](04-implementation-planning/README.md) |
 | 5 开发实施 | 调度 Task，完成实现、Task Commit 与需求级收敛 | [查看](05-development-execution/README.md) |
 | 6 验证收敛 | 对完整变更建立最终证据并收敛到 Verified / Blocked | [查看](06-verification-convergence/README.md) |
-| 7 流程复盘改进 | 用真实证据改进可复用 SDD / Harness 规则 | [查看](07-process-review-improvement/README.md) |
+| 7 流程复盘改进 | 用真实证据改进可复用 Workflow / Rules / Harness | [查看](07-process-review-improvement/README.md) |
 
 ### Exception Workflow｜异常流程
 

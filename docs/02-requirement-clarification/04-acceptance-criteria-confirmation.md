@@ -10,7 +10,7 @@
 
 ## 4.2 提取关键行为
 
-当前 Requirement（需求）必须具有稳定 `REQ-xx` 标识。Greenfield（新项目）直接继承 Requirement Framework 中的 Requirement Unit ID；Brownfield（存量项目）若尚无稳定标识，应在进入当前需求澄清链时分配一次并持续复用。
+当前 Requirement（需求）必须已经具有稳定 `REQ-xx` 标识。Greenfield（新项目）继承 Requirement Framework 中的 Requirement Unit ID；Brownfield（存量项目）应已在 Requirement Interpretation 进入需求澄清链时完成首次分配。若此时仍缺少稳定 Requirement ID，应返回 Requirement Interpretation 修正身份，不在本步骤重新分配。
 
 重点关注：
 

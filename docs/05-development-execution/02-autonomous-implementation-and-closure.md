@@ -2,11 +2,11 @@
 
 ## 2.1 目标
 
-基于 Execution Unit，由 Worker Agent 在既定 Task Contract 与 Workspace 内自主完成实现、运行反馈与局部修复，并将结果收敛为可进入正式验证的 Verification-ready Result（待验收结果）。
+基于 Execution Unit，由 Worker Agent 在既定 Task Contract 与 Workspace 内自主完成实现、运行反馈与局部修复，并将结果收敛为可进入正式验证的 Verification-ready Result（待验证结果）。
 
 本步骤重点回答：
 
-> **Worker 如何在不突破既定任务契约的前提下，以最短反馈回路完成实现、形成 Task Commit，并产出稳定可送验结果。**
+> **Worker 如何在不突破既定任务契约的前提下，以最短反馈回路完成实现、形成 Task Commit，并产出稳定可验证结果。**
 
 只负责单 Task 自治实施与局部闭环，不重新调度任务、不修改 Requirement / Design，也不最终判定 `Done`。
 
@@ -94,7 +94,7 @@ Repair
 
 ---
 
-## 2.5 Task Commit 与送验收敛
+## 2.5 Task Commit 与送验证收敛
 
 必要 Local Verification 通过后，先形成 Task Commit（任务提交），再进入正式 Verification：
 
@@ -121,7 +121,7 @@ In Progress → Verifying
 
 ## 2.6 产物
 
-形成 **Verification-ready Result｜待验收结果**：
+形成 **Verification-ready Result｜待验证结果**：
 
 | 字段 | 说明 |
 |---|---|
@@ -167,4 +167,4 @@ Verification & Exception Convergence
 
 因此，本步骤的最终职责是：
 
-> **让 Worker 在既定任务契约、清晰权限边界与适用代码质量规则内自主完成实现、运行反馈与局部修复，并以可追溯 Task Commit 将结果收敛为可由独立 Gate 正式验收的稳定实现。**
+> **让 Worker 在既定任务契约、清晰权限边界与适用代码质量规则内自主完成实现、运行反馈与局部修复，并以可追溯 Task Commit 将结果收敛为可由独立 Gate 正式验证的稳定实现。**

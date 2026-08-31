@@ -1,4 +1,4 @@
-# 3. Verification & Exception Convergence｜验收与异常收敛
+# 3. Verification & Exception Convergence｜验证与异常收敛
 
 ## 3.1 目标
 
@@ -8,18 +8,18 @@
 
 > **当前实现是否已经被独立证明满足任务契约；若未通过，问题应由谁处理、回到哪里继续推进。**
 
-只负责正式验收、失败归因与异常收敛，不重新实现功能，也不隐式修改 Requirement / Design / Task Contract。
+只负责正式验证、失败归因与异常收敛，不重新实现功能，也不隐式修改 Requirement / Design / Task Contract。
 
 ---
 
-## 3.2 准备验收输入
+## 3.2 准备验证输入
 
 核心输入：
 
 - **Task Contract**：Requirement、Goal、Boundary、Coverage、Done。
 - **Verification Contract**：必须执行和满足的验证要求。
 - **Verification-ready Result**：Worker 实际实施结果。
-- **Code Reference｜代码引用**：存在代码变更时，以 `code_ref` 指向的 Task Commit 为正式验收对象。
+- **Code Reference｜代码引用**：存在代码变更时，以 `code_ref` 指向的 Task Commit 为正式验证对象。
 - **Actual Changes**：由 `code_ref` 对应 Commit、Patch 或无代码任务的实际结果确定。
 - **Local Evidence**：Worker 局部证据，仅作参考和定位。
 - **Applicable Rules｜适用规则**：存在代码变更时，包括 [`Code Quality Rules`](../rules/code-quality.md) 及项目自身规则。
@@ -36,20 +36,20 @@ Applicable Rules
       +
 Where to Verify
         ↓
-Acceptance Ready
+Verification Ready
 ```
 
-Worker Self Verification 不直接视为正式证据，正式验收尽可能对当前实际结果重新执行独立 Gate。
+Worker Self Verification 不直接视为正式证据，正式验证尽可能对当前实际结果重新执行独立 Gate。
 
 ---
 
-## 3.3 执行独立验收与质量门禁
+## 3.3 执行独立验证与质量门禁
 
 优先使用 Build / Compile / Typecheck / Lint、Unit / Integration、API / Contract、DB / MQ / Async Flow、Browser / E2E / Critical Path、Architecture / Dependency / Schema Rule、Security 等确定性 Gate。
 
 > **Deterministic Gate First｜确定性门禁优先。**
 
-存在 `code_ref` 时，Gate 必须针对该代码引用对应的实际变更执行，避免验收对象与 Worker 后续工作区状态漂移。
+存在 `code_ref` 时，Gate 必须针对该代码引用对应的实际变更执行，避免验证对象与 Worker 后续工作区状态漂移。
 
 机器难以稳定判定的复杂 UX、语义行为、代码可理解性 / 信息质量 / 变更清晰度 / 一致性或高风险改动，可按任务风险补充 Fresh Reviewer；涉及代码质量时以 Code Quality Rules 为判断依据，不以个人风格偏好替代正式规则。
 
@@ -103,7 +103,7 @@ Verifying
 
 ---
 
-## 3.5 形成验收结论
+## 3.5 形成验证结论
 
 ### 通过
 
@@ -132,24 +132,24 @@ verdict = blocked
 
 ## 3.6 产物
 
-形成 **Verification Result｜验收结果**，至少保留：
+形成 **Verification Result｜验证结果**，至少保留：
 
 - `task`
 - `requirement`
 - `verdict`
 - `target_status`
 - `evidence`
-- `code_ref`（存在代码变更时保留本次实际验收的 Task Commit）
+- `code_ref`（存在代码变更时保留本次实际验证的 Task Commit）
 - `findings`（无则省略）
 - `blocker / required_action`（阻塞时）
 
-只保存正式验收和下游状态推进需要的事实。
+只保存正式验证和下游状态推进需要的事实。
 
 ---
 
 ## 3.7 完成标准
 
-正式 Gate 已针对正确验收对象执行，结果有可复核 Evidence；存在代码变更时已按风险检查适用 Code Quality Rules；Verification Result 保留实际验收的 `code_ref`；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏，无法可靠归因的问题进入 Debug & Defect Resolution；最终明确目标状态或异常承接路径。
+正式 Gate 已针对正确验证对象执行，结果有可复核 Evidence；存在代码变更时已按风险检查适用 Code Quality Rules；Verification Result 保留实际验证的 `code_ref`；失败已先归因，能在当前实现内解决的返回原 Worker，超出当前 Task Contract 的问题进入 Blocked / 上游纠偏，无法可靠归因的问题进入 Debug & Defect Resolution；最终明确目标状态或异常承接路径。
 
 ---
 
@@ -157,4 +157,4 @@ verdict = blocked
 
 Verification Result 是 State Commit & Continuous Progression 的直接输入；进入 Debug 的异常在形成可信 Resolution Evidence 后回到对应 Owner Stage，再由主流程继续状态收敛。
 
-> **以独立、确定性优先的 Gate 对可追溯实现结果进行正式验收，并在失败时先完成可靠归因；明确问题走最短修复路径，无法可靠归因的问题交由 Debug 异常流程定位，再回到既有事实源继续推进。**
+> **以独立、确定性优先的 Gate 对可追溯实现结果进行正式验证，并在失败时先完成可靠归因；明确问题走最短修复路径，无法可靠归因的问题交由 Debug 异常流程定位，再回到既有事实源继续推进。**

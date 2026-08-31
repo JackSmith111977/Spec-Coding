@@ -10,11 +10,15 @@
 
 ## Unreleased｜未发布
 
+当前无未发布语义变更。
+
+## 0.6.0 - 2026-08-31
+
 ### Added｜新增
 
 - 新增 `docs/rules/human-agent-collaboration.md`，建立跨 Main / Exception Workflow 的 Human-Agent Collaboration Rules（人机协作规则），定义 Shared Cognitive Baseline、事件驱动 Cognitive Sync、Decision Readiness 与 Human Feedback Integration。
 - `manifest.yaml` 正式登记 `human-agent-collaboration` Canonical Rule Document，规则文档数量从 2 增至 3，并默认适用于所有正式 Workflow。
-- Glossary 新增 Human-Agent Collaboration、Shared Cognitive Baseline、Cognitive Sync 与 Decision Readiness 等规范术语。
+- Glossary 新增 Human-Agent Collaboration、Shared Cognitive Baseline、Cognitive Sync、Decision Readiness 与 Requirement Sync 等规范术语。
 
 ### Changed｜调整
 
@@ -26,13 +30,21 @@
 - Scope / Rule、Acceptance Criteria 与 Technical Decision 在进入关键 Human Decision / Confirm 前要求满足 Decision Readiness；已有共享上下文仍有效时只同步关键 Delta。
 - Development Execution 保持 Contract-bound Autonomy：普通 Task 内搜索、实现、局部修复与验证不触发 Human；只有 Contract Boundary / Authority Escalation 等真实 Trigger 才升级协作。
 - Human Acceptance 与 Verification Finding Triage 改为提供可判断上下文；Accepted Deviation 或上游共享模型失效时先同步 Expected / Actual、Evidence、Impact / Risk 与 Affected Trace，再进入 Human 判断。
-- Process Review Improvement 在改变规则 / Harness 行为语义前优先向 Human 展示 Behavior Delta、根因证据、收益与新增成本 / 风险，而不是让 Human 从完整 Rule Diff 重建影响。
-- README、Human Overview、Rules Index 与 Documentation Index 同步 Human-Agent Collaboration 导航和规则数量。
+- Brownfield Requirement 在 Requirement Interpretation 首次进入需求澄清链时建立稳定 `REQ-xx`；Greenfield 继续继承 Requirement Framework 身份，Acceptance Criteria 不再承担二次分配职责。
+- Detailed Technical Design 与 Task Set Validation 统一使用全局 `Open Item / OI-xxx`，移除 `Open Issues` 平行未决对象语义。
+- 技术设计正式 Artifact 名称统一为 `Impact Baseline → Solution Decision → Detailed Technical Design → Design Acceptance Result`，与实施规划和 Debug 消费名称一致。
+- Requirement Sync 明确为 Requirement Integration、Requirement AC Gate、Requirement Push 状态及必要 `code_ref` 的非权威聚合视图，不形成第四个需求级状态事实源。
+- Multi-dimensional Verification 移除旧的统一 `Human Triage` 语义，改为按 Human / Agent Authority Contract 进行 Finding 分类与路由；Evidence Closure 将 Finding `Decision` 与生命周期 `Status` 分离维护。
+- Verification Convergence 概要补齐 Implementation Baseline 输入；Development Execution 的正式 `Verification` 统一使用“验证”表述，Human Acceptance 继续保持“人工验收”。
+- Process Review Improvement 的改进对象统一为可复用 `Workflow / Rules / Harness`，并修正 Evidence Collection 的前向链路为 `source → EV → Process Timeline → ISS → RC → IMP`。
+- `Validation` 的正式中文解释按 Glossary 统一为“有效性确认”，Task Set Validation 与 Implementation & Validation 的阶段入口同步规范译法。
+- README、Human Overview、Rules Index 与 Documentation Index 同步 Human-Agent Collaboration 导航、规则数量与流程复盘对象。
 
 ### Notes｜说明
 
-- 本次变更不新增 Main Workflow 阶段，也不引入独立 Human Review Stage；协作规则全局适用，但 Human Interaction 由真实 Trigger 驱动。
-- `VERSION` 暂保持 `0.5.0`；待本轮规则 Review / Verification 收敛后再决定是否形成 `0.6.0` release。
+- 本版本不新增 Main Workflow 阶段，也不引入独立 Human Review Stage；协作规则全局适用，但 Human Interaction 由真实 Trigger 驱动。
+- Main Workflow 保持 34 份正式阶段文档，Canonical Rule Documents 为 3 份，Canonical Exception Workflow Documents 为 4 份；`schema_version` 保持 `3`。
+- 当前状态继续为 `candidate`；Scenario Stress Test、Fresh-Agent Blind Run 与 2–3 个真实项目 Pilot 仍是进入 `1.0.0` 前的稳定门槛。
 
 ## 0.5.0 - 2026-08-28
 

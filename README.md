@@ -6,7 +6,7 @@ Spec Coding / SDD（Specification-Driven Development，规格驱动开发）是�
 
 它不尝试规定某一种语言、框架或 Agent，而是把模糊意图逐步收敛为可追溯的 Requirement → Design → Task → Change → Verification，并结合项目上下文，将适用的 Workflow（流程）与 Rules（规则）转换成当前项目真正需要的最小 Harness（执行框架）。
 
-**Version:** [`0.5.0`](VERSION) · **Status:** `candidate`
+**Version:** [`0.6.0`](VERSION) · **Status:** `candidate`
 
 ---
 

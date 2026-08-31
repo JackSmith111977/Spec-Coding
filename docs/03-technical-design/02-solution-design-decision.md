@@ -85,6 +85,8 @@ Technical Problem
 
 ## 2.6 方案决策产物
 
+形成 **Solution Decision（方案决策）**：
+
 | 内容 | 说明 |
 |---|---|
 | `Technical Problem` | 本次需要解决的关键技术问题。 |
@@ -107,19 +109,19 @@ Technical Problem
 ## 2.8 下游使用约定
 
 ```text
-Current State & Impact Analysis
-              ↓
-      Technical Problem
-              ↓
-      Candidate Solutions
-              ↓
-        Trade-off
-              ↓
-          Decision
-              ↓
-       Detailed Design
+Impact Baseline
+      ↓
+Technical Problem
+      ↓
+Candidate Solutions
+      ↓
+Trade-off
+      ↓
+Solution Decision
+      ↓
+Detailed Technical Design
 ```
 
 因此，本步骤的最终职责是：
 
-> **围绕已确认的问题与约束，在清晰的人机权限边界内完成必要技术选择，使后续详细设计建立在明确、可解释、可追溯的决策基础上。**
+> **围绕 Impact Baseline 中已确认的问题与约束，在清晰的人机权限边界内形成 Solution Decision，使后续详细设计建立在明确、可解释、可追溯的决策基础上。**

@@ -110,9 +110,10 @@
 | Requirement Integration | 需求级集成 | 将同一 Requirement 下已完成 Task 的结果汇合。 |
 | Requirement AC Gate | 需求级验收门禁 | 在 Requirement Push 前确认该需求 Acceptance Criteria 已满足的门禁。 |
 | Requirement Push | 需求级推送 | 将 Requirement 级已集成代码同步到远程开发 / Requirement 分支；不代表 Merge、Release、Deploy 或最终 Verified。 |
+| Requirement Sync | 需求同步 | Requirement Integration、Requirement AC Gate 与 Requirement Push 状态及必要 `code_ref` 的聚合消费视图；不形成新的权威事实源。 |
 | Change Set | 变更集 | 当前需要被验证的实际代码、配置、数据与接口变更集合。 |
 | Ready | 就绪 | 已通过规划准入，但不一定当前可执行。 |
-| Verifying | 验证中 | 已形成稳定待验结果，正在执行正式 Verification。 |
+| Verifying | 验证中 | 已形成稳定待验证结果，正在执行正式 Verification。 |
 | Done | 完成 | Task Verification 已通过，Task 已闭环。 |
 
 ## 权限与治理术语
@@ -127,8 +128,8 @@
 | Shared Cognitive Baseline | 共享认知基线 | Human 与 Agent 为继续协作共同依赖的最小充分认知，包括目标、关键模型、状态、变化、不确定性、下一步与必要证据入口。 |
 | Cognitive Sync | 认知同步 | 在关键认知建立、变化、失效或决策边界出现时，向 Human 同步做出后续判断所需的最小信息。 |
 | Decision Readiness | 决策就绪 | Human 已拥有理解当前目标、模型、关键变化、证据、选项与影响所需的最小上下文，可以进行有效 Confirm / Human Decision / Human Acceptance。 |
-| Process Review | 流程复盘 | 基于真实执行证据分析流程问题与可复用机制缺口。 |
-| Improvement | 改进 | 对可复用 SDD / Harness 规则本身进行可验证调整。 |
+| Process Review | 流程复盘 | 基于真实执行证据分析 Workflow / Rules / Harness 的可复用机制问题。 |
+| Improvement | 改进 | 对可复用 Workflow / Rules / Harness 机制进行可验证调整。 |
 
 ## 术语变更规则
 
