@@ -87,3 +87,11 @@ Human / Agent Authority 回答“谁有权决定”；[`human-agent-collaboratio
 所有正式 Workflow 默认适用 Human-Agent Collaboration Rules，但**全局适用不代表每个阶段都必须发生 Human Interaction**：Agent 在 Autonomous 边界内继续自主推进，只有 Shared Model 建立 / 变化、Decision Boundary、Authority Escalation、Shared Model Invalidated、Major Closure 等真实 Trigger 成立时才同步。
 
 进入重要 Confirm、Human Decision 或 Human Acceptance 前，应满足与当前风险匹配的 Decision Readiness；如果 Human 已掌握必要上下文则直接复用，不重复汇报。Human 的有效反馈若改变后续依赖的事实或语义，应更新对应 Canonical Source of Truth，并只重新对齐受影响 Trace。
+
+## Agent Delegation & Coordination｜Agent 委派与协调
+
+Human / Agent Authority 继续定义 Human 与 Agent 的决策权限；Human-Agent Collaboration 负责 Human ↔ Main Agent 的共享认知与关键协作；[`agent-delegation-and-coordination.md`](agent-delegation-and-coordination.md) 负责 Main Agent ↔ Subagent 的角色、委派、协调、运行时能力路由与结果收敛。
+
+使用 Subagent 不改变上游 Authority、Gate、Artifact Contract 或 Canonical Source of Truth。Main Agent 可以按需委派探索、执行或独立审查，但仍负责全局一致性、结果整合、跨 Agent 冲突与最终责任；Subagent 只在明确边界内自治，超出当前 Contract 时返回 Main Agent 重新路由。
+
+Agent、Model、Thinking、Fresh / Fork、Workspace、Attempt 与并行策略默认属于 Runtime Strategy（运行时策略），除正式 Workflow 另有明确 Artifact Contract 外不作为长期状态持久化。
