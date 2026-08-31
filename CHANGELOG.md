@@ -10,6 +10,28 @@
 
 ## Unreleased｜未发布
 
+### Added｜新增
+
+- 新增 `docs/rules/human-agent-collaboration.md`，建立跨 Main / Exception Workflow 的 Human-Agent Collaboration Rules（人机协作规则），定义 Shared Cognitive Baseline、事件驱动 Cognitive Sync、Decision Readiness 与 Human Feedback Integration。
+- `manifest.yaml` 正式登记 `human-agent-collaboration` Canonical Rule Document，规则文档数量从 2 增至 3，并默认适用于所有正式 Workflow。
+- Glossary 新增 Human-Agent Collaboration、Shared Cognitive Baseline、Cognitive Sync 与 Decision Readiness 等规范术语。
+
+### Changed｜调整
+
+- Global Contracts 将 Human / Agent Authority 与 Human-Agent Collaboration 明确分工：Authority 决定“谁能决定”，Collaboration 决定“什么时候协作、Human 判断前需要同步什么，以及反馈如何回到事实源”。
+- Harness Compilation Protocol 将 Human-Agent Collaboration 纳入 Applicable Rules 的 Read / Derive / Verify，并明确不得把事件驱动同步机械编译成每阶段 Human Review。
+- Business Understanding 在形成或显著修正关键业务模型时按 Trigger 进行必要 Cognitive Sync，要求 Agent 先完成证据探索，再请求 Human 校正业务语义。
+- Scope / Rule、Acceptance Criteria 与 Technical Decision 在进入关键 Human Decision / Confirm 前要求满足 Decision Readiness；已有共享上下文仍有效时只同步关键 Delta。
+- Development Execution 保持 Contract-bound Autonomy：普通 Task 内搜索、实现、局部修复与验证不触发 Human；只有 Contract Boundary / Authority Escalation 等真实 Trigger 才升级协作。
+- Human Acceptance 与 Verification Finding Triage 改为提供可判断上下文；Accepted Deviation 或上游共享模型失效时先同步 Expected / Actual、Evidence、Impact / Risk 与 Affected Trace，再进入 Human 判断。
+- Process Review Improvement 在改变规则 / Harness 行为语义前优先向 Human 展示 Behavior Delta、根因证据、收益与新增成本 / 风险，而不是让 Human 从完整 Rule Diff 重建影响。
+- README、Human Overview、Rules Index 与 Documentation Index 同步 Human-Agent Collaboration 导航和规则数量。
+
+### Notes｜说明
+
+- 本次变更不新增 Main Workflow 阶段，也不引入独立 Human Review Stage；协作规则全局适用，但 Human Interaction 由真实 Trigger 驱动。
+- `VERSION` 暂保持 `0.5.0`；待本轮规则 Review / Verification 收敛后再决定是否形成 `0.6.0` release。
+
 ## 0.5.0 - 2026-08-28
 
 ### Added｜新增
