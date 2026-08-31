@@ -50,7 +50,7 @@
 
 Writer / Verifier 尽量分离，审查主动寻找反例，以 Evidence 而非 Agent 声明作为通过依据，也不以个人风格偏好替代正式规则。
 
-对真实用户端到端、UI / UX、视觉体验或业务最终确认场景，执行必要 Human Acceptance。
+对真实用户端到端、UI / UX、视觉体验或业务最终确认场景，执行必要 Human Acceptance。进入 Human Acceptance 前同时遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)：优先向 Human 提供 Requirement / AC、实际 Change、已有 Deterministic Verification、已知 Finding 与本次真正需要人工判断的内容，使 Human 不需要从原始 Change Set 自行重建上下文。
 
 ---
 

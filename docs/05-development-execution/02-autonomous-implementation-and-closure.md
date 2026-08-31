@@ -61,7 +61,9 @@ Adjust
 
 按全局 Human / Agent Authority Contract（人机决策权限契约），当前 Task Contract 内的实现选择、局部重构、缺陷修复和确定性检查默认属于 Autonomous（Agent 自主）。Worker 可以调整 Implementation Strategy，但不得自行改变 Requirement / Acceptance Criteria、已固定 Design Decision、Task Goal / Boundary / Coverage、Verification Contract。
 
-若继续实现必须改变上述契约，应停止将其作为“实现细节”处理：先收集证据、形成影响与建议，再按对应权限返回上游进入 Confirm（Agent 提议 + Human 确认）或 Human Decision（Human 决策）。
+若继续实现必须改变上述契约，应停止将其作为“实现细节”处理：先收集证据、形成影响与建议，再按对应权限返回上游进入 Confirm（Agent 提议 + Human 确认）或 Human Decision（Human 决策）。此时属于 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md) 的 Authority Escalation / Decision Boundary Trigger，应在需要 Human 判断时同步关键 Cognitive Delta 并恢复 Decision Readiness。
+
+普通 Task 内的代码搜索、实现选择、局部失败修复与验证不因 Human-Agent Collaboration Rules 自动触发 Human Interaction；只有真实 Trigger 成立时才升级协作。
 
 > **Contract-bound Autonomy｜契约边界内自治。**
 

@@ -66,6 +66,8 @@ Decision
 - 会改变可复用 SDD / Harness 行为语义、Agent 权限、状态契约、阶段准入或自动化策略的改进，由 Agent 提议并进入 Confirm（Agent 提议 + Human 确认）后再成为正式规则。
 - 若改进会弱化强制 Verification（验证）、绕过安全 / 风险 Gate（门禁）或扩大 Agent 对业务语义与偏差接受的权限，必须进入 Human Decision（Human 决策）。
 
+进入规则语义相关 Confirm / Human Decision 时，同时遵循 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)：优先向 Human 呈现 Current Behavior → Proposed Behavior 的 Behavior Delta、对应 Root Cause / Evidence、预期收益以及新增成本 / 风险，而不是要求 Human 从完整规则 Diff 自行重建影响。
+
 > **优先选择能够直接解决根因、同时对现有流程侵入最小的方案。**
 
 ---
