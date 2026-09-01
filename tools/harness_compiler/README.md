@@ -77,27 +77,27 @@ python -m tools.harness_compiler derive \
   --output "$TARGET_ROOT/.harness-state/derived-compilation-state.json"
 ```
 
-将 Agent 生成的文件先放入 `target-root` 中的暂存位置，再运行：
+Agent 将语义推导和暂存产物准备完成后，`derive` 输出的 `derived-compilation-state.json` 才是后续命令唯一允许使用的 State；不得把非 Ready 的 seed 输出传给 `validate`、`compose` 或 `verify`。然后运行：
 
 ```bash
 python -m tools.harness_compiler validate \
   --spec-root "$SPEC_ROOT" --target-root "$TARGET_ROOT" \
   --adoption-baseline adoption/baseline.json \
-  --state "$TARGET_ROOT/.harness-state/compilation-state.json" \
+  --state "$TARGET_ROOT/.harness-state/derived-compilation-state.json" \
   --source-inventory "$TARGET_ROOT/.harness-state/source-inventory.json" \
   --output "$TARGET_ROOT/.harness-state/validate.json"
 
 python -m tools.harness_compiler compose \
   --spec-root "$SPEC_ROOT" --target-root "$TARGET_ROOT" \
   --adoption-baseline adoption/baseline.json \
-  --state "$TARGET_ROOT/.harness-state/compilation-state.json" \
+  --state "$TARGET_ROOT/.harness-state/derived-compilation-state.json" \
   --source-inventory "$TARGET_ROOT/.harness-state/source-inventory.json" \
   --output "$TARGET_ROOT/.harness-state/compose.json"
 
 python -m tools.harness_compiler verify \
   --spec-root "$SPEC_ROOT" --target-root "$TARGET_ROOT" \
   --adoption-baseline adoption/baseline.json \
-  --state "$TARGET_ROOT/.harness-state/compilation-state.json" \
+  --state "$TARGET_ROOT/.harness-state/derived-compilation-state.json" \
   --source-inventory "$TARGET_ROOT/.harness-state/source-inventory.json" \
   --output "$TARGET_ROOT/.harness-state/verify.json"
 ```
