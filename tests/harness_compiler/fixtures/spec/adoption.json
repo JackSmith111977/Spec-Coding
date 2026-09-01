@@ -1,0 +1,12 @@
+{
+  "adoption_version": 1,
+  "target": {"id": "fixture-target"},
+  "spec_workspace": {"id": "fixture-spec-workspace"},
+  "publication": {"boundary": "repository-native", "component_root": "harness"},
+  "integration": {"scope": "project"},
+  "workflow_route": "route.json",
+  "constraints": [
+    {"id": "human-sync", "value": "trigger-driven"},
+    {"id": "merge-policy", "value": "verified-only"}
+  ]
+}
