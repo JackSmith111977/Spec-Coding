@@ -178,6 +178,8 @@ def validate_state(
             linked = []
         if status == "RESOLVED" and not linked and source.get("guidance_only") is not True:
             diagnostics.append(diagnostic("RESOLVED_WITHOUT_CONTRACT", "resolved source needs a contract or guidance_only", source=source_id))
+        if inventory is not None and inventory.get("semantic_required") is True and source.get("guidance_only") is True:
+            diagnostics.append(diagnostic("SEMANTIC_SOURCE_GUIDANCE_ONLY", "semantic_required source must link to an explicit contract", ref=source_ref))
         if status == "NOT_APPLICABLE" and not _string(source.get("reason")):
             diagnostics.append(diagnostic("NOT_APPLICABLE_WITHOUT_REASON", "not-applicable source needs a reason", source=source_id))
         if status == "UNRESOLVED":
@@ -327,4 +329,6 @@ def validate_state(
             dimension_passes["semantic_fidelity"] = False
     if ready is True and (summary["unresolved"] or summary["blocked"] or not all(dimension_passes.values())):
         diagnostics.append(diagnostic("READY_INCONSISTENT", "Harness Ready requires all dimensions passing and zero unresolved/blocked", unresolved=summary["unresolved"], blocked=summary["blocked"]))
+    if ready is False:
+        diagnostics.append(diagnostic("HARNESS_NOT_READY", "Compilation State has not yet passed every required validation dimension"))
     return diagnostics, summary

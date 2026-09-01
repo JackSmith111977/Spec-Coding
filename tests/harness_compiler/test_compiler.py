@@ -67,12 +67,12 @@ class HarnessCompilerV2Tests(unittest.TestCase):
                 "sha256": block["content_sha256"], "status": "RESOLVED", "guidance_only": True,
             }
             sources.append(source)
-        preamble = next(source for source in sources if source["ref"].endswith("#preamble@1"))
+        semantic_sources = [source for source, block in zip(sources, inventory["source_blocks"]) if block.get("semantic_required") is True]
+        for source in semantic_sources:
+            source.pop("guidance_only")
+            source["contracts"] = ["CT-001"]
         adoption = next(source for source in sources if source["ref"] == "adoption://constraint/merge-policy")
-        preamble.pop("guidance_only")
-        adoption.pop("guidance_only")
-        preamble["contracts"] = ["CT-001"]
-        adoption["contracts"] = ["CT-002"]
+        adoption["contracts"].append("CT-002")
         checks = {
             name: {"status": "pass", "evidence": [f"test://{name}"]}
             for name in (
@@ -86,7 +86,7 @@ class HarnessCompilerV2Tests(unittest.TestCase):
             "compilation": {"spec_version": "0.10.0", "target_id": "fixture-target", "adoption_sha256": baseline_sha},
             "sources": sources,
             "contracts": [
-                {"id": "CT-001", "source": [preamble["id"]], "guarantee": "instruction is available", "strength": "must"},
+                {"id": "CT-001", "source": [source["id"] for source in semantic_sources], "guarantee": "instruction is available", "strength": "must"},
                 {"id": "CT-002", "source": [adoption["id"]], "guarantee": "verified-only gate rejects invalid input", "strength": "must"},
             ],
             "mappings": [
@@ -126,6 +126,69 @@ class HarnessCompilerV2Tests(unittest.TestCase):
             (spec_root / "adoption.json").unlink()
             result = self.run_cli("resolve", "--spec-root", str(spec_root), "--target-root", str(target_root), "--adoption-baseline", "adoption.json", "--output", str(Path(temporary) / "out.json"))
             self.assertNotEqual(result.returncode, 0)
+
+    def test_seed_accounts_for_every_scanned_source_but_is_not_ready(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            spec_root, target_root, _, inventory, _ = self.prepare_context(Path(temporary))
+            state = target_root / "seed.json"
+            seeded = self.run_cli(
+                "seed", "--spec-root", str(spec_root), "--target-root", str(target_root),
+                "--adoption-baseline", "adoption.json", "--source-inventory", str(inventory), "--output", str(state),
+            )
+            self.assertEqual(seeded.returncode, 0, seeded.stderr or seeded.stdout)
+            source_count = len(json.loads(inventory.read_text(encoding="utf-8"))["source_blocks"])
+            seeded_state = json.loads(state.read_text(encoding="utf-8"))
+            self.assertEqual(len(seeded_state["sources"]), source_count)
+            self.assertFalse(seeded_state["validation"]["harness_ready"])
+            result = self.run_cli(
+                "validate", "--spec-root", str(spec_root), "--target-root", str(target_root),
+                "--adoption-baseline", "adoption.json", "--state", str(state), "--source-inventory", str(inventory),
+                "--output", str(target_root / "seed-validate.json"),
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("HARNESS_NOT_READY", {item["code"] for item in json.loads(result.stdout)["diagnostics"]})
+
+    def test_derive_seals_unique_semantic_source_contracts_and_output_digests(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            spec_root, target_root, _, inventory, _ = self.prepare_context(Path(temporary))
+            seed_path = target_root / "seed.json"
+            seeded = self.run_cli(
+                "seed", "--spec-root", str(spec_root), "--target-root", str(target_root),
+                "--adoption-baseline", "adoption.json", "--source-inventory", str(inventory), "--output", str(seed_path),
+            )
+            self.assertEqual(seeded.returncode, 0, seeded.stderr or seeded.stdout)
+            seed = json.loads(seed_path.read_text(encoding="utf-8"))
+            stage = target_root / ".harness-staging" / "instruction.md"
+            stage.parent.mkdir()
+            stage.write_text("# Compiled Harness\n", encoding="utf-8")
+            semantic_ids = [source["id"] for source in seed["sources"] if source.get("guidance_only") is not True]
+            checks = {
+                name: {"status": "pass", "evidence": [f"test://{name}"]}
+                for name in (
+                    "source_coverage", "contract_coverage", "semantic_fidelity", "runtime_mapping",
+                    "capability_routing", "component_integrity", "minimality", "runtime_loading",
+                    "executability", "failure_path", "reference_drift",
+                )
+            }
+            checks["semantic_fidelity"]["reviewer"] = {"independent": True, "verdict": "pass", "findings": []}
+            derivation = {
+                "contracts": [{"id": "CT-001", "source_selectors": semantic_ids, "guarantee": "compiled instruction is source-linked", "strength": "must"}],
+                "mappings": [{"contract": "CT-001", "decision": "COMPILE", "primitives": ["instruction"], "runtime": {"support": "native", "surfaces": ["AGENTS.md"], "evidence": ["test://entry"]}}],
+                "components": [{"id": "CMP-001", "type": "instruction", "covers": ["CT-001"], "reason": "source-linked instruction", "outputs": [{"target": "AGENTS.md", "action": "create", "staged": ".harness-staging/instruction.md"}]}],
+                "validation": {**checks, "unresolved": 0, "blocked": 0, "harness_ready": True},
+            }
+            derivation_path = target_root / "derivation.json"
+            derivation_path.write_text(json.dumps(derivation), encoding="utf-8")
+            state_path = target_root / "derived.json"
+            result = self.run_cli(
+                "derive", "--spec-root", str(spec_root), "--target-root", str(target_root),
+                "--adoption-baseline", "adoption.json", "--seed-state", str(seed_path),
+                "--derivation", str(derivation_path), "--output", str(state_path),
+            )
+            self.assertEqual(result.returncode, 0, result.stderr or result.stdout)
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            self.assertEqual({source["contracts"][0] for source in state["sources"] if source.get("guidance_only") is not True}, {"CT-001"})
+            self.assertEqual(state["components"][0]["outputs"][0]["content_sha256"], self.digest("# Compiled Harness\n"))
 
     def test_scan_distinguishes_repeated_heading_occurrences_and_adoption_sources(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

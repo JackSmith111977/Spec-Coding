@@ -51,14 +51,31 @@ python -m tools.harness_compiler scan \
   --spec-root "$SPEC_ROOT" \
   --candidates "$TARGET_ROOT/.harness-state/candidates.json" \
   --output "$TARGET_ROOT/.harness-state/source-inventory.json"
+
+python -m tools.harness_compiler seed \
+  --spec-root "$SPEC_ROOT" --target-root "$TARGET_ROOT" \
+  --adoption-baseline adoption/baseline.json \
+  --source-inventory "$TARGET_ROOT/.harness-state/source-inventory.json" \
+  --output "$TARGET_ROOT/.harness-state/compilation-state.json"
 ```
 
-此后 Agent 根据 Source Inventory（来源清单）、当前 Target、Existing Harness 与 Current Runtime Evidence 推导 `Compilation State`（编译状态）。状态是短生命周期 JSON；其结构由 [`schema/compilation-state.schema.json`](schema/compilation-state.schema.json) 约束，额外语义检查由 `validate` 执行。它必须逐项记录：
+`seed` 只生成完整来源账本和非 Ready 初始状态，绝不自动生成语义。此后 Agent 根据 Source Inventory（来源清单）、当前 Target、Existing Harness 与 Current Runtime Evidence 推导 `Compilation State`（编译状态）。状态是短生命周期 JSON；其结构由 [`schema/compilation-state.schema.json`](schema/compilation-state.schema.json) 约束，额外语义检查由 `validate` 执行。它必须逐项记录：
 
 - 每个 Canonical / Adoption 来源的引用、摘要、状态以及 Contract（契约）链接；
 - Contract → Existing / Compile / Blocked 决策和 Runtime Evidence；
 - 仅针对 `COMPILE` Contract 的组件、暂存内容摘要和发布目标；
 - 十一个验证维度的证据，以及独立 Reviewer 的语义忠实 Verdict。
+
+为使这一 Agent 判断可复现，可将派生说明保存为 JSON 并运行 `derive`：它展开来源 ID 范围、要求每个语义来源恰好归入一个 Contract，并按暂存文件重新计算 SHA-256；它不会自动编造自然语言保证或独立审查结论。
+
+```bash
+python -m tools.harness_compiler derive \
+  --spec-root "$SPEC_ROOT" --target-root "$TARGET_ROOT" \
+  --adoption-baseline adoption/baseline.json \
+  --seed-state "$TARGET_ROOT/.harness-state/compilation-state.json" \
+  --derivation "$TARGET_ROOT/.harness-staging/semantic-derivation.json" \
+  --output "$TARGET_ROOT/.harness-state/derived-compilation-state.json"
+```
 
 将 Agent 生成的文件先放入 `target-root` 中的暂存位置，再运行：
 

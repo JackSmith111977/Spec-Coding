@@ -8,8 +8,10 @@ from pathlib import Path
 from typing import Any
 
 from .compose import compose
+from .derive import derive
 from .resolve import resolve
 from .scan import scan
+from .seed import seed
 from .shared import CompilerInputError, diagnostic, load_adoption_baseline, read_json, report, write_json
 from .state import validate_state
 from .verify import verify
@@ -39,6 +41,15 @@ def main() -> int:
     scan_parser.add_argument("--spec-root", type=Path, required=True)
     scan_parser.add_argument("--candidates", type=Path, required=True)
     scan_parser.add_argument("--output", type=Path, required=True)
+    seed_parser = subcommands.add_parser("seed", help="create a complete non-ready source ledger for Agent derivation")
+    _roots(seed_parser)
+    seed_parser.add_argument("--source-inventory", type=Path, required=True)
+    seed_parser.add_argument("--output", type=Path, required=True)
+    derive_parser = subcommands.add_parser("derive", help="seal an Agent-authored semantic derivation into Compilation State")
+    _roots(derive_parser)
+    derive_parser.add_argument("--seed-state", type=Path, required=True)
+    derive_parser.add_argument("--derivation", type=Path, required=True)
+    derive_parser.add_argument("--output", type=Path, required=True)
     for name in ("compose", "validate", "verify"):
         command_parser = subcommands.add_parser(name)
         _roots(command_parser)
@@ -55,6 +66,11 @@ def main() -> int:
             result = resolve(args.spec_root.resolve(), args.target_root.resolve(), args.adoption_baseline, args.manifest)
         elif args.command == "scan":
             result = scan(args.spec_root.resolve(), args.candidates)
+        elif args.command == "seed":
+            spec_root, _, baseline, baseline_sha256 = _load_context(args)
+            result = seed(spec_root, baseline, baseline_sha256, args.source_inventory)
+        elif args.command == "derive":
+            result = derive(args.seed_state, args.derivation, args.target_root.resolve())
         else:
             spec_root, target_root, baseline, baseline_sha256 = _load_context(args)
             state = read_json(args.state)
@@ -74,7 +90,8 @@ def main() -> int:
                     result = verify(spec_root, target_root, baseline, baseline_sha256, state, inventory, args.timeout)
     except CompilerInputError as error:
         result = report(args.command, False, [diagnostic("INPUT_ERROR", str(error))])
-    write_json(args.output, result)
+    output = result.pop("state", result)
+    write_json(args.output, output)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result.get("passed") else 1
 
