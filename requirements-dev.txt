@@ -1,0 +1,2 @@
+# The Canonical manifest remains YAML; generated compiler state and reports are JSON.
+-r requirements.txt

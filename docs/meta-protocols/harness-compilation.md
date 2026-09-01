@@ -82,6 +82,14 @@ Runtime Reference
 
 Adoption Baseline 中不应复制技术栈、CI 命令、模型列表、Runtime Reference 内容或 Harness 组件清单；这些动态事实与编译知识继续在本协议中按需读取或发现。
 
+### V2 Tooling Boundary｜V2 工具边界
+
+仓库内的 [`Harness Compiler V2 tools`](../../tools/harness_compiler/README.md) 将确定性部分收敛为 `resolve → scan → seed → derive → validate → compose → verify`：它们显式区分 `spec-root` 与 `target-root`，以有效 Adoption Baseline 为硬前置条件，生成 JSON 来源清单和短生命周期 Compilation State（编译状态）报告。`seed` 只建立非 Ready 来源账本；Agent 提供语义推导输入后，`derive` 才封存可验证的派生 State。
+
+工具不自动从自然语言生成 Contract 或 Harness，也不替代 Agent 的 Runtime Discovery、Gap 判断与独立语义审查。Agent 仍负责 Read / Derive 和构造带来源、运行时证据、组件摘要及十一项验证证据的 State；工具负责稳定引用、完整性、边界、摘要、确定性 Probe 与写入门禁。`Compose` 是唯一 Writer，`Validate` / `Verify` 只读；任一阻断条件出现时不得把 Harness 标记为 Ready。
+
+这是一层可验证实现，不新增平行 Canonical 事实源：Workflow / Rules 继续持有规范语义，Adoption Baseline 继续持有目标接入事实，Current Runtime Evidence 继续持有当前能力事实。
+
 ---
 
 ## 3. 转换流程

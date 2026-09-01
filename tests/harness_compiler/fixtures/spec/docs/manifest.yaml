@@ -1,0 +1,9 @@
+schema_version: 4
+canonical_root: docs
+stages:
+  - id: sample
+    name: sample-stage
+    documents:
+      - workflow.md
+rule_documents: []
+exception_workflows: []
