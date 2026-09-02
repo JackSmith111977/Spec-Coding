@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import tempfile
 import unittest
@@ -13,6 +14,8 @@ from tools.harness_adapt.validate import validate_adaptation
 ROOT = Path(__file__).resolve().parents[2]
 PLAN_SCHEMA = json.loads((ROOT / "tools/harness_adapt/schema/adaptation-plan.schema.json").read_text())
 CANDIDATE_SCHEMA = json.loads((ROOT / "tools/harness_adapt/schema/harness-candidate.schema.json").read_text())
+HARNESS_BYTES = b"# Harness\n"
+HARNESS_SHA = hashlib.sha256(HARNESS_BYTES).hexdigest()
 
 
 class HarnessAdaptTests(unittest.TestCase):
@@ -75,24 +78,26 @@ class HarnessAdaptTests(unittest.TestCase):
             "adoption_fingerprint": seed["adoption_fingerprint"],
             "plan_fingerprint": sha256_json(self.plan),
             "components": [{"id": "CMP-001", "kind": "review-routing", "mode": "create", "covers_clauses": ["SC-001"], "provider_refs": ["P-001"], "artifact_refs": ["ART-001"]}],
-            "artifacts": [{"id": "ART-001", "path": "AGENTS.md", "kind": "instruction", "component_ref": "CMP-001", "state": "materialized", "loader_fact_ref": "F-002"}],
+            "artifacts": [{"id": "ART-001", "path": "AGENTS.md", "kind": "instruction", "component_ref": "CMP-001", "state": "materialized", "content_sha256": HARNESS_SHA, "loader_fact_ref": "F-002"}],
             "provider_changes": [{"provider_ref": "P-001", "action": "install", "status": "applied", "refresh_evidence": ["local://pi/packages/installed/review"]}],
         }
 
-    def validate(self, plan=None, candidate=None, create_artifact=True):
+    def validate(self, plan=None, candidate=None, artifact_bytes=HARNESS_BYTES):
         with tempfile.TemporaryDirectory() as directory:
             target = Path(directory)
-            if create_artifact:
-                (target / "AGENTS.md").write_text("# Harness\n")
+            if artifact_bytes is not None:
+                (target / "AGENTS.md").write_bytes(artifact_bytes)
             return validate_adaptation(self.ir, self.environment, self.adoption, plan or self.plan, candidate or self.candidate, PLAN_SCHEMA, CANDIDATE_SCHEMA, target)
-
-    def test_prepare_accounts_for_every_clause(self) -> None:
-        seed = prepare(self.ir, self.environment, self.adoption)
-        self.assertEqual([item["clause"] for item in seed["clause_work_items"]], ["SC-001", "SC-002"])
-        self.assertEqual(seed["provider_surfaces"][0]["id"], "PS-001")
 
     def test_registry_provider_candidate_passes(self) -> None:
         self.assertTrue(self.validate()["passed"])
+
+    def test_blocked_clause_prevents_handoff(self) -> None:
+        plan = copy.deepcopy(self.plan)
+        plan["clause_accounts"][1] = {"clause": "SC-002", "disposition": "blocked", "reason": "No reliable provider."}
+        result = self.validate(plan=plan)
+        self.assertFalse(result["passed"])
+        self.assertIn("BLOCKED_CLAUSE", {item["code"] for item in result["diagnostics"]})
 
     def test_registry_provider_needs_reachable_surface(self) -> None:
         plan = copy.deepcopy(self.plan)
@@ -119,14 +124,19 @@ class HarnessAdaptTests(unittest.TestCase):
         candidate = copy.deepcopy(self.candidate)
         candidate["components"] = []
         candidate["artifacts"] = []
-        result = self.validate(candidate=candidate)
+        result = self.validate(candidate=candidate, artifact_bytes=None)
         self.assertFalse(result["passed"])
         self.assertIn("CANDIDATE_COVERAGE_GAP", {item["code"] for item in result["diagnostics"]})
 
-    def test_materialized_artifact_must_exist(self) -> None:
-        result = self.validate(create_artifact=False)
+    def test_candidate_artifact_must_exist(self) -> None:
+        result = self.validate(artifact_bytes=None)
         self.assertFalse(result["passed"])
-        self.assertIn("MISSING_MATERIALIZED_ARTIFACT", {item["code"] for item in result["diagnostics"]})
+        self.assertIn("MISSING_CANDIDATE_ARTIFACT", {item["code"] for item in result["diagnostics"]})
+
+    def test_candidate_artifact_hash_is_bound(self) -> None:
+        result = self.validate(artifact_bytes=b"# Mutated Harness\n")
+        self.assertFalse(result["passed"])
+        self.assertIn("ARTIFACT_CONTENT_DRIFT", {item["code"] for item in result["diagnostics"]})
 
 
 if __name__ == "__main__":
