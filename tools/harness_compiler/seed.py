@@ -46,6 +46,6 @@ def seed(spec_root: Path, baseline: dict[str, Any], baseline_sha256: str, source
             ],
             "mappings": [{"contract": "CT-001", "decision": "BLOCKED", "reason": "Agent semantic derivation and independent review are required"}],
             "components": [],
-            "validation": {**checks, "unresolved": 0, "blocked": 1, "harness_ready": False},
+            "validation": {**checks, "unresolved": 0, "blocked": 1},
         },
     )

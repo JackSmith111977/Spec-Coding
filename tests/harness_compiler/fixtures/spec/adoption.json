@@ -2,8 +2,17 @@
   "adoption_version": 1,
   "target": {"id": "fixture-target"},
   "spec_workspace": {"id": "fixture-spec-workspace"},
-  "publication": {"boundary": "repository-native", "component_root": "harness"},
+  "publication": {"boundary": "repository-native", "component_root": "."},
   "integration": {"scope": "project"},
+  "runtime": {
+    "id": "fixture-runtime",
+    "evidence": ["fixture://runtime-loader-rules"],
+    "loader_rules": {
+      "context_files": ["AGENTS.md"],
+      "skill_dirs": [],
+      "extension_dirs": [".fixture/extensions"]
+    }
+  },
   "workflow_route": "route.json",
   "constraints": [
     {"id": "human-sync", "value": "trigger-driven"},

@@ -13,7 +13,7 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
-from .shared import SUPPORT_MODES, diagnostic, relative_path
+from .shared import SUPPORT_MODES, diagnostic, relative_path, runtime_surfaces_for_target
 
 
 SOURCE_STATUSES = {"RESOLVED", "NOT_APPLICABLE", "UNRESOLVED"}
@@ -67,6 +67,35 @@ def _evidence_check(diagnostics: list[dict[str, Any]], value: Any, name: str) ->
         diagnostics.append(diagnostic("MISSING_VALIDATION_EVIDENCE", f"validation.{name} needs evidence"))
         return False
     return value["status"] == "pass"
+
+
+def _valid_readback_contract(
+    diagnostics: list[dict[str, Any]],
+    contract: dict[str, Any],
+    spec_root: Path,
+    canonical_documents: set[str],
+) -> bool:
+    readback = contract.get("readback_contract")
+    contract_id = contract.get("id")
+    if not isinstance(readback, dict):
+        diagnostics.append(diagnostic("MISSING_READBACK_CONTRACT", "COMPILE contract needs a readback_contract", contract=contract_id))
+        return False
+    if readback.get("mandatory") is not True:
+        diagnostics.append(diagnostic("READBACK_NOT_MANDATORY", "COMPILE contract readback_contract.mandatory must be true", contract=contract_id))
+        return False
+    try:
+        canonical_doc = relative_path(spec_root, readback.get("canonical_doc"))
+    except Exception:
+        diagnostics.append(diagnostic("INVALID_READBACK_DOCUMENT", "readback_contract.canonical_doc must be a safe relative Canonical document path", contract=contract_id))
+        return False
+    if not canonical_doc.is_file():
+        diagnostics.append(diagnostic("MISSING_READBACK_DOCUMENT", "readback_contract.canonical_doc does not exist", contract=contract_id, canonical_doc=readback.get("canonical_doc")))
+        return False
+    canonical_raw = readback.get("canonical_doc")
+    if canonical_raw not in canonical_documents:
+        diagnostics.append(diagnostic("READBACK_DOCUMENT_NOT_CANONICAL", "readback_contract.canonical_doc must be one of the resolved Canonical documents", contract=contract_id, canonical_doc=canonical_raw))
+        return False
+    return True
 
 
 def validate_state(
@@ -134,6 +163,11 @@ def validate_state(
         }
         if len(inventory_by_ref) != len(inventory_blocks):
             diagnostics.append(diagnostic("INVALID_SOURCE_INVENTORY", "source inventory contains invalid or duplicate refs"))
+    canonical_documents = {
+        block["ref"].split("#", 1)[0]
+        for block in inventory_blocks or []
+        if isinstance(block, dict) and block.get("kind") == "canonical" and isinstance(block.get("ref"), str)
+    }
 
     source_by_id: dict[str, dict[str, Any]] = {}
     source_refs: set[str] = set()
@@ -192,7 +226,7 @@ def validate_state(
     contract_by_id: dict[str, dict[str, Any]] = {}
     for index, contract in enumerate(contracts):
         label = f"contracts[{index}]"
-        if not _unknown_fields(diagnostics, contract, {"id", "source", "guarantee", "strength", "prohibits"}, label):
+        if not _unknown_fields(diagnostics, contract, {"id", "source", "guarantee", "strength", "prohibits", "readback_contract", "obligation_type", "failure_mode"}, label):
             continue
         contract_id = contract.get("id")
         if not _string(contract_id) or not _string(contract.get("guarantee")) or contract.get("strength") not in {"must", "must_not", "should", "guidance"}:
@@ -242,6 +276,9 @@ def validate_state(
                 diagnostics.append(diagnostic("EXISTING_WITHOUT_EVIDENCE", "EXISTING needs sufficient coverage, mechanisms, and evidence", contract=contract_id))
         elif decision == "COMPILE":
             runtime = mapping.get("runtime")
+            contract = contract_by_id.get(contract_id)
+            if contract is not None:
+                _valid_readback_contract(diagnostics, contract, spec_root, canonical_documents)
             if not _list_of_strings(mapping.get("primitives")):
                 diagnostics.append(diagnostic("COMPILE_WITHOUT_PRIMITIVE", "COMPILE needs primitives", contract=contract_id))
             if not isinstance(runtime, dict) or runtime.get("support") not in SUPPORT_MODES or not _list_of_strings(runtime.get("surfaces")) or not _list_of_strings(runtime.get("evidence")):
@@ -256,10 +293,13 @@ def validate_state(
     for contract_id in contract_by_id:
         if contract_id not in mapping_by_contract:
             diagnostics.append(diagnostic("MISSING_MAPPING", "contract lacks mapping", contract=contract_id))
+    if summary["blocked"]:
+        diagnostics.append(diagnostic("BLOCKED_MAPPING_PRESENT", "blocked mappings prevent the compiler from deriving Harness Ready", blocked=summary["blocked"]))
 
     component_ids: set[str] = set()
     compiled_coverage: dict[str, list[str]] = {contract_id: [] for contract_id in contract_by_id}
     component_root = baseline.get("publication", {}).get("component_root", "")
+    runtime_profile = baseline.get("runtime")
     for index, component in enumerate(components):
         label = f"components[{index}]"
         if not _unknown_fields(diagnostics, component, {"id", "type", "covers", "reason", "outputs", "verification"}, label):
@@ -300,19 +340,63 @@ def validate_state(
                     relative_path(target_root, output["staged"])
                 except Exception:
                     diagnostics.append(diagnostic("PUBLICATION_BOUNDARY_VIOLATION", "component output escapes adoption component_root", component=component_id, target=output.get("target")))
+                    continue
+                if not runtime_surfaces_for_target(runtime_profile, output["target"]):
+                    diagnostics.append(diagnostic("RUNTIME_VISIBILITY_VIOLATION", "component output is outside every declared runtime loader surface", component=component_id, target=output["target"]))
+
         verification = component.get("verification")
-        if verification is not None and not isinstance(verification, dict):
+        if not isinstance(verification, dict):
             diagnostics.append(diagnostic("INVALID_COMPONENT_VERIFICATION", "component verification must be an object", component=component_id))
-        if isinstance(verification, dict) and verification.get("deterministic") is True and not _list_of_strings(verification.get("failure_command")):
-            diagnostics.append(diagnostic("MISSING_FAILURE_PATH", "deterministic component needs failure_command", component=component_id))
+            continue
+        verification_covers = verification.get("covers")
+        if not _list_of_strings(verification_covers):
+            diagnostics.append(diagnostic("MISSING_PROBE_COVERAGE", "component verification needs covered contracts", component=component_id))
+            verification_covers = []
+        elif set(verification_covers) != set(covers):
+            diagnostics.append(diagnostic("COMPONENT_VERIFICATION_GAP", "component verification must declare every component contract and no unrelated contract", component=component_id))
+        cannot_cover = verification.get("cannot_cover")
+        if not isinstance(cannot_cover, list) or not all(_string(item) for item in cannot_cover):
+            diagnostics.append(diagnostic("INVALID_PROBE_LIMITATIONS", "component verification cannot_cover must be a string array", component=component_id))
+        probes = verification.get("probes")
+        if not isinstance(probes, list) or not probes:
+            diagnostics.append(diagnostic("MISSING_COMPONENT_PROBES", "component verification needs probes", component=component_id))
+            continue
+        probe_ids: set[str] = set()
+        probed_contracts: set[str] = set()
+        has_runtime_visibility_probe = False
+        for probe in probes:
+            if not isinstance(probe, dict):
+                diagnostics.append(diagnostic("INVALID_COMPONENT_PROBE", "probe must be an object", component=component_id))
+                continue
+            probe_id = probe.get("id")
+            probe_type = probe.get("type")
+            if not _string(probe_id) or probe_id in probe_ids:
+                diagnostics.append(diagnostic("INVALID_COMPONENT_PROBE", "probe ids must be non-empty and unique", component=component_id, probe=probe_id))
+            else:
+                probe_ids.add(probe_id)
+            probe_covers = probe.get("covers")
+            if not _list_of_strings(probe_covers) or not set(probe_covers).issubset(set(verification_covers)):
+                diagnostics.append(diagnostic("INVALID_PROBE_COVERAGE", "probe coverage must be a non-empty subset of component verification coverage", component=component_id, probe=probe_id))
+            else:
+                probed_contracts.update(probe_covers)
+            if probe_type == "runtime-visibility":
+                has_runtime_visibility_probe = True
+                if "command" in probe or "expect" in probe:
+                    diagnostics.append(diagnostic("INVALID_RUNTIME_VISIBILITY_PROBE", "runtime-visibility probes use declared loader rules and cannot supply a command", component=component_id, probe=probe_id))
+            elif probe_type in {"surface", "semantic"}:
+                if not _list_of_strings(probe.get("command")) or probe.get("expect") not in {"pass", "fail"}:
+                    diagnostics.append(diagnostic("INVALID_COMPONENT_PROBE", "surface and semantic probes need command and pass/fail expectation", component=component_id, probe=probe_id))
+            else:
+                diagnostics.append(diagnostic("INVALID_COMPONENT_PROBE", "probe type must be surface, semantic, or runtime-visibility", component=component_id, probe=probe_id))
+        if not has_runtime_visibility_probe:
+            diagnostics.append(diagnostic("MISSING_RUNTIME_VISIBILITY_PROBE", "every compiled component needs a runtime-visibility probe", component=component_id))
+        elif probed_contracts != set(verification_covers):
+            diagnostics.append(diagnostic("PROBE_COVERAGE_GAP", "component verification contracts must each be covered by at least one probe", component=component_id, missing=sorted(set(verification_covers) - probed_contracts)))
 
     for contract_id, mapping in mapping_by_contract.items():
         if mapping.get("decision") == "COMPILE" and not compiled_coverage.get(contract_id):
             diagnostics.append(diagnostic("COMPILE_WITHOUT_COMPONENT", "COMPILE contract lacks component coverage", contract=contract_id))
 
-    ready = validation.get("harness_ready")
-    if not isinstance(ready, bool):
-        diagnostics.append(diagnostic("INVALID_READY_FLAG", "validation.harness_ready must be boolean"))
     if not isinstance(validation.get("unresolved"), int) or validation.get("unresolved") != summary["unresolved"]:
         diagnostics.append(diagnostic("VALIDATION_COUNTER_MISMATCH", "validation.unresolved must equal actual unresolved count"))
     if not isinstance(validation.get("blocked"), int) or validation.get("blocked") != summary["blocked"]:
@@ -321,14 +405,12 @@ def validate_state(
     dimension_passes: dict[str, bool] = {}
     for dimension in VALIDATION_DIMENSIONS:
         dimension_passes[dimension] = _evidence_check(diagnostics, validation.get(dimension), dimension)
+        if not dimension_passes[dimension]:
+            diagnostics.append(diagnostic("VALIDATION_DIMENSION_FAILED", "validation dimension has not passed", dimension=dimension))
     semantic = validation.get("semantic_fidelity")
     if isinstance(semantic, dict) and semantic.get("status") == "pass":
         reviewer = semantic.get("reviewer")
         if not isinstance(reviewer, dict) or reviewer.get("independent") is not True or reviewer.get("verdict") != "pass" or not isinstance(reviewer.get("findings"), list):
             diagnostics.append(diagnostic("MISSING_INDEPENDENT_REVIEW", "semantic_fidelity pass needs independent reviewer verdict and findings"))
             dimension_passes["semantic_fidelity"] = False
-    if ready is True and (summary["unresolved"] or summary["blocked"] or not all(dimension_passes.values())):
-        diagnostics.append(diagnostic("READY_INCONSISTENT", "Harness Ready requires all dimensions passing and zero unresolved/blocked", unresolved=summary["unresolved"], blocked=summary["blocked"]))
-    if ready is False:
-        diagnostics.append(diagnostic("HARNESS_NOT_READY", "Compilation State has not yet passed every required validation dimension"))
     return diagnostics, summary

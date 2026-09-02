@@ -13,6 +13,15 @@
   "integration": {
     "scope": "repository"
   },
+  "runtime": {
+    "id": "fixture-runtime",
+    "evidence": ["fixture://self-hosted-runtime-loader-rules"],
+    "loader_rules": {
+      "context_files": ["AGENTS.md"],
+      "skill_dirs": [],
+      "extension_dirs": []
+    }
+  },
   "workflow_route": "tests/harness_compiler/fixtures/spec-coding-harness/final-workflow-route.json",
   "constraints": [
     {

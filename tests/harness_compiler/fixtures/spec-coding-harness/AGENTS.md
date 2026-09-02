@@ -1,6 +1,6 @@
 # Spec Coding Harness Test Fixture
 
-> This is a compiled test fixture. It demonstrates the expected repository Harness output, but it is not an active repository-wide instruction.
+> This is a compiled test fixture. It demonstrates the expected repository Harness output, but it is not an active repository-wide instruction. The fixture Runtime discovers this root `AGENTS.md` only; `harness/AGENTS.md` would not be a visible output.
 
 ## Entry, source binding, and authority
 

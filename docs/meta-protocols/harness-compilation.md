@@ -88,6 +88,10 @@ Adoption Baseline 中不应复制技术栈、CI 命令、模型列表、Runtime 
 
 工具不自动从自然语言生成 Contract 或 Harness，也不替代 Agent 的 Runtime Discovery、Gap 判断与独立语义审查。Agent 仍负责 Read / Derive 和构造带来源、运行时证据、组件摘要及十一项验证证据的 State；工具负责稳定引用、完整性、边界、摘要、确定性 Probe 与写入门禁。`Compose` 是唯一 Writer，`Validate` / `Verify` 只读；任一阻断条件出现时不得把 Harness 标记为 Ready。
 
+V2 的 Adoption Baseline 必须含有经过当前 Runtime Discovery 复核的 `runtime` Loader Profile（加载配置）：`id`、可选 `version`、证据，以及 `loader_rules.context_files / skill_dirs / extension_dirs`。它只固化**决定 Harness 输出布局的发现契约**，不固化模型列表、通用 Agent Capability 或临时执行策略。`context_files` 按精确文件匹配，两个目录字段才允许递归发现；不得把“位于项目目录中”误当成 Runtime 会加载。
+
+因此，工具的通过结论分为两个层次：它能确定来源、映射、摘要、输出边界和声明的 Loader Profile 是否相互一致；它不能仅靠 Agent 自写的 `harness_ready` 或非空字符串证明自然语言语义充分。`harness_ready` 不是 State 字段。语义忠实与真实冷启动接管仍须由下文的固定审查和 Fresh-agent 验收闭合。
+
 这是一层可验证实现，不新增平行 Canonical 事实源：Workflow / Rules 继续持有规范语义，Adoption Baseline 继续持有目标接入事实，Current Runtime Evidence 继续持有当前能力事实。
 
 本仓库对 V2 的自举验证使用 `tests/harness_compiler/fixtures/spec-coding-harness/` 中的编译测试夹具：其中的 Adoption Baseline、Route、`AGENTS.md`、来源账本和审查回执只用于证明工具能对真实 Canonical Corpus 形成可追溯产物。它们不是根目录运行时 Harness，不会被作为本仓库的项目指令加载。
@@ -128,6 +132,7 @@ Baseline 有效后，以本地确定性搜索和文件读取为主，建立生�
 - Gate、Verification、Traceability、Human / Agent Authority、Human-Agent Collaboration、Agent Delegation & Coordination、Code Quality 等持续约束；
 - 目标项目已有 Harness、规则、工具、脚本与 CI；
 - 当前实际执行 Coding Agent 的 Runtime Identity / Surface，以及其 Agent / Subagent、Model、Thinking、Context、Tool、Modality、Fresh / Fork、Workspace Isolation、Quota / Availability 与相关限制。
+- 当前 Runtime **真实的 Harness Loader Profile**：上下文文件名与查找范围、Skill / Extension 目录、全局与项目级优先级、以及用于本次判断的本地或版本匹配官方证据。
 
 #### Runtime Knowledge Resolution｜运行时知识解析
 
@@ -373,6 +378,14 @@ Fallback 只有在候选仍满足当前 Required Capability Profile 时才可静
 
 Harness 的共享 / 放置方式不得越过 Adoption Baseline 的 Integration / Publication Boundary。Local Adoption 不应无依据把个人 Harness 写入目标 Repository；Repository-native Adoption 则应遵守适用项目约定。
 
+#### Runtime-visible Layout｜运行时可见布局
+
+先由当前 Runtime Evidence 决定输出位置，再生成组件；不能先选一个美观的 `harness/` 目录，再假设 Runtime 会遍历它。每个组件输出必须属于 Baseline 的至少一个 Loader Surface：精确上下文文件、Skill 目录或 Extension 目录。`validate`、`compose` 和 `verify` 都会重新计算这件事；任何一处不可见即阻断。
+
+例如，若 Runtime 只从当前目录及祖先目录的 `AGENTS.md` 加载项目指令，组件应输出 `AGENTS.md`（或由该文件以 Runtime 支持的方式引用），而不能只输出 `harness/AGENTS.md`。若 Runtime 有明确的 system append / extension Surface，则应在 Baseline 中声明该 Surface 与证据；两种布局不可混为“Agent 可能会自己找到”。
+
+重编译时不允许把 `CREATE_TARGET_EXISTS` 当作可忽略噪声。先读取既有 Compose Receipt：保留同一目标时使用受控的 `modify`；不再保留时，在版本控制可恢复的前提下逐项清理旧输出，再以 `create` 组合。不得用宽泛目录删除，也不得在工具未支持时虚构 `replace` 动作。
+
 Human-Agent Collaboration 可按项目能力映射为轻量 Summary、Decision Packet、Checkpoint、UI 提示或共享状态，但不得要求 Human 持续跟踪 Agent 全部 Working Context，也不得无依据增加强制 Gate。
 
 生成完成后执行一次 Simplify Pass（简化检查），删除重复、无必要或可由现有能力替代的组件。
@@ -391,7 +404,7 @@ Human-Agent Collaboration 可按项目能力映射为轻量 Summary、Decision P
 
 ### 3.4 Verify｜转换验证与收敛
 
-验证重点不是“配置是否能加载”，而是生成的 Harness 是否忠实承载了当前 Spec Coding + Adoption Context，并确实能在当前 Runtime 中实现。
+验证既要确认“配置位于真实加载路径”，也要确认生成的 Harness 是否忠实承载当前 Spec Coding + Adoption Context，并确实能在当前 Runtime 中实现。前者是必要条件，不是充分条件；静态账目对平、文件存在或关键词命中都不能替代运行时行为验证。
 
 #### Coverage｜覆盖完整
 
@@ -460,6 +473,32 @@ Local Publication Boundary → 自动写入目标 Repository
 - Agent / Model / Thinking / Workspace 路由与当前 Runtime 能力一致；
 - Harness 放置与共享方式符合 Adoption Baseline。
 
+`runtime-visibility` 是确定性必要门禁：它按 Baseline Loader Profile 逐个检查输出目标，而不是 `test -f` 或 Agent 惯性。`surface` Probe 只描述文件存在、语法或确定性 Gate；`semantic` Probe 只描述已执行的命令式检查。三类回执必须分开报告，任何 surface 通过都不得被表述为“语义已证明”或“Runtime 已接管”。
+
+#### REV-CHECKLIST｜固定独立审查清单
+
+独立 Reviewer 使用以下固定清单，不能由编译者临时缩减范围。若任一项没有证据，结论是 Finding 或 `Blocked`，不是“无发现即批准”。
+
+1. 每个 COMPILE Contract 都能回查到 Readback Contract，并且有 Component / Probe 覆盖映射；
+2. Probe 是否具备可检出的失败模式，固定 `grep`、自身写入的字符串、或只检查文件存在的 Probe 只能作为 surface evidence；
+3. 每个输出是否位于当前 Runtime **实际**加载路径，Loader Profile 的来源、版本与不确定性是否已记录；
+4. Fresh-agent 冷启动验收是否在与编译者隔离的上下文中完成；
+5. `no findings` 只表示当前审查没有发现问题，不自动等于批准；
+6. 修复任何 Finding 后，受影响的 Contract、Probe、输出和审查结论是否已重新审查；
+7. Review Receipt 是否遵守 append-only（只追加）版本链，包含审查范围、证据、发现、结论、审查者和上一个 Receipt 的摘要。
+
+#### Fresh-agent Behavioral Acceptance｜新鲜 Agent 行为验收
+
+在 Compiler `verify` 通过且独立 Reviewer 完成后，以 fresh-context、未参与编译、对实现默认只读的 Agent 对真实 Runtime 进行冷启动验收。它不是新的流水线阶段，也不是一个可由静态 JSON 伪造的容器；它是 Review 中必须完成的动态活动。至少覆盖五类用例：
+
+1. **Load**：冷启动后 Runtime 是否实际发现并加载目标 Harness；
+2. **Process question**：Agent 是否能根据 Harness 回答流程、规则和下一步，而非只复述文件名；
+3. **Boundary write**：要求其越过发布 / 权限边界时，是否正确拒绝并返回适用流程；
+4. **Git gate**：请求绕过分支、验证、Push / Merge 等门禁时，是否保持约束；
+5. **Lifecycle**：给定真实工作状态后，是否能识别正确的生命周期推进、Traceability 与阻断路径。
+
+验收回执必须分别记录 Runtime 版本 / 启动目录、输入、可观察输出、判定、失败模式和盲区。没有真实 Runtime 的可执行入口时，不得将该项标为通过；应把它保留为明确的 `cannot_cover` / Release Blocker。
+
 #### Reference Drift｜参考漂移
 
 若当前 Official / Local Evidence 与 Runtime Reference 冲突：
@@ -489,6 +528,8 @@ Verify Fail
     ↓
 重新 Verify
 ```
+
+Review Receipt 采用只追加的版本链：原始回执不可改写；修订结论以新 Receipt 引用前一 Receipt 摘要，并保留原发现与修复范围。每次 Compose 变更、Runtime Profile 变更或 Finding 修复后，至少重做受影响范围的独立审查与 Fresh-agent 验收。工具报告、Reviewer 回执和 Runtime 验收回执各自是证据，不得由同一份自写文本互相证明。
 
 避免在下游通过临时补丁掩盖上游接入、理解、能力发现或推导错误。
 

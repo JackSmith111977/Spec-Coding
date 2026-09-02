@@ -1,7 +1,26 @@
 {
   "review_version": 1,
+  "receipt_id": "fixture-review-001",
+  "revision": 1,
+  "parent_receipt_sha256": null,
+  "reviewer": "fixture-independent-reviewer",
   "independent": true,
   "verdict": "pass",
   "findings": [],
-  "scope": "Independent read-only semantic review of the self-hosted Harness test fixture: V3 Adoption Baseline and route; 168-source inventory / 151 semantic-source to 17-contract derivation; staged fixture AGENTS.md, source ledger, deterministic fixture checks, and release/version consistency."
+  "scope": "Independent read-only review of the self-hosted V2 Harness test fixture: current Adoption Baseline and route; current source-inventory ledger; root AGENTS.md Runtime visibility; deterministic fixture checks; and release/version consistency.",
+  "checklist": [
+    "contract-to-probe mapping",
+    "probe non-vacuity classification",
+    "runtime loader path",
+    "fresh-agent acceptance status",
+    "no-findings-is-not-approval",
+    "post-fix re-review",
+    "append-only receipt chain"
+  ],
+  "evidence": [
+    "fixture://root-agents-loader-profile",
+    "fixture://source-inventory-ledger",
+    "fixture://deterministic-verifier"
+  ],
+  "fresh_agent_acceptance": "not applicable: this is a compiler test fixture, not a real Coding Agent Runtime acceptance result"
 }

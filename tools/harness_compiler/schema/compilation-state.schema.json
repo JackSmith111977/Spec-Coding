@@ -46,7 +46,10 @@
           "source": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
           "guarantee": {"$ref": "#/$defs/nonEmptyString"},
           "strength": {"enum": ["must", "must_not", "should", "guidance"]},
-          "prohibits": {"type": "array", "items": {"$ref": "#/$defs/nonEmptyString"}}
+          "prohibits": {"type": "array", "items": {"$ref": "#/$defs/nonEmptyString"}},
+          "readback_contract": {"$ref": "#/$defs/readbackContract"},
+          "obligation_type": {"$ref": "#/$defs/nonEmptyString"},
+          "failure_mode": {"$ref": "#/$defs/nonEmptyString"}
         }
       }
     },
@@ -88,7 +91,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "type", "covers", "reason", "outputs"],
+        "required": ["id", "type", "covers", "reason", "outputs", "verification"],
         "additionalProperties": false,
         "properties": {
           "id": {"$ref": "#/$defs/nonEmptyString"},
@@ -112,12 +115,12 @@
           },
           "verification": {
             "type": "object",
+            "required": ["covers", "cannot_cover", "probes"],
             "additionalProperties": false,
             "properties": {
-              "deterministic": {"type": "boolean"},
-              "load_command": {"$ref": "#/$defs/command"},
-              "command": {"$ref": "#/$defs/command"},
-              "failure_command": {"$ref": "#/$defs/command"}
+              "covers": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+              "cannot_cover": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+              "probes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/probe"}}
             }
           }
         }
@@ -125,7 +128,7 @@
     },
     "validation": {
       "type": "object",
-      "required": ["source_coverage", "contract_coverage", "semantic_fidelity", "runtime_mapping", "capability_routing", "component_integrity", "minimality", "runtime_loading", "executability", "failure_path", "reference_drift", "unresolved", "blocked", "harness_ready"],
+      "required": ["source_coverage", "contract_coverage", "semantic_fidelity", "runtime_mapping", "capability_routing", "component_integrity", "minimality", "runtime_loading", "executability", "failure_path", "reference_drift", "unresolved", "blocked"],
       "additionalProperties": false,
       "properties": {
         "source_coverage": {"$ref": "#/$defs/evidence"},
@@ -140,8 +143,7 @@
         "failure_path": {"$ref": "#/$defs/evidence"},
         "reference_drift": {"$ref": "#/$defs/evidence"},
         "unresolved": {"type": "integer", "minimum": 0},
-        "blocked": {"type": "integer", "minimum": 0},
-        "harness_ready": {"type": "boolean"}
+        "blocked": {"type": "integer", "minimum": 0}
       }
     }
   },
@@ -149,6 +151,28 @@
     "nonEmptyString": {"type": "string", "minLength": 1},
     "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "command": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonEmptyString"}},
+    "readbackContract": {
+      "type": "object",
+      "required": ["when", "canonical_doc", "mandatory"],
+      "additionalProperties": false,
+      "properties": {
+        "when": {"$ref": "#/$defs/nonEmptyString"},
+        "canonical_doc": {"$ref": "#/$defs/nonEmptyString"},
+        "mandatory": {"type": "boolean"}
+      }
+    },
+    "probe": {
+      "type": "object",
+      "required": ["id", "type", "covers"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/nonEmptyString"},
+        "type": {"enum": ["surface", "semantic", "runtime-visibility"]},
+        "covers": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+        "command": {"$ref": "#/$defs/command"},
+        "expect": {"enum": ["pass", "fail"]}
+      }
+    },
     "evidence": {
       "type": "object",
       "required": ["status", "evidence"],

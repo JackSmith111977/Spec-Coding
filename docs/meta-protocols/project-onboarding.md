@@ -191,10 +191,10 @@ Harness 是否需要重新编译是对齐结果，不是操作类型；只有被
 Adoption Baseline 只持久化三类信息：
 
 1. **Declared Intent｜声明意图**：Collaboration Mode、Working Language、Publication Boundary 等 Human-owned 使用意图；
-2. **Resolved Binding｜稳定绑定**：Target Identity / Scope、Spec Workspace、必要 Repository / Remote Binding；
+2. **Resolved Binding｜稳定绑定**：Target Identity / Scope、Spec Workspace、必要 Repository / Remote Binding，以及 Harness 输出所依赖的 Runtime Loader Profile（Runtime ID、可选版本、实际 Loader Surface 与发现证据）；
 3. **Overrides / Constraints｜覆盖与硬约束**：Push / Merge / Production 等相对默认规则的 Authority 或项目约束。
 
-不要复制完整项目结构、技术栈、Package Manager、CI / Test Command、Requirement / Design / Task 内容、Harness 组件清单、Agent Capability 或临时 Working Context。
+不要复制完整项目结构、技术栈、Package Manager、CI / Test Command、Requirement / Design / Task 内容、Harness 组件清单、Agent Capability 或临时 Working Context。Loader Profile 仅记录“本次项目 Harness 应由哪里被发现”，不记录模型列表、Thinking、临时工具可用性或通用 Runtime Capability。
 
 固化前执行四项轻量检查：
 
@@ -202,6 +202,7 @@ Adoption Baseline 只持久化三类信息：
 - **Consistency｜一致性**：Collaboration Mode、Publication、Repository 与 Integration 约定不存在依赖冲突；
 - **Authority Safety｜权限安全**：Baseline 不弱化更高层 Spec Coding / 项目 / 安全约束；
 - **Minimality｜最小性**：删除不会导致重要猜测的冗余字段。
+- **Runtime Visibility｜运行时可见性**：若接入需要编译 Harness，Baseline 已有当前 Runtime Loader Profile；至少声明精确 `context_files`、或 Skill / Extension 目录及其当前证据，不能以“项目中某个子目录”替代真实加载规则。
 
 Baseline 保存位置跟随 Spec Workspace 的共享边界。`Reuse` 时无 Relevant Delta 则不产生无意义修改；`Refresh / Migrate` 只更新受影响事实，不维护 `old / v2 / backup` 平行副本。
 

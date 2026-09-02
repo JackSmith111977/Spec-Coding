@@ -2600,6 +2600,16 @@
       "semantic_required": true
     },
     {
+      "ref": "adoption://runtime-profile",
+      "path": null,
+      "kind": "adoption",
+      "fact": "runtime-profile",
+      "line_start": null,
+      "line_end": null,
+      "content_sha256": "35b6bb09c344b66c6e5c3dacb40e8b3b00c4bcc5d8ae0d659c5b722f189a66dd",
+      "semantic_required": true
+    },
+    {
       "ref": "adoption://constraint/branch-governance",
       "path": null,
       "kind": "adoption",

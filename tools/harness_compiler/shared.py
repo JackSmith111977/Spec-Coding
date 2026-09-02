@@ -13,6 +13,7 @@ import yaml
 
 BOUNDARIES = {"local", "shared", "repository-native"}
 SUPPORT_MODES = {"native", "composable", "external", "unavailable", "unknown"}
+RUNTIME_LOADER_RULES = ("context_files", "skill_dirs", "extension_dirs")
 
 
 class CompilerInputError(ValueError):
@@ -114,7 +115,7 @@ def validate_adoption_baseline(baseline: dict[str, Any]) -> list[dict[str, Any]]
     if baseline.get("adoption_version") != 1:
         diagnostics.append(diagnostic("INVALID_ADOPTION_VERSION", "adoption_version must be 1"))
 
-    for field in ("target", "spec_workspace", "publication", "integration"):
+    for field in ("target", "spec_workspace", "publication", "integration", "runtime"):
         if not isinstance(baseline.get(field), dict):
             diagnostics.append(diagnostic("MISSING_ADOPTION_FACT", f"adoption baseline needs {field}"))
 
@@ -122,6 +123,8 @@ def validate_adoption_baseline(baseline: dict[str, Any]) -> list[dict[str, Any]]
     workspace = baseline.get("spec_workspace", {})
     publication = baseline.get("publication", {})
     integration = baseline.get("integration", {})
+    raw_runtime = baseline.get("runtime")
+    runtime = raw_runtime if isinstance(raw_runtime, dict) else {}
     if not isinstance(target.get("id"), str) or not target["id"].strip():
         diagnostics.append(diagnostic("MISSING_TARGET_ID", "adoption target.id is required"))
     if not isinstance(workspace.get("id"), str) or not workspace["id"].strip():
@@ -134,6 +137,26 @@ def validate_adoption_baseline(baseline: dict[str, Any]) -> list[dict[str, Any]]
         diagnostics.append(diagnostic("INVALID_COMPONENT_ROOT", "publication.component_root must be a relative path"))
     if not isinstance(integration.get("scope"), str) or not integration["scope"].strip():
         diagnostics.append(diagnostic("MISSING_INTEGRATION_SCOPE", "integration.scope is required"))
+    if not isinstance(runtime.get("id"), str) or not runtime["id"].strip():
+        diagnostics.append(diagnostic("MISSING_RUNTIME_ID", "runtime.id is required"))
+    if "version" in runtime and (not isinstance(runtime["version"], str) or not runtime["version"].strip()):
+        diagnostics.append(diagnostic("INVALID_RUNTIME_VERSION", "runtime.version must be a non-empty string when present"))
+    evidence = runtime.get("evidence")
+    if not isinstance(evidence, list) or not evidence or not all(isinstance(item, str) and item.strip() for item in evidence):
+        diagnostics.append(diagnostic("MISSING_RUNTIME_EVIDENCE", "runtime.evidence must be a non-empty string array"))
+    loader_rules = runtime.get("loader_rules")
+    if not isinstance(loader_rules, dict):
+        diagnostics.append(diagnostic("MISSING_RUNTIME_LOADER_RULES", "runtime.loader_rules is required"))
+    else:
+        unknown_rules = sorted(set(loader_rules) - set(RUNTIME_LOADER_RULES))
+        if unknown_rules:
+            diagnostics.append(diagnostic("UNKNOWN_RUNTIME_LOADER_RULE", "runtime.loader_rules has unsupported entries", rules=unknown_rules))
+        for rule in RUNTIME_LOADER_RULES:
+            paths = loader_rules.get(rule)
+            if not isinstance(paths, list) or not all(_loader_path(item, allow_root=rule != "context_files") for item in paths):
+                diagnostics.append(diagnostic("INVALID_RUNTIME_LOADER_RULE", f"runtime.loader_rules.{rule} must be a relative path array", rule=rule))
+        if not any(loader_rules.get(rule) for rule in RUNTIME_LOADER_RULES):
+            diagnostics.append(diagnostic("EMPTY_RUNTIME_LOADER_RULES", "runtime.loader_rules must declare at least one visible surface"))
     if not isinstance(baseline.get("workflow_route"), str) or not baseline["workflow_route"].strip():
         diagnostics.append(diagnostic("MISSING_WORKFLOW_ROUTE", "workflow_route is required"))
 
@@ -160,10 +183,50 @@ def adoption_source_entries(baseline: dict[str, Any]) -> list[dict[str, Any]]:
         _fact("adoption://spec-workspace", "spec-workspace", baseline["spec_workspace"]),
         _fact("adoption://publication-boundary", "publication-boundary", baseline["publication"]),
         _fact("adoption://integration-boundary", "integration-boundary", baseline["integration"]),
+        _fact("adoption://runtime-profile", "runtime-profile", baseline["runtime"]),
     ]
     for constraint in baseline.get("constraints", []):
         entries.append(_fact(f"adoption://constraint/{constraint['id']}", constraint["id"], constraint["value"]))
     return entries
+
+
+def _loader_path(value: Any, *, allow_root: bool) -> bool:
+    if not isinstance(value, str) or not value.strip():
+        return False
+    path = Path(value)
+    if path.is_absolute() or ".." in path.parts:
+        return False
+    return allow_root or path.as_posix() not in {".", ""}
+
+
+def runtime_surfaces_for_target(runtime: Any, target: Any) -> list[str]:
+    """Return runtime surfaces that will discover a target-relative output path.
+
+    The compiler intentionally models only declared loader rules. It never infers
+    that an arbitrary subdirectory is visible merely because it is under the
+    target workspace.
+    """
+
+    if not isinstance(runtime, dict) or not _loader_path(target, allow_root=False):
+        return []
+    loader_rules = runtime.get("loader_rules")
+    if not isinstance(loader_rules, dict):
+        return []
+    target_path = Path(target)
+    surfaces: list[str] = []
+    for context_file in loader_rules.get("context_files", []):
+        if _loader_path(context_file, allow_root=False) and target_path == Path(context_file):
+            surfaces.append("context")
+    for rule, surface in (("skill_dirs", "skill"), ("extension_dirs", "extension")):
+        for directory in loader_rules.get(rule, []):
+            if not _loader_path(directory, allow_root=True):
+                continue
+            try:
+                target_path.relative_to(Path(directory))
+            except ValueError:
+                continue
+            surfaces.append(surface)
+    return sorted(set(surfaces))
 
 
 def atomic_write(path: Path, content: bytes) -> None:

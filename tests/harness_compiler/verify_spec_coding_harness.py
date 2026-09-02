@@ -26,6 +26,7 @@ REQUIRED_INSTRUCTION = (
     "Before any source-derived action",
     "do not infer publication, authority, or target scope",
     "Ready is persistent; Runnable is a runtime derivation",
+    "The fixture Runtime discovers this root",
     "Task Commit is neither Task Done, Requirement integration, Merge, Release, nor deployment",
     "Requirement Integration, then its AC Gate, then Requirement Push",
     "Verification is read-only",
@@ -104,12 +105,28 @@ def _check_values(baseline: dict[str, Any], route: dict[str, Any], instruction: 
         errors.append("Adoption Baseline does not bind the self-hosted test fixture")
     if baseline.get("workflow_route") != f"{FIXTURE_RELATIVE_ROOT}/final-workflow-route.json":
         errors.append("Adoption Baseline does not bind the fixture workflow route")
+    runtime = baseline.get("runtime")
+    if (
+        not isinstance(runtime, dict)
+        or runtime.get("id") != "fixture-runtime"
+        or not isinstance(runtime.get("evidence"), list)
+        or runtime.get("loader_rules") != {"context_files": ["AGENTS.md"], "skill_dirs": [], "extension_dirs": []}
+    ):
+        errors.append("Adoption Baseline does not declare the fixture Runtime Loader Profile")
     if route.get("stages") != ["04", "05", "06"]:
         errors.append("Final Workflow Route is not the intended implementation-to-verification path")
     absent = [phrase for phrase in REQUIRED_INSTRUCTION if phrase not in instruction]
     if absent:
         errors.append(f"Harness fixture instruction lacks required guarantees: {absent}")
-    if receipt.get("independent") is not True or receipt.get("verdict") != "pass" or receipt.get("findings"):
+    required_receipt_fields = ("receipt_id", "revision", "reviewer", "checklist", "evidence", "scope")
+    if (
+        receipt.get("independent") is not True
+        or receipt.get("verdict") != "pass"
+        or receipt.get("findings")
+        or any(field not in receipt for field in required_receipt_fields)
+        or receipt.get("revision") != 1
+        or receipt.get("parent_receipt_sha256") is not None
+    ):
         errors.append("independent semantic review receipt does not pass")
     if _source_blocks(ledger) is None:
         errors.append("fixture source inventory ledger is malformed")
@@ -144,7 +161,7 @@ def _negative_probe() -> int:
     receipt = {"independent": False, "verdict": "fail", "findings": ["missing"]}
     ledger = {"source_blocks": []}
     caught = _check_values(baseline, route, "", receipt, ledger)
-    if len(caught) < 5:
+    if len(caught) < 6:
         print("negative probe did not reject every invalid Harness fixture condition", file=sys.stderr)
         return 0
     print("intentional invalid Harness fixture conditions rejected", file=sys.stderr)

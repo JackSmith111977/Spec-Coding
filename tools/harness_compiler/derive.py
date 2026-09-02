@@ -11,7 +11,7 @@ from .shared import diagnostic, read_json, relative_path, report, sha256_bytes
 
 
 SOURCE_RANGE = re.compile(r"^(SRC-\d{3,})\.\.(SRC-\d{3,})$")
-CONTRACT_FIELDS = {"id", "source_selectors", "guarantee", "strength", "prohibits"}
+CONTRACT_FIELDS = {"id", "source_selectors", "guarantee", "strength", "prohibits", "readback_contract", "obligation_type", "failure_mode"}
 DERIVATION_FIELDS = {"contracts", "mappings", "components", "validation"}
 
 
@@ -111,6 +111,19 @@ def derive(seed_state_path: Path, derivation_path: Path, target_root: Path) -> d
     missing = sorted(semantic_ids - set(assigned))
     if missing:
         return report("derive", False, [diagnostic("UNMAPPED_SEMANTIC_SOURCE", "every semantic source needs exactly one derived contract", sources=missing)])
+    compile_contracts = {
+        mapping.get("contract")
+        for mapping in derivation.get("mappings", [])
+        if isinstance(mapping, dict) and mapping.get("decision") == "COMPILE"
+    }
+    contract_by_id = {contract.get("id"): contract for contract in contracts if isinstance(contract.get("id"), str)}
+    for contract_id in sorted(compile_contracts):
+        contract = contract_by_id.get(contract_id)
+        if contract is None:
+            continue
+        readback = contract.get("readback_contract")
+        if not isinstance(readback, dict) or readback.get("mandatory") is not True:
+            return report("derive", False, [diagnostic("MISSING_READBACK_CONTRACT", "COMPILE contracts must declare a mandatory readback_contract before sealing", contract=contract_id)])
     sealed_components, component_diagnostics = _sealed_components(target_root, derivation.get("components"))
     if component_diagnostics:
         return report("derive", False, component_diagnostics)

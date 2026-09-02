@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-from .shared import diagnostic, relative_path, report, sha256_text
+from .shared import diagnostic, relative_path, report, runtime_surfaces_for_target, sha256_text
 from .state import validate_state
 
 
@@ -44,6 +44,10 @@ def verify(
     if diagnostics:
         return report("verify", False, diagnostics, summary=summary, executed_components=0)
     executed_components = 0
+    executed_probes = 0
+    probe_receipts: list[dict[str, Any]] = []
+    probe_classes = {"surface": 0, "semantic": 0, "runtime-visibility": 0}
+    limitations: list[dict[str, Any]] = []
     for component in state.get("components", []):
         component_id = component.get("id", "unknown")
         for output in component.get("outputs", []):
@@ -60,21 +64,46 @@ def verify(
             if actual_sha != output.get("content_sha256"):
                 diagnostics.append(diagnostic("COMPOSED_ARTIFACT_DRIFT", "target content differs from composition receipt", component=component_id, target=target_raw))
         verification = component.get("verification")
-        if not verification:
-            continue
         if not isinstance(verification, dict):
             diagnostics.append(diagnostic("INVALID_COMPONENT_VERIFICATION", "verification must be an object", component=component_id))
             continue
         executed_components += 1
-        if verification.get("deterministic") is True and "failure_command" not in verification:
-            diagnostics.append(diagnostic("MISSING_FAILURE_PATH", "deterministic mechanism needs failure_command", component=component_id))
-        for label in ("load_command", "command"):
-            if label in verification:
-                failure = _run(target_root, component_id, label, verification[label], True, timeout)
-                if failure:
-                    diagnostics.append(failure)
-        if "failure_command" in verification:
-            failure = _run(target_root, component_id, "failure_command", verification["failure_command"], False, timeout)
+        for limitation in verification.get("cannot_cover", []):
+            limitations.append({"component": component_id, "cannot_cover": limitation})
+        for probe in verification.get("probes", []):
+            if not isinstance(probe, dict):
+                continue
+            probe_id = probe.get("id", "unknown")
+            probe_type = probe.get("type")
+            if probe_type not in probe_classes:
+                diagnostics.append(diagnostic("INVALID_COMPONENT_PROBE", "probe type is invalid", component=component_id, probe=probe_id))
+                continue
+            executed_probes += 1
+            probe_classes[probe_type] += 1
+            if probe_type == "runtime-visibility":
+                invisible = [
+                    output.get("target")
+                    for output in component.get("outputs", [])
+                    if not runtime_surfaces_for_target(baseline.get("runtime"), output.get("target"))
+                ]
+                passed = not invisible
+                probe_receipts.append({"component": component_id, "probe": probe_id, "type": probe_type, "passed": passed, "covers": probe.get("covers", [])})
+                if invisible:
+                    diagnostics.append(diagnostic("RUNTIME_VISIBILITY_VIOLATION", "runtime-visibility probe found outputs outside declared loader surfaces", component=component_id, probe=probe_id, targets=invisible))
+                continue
+            expect_success = probe.get("expect") == "pass"
+            failure = _run(target_root, component_id, f"probe:{probe_id}", probe.get("command"), expect_success, timeout)
+            probe_receipts.append({"component": component_id, "probe": probe_id, "type": probe_type, "passed": failure is None, "covers": probe.get("covers", [])})
             if failure:
                 diagnostics.append(failure)
-    return report("verify", not diagnostics, diagnostics, summary=summary, executed_components=executed_components)
+    return report(
+        "verify",
+        not diagnostics,
+        diagnostics,
+        summary=summary,
+        executed_components=executed_components,
+        executed_probes=executed_probes,
+        probe_classes=probe_classes,
+        probe_receipts=probe_receipts,
+        declared_limitations=limitations,
+    )

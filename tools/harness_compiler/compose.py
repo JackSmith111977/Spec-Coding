@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from .shared import atomic_write, diagnostic, relative_path, report, sha256_bytes
+from .shared import atomic_write, diagnostic, relative_path, report, runtime_surfaces_for_target, sha256_bytes
 
 
 def compose(target_root: Path, baseline: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
@@ -36,6 +36,9 @@ def compose(target_root: Path, baseline: dict[str, Any], state: dict[str, Any]) 
                 staged = relative_path(target_root, staged_raw)
             except Exception as error:
                 diagnostics.append(diagnostic("PUBLICATION_BOUNDARY_VIOLATION", str(error), component=component_id, target=target_raw))
+                continue
+            if not runtime_surfaces_for_target(baseline.get("runtime"), target_raw):
+                diagnostics.append(diagnostic("RUNTIME_VISIBILITY_VIOLATION", "component output is outside every declared runtime loader surface", component=component_id, target=target_raw))
                 continue
             if not staged.is_file():
                 diagnostics.append(diagnostic("MISSING_STAGED_ARTIFACT", "Agent-staged artifact is missing", component=component_id, staged=staged_raw))

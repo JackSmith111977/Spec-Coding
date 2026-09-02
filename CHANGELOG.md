@@ -10,7 +10,25 @@
 
 ## Unreleased｜未发布
 
-当前无未发布语义变更。
+## 0.12.0 - 2026-09-02
+
+### Added｜新增
+
+- Harness Compiler V2 新增 Runtime Loader Profile：Adoption Baseline 必须声明当前 Runtime 的精确上下文文件、Skill / Extension 发现目录及其证据；Runtime Profile 同时进入可追溯来源账本。
+- 新增 `runtime-visibility` Probe、输出可见性三重检查（`validate`、`compose`、`verify`）和分层 Probe Receipt；静态 surface 检查不再被表述为 Runtime 接管或语义证明。
+- COMPILE Contract 新增必填 Readback Contract，并支持 `obligation_type` / `failure_mode`；组件必须声明 Contract 覆盖、盲区与 Probe 覆盖范围。
+- 新增固定 `REV-CHECKLIST`、append-only Review Receipt 纪律与 Fresh-agent 五用例行为验收规范；自举测试夹具同步 Runtime Loader Profile 与审查回执字段。
+
+### Changed｜调整
+
+- 移除 Compilation State 中可由编译者自写的 `harness_ready`；工具通过只代表可确定性编译门禁通过，真实 Coding Agent Runtime 的冷启动接管继续要求独立动态验收。
+- 补齐重编译纪律：`create` 不覆盖既有输出；保留目标使用受控 `modify`，清理旧产物必须逐项、可恢复并在新一轮组合前完成。
+- Harness Compiler README 新增完整 Derive 输入示例，明确 source range selector、Readback Contract、Probe 分层、重编译路径与“编译流水线 E2E”边界。
+
+### Notes｜说明
+
+- 本版本修复的是 Pi 实测暴露的“账本自洽但 Runtime 不可发现”缺口；它不把静态验证伪装为语义充分性，也不声称替代真实 Pi 的 Fresh-agent 验收。
+- `VERSION` 与 Manifest 已同步为 `0.12.0`；Git Tag 仍应在功能分支通过完整验证并合并后创建。
 
 ## 0.11.0 - 2026-09-02
 
