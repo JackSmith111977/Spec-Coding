@@ -6,6 +6,7 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
+from .prepare import CORE_QUESTIONS
 from .shared import diagnostic, report, sha256_json
 
 
@@ -49,6 +50,11 @@ def validate_environment(
     question_by_id = {item.get("id"): item for item in questions if isinstance(item, dict) and isinstance(item.get("id"), str)}
     if len(question_by_id) != len(questions):
         diagnostics.append(diagnostic("DUPLICATE_DISCOVERY_QUESTION", "discovery question ids must be unique"))
+
+    required_core = {item[0] for item in CORE_QUESTIONS}
+    missing_core = sorted(required_core - set(question_by_id))
+    if missing_core:
+        diagnostics.append(diagnostic("CORE_DISCOVERY_GAP", "final Discovery Plan must resolve every core environment question", questions=missing_core))
 
     facts = environment.get("facts", []) if isinstance(environment.get("facts"), list) else []
     fact_by_id = {item.get("id"): item for item in facts if isinstance(item, dict) and isinstance(item.get("id"), str)}

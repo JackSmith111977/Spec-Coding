@@ -3,7 +3,7 @@ from __future__ import annotations
 import copy
 import unittest
 
-from tools.environment_discovery.prepare import prepare
+from tools.environment_discovery.prepare import CORE_QUESTIONS, prepare
 from tools.environment_discovery.validate import validate_environment
 
 
@@ -22,6 +22,47 @@ class EnvironmentDiscoveryTests(unittest.TestCase):
         self.ir = {"clauses": [{"id": "SC-001"}, {"id": "SC-002"}]}
         self.adoption = {"target": "fixture", "publication": "local"}
         seed = prepare(self.ir, self.adoption)
+
+        facts = []
+        questions = []
+        for index, (question_id, category, question, evidence_required) in enumerate(CORE_QUESTIONS, start=1):
+            fact_id = f"F-CORE-{index:02d}"
+            facts.append({
+                "id": fact_id,
+                "category": category,
+                "statement": f"Confirmed answer for {question_id}.",
+                "confidence": "confirmed",
+                "evidence": [f"local://{question_id.lower()}"],
+            })
+            questions.append({
+                "id": question_id,
+                "category": category,
+                "question": question,
+                "required_by": [],
+                "evidence_required": evidence_required,
+                "status": "confirmed",
+                "blocking": True,
+                "fact_refs": [fact_id],
+            })
+
+        questions.append({
+            "id": "Q-001",
+            "category": "runtime",
+            "question": "Can the runtime isolate an independent review context?",
+            "required_by": ["SC-001"],
+            "evidence_required": ["local runtime evidence"],
+            "status": "confirmed",
+            "blocking": True,
+            "fact_refs": ["F-001"],
+        })
+        facts.append({
+            "id": "F-001",
+            "category": "runtime",
+            "statement": "Runtime exposes isolated child execution.",
+            "confidence": "confirmed",
+            "evidence": ["local://runtime/help"],
+        })
+
         self.discovery = {
             "schema_version": 1,
             "semantic_fingerprint": seed["semantic_fingerprint"],
@@ -30,33 +71,14 @@ class EnvironmentDiscoveryTests(unittest.TestCase):
                 {"clause": "SC-001", "disposition": "discover", "question_ids": ["Q-001"]},
                 {"clause": "SC-002", "disposition": "no_environment_dependency", "reason": "pure semantic invariant"},
             ],
-            "questions": [
-                {
-                    "id": "Q-001",
-                    "category": "runtime",
-                    "question": "Can the runtime isolate an independent review context?",
-                    "required_by": ["SC-001"],
-                    "evidence_required": ["local runtime evidence"],
-                    "status": "confirmed",
-                    "blocking": True,
-                    "fact_refs": ["F-001"],
-                }
-            ],
+            "questions": questions,
         }
         self.environment = {
             "schema_version": 1,
             "semantic_fingerprint": seed["semantic_fingerprint"],
             "adoption_fingerprint": seed["adoption_fingerprint"],
             "identity": {"target": "fixture", "runtime": "fixture-runtime"},
-            "facts": [
-                {
-                    "id": "F-001",
-                    "category": "runtime",
-                    "statement": "Runtime exposes isolated child execution.",
-                    "confidence": "confirmed",
-                    "evidence": ["local://runtime/help"],
-                }
-            ],
+            "facts": facts,
             "capabilities": [
                 {
                     "id": "CAP-001",
@@ -90,6 +112,13 @@ class EnvironmentDiscoveryTests(unittest.TestCase):
     def test_valid_environment_handoff_passes(self) -> None:
         self.assertTrue(self.validate()["passed"])
 
+    def test_missing_core_question_fails(self) -> None:
+        discovery = copy.deepcopy(self.discovery)
+        discovery["questions"] = [item for item in discovery["questions"] if item["id"] != "ENV-LOADER-SURFACE"]
+        result = self.validate(discovery=discovery)
+        self.assertFalse(result["passed"])
+        self.assertIn("CORE_DISCOVERY_GAP", {item["code"] for item in result["diagnostics"]})
+
     def test_missing_clause_account_fails(self) -> None:
         discovery = copy.deepcopy(self.discovery)
         discovery["clause_accounts"].pop()
@@ -99,7 +128,7 @@ class EnvironmentDiscoveryTests(unittest.TestCase):
 
     def test_claimed_capability_needs_confirmed_fact(self) -> None:
         environment = copy.deepcopy(self.environment)
-        environment["facts"][0]["confidence"] = "inferred"
+        environment["facts"][-1]["confidence"] = "inferred"
         result = self.validate(environment=environment)
         self.assertFalse(result["passed"])
         self.assertIn("CAPABILITY_WITHOUT_CONFIRMED_EVIDENCE", {item["code"] for item in result["diagnostics"]})
