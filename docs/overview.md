@@ -1,22 +1,32 @@
 # Spec Coding 全流程概要
 
-本文件面向 Human（人类），用于快速理解 Spec Coding 如何接入项目、当前任务处于哪里、下一步要做什么。详细执行要求由当前 Workflow（流程）与 Applicable Rules（适用规则）共同定义；Spec Coding 的项目接入与执行机制转换由 Applicable Meta Protocol（适用元协议）负责。
+本文件面向 Human，用于快速理解 Spec Coding 如何接入项目、编译 Harness，并进入正式 Workflow。
 
 ## 总体使用模型
 
 ```text
+Canonical Corpus
+      ↓
+Semantic Compile（发布侧）
+      ↓
+Semantic IR
+
 Target / Intent
       ↓
 Project Onboarding（按需）
       ↓
 Adoption Baseline
       ↓
-Harness Compilation（按需）
+Environment Discover
+      ↓
+Harness Adapt
+      ↓
+Verify & Accept
       ↓
 Harness Ready
       ↓
- ┌───────────────┬────────────────┬───────────────┐
- │ Greenfield    │ Brownfield     │ Existing State│
+ ┌───────────────┬────────────────┬────────────────┐
+ │ Greenfield    │ Brownfield     │ Existing State │
  ↓               ↓                ↓
 项目定义建立      项目认知建立       Resume Owner Stage
  └───────┬───────┴────────────────┘
@@ -32,34 +42,45 @@ Harness Ready
       验证收敛
          ↓
     流程复盘改进
-         ↓
- Evolved Workflow / Rules / Meta Protocol / Harness
 ```
 
-Project Onboarding 不作为 Stage 0：它只建立 Spec Coding 与当前 Target 的接入关系。已有 Adoption Baseline 仍有效时直接复用；Harness 仍满足当前 Workflow / Rules / Adoption 约束时同样直接复用。
+## Harness Compilation V3
 
-## Meta Protocol Flow｜元协议链
+Harness Compilation 被拆成四个职责明确的阶段：
+
+1. **Semantic Compile｜规范语义编译**：Canonical Docs → Atomic Clauses + Execution Relations；完整性在 Spec Coding 发布侧一次解决。
+2. **Environment Discover｜环境认知建立**：根据 Clause 需要发现 Runtime / Project / Existing Harness 当前事实，形成 Environment Model。
+3. **Harness Adapt｜Harness 适配**：逐 Clause 选择 Native / Existing / Harness / N/A / Blocked，并组合成最小实现。
+4. **Verify & Accept｜验证与接管**：以覆盖、运行时、语义挑战与 Fresh-agent 行为证明 Harness 生效。
 
 ```text
-Project Onboarding
-  ↓
-Adoption Baseline
-  ↓
-Harness Compilation
-  ↓
-Harness Ready
+Semantic IR       → 必须保持什么
+Environment Model → 当前能够用什么
+Harness Adapt     → 如何承载这些语义
+Verify & Accept   → 是否真的生效
 ```
 
-- [`Project Onboarding Protocol`](meta-protocols/project-onboarding.md)：识别 Target 与 Existing Adoption，建立 Usage Contract，对齐 Relevant Delta，最终形成有效 Adoption Baseline 与 Workflow Route。
-- [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md)：消费 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment；先将规范要求归一为必要 Harness Primitive，再结合 Runtime Architecture Reference、当前官方资料与 Local Runtime Evidence 映射为实际 Runtime Surface，只补真实 Capability / Reliability / Selection Gap，并动态编译 Role、Model、Thinking、Context、Tools 与 Workspace。
+Semantic IR 不包含 Vendor-specific Subagent / Model / Thinking / Worktree 策略；Environment Model 也不包含“应该创建 Skill / AGENTS.md”之类设计决策。
 
-Harness Compilation 可按需读取 [`Harness Primitives`](reference/harness-primitives.md) 与 [`Coding Agent Runtime Reference`](reference/coding-agent-runtimes.md)。两者都是非规范 Reference：用于提供共同语言、架构不变量与官方事实入口，当前 Runtime Capability 仍由编译时证据决定。
+## Project Onboarding｜项目接入
 
-当 Adoption 或 Harness 已经有效时对应步骤直接 Reuse，不为每个 Requirement / Task 增加初始化开销。
+Project Onboarding 只建立长期稳定接入关系：
+
+```text
+Declared Intent
++
+Target / Spec Workspace / Repository Binding
++
+Publication / Authority Constraints
+        ↓
+Adoption Baseline
+```
+
+Runtime Loader、Model、Tool、Subagent、CI Command、Existing Harness 等动态事实不持久化到 Adoption Baseline，由 Environment Discover 按需重新发现。
 
 ## Main / Exception Workflow
 
-Main Workflow（主流程）描述正常推进路径：
+Main Workflow：
 
 ```text
 01A / 01B / Resume
@@ -67,102 +88,51 @@ Main Workflow（主流程）描述正常推进路径：
 02 → 03 → 04 → 05 → 06 → 07
 ```
 
-任一阶段出现无法可靠归因的 Failure（故障）、Unexpected Behavior（异常行为）或需要进一步诊断的 Unresolved Finding（未决验证发现）时，可按需进入 Exception Workflow（异常流程）：
+| 阶段 | 主要职责 |
+|---|---|
+| 1A 项目定义建立 | 从想法建立项目、业务、系统与需求骨架 |
+| 1B 项目认知建立 | 理解存量项目并定位变化 |
+| 2 需求澄清 | 收敛意图、范围、规则和 AC |
+| 3 技术方案设计 | 分析影响并形成可实施设计 |
+| 4 实施规划 | 将设计拆成可执行、可验证 Task |
+| 5 开发实施 | 调度、实现、Task Commit、Task Verification 与需求级收敛 |
+| 6 验证收敛 | 对完整 Change Set 建立最终 Evidence |
+| 7 流程复盘改进 | 用真实证据改进可复用机制 |
 
-```text
-Any Main-flow Stage
-        ↓
-Failure / Unresolved Finding
-        ↓
-Debug & Defect Resolution
-        ↓
-Correction / Failure Closure Evidence
-        ↓
-Owner Stage
-        ↓
-Main Workflow Continues
-```
+无法可靠归因的 Failure / Unexpected Behavior / Unresolved Finding 进入 [`Debug & Defect Resolution`](workflows/exceptions/debug-and-defect-resolution/README.md)，完成 Root Cause / Correction / Failure Closure Evidence 后回到对应 Owner Stage。
 
-Exception Workflow 不作为新的主流程阶段，也不维护主流程权威状态副本。
+## Human-Agent Collaboration
 
-## Human-Agent Collaboration｜人机协作
+Human 不跟踪 Agent 的全部搜索与推理。Agent 先自主发现事实，只有遇到真实意图、Authority 或 Decision Boundary 时，才同步最小充分认知，使 Human 保持 Decision Readiness。
 
-Human 不需要跟踪 Agent 的全部搜索、推理和 Task 级执行。正式 Workflow，以及 Project Onboarding 等涉及 Human 意图、权限或关键判断的 Meta Protocol Interaction，适用 [`Human-Agent Collaboration Rules`](rules/human-agent-collaboration.md)。
-
-核心原则是：**Agent 先发现事实并保持契约内自治；Human 只在真实意图 / 决策边界保持 Decision Readiness（决策就绪）。** 已有上下文仍有效时只同步关键 Delta，不重复重放整个项目；Human 的有效反馈应更新对应 Canonical Source of Truth，例如 Adoption Intent 更新 Adoption Baseline，Requirement / Design 语义更新相应 Workflow Artifact。
-
-## Agent Delegation & Coordination｜Agent 委派与协调
-
-当上下文隔离、并行、独立审查、专门能力或决策一致性检查有真实收益时，Main Agent 可按 [`Agent Delegation & Coordination Rules`](rules/agent-delegation-and-coordination.md) 动态委派 Scout、Researcher、Worker、Reviewer 或 Oracle。
-
-```text
-Human
-  ↕
-Main Agent
-  ├─ Scout / Researcher
-  ├─ Worker
-  ├─ Reviewer
-  └─ Oracle
-       ↓
-Result / Evidence
-       ↓
-Main Agent → Canonical State
-```
-
-Main Agent 始终保留 Workflow State、跨 Agent 协调、结果整合与最终责任；Subagent 只在有界 Contract 内自治。Formal Task 继续使用既有 Task Contract + Execution Unit；Agent、Model、Thinking、Fresh / Fork、Workspace 与并行策略均由 Harness 根据当前 Runtime 动态推导，不进入 `tasks.md` 等长期事实源。
-
-## 阶段一览
-
-| 阶段 | 主要做什么 | 概要 |
-|---|---|---|
-| 1A 项目定义建立 | 从想法建立项目、业务、系统与需求骨架 | [查看](workflows/main/01a-project-definition/README.md) |
-| 1B 项目认知建立 | 理解存量项目，并定位本次变化 | [查看](workflows/main/01b-project-understanding/README.md) |
-| 2 需求澄清 | 明确需求意图、范围、规则和验收标准 | [查看](workflows/main/02-requirement-clarification/README.md) |
-| 3 技术方案设计 | 分析影响、完成技术决策并形成可实施设计 | [查看](workflows/main/03-technical-design/README.md) |
-| 4 实施规划 | 将设计拆成可执行、可验证的 Task | [查看](workflows/main/04-implementation-planning/README.md) |
-| 5 开发实施 | 调度 Task，完成实现、Task Commit 与需求级收敛 | [查看](workflows/main/05-development-execution/README.md) |
-| 6 验证收敛 | 对完整变更建立最终证据并收敛到 Verified / Blocked | [查看](workflows/main/06-verification-convergence/README.md) |
-| 7 流程复盘改进 | 用真实证据改进可复用 Workflow / Rules / Meta Protocol / Harness | [查看](workflows/main/07-process-review-improvement/README.md) |
-
-### Exception Workflow｜异常流程
-
-| 流程 | 主要做什么 | 概要 |
-|---|---|---|
-| Debug & Defect Resolution | 从异常接管、证据定位、根因确认到修复验证与流程回接 | [查看](workflows/exceptions/debug-and-defect-resolution/README.md) |
+Main Agent 可以按需委派 Scout、Researcher、Worker、Reviewer、Oracle，但继续持有 Workflow State、结果整合与最终责任。具体 Subagent / Model / Thinking / Workspace 由当前 Runtime 动态决定。
 
 ## 使用方法
 
-给 Coding Agent 提供 **Spec Coding** 与目标项目 / Intent，然后直接表达目标，例如：
+给 Coding Agent 提供 Spec Coding 与目标项目，然后直接表达目标：
 
 ```text
 按照 Spec Coding 接入当前项目，并按当前任务继续推进。
 ```
 
-Agent 应自行：
+Agent 自行：
 
-1. 读取 `VERSION` 与 [`manifest.yaml`](manifest.yaml)。
-2. 根据 [`Project Onboarding Protocol`](meta-protocols/project-onboarding.md) 判断 Adoption Baseline 是否可复用；不存在或失效时执行 Initialize / Refresh / Migrate。
-3. 解析最终 Workflow Route 与 Applicable Rules。
-4. 根据 [`Harness Compilation Protocol`](meta-protocols/harness-compilation.md) Reuse / Compile 最小充分 Harness；按需读取 Primitive / Runtime Reference，并以 Current Official / Local Evidence 确认真实 Runtime Capability。
-5. Harness 达到 `Ready` 后进入 01A / 01B 或 Resume 当前 Owner Stage；之后按正式 Workflow 与 Rules 推进。
-6. 若发现上游事实失效，回到最早失效事实源纠正，只重新对齐受影响链路。
+1. 读取 `VERSION`、`manifest.yaml` 与匹配的 Semantic IR；
+2. 根据 Project Onboarding 判断 Adoption Baseline 是否可复用；
+3. 从 Semantic IR 生成 Discovery Scope；
+4. 扫描 Runtime / Project / Existing Harness 当前证据并形成 Environment Model；
+5. 逐 Clause 适配最小 Harness；
+6. 完成验证与 Fresh-agent 接管后进入 01A / 01B / Resume；
+7. 发现上游事实失效时只回到最早失效事实源纠正。
 
-Human 不需要手工依次执行 `Onboard Project`、`Build Harness` 等命令；Meta Protocol 的路由由 Agent 根据当前状态内部完成。
+## 详细入口
 
-## 详细规则
-
-- Workflow 清单：[`workflows/`](workflows/)
-- Rules 清单：[`rules/`](rules/)
-- Meta Protocols：[`meta-protocols/`](meta-protocols/)
 - Project Onboarding：[`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)
-- Harness 编译协议：[`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)
-- Harness Primitive 参考：[`reference/harness-primitives.md`](reference/harness-primitives.md)
-- Coding Agent Runtime 参考：[`reference/coding-agent-runtimes.md`](reference/coding-agent-runtimes.md)
-- Human-Agent Collaboration Rules：[`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md)
-- Agent Delegation & Coordination Rules：[`rules/agent-delegation-and-coordination.md`](rules/agent-delegation-and-coordination.md)
-- Exception Workflow：[`workflows/exceptions/README.md`](workflows/exceptions/README.md)
-- 全局执行规则：[`rules/global-contracts.md`](rules/global-contracts.md)
-- Code Quality Rules：[`rules/code-quality.md`](rules/code-quality.md)
-- 规范术语：[`reference/glossary.md`](reference/glossary.md)
-- 仓库治理：[`governance/repository-governance.md`](governance/repository-governance.md)
-- 机器入口：[`manifest.yaml`](manifest.yaml)
+- Harness Compilation：[`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)
+- Semantic Compilation：[`governance/semantic-compilation.md`](governance/semantic-compilation.md)
+- Semantic Compiler：[`../tools/semantic_compiler/`](../tools/semantic_compiler/)
+- Environment Discovery：[`../tools/environment_discovery/`](../tools/environment_discovery/)
+- Workflow：[`workflows/`](workflows/)
+- Rules：[`rules/`](rules/)
+- Runtime / Harness Reference：[`reference/`](reference/)
+- Manifest：[`manifest.yaml`](manifest.yaml)
