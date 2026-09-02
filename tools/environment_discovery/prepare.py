@@ -21,6 +21,12 @@ CORE_QUESTIONS = (
         ["local loader/configuration evidence", "version-matched official evidence when local evidence is insufficient"],
     ),
     (
+        "ENV-PROVIDER-SURFACES",
+        "runtime",
+        "Which package, plugin, extension, MCP, or other provider surfaces can be queried on demand for missing capabilities?",
+        ["local runtime/package configuration", "runtime-official registry or package evidence when applicable"],
+    ),
+    (
         "ENV-PROJECT-MECHANISMS",
         "project",
         "Which project-native build, test, lint, typecheck, CI, task, and Git mechanisms can be reused?",

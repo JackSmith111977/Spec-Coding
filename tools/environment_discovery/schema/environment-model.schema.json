@@ -2,7 +2,19 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Spec Coding Environment Model V1",
   "type": "object",
-  "required": ["schema_version", "semantic_fingerprint", "adoption_fingerprint", "identity", "facts", "capabilities", "project_mechanisms", "existing_harness", "constraints", "unknowns"],
+  "required": [
+    "schema_version",
+    "semantic_fingerprint",
+    "adoption_fingerprint",
+    "identity",
+    "facts",
+    "capabilities",
+    "provider_surfaces",
+    "project_mechanisms",
+    "existing_harness",
+    "constraints",
+    "unknowns"
+  ],
   "additionalProperties": false,
   "properties": {
     "schema_version": {"const": 1},
@@ -45,6 +57,23 @@
           "name": {"type": "string", "minLength": 1},
           "support": {"enum": ["native", "composable", "external", "unavailable", "unknown"]},
           "mechanism": {"type": "string", "minLength": 1},
+          "fact_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "provider_surfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "status", "query_mechanism", "trust_scope", "fact_refs"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["runtime_package", "plugin_registry", "extension_registry", "mcp_registry", "package_manager", "other"]},
+          "status": {"enum": ["reachable", "unavailable", "unknown"]},
+          "query_mechanism": {"type": "string", "minLength": 1},
+          "install_mechanism": {"type": "string", "minLength": 1},
+          "trust_scope": {"enum": ["runtime_official", "project_trusted", "third_party", "unknown"]},
           "fact_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
         }
       }

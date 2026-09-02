@@ -12,6 +12,7 @@ from .shared import diagnostic, report, sha256_json
 
 SUPPORT_MODES = {"native", "composable", "external", "unavailable", "unknown"}
 QUESTION_STATES = {"confirmed", "not_applicable", "unknown", "blocked"}
+PROVIDER_SURFACE_STATES = {"reachable", "unavailable", "unknown"}
 
 
 def _schema_errors(schema: dict[str, Any], value: dict[str, Any], label: str) -> list[dict[str, Any]]:
@@ -21,17 +22,9 @@ def _schema_errors(schema: dict[str, Any], value: dict[str, Any], label: str) ->
     return errors
 
 
-def validate_environment(
-    semantic_ir: dict[str, Any],
-    adoption: dict[str, Any],
-    discovery: dict[str, Any],
-    environment: dict[str, Any],
-    discovery_schema: dict[str, Any],
-    environment_schema: dict[str, Any],
-) -> dict[str, Any]:
+def validate_environment(semantic_ir: dict[str, Any], adoption: dict[str, Any], discovery: dict[str, Any], environment: dict[str, Any], discovery_schema: dict[str, Any], environment_schema: dict[str, Any]) -> dict[str, Any]:
     diagnostics = _schema_errors(discovery_schema, discovery, "discovery")
     diagnostics.extend(_schema_errors(environment_schema, environment, "environment"))
-
     semantic_fingerprint = sha256_json(semantic_ir)
     adoption_fingerprint = sha256_json(adoption)
     for label, value in (("discovery", discovery), ("environment", environment)):
@@ -50,7 +43,6 @@ def validate_environment(
     question_by_id = {item.get("id"): item for item in questions if isinstance(item, dict) and isinstance(item.get("id"), str)}
     if len(question_by_id) != len(questions):
         diagnostics.append(diagnostic("DUPLICATE_DISCOVERY_QUESTION", "discovery question ids must be unique"))
-
     required_core = {item[0] for item in CORE_QUESTIONS}
     missing_core = sorted(required_core - set(question_by_id))
     if missing_core:
@@ -77,9 +69,8 @@ def validate_environment(
                     diagnostics.append(diagnostic("UNKNOWN_DISCOVERY_QUESTION", "clause references an unknown discovery question", clause=clause, question=question_id))
                 elif clause not in question.get("required_by", []):
                     diagnostics.append(diagnostic("QUESTION_TRACE_MISMATCH", "question.required_by must include the clause that references it", clause=clause, question=question_id))
-        elif disposition == "no_environment_dependency":
-            if not isinstance(account.get("reason"), str) or not account["reason"].strip():
-                diagnostics.append(diagnostic("MISSING_NO_DEPENDENCY_REASON", "no_environment_dependency requires a reason", clause=clause))
+        elif disposition == "no_environment_dependency" and (not isinstance(account.get("reason"), str) or not account["reason"].strip()):
+            diagnostics.append(diagnostic("MISSING_NO_DEPENDENCY_REASON", "no_environment_dependency requires a reason", clause=clause))
 
     for question in questions:
         if not isinstance(question, dict):
@@ -102,9 +93,7 @@ def validate_environment(
             diagnostics.append(diagnostic("BLOCKING_DISCOVERY_UNKNOWN", "a required environment question remains unresolved", question=question.get("id"), status=status))
 
     for fact in facts:
-        if not isinstance(fact, dict):
-            continue
-        if fact.get("confidence") == "confirmed" and not fact.get("evidence"):
+        if isinstance(fact, dict) and fact.get("confidence") == "confirmed" and not fact.get("evidence"):
             diagnostics.append(diagnostic("FACT_WITHOUT_EVIDENCE", "confirmed fact requires evidence", fact=fact.get("id")))
 
     for capability in environment.get("capabilities", []):
@@ -123,18 +112,28 @@ def validate_environment(
             if ref not in fact_by_id:
                 diagnostics.append(diagnostic("UNKNOWN_FACT_REFERENCE", "capability references an unknown environment fact", capability=capability.get("id"), fact=ref))
 
+    provider_surfaces = environment.get("provider_surfaces", []) if isinstance(environment.get("provider_surfaces"), list) else []
+    surface_ids = [item.get("id") for item in provider_surfaces if isinstance(item, dict)]
+    if len(surface_ids) != len(set(surface_ids)):
+        diagnostics.append(diagnostic("DUPLICATE_PROVIDER_SURFACE", "provider surface ids must be unique"))
+    for surface in provider_surfaces:
+        if not isinstance(surface, dict):
+            continue
+        status = surface.get("status")
+        if status not in PROVIDER_SURFACE_STATES:
+            continue
+        refs = surface.get("fact_refs", [])
+        if status != "unknown":
+            if not refs:
+                diagnostics.append(diagnostic("PROVIDER_SURFACE_WITHOUT_FACT", "resolved provider surface requires supporting facts", surface=surface.get("id")))
+            elif not any(fact_by_id.get(ref, {}).get("confidence") == "confirmed" for ref in refs):
+                diagnostics.append(diagnostic("PROVIDER_SURFACE_WITHOUT_CONFIRMED_EVIDENCE", "resolved provider surface needs at least one confirmed fact", surface=surface.get("id")))
+        for ref in refs:
+            if ref not in fact_by_id:
+                diagnostics.append(diagnostic("UNKNOWN_FACT_REFERENCE", "provider surface references an unknown Environment fact", surface=surface.get("id"), fact=ref))
+
     for unknown in environment.get("unknowns", []):
         if isinstance(unknown, dict) and unknown.get("blocking") is True:
             diagnostics.append(diagnostic("BLOCKING_ENVIRONMENT_UNKNOWN", "Environment Model contains a blocking unknown", unknown=unknown.get("id")))
 
-    return report(
-        "environment-validate",
-        not diagnostics,
-        diagnostics,
-        summary={
-            "clauses": len(clause_ids),
-            "questions": len(questions),
-            "facts": len(facts),
-            "capabilities": len(environment.get("capabilities", [])),
-        },
-    )
+    return report("environment-validate", not diagnostics, diagnostics, summary={"clauses": len(clause_ids), "questions": len(questions), "facts": len(facts), "capabilities": len(environment.get("capabilities", [])), "provider_surfaces": len(provider_surfaces)})
