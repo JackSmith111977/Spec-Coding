@@ -4,130 +4,166 @@
 
 ## 目录职责
 
-`docs/` 按规范职责组织：
-
 ```text
 docs/
 ├── workflows/       # Main / Exception Workflow
 ├── rules/           # 持续适用规则
-├── meta-protocols/  # Spec Coding 接入、装配与转换协议
-├── governance/      # 仓库与版本治理
-├── reference/       # 术语、Harness Primitive 与 Runtime 参考资料
-├── README.md        # Human 文档导航
-├── overview.md      # Human 全流程概要
-└── manifest.yaml    # Machine Entry Point
+├── meta-protocols/  # 项目接入与 Harness 编译
+├── governance/      # 仓库、版本、Semantic Compilation 治理
+├── reference/       # 术语、Harness Primitive、Runtime 参考
+├── README.md
+├── overview.md
+└── manifest.yaml
+
+semantic/            # 版本绑定的派生 Semantic IR
+
+tools/
+├── semantic_compiler/
+└── environment_discovery/
 ```
 
-目录表达规范身份，但机器可读 Canonical 清单仍以 [`../manifest.yaml`](../manifest.yaml) 为准。
+机器可读 Canonical 清单仍以 [`../manifest.yaml`](../manifest.yaml) 为准。`semantic/` 是 Derived Artifact（派生产物），不成为平行规范事实源。
 
-## 仓库维护
+## 仓库维护规则
 
-1. **Canonical Only｜只维护一个当前正式版本**：`main` 上每份正式文档只保留一个当前路径，不使用 `v1`、`v2`、`old`、`backup` 等副本保存历史。
-2. **Branch First｜先分支后修改**：功能、修复、审核与规则演进从 `main` 创建独立分支，再进入 Review / Verification。
-3. **Affected Trace Only｜只改受影响链路**：只修改真实受影响的定义点、消费者和治理文件，不顺手重写无关阶段。
-4. **Manifest 同步**：新增、删除、移动或重命名 Canonical Stage Document（正式阶段文档）、Canonical Rule Document（正式规则文档）、Canonical Exception Workflow Document（正式异常流程文档）或 Canonical Meta Protocol Document（正式元协议文档），或改变机器可读导航 / Reference 入口时，同步更新 `manifest.yaml`。
-5. **Glossary 同步**：新增核心术语、修改规范译法或改变术语语义时，同步更新 `reference/glossary.md`。
-6. **Rule Source of Truth｜规则事实源唯一**：持续适用规则维护在 `manifest.yaml` 登记的 Rule Document 中；Workflow / Meta Protocol 只引用适用规则，不复制规则正文形成并行事实源。
-7. **Exception Workflow Source of Truth｜异常流程事实源唯一**：正式 Exception Workflow 维护在 `manifest.yaml` 的 `exception_workflows` 中，仅在 Trigger 成立时加载；异常流程形成调查、纠正与关闭证据，不复制主流程自身状态事实源。
-8. **Meta Protocol Source of Truth｜元协议事实源唯一**：正式 Meta Protocol 维护在 `manifest.yaml` 的 `meta_protocols` 中，负责 Spec Coding 的项目接入、装配或转换，不替代 Workflow / Rules 本身的规范语义。
-9. **Adoption Source of Truth｜接入事实源唯一**：Project Onboarding 形成的 Adoption Baseline 是目标项目侧的接入事实源，只保存 Declared Intent、Stable Binding 与 Override / Constraint；项目动态环境、Workflow Artifact 与 Harness 事实继续由各自来源承担。
-10. **Reference is Non-normative｜参考资料非规范事实源**：`reference/` 可为 Human 与 Meta Protocol 提供术语、开放标准、Harness Primitive、Runtime Architecture 与官方事实入口，但不得覆盖 Workflow / Rule / Meta Protocol、Adoption Baseline 或 Current Runtime Evidence。
-11. **Runtime Facts Stay Dynamic｜运行时事实保持动态**：Reference 不维护当前模型、Thinking、Hook 全量、Feature Flag、Quota、价格或版本特定配置；Harness Compilation 使用当前 Local / Official Evidence 重新发现。Reference 与当前事实冲突时，Current Evidence 优先。
-12. **Architecture Evidence Required｜架构结论需要官方证据**：Runtime Architecture Invariant 必须具有官方文档、官方源码或官方技术材料支撑。社区资料可用于发现线索，但不能单独成为长期 Architecture Invariant。
-13. **Global Contract 同步**：影响全部正式 Workflow 的通用执行规则维护在 `rules/global-contracts.md`，避免复制形成重复事实源。
-14. **Changelog 同步**：改变 Workflow / Rule / Meta Protocol 语义、Artifact Contract、状态、Gate、Authority、目录消费路径或下游消费方式的变化进入 `CHANGELOG.md`；仅刷新易变 Runtime Link / Feature Snapshot 且不改变消费者语义时可作为普通 Reference Maintenance 处理。
-15. **Git Owns History｜历史交给 Git**：旧版本、删除内容、Runtime 改名、迁移与退役关系由 Commit / PR / Changelog 保存，不创建 `old` / `v2` 等平行参考副本。
-16. **No Silent Semantic Change｜禁止静默语义变化**：纯润色、Reference Refresh 或结构迁移不得顺带改变正式契约或规则；确需改变时按语义变更治理。
+1. **Canonical Only｜当前正式版本唯一**：`main` 上不维护 `old / v2 / backup` 平行副本；历史交给 Git。
+2. **Branch First｜先分支后修改**：功能、修复、审核与规则演进从 `main` 创建独立分支。
+3. **Affected Trace Only｜只改受影响链路**：只修改真实受影响的定义点、消费者和治理文件。
+4. **Manifest Sync｜Manifest 同步**：Canonical 集合、机器导航或 Reference Entry 变化时同步 `manifest.yaml`。
+5. **Source of Truth Separation｜事实源分离**：Workflow / Rules / Meta Protocol / Adoption Baseline / Semantic IR / Environment Model / Harness 各自承担不同生命周期，不互相复制成平行事实源。
+6. **Semantic IR Is Derived｜Semantic IR 是派生物**：Canonical Markdown 改变后必须重新编译；不得通过直接修改 released IR 改变 Spec Coding 语义。
+7. **Adoption Persists Stable Intent｜Adoption 只持久化稳定接入**：只保存 Declared Intent、Target / Workspace / Repository Binding、Publication / Authority Constraint；动态 Runtime / Loader / Model / Tool / CI / Existing Harness 不进入 Baseline。
+8. **Environment Facts Stay Dynamic｜环境事实保持动态**：Environment Discovery 使用 Current Local / Official Evidence 重发现事实；Reference 与当前证据冲突时 Current Evidence 优先。
+9. **Reference Is Non-normative｜参考资料非规范**：`reference/` 只提供共同语言、架构不变量与官方事实入口。
+10. **No Silent Semantic Change｜禁止静默语义变化**：润色、Reference Refresh 或目录迁移不得顺带改变 Canonical 契约。
+11. **Glossary Sync｜术语同步**：核心术语或规范译法变化时同步 Glossary。
+12. **Version Evidence｜版本证据**：形成版本时统一同步 `VERSION + manifest + CHANGELOG`；普通功能分支可在收敛前保持当前版本。
 
-### Runtime Reference 变化分类
+## V3 编译边界治理
 
-Coding Agent Runtime 高频变化按以下方式治理：
+Harness Compilation V3 明确分为：
+
+```text
+Canonical Corpus
+      ↓
+Semantic Compile
+      ↓
+Semantic IR
+      ↓
+Environment Discover
+      ↓
+Environment Model
+      ↓
+Harness Adapt
+      ↓
+Verify & Accept
+```
+
+边界要求：
+
+- Semantic Compiler 不读取 Target / Adoption / Runtime；
+- Environment Discovery 不重新解释完整 Canonical prose，也不产生 Harness 设计决策；
+- Harness Adapt 不允许压缩或丢弃 Applicable Clause，只允许在实现层合并 Component；
+- Verify & Accept 的确定性证据、语义审查和 Fresh-agent 行为证据不得互相伪装。
+
+### Semantic Compilation
+
+正式 Semantic Release 必须满足 [`semantic-compilation.md`](semantic-compilation.md)：完整 Canonical Corpus、Atomic Clause、Source Binding、Execution Relation、Fresh per-document Review、Global Review 与 Mutation Review。
+
+Pilot 可以验证表达能力，但不得被描述为完整 Semantic Release。
+
+### Environment Discovery
+
+Environment Discovery 的最终 Handoff 必须保证：
+
+- 每条 Clause 有 Discovery Disposition；
+- 关键 Environment Question 有当前 Evidence；
+- 已解析 Capability 回指 Confirmed Fact；
+- Blocking Unknown 为零；
+- Environment Model 不包含 Skill / AGENTS / Subagent 等 Harness 设计结论。
+
+## Runtime Reference 治理
+
+Runtime 高频变化分为：
 
 | Delta | 示例 | 默认处理 |
 |---|---|---|
-| **Feature Delta** | 新模型、新 Hook、新参数、Feature Flag | Harness Compilation 运行时重新发现；不要求立即更新 Reference。 |
-| **Source / Lifecycle Delta** | 文档迁移、产品改名、deprecated / retired | 更新 `reference/coding-agent-runtimes.md` 的身份 / 官方入口。 |
-| **Architecture Delta** | Plugin-first 架构、Agent Runtime 边界发生根本变化 | 更新 Architecture Invariant 与 Harness Implication；若现有 Primitive / Protocol 已无法表达，再进入 Spec Coding 语义演进。 |
+| Feature Delta | 新模型、新 Hook、新参数、Feature Flag | Environment Discover 重新发现，不要求立即更新 Reference |
+| Source / Lifecycle Delta | 产品改名、文档迁移、deprecated | 更新 Runtime Reference 的身份 / 官方入口 |
+| Architecture Delta | Plugin / Agent Runtime 边界根本变化 | 更新 Architecture Invariant；必要时进入 Spec Coding 语义演进 |
 
-Reference Drift 默认不阻塞业务 Workflow。只有当前关键 Capability / Permission / Safety Mapping 无法可靠确定时，Harness Compilation 才应 Block `Harness Ready`。
+Reference Drift 默认不阻塞业务 Workflow；只有当前关键 Capability / Permission / Loader 无法可靠确定时，Environment Handoff / Harness Ready 才被阻断。
 
 ## 版本管理
 
-版本遵循 Semantic Versioning（语义化版本）：
+遵循 Semantic Versioning（语义化版本）：
 
 | 类型 | 适用情况 |
 |---|---|
-| `MAJOR` | 稳定版本后的不兼容阶段 / Artifact / 状态 / Gate / 消费者行为变化。 |
-| `MINOR` | 新增或增强兼容能力、规则、治理、验证、Meta Protocol 或自动化机制；`0.x` 阶段的主要结构 / 语义演进通常使用 MINOR。 |
-| `PATCH` | 不改变流程或规则语义的拼写、链接、格式、说明或纯文档修复。 |
+| `MAJOR` | 稳定版本后的不兼容阶段 / Artifact / 状态 / Gate / 消费者行为变化 |
+| `MINOR` | `0.x` 阶段的主要结构 / 语义演进，或新增兼容能力、规则、治理、Meta Protocol / 自动化 |
+| `PATCH` | 不改变语义的拼写、链接、格式或纯文档修正 |
 
-普通分支提交不必每次修改 `VERSION`。形成版本时，在同一收敛变更中同步：
+形成版本时在同一收敛变更中同步：
 
 - `VERSION`
-- `docs/manifest.yaml` 中的 `spec_coding_version` 与 `status`
+- `docs/manifest.yaml` 的 `spec_coding_version / status`
 - `CHANGELOG.md`
 
-若同时改变正式 Workflow / Rules / Meta Protocol 集合、全局契约或术语，再同步 `manifest.yaml`、对应 Workflow / Rule / Meta Protocol Document、`rules/global-contracts.md`、`reference/glossary.md` 等治理与参考文件。
-
-单纯更新 Runtime 官方链接、Lifecycle 或易变生态资料，且不改变 Harness Compilation 消费语义时，不要求独立提升 Spec Coding 语义版本；若 Reference 新增导致 Meta Protocol 消费方式或 Harness Compilation 行为发生兼容增强，则按 MINOR 治理。
-
-Git Tag 可用于稳定里程碑或长期引用，但不替代 `VERSION + manifest + CHANGELOG` 的版本判定。
+Git Tag 用于稳定里程碑，但不替代上述版本事实。
 
 ## 标准变更流程
 
 ```text
 main
   ↓
-独立分支
+independent branch
   ↓
-修改受影响 Workflow / Rules / Meta Protocol / Reference / 文档
+change earliest affected source
   ↓
 Cross-Artifact Check
   ↓
-同步治理文件（按需）
+Deterministic tests + semantic review
   ↓
-Review / Verification
+Version convergence（需要时）
   ↓
-Merge to main
-  ↓
-新的 Canonical Source of Truth
+Merge
 ```
 
 合入前至少确认：
 
-- 上下游术语、状态、Artifact Contract 与适用 Rules 一致。
-- 目录职责、Manifest 路径、Reference Entry 与 Human 导航一致。
-- Meta Protocol 的先后依赖、目标项目侧 Adoption Baseline 与 Harness 输入关系一致。
-- Runtime Reference 没有覆盖 Current Runtime Evidence，没有把版本易变事实固化为长期能力真相。
-- 没有引入并行事实源、废弃副本或旧路径残留。
+- 上下游术语、状态、Artifact Contract 与适用 Rules 一致；
+- Manifest、Human Navigation、Governance 与实际目录一致；
+- Semantic IR 与 Canonical Source Fingerprint 一致；
+- Environment Fact / Adoption Fact / Runtime Reference 边界没有混淆；
+- 没有旧 compiler、废弃 fixture 或平行事实源残留；
 - 受影响 Trace 可追溯。
-- 必要 Manifest / Rule / Exception Workflow / Meta Protocol / Reference / Glossary / Changelog 已同步。
 
 ## Agent 消费顺序
 
-执行、接入与 Harness 构建优先使用本地一致视图。已有本地工作区时先同步并确认基线；尚无本地副本时先获取到本地。远程接口主要用于获取、同步、版本确认与必要补充。
-
-建议按顺序处理：
-
 ```text
-取得 Spec Coding 与 Target 的可用一致视图
+取得 Spec Coding 与 Target 的一致视图
   ↓
-VERSION
+VERSION + docs/manifest.yaml
   ↓
-docs/manifest.yaml
+Load matching released Semantic IR
   ↓
 Project Onboarding
-  ├─ Valid Adoption Baseline → Reuse
-  └─ Missing / Relevant Delta → Initialize / Refresh / Migrate
+  ├─ valid Adoption Baseline → Reuse
+  └─ missing / relevant delta → Initialize / Refresh / Migrate
   ↓
-Adoption Baseline + Final Workflow Route
+Adoption Baseline + Semantic IR
   ↓
-Load Applicable Workflow / Rules
+Environment Discover
+  ├─ Runtime / Loader Evidence
+  ├─ Project Mechanisms
+  └─ Existing Harness
   ↓
-Harness Compilation
-  ├─ Harness Primitive Reference（按需）
-  ├─ Runtime Reference（按需）
-  └─ Current Official / Local Runtime Evidence
+Environment Model
+  ↓
+Harness Adapt
+  ↓
+Verify & Accept
   ↓
 Harness Ready
   ↓
@@ -136,22 +172,14 @@ Enter / Resume Main Workflow
 Triggered Exception Workflow（若有）
 ```
 
-Project Onboarding 只需读取接入判断所需的最小规范与 Target Evidence，不要求预加载全部 Workflow 或 Runtime Reference。Human-Agent Collaboration 在 Onboarding 中涉及 Human Intent、Authority 或关键判断时适用；Global Contracts 仍由正式 Workflow 默认继承，不因 Meta Protocol 引用 Authority 语义而整体扩展到 Meta Protocol。
-
-Harness Compilation 消费三类上下文：Applicable Workflow / Rules 作为 Normative Context、Adoption Baseline 作为 Adoption Context、当前 Target Environment / Existing Harness / Agent Capability 作为 Execution Context。Reference Knowledge 用于语义归一、Runtime Architecture 理解和官方事实定位，不作为第四类项目 Context；动态项目事实不应为了 Harness 编译被复制到 Adoption Baseline。
-
-Applicable Rules 由 `manifest.yaml` 的 `rule_documents` 解析；Human-Agent Collaboration 在正式 Workflow 与需要 Human Interaction 的 Meta Protocol 中加载，其他专项规则只在适用阶段 / 任务加载。Exception Workflow 由 `exception_workflows` 解析，只在对应 Trigger 成立时加载。Meta Protocol 由 `meta_protocols` 解析，Project Onboarding 在 Harness Compilation 之前建立或验证接入基线。
-
-Harness 达到 `Ready` 后，执行继续以正式 Workflow 文档与 Applicable Rules 为权威依据；Meta Protocol 定义接入 / 转换方法，Adoption Baseline 是目标项目侧接入事实，Harness 是项目侧执行机制，Reference 提供非规范编译知识，四者都不替代 Workflow / Rules 的规范事实源。
-
-Human 快速理解流程优先使用 [`../overview.md`](../overview.md)、[`../workflows/README.md`](../workflows/README.md)、各阶段 README 与 [`../workflows/exceptions/README.md`](../workflows/exceptions/README.md)，不以概要或 Reference 替代正式执行规则。
+目标项目不重新从全部 Canonical Markdown 发现规范语义；Canonical prose 仍是规范 Source of Truth，Semantic IR 是稳定编译输入。
 
 ## 1.0.0 稳定门槛
 
-`0.x` 仍属于审核与 Pilot（试运行）阶段。进入 `1.0.0` 前至少完成：
+进入 `1.0.0` 前至少完成：
 
-- 静态审核中的重大问题收敛。
-- Scenario Stress Test（场景压力测试）。
-- Fresh-Agent Blind Run（新 Agent 盲跑）。
-- 2–3 个真实项目 Pilot。
+- Semantic IR 全量发布与 Mutation Review；
+- Scenario Stress Test；
+- Fresh-Agent Blind Run；
+- 2–3 个真实项目 Pilot；
 - 未发现重大 Trace 逃逸、静默假设或不可解释的人工作业依赖。
