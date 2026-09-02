@@ -49,18 +49,20 @@ Harness Ready
 Harness Compilation 被拆成四个职责明确的阶段：
 
 1. **Semantic Compile｜规范语义编译**：Canonical Docs → Atomic Clauses + Execution Relations；完整性在 Spec Coding 发布侧一次解决。
-2. **Environment Discover｜环境认知建立**：根据 Clause 需要发现 Runtime / Project / Existing Harness 当前事实，形成 Environment Model。
-3. **Harness Adapt｜Harness 适配**：逐 Clause 选择 Native / Existing / Harness / N/A / Blocked，并组合成最小实现。
-4. **Verify & Accept｜验证与接管**：以覆盖、运行时、语义挑战与 Fresh-agent 行为证明 Harness 生效。
+2. **Environment Discover｜环境认知建立**：根据 Clause 需要发现 Runtime / Project / Existing Harness / Provider Surface 当前事实，形成 Environment Model。
+3. **Harness Adapt｜Harness 适配**：Clause → Capability Requirement → Provider → Component → Artifact；最小化只发生在实现层，Candidate Artifact 用内容 Hash 固定身份。
+4. **Verify & Accept｜验证与接管**：以 Runtime Visibility、Provider Active、逐 Clause Verification、Mutation 与 Independent Fresh-agent Behavior 证明 Harness 生效，最终只输出 `READY / BLOCKED`。
 
 ```text
 Semantic IR       → 必须保持什么
-Environment Model → 当前能够用什么
+Environment Model → 当前能够用什么、还能去哪里找能力
 Harness Adapt     → 如何承载这些语义
-Verify & Accept   → 是否真的生效
+Verify & Accept   → 真实 Runtime 中是否真的生效
 ```
 
 Semantic IR 不包含 Vendor-specific Subagent / Model / Thinking / Worktree 策略；Environment Model 也不包含“应该创建 Skill / AGENTS.md”之类设计决策。
+
+Harness Verify & Accept 属于 Meta Protocol 编译验收，不等于 Main Workflow Stage 6 Verification Convergence：前者验证 Harness，后者验证 Requirement / Change Set。
 
 ## Project Onboarding｜项目接入
 
@@ -120,10 +122,11 @@ Agent 自行：
 1. 读取 `VERSION`、`manifest.yaml` 与匹配的 Semantic IR；
 2. 根据 Project Onboarding 判断 Adoption Baseline 是否可复用；
 3. 从 Semantic IR 生成 Discovery Scope；
-4. 扫描 Runtime / Project / Existing Harness 当前证据并形成 Environment Model；
-5. 逐 Clause 适配最小 Harness；
-6. 完成验证与 Fresh-agent 接管后进入 01A / 01B / Resume；
-7. 发现上游事实失效时只回到最早失效事实源纠正。
+4. 扫描 Runtime / Provider Surface / Project / Existing Harness 当前证据并形成 Environment Model；
+5. 逐 Clause 提取 Capability Requirement，选择可靠 Provider 并生成内容绑定的最小 Harness Candidate；
+6. 在真实 Runtime 中完成结构 / Loader / Provider / Clause / Mutation 验证，并由 Independent Fresh Agent 完成五类代表性行为验收；
+7. 只有 Acceptance Receipt 为 `READY` 才进入 01A / 01B / Resume；
+8. 发现失败时按 `semantic / environment / adaptation / candidate / runtime` 归因并回到最早失真事实源。
 
 ## 详细入口
 
@@ -132,6 +135,8 @@ Agent 自行：
 - Semantic Compilation：[`governance/semantic-compilation.md`](governance/semantic-compilation.md)
 - Semantic Compiler：[`../tools/semantic_compiler/`](../tools/semantic_compiler/)
 - Environment Discovery：[`../tools/environment_discovery/`](../tools/environment_discovery/)
+- Harness Adapt：[`../tools/harness_adapt/`](../tools/harness_adapt/)
+- Harness Acceptance：[`../tools/harness_acceptance/`](../tools/harness_acceptance/)
 - Workflow：[`workflows/`](workflows/)
 - Rules：[`rules/`](rules/)
 - Runtime / Harness Reference：[`reference/`](reference/)

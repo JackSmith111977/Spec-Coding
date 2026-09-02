@@ -66,17 +66,21 @@ Project Onboarding → Adoption Baseline
 
 ### 2. Environment Discover｜环境认知建立
 
-根据 Semantic IR，只发现当前 Harness 适配真正需要的 Runtime / Project / Existing Harness 事实，并形成 Evidence-backed Environment Model。
+根据 Semantic IR，只发现当前 Harness 适配真正需要的 Runtime / Project / Existing Harness / Provider Surface 事实，并形成 Evidence-backed Environment Model。
 
 - 工具：[`tools/environment_discovery/`](tools/environment_discovery/)
 
 ### 3. Harness Adapt｜Harness 适配
 
-逐 Clause 判断当前环境可以原生复用、组合已有能力，还是需要新增最小 Harness；语义覆盖保持完整，最小化只发生在实现层。
+逐 Clause 提取 Capability Requirement，选择可靠 Provider，再组合成最小 Harness Candidate；Candidate Artifact 使用内容 Hash 固定身份，任何 `blocked` Clause 都不能进入验收阶段。
+
+- 工具：[`tools/harness_adapt/`](tools/harness_adapt/)
 
 ### 4. Verify & Accept｜验证与接管
 
-用 Clause Coverage、Runtime Visibility、Semantic Challenge 与 Fresh-agent Behavior 证明 Harness 真正生效。
+用真实 Runtime Visibility、Provider Active Evidence、逐 Clause Verification、Semantic Mutation 与 Independent Fresh-agent Behavior 证明 Harness 真正生效，最终只输出 `READY / BLOCKED`。
+
+- 工具：[`tools/harness_acceptance/`](tools/harness_acceptance/)
 
 完整协议：[`docs/meta-protocols/harness-compilation.md`](docs/meta-protocols/harness-compilation.md)
 
@@ -159,7 +163,7 @@ Spec Coding 同时支持 Greenfield（新项目）、Brownfield（存量项目�
 
 ## Project status
 
-当前仍处于 `candidate` 阶段。V3 正在通过 Semantic IR Pilot、Environment Discovery、真实项目 Harness 编译与 Fresh-Agent Blind Run 逐步验证。
+当前仍处于 `candidate` 阶段。Harness Compilation V3 的四阶段工具边界已经建立；下一步重点是完整 Semantic Release、真实 Runtime Pilot 与 Fresh-Agent Blind Run，而不是继续扩张编译器状态模型。
 
 ## License
 

@@ -19,7 +19,9 @@ semantic/            # 版本绑定的派生 Semantic IR
 
 tools/
 ├── semantic_compiler/
-└── environment_discovery/
+├── environment_discovery/
+├── harness_adapt/
+└── harness_acceptance/
 ```
 
 机器可读 Canonical 清单仍以 [`../manifest.yaml`](../manifest.yaml) 为准。`semantic/` 是 Derived Artifact（派生产物），不成为平行规范事实源。
@@ -64,7 +66,8 @@ Verify & Accept
 - Semantic Compiler 不读取 Target / Adoption / Runtime；
 - Environment Discovery 不重新解释完整 Canonical prose，也不产生 Harness 设计决策；
 - Harness Adapt 不允许压缩或丢弃 Applicable Clause，只允许在实现层合并 Component；
-- Verify & Accept 的确定性证据、语义审查和 Fresh-agent 行为证据不得互相伪装。
+- Verify & Accept 的确定性证据、语义审查和 Fresh-agent 行为证据不得互相伪装；
+- Harness Verify & Accept 不替代 Main Workflow Stage 6 Verification Convergence：前者验证 Harness，后者验证 Requirement / Change Set。
 
 ### Semantic Compilation
 
@@ -78,9 +81,35 @@ Environment Discovery 的最终 Handoff 必须保证：
 
 - 每条 Clause 有 Discovery Disposition；
 - 关键 Environment Question 有当前 Evidence；
-- 已解析 Capability 回指 Confirmed Fact；
+- 已解析 Capability / Provider Surface 回指 Confirmed Fact；
 - Blocking Unknown 为零；
 - Environment Model 不包含 Skill / AGENTS / Subagent 等 Harness 设计结论。
+
+### Harness Adapt
+
+Stage 3 Handoff 必须保证：
+
+- 每条 Clause 有唯一适配结论；
+- `blocked` Clause 为零；
+- Covered Clause 能追溯到 Capability Requirement、Selected Provider 与 Component；
+- Provider Change 已完成并有 Targeted Refresh Evidence；
+- Candidate Artifact 位于 Target 内、真实存在，并保存经验证的 `content_sha256`；
+- Candidate Fingerprint 因此绑定具体 Harness 内容，而不是只有路径与结构。
+
+### Harness Verify & Accept
+
+Stage 4 只消费已经通过 Stage 3 的 Candidate，不在验收层静默修复语义、环境或映射。最终 `READY` 至少需要：
+
+- Semantic / Environment / Adoption / Adaptation Plan / Candidate Fingerprint 连续一致；
+- Artifact 内容 Hash 在验收期间未漂移；
+- Candidate Artifact 被真实 Runtime 证明可见；
+- Selected Provider 被证明 active；
+- 每条 Covered Clause 至少有一个通过的验证结果；
+- Required Mutation 全部被检测；
+- Blocking Verification Finding 为零；
+- Independent Fresh Agent 有 Isolation Evidence，并通过 `load / process / boundary / gate_lifecycle / exception` 五类代表性场景。
+
+Verification Finding 必须标记最早 Fault Layer：`semantic / environment / adaptation / candidate / runtime`，并回到最早失真源修正，而不是在 Stage 4 形成新的设计事实源。
 
 ## Runtime Reference 治理
 
@@ -136,6 +165,8 @@ Merge
 - Manifest、Human Navigation、Governance 与实际目录一致；
 - Semantic IR 与 Canonical Source Fingerprint 一致；
 - Environment Fact / Adoption Fact / Runtime Reference 边界没有混淆；
+- Harness Candidate 内容 Hash 与真实 Artifact 一致；
+- Verify & Accept 绑定当前 Candidate，而不是过期 Manifest / 文件；
 - 没有旧 compiler、废弃 fixture 或平行事实源残留；
 - 受影响 Trace 可追溯。
 
@@ -156,6 +187,7 @@ Adoption Baseline + Semantic IR
   ↓
 Environment Discover
   ├─ Runtime / Loader Evidence
+  ├─ Provider Surfaces
   ├─ Project Mechanisms
   └─ Existing Harness
   ↓
@@ -163,7 +195,12 @@ Environment Model
   ↓
 Harness Adapt
   ↓
+Adaptation Plan + content-bound Harness Candidate
+  ↓
 Verify & Accept
+  ├─ Verification Plan
+  ├─ Verification Report
+  └─ Independent Acceptance Receipt
   ↓
 Harness Ready
   ↓

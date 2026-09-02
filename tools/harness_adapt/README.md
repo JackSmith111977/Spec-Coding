@@ -42,9 +42,15 @@ Provider 是能力实现候选，不等于 Coverage，也不等于 Harness。Pro
 
 ## Candidate Validation
 
-`validate` 检查 Clause → Capability Requirement → Selected Provider → Component → Artifact 的完整追踪、Provider Evidence / Authority、Registry Surface、Provider Change 的 Targeted Refresh Evidence、Artifact 边界 / 存在性与结构性 Minimality。
+`validate` 检查 Clause → Capability Requirement → Selected Provider → Component → Artifact 的完整追踪、Provider Evidence / Authority、Registry Surface、Provider Change 的 Targeted Refresh Evidence 与结构性 Minimality。
 
-工具通过只表示 **Harness Candidate 的适配链完整且可进入第四阶段**，不表示 Runtime 已真实加载，也不替代 Semantic Mutation / Fresh-agent Behavioral Acceptance。
+Stage 3 handoff 额外要求：
+
+- `blocked` Clause 为零；存在任何 `blocked` 即停止，不把已知缺口交给第四阶段；
+- Candidate Artifact 位于 Target 内并真实存在；
+- 每个 Artifact 保存 `content_sha256`，Validator 对真实文件重新计算 Hash，确保 Candidate Manifest 绑定的是具体 Harness 内容而不是只有路径。
+
+工具通过只表示 **Harness Candidate 的适配链完整且内容身份已固定，可以进入第四阶段**；不表示 Runtime 已真实加载，也不替代 Semantic Mutation / Fresh-agent Behavioral Acceptance。
 
 ## Provider Surface Boundary
 
