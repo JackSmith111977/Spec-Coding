@@ -119,3 +119,5 @@ python -m unittest discover -v
 ```
 
 测试覆盖 Adoption 缺失、真实 Canonical 语料解析与扫描、重复标题、前言扫描、来源遗漏、状态 Schema、未知运行时、Blocked / Orphan / Missing Mapping、暂存漂移、无部分写入、通用 Probe（探针）执行器及受控目标级 E2E。
+
+仓库还保留一份自举编译测试夹具：[`../../tests/harness_compiler/fixtures/spec-coding-harness/`](../../tests/harness_compiler/fixtures/spec-coding-harness/)。它包含针对当前 Canonical Corpus 的已编译示例、来源账本与独立审查回执；测试会重新执行 `resolve → scan` 并比较来源摘要，同时验证其拒绝无效条件。该目录是测试产物，不是仓库根目录的运行时 Harness，也不是新的 Canonical 事实源。

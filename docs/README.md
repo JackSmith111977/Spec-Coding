@@ -65,7 +65,7 @@ Meta Protocol 定义 Spec Coding 如何被项目接入、解释、装配或转�
 
 - [`meta-protocols/README.md`](meta-protocols/README.md)：Meta Protocol 导航与依赖顺序。
 - [`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)：Project Onboarding Protocol，在 Harness 之前建立或校验 Adoption Baseline。
-- [`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)：Harness Compilation Protocol，消费 Adoption Baseline、Applicable Workflow / Rules 与当前项目能力；先把规范要求归一为 Harness Primitive，再结合 Runtime Architecture Reference、当前官方资料与本地 Runtime Evidence 映射为最小充分 Harness。其确定性 V2 实现位于 [`../tools/harness_compiler/README.md`](../tools/harness_compiler/README.md)。
+- [`meta-protocols/harness-compilation.md`](meta-protocols/harness-compilation.md)：Harness Compilation Protocol，消费 Adoption Baseline、Applicable Workflow / Rules 与当前项目能力；先把规范要求归一为 Harness Primitive，再结合 Runtime Architecture Reference、当前官方资料与本地 Runtime Evidence 映射为最小充分 Harness。其确定性 V2 实现位于 [`../tools/harness_compiler/README.md`](../tools/harness_compiler/README.md)，仓库自举产物仅作为 [`../tests/harness_compiler/fixtures/spec-coding-harness/`](../tests/harness_compiler/fixtures/spec-coding-harness/) 测试夹具维护。
 
 正常关系：
 

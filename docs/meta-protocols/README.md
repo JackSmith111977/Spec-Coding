@@ -5,7 +5,7 @@
 当前正式 Meta Protocol：
 
 1. [`project-onboarding.md`](project-onboarding.md)：Project Onboarding Protocol（项目接入协议），在 Harness 之前建立、复用、刷新或迁移 Target 的 Adoption Baseline。
-2. [`harness-compilation.md`](harness-compilation.md)：Harness Compilation Protocol（Harness 编译协议），消费有效 Adoption Baseline、Applicable Workflow / Rules 与当前项目能力；按需读取 Harness Primitive / Runtime Reference，将规范语义归一后，再结合当前官方资料与本地 Runtime Evidence 编译为最小充分 Harness，并按最低充分能力动态完成 Agent / Model / Thinking / Context / Tool / Workspace 路由。
+2. [`harness-compilation.md`](harness-compilation.md)：Harness Compilation Protocol（Harness 编译协议），消费有效 Adoption Baseline、Applicable Workflow / Rules 与当前项目能力；按需读取 Harness Primitive / Runtime Reference，将规范语义归一后，再结合当前官方资料与本地 Runtime Evidence 编译为最小充分 Harness，并按最低充分能力动态完成 Agent / Model / Thinking / Context / Tool / Workspace 路由。仓库自身的编译示例只在测试夹具中验证，不作为项目运行时入口。
 
 正常依赖关系：
 
