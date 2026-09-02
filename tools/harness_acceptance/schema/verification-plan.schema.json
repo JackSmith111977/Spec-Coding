@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Spec Coding Harness Verification Plan V1",
+  "type": "object",
+  "required": ["schema_version", "semantic_fingerprint", "environment_fingerprint", "adoption_fingerprint", "plan_fingerprint", "candidate_fingerprint", "clause_verifications", "artifact_probes", "provider_probes", "mutations", "acceptance_cases"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "semantic_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "environment_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "adoption_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "plan_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "candidate_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "clause_verifications": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["id", "clause", "method", "expected", "evidence_required"], "additionalProperties": false, "properties": {"id": {"type": "string", "minLength": 1}, "clause": {"type": "string", "minLength": 1}, "method": {"enum": ["deterministic", "runtime_probe", "semantic_behavior"]}, "expected": {"type": "string", "minLength": 1}, "evidence_required": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}}}},
+    "artifact_probes": {"type": "array", "items": {"type": "object", "required": ["id", "artifact_ref", "expected", "evidence_required"], "additionalProperties": false, "properties": {"id": {"type": "string", "minLength": 1}, "artifact_ref": {"type": "string", "minLength": 1}, "expected": {"type": "string", "minLength": 1}, "evidence_required": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}}}},
+    "provider_probes": {"type": "array", "items": {"type": "object", "required": ["id", "provider_ref", "expected", "evidence_required"], "additionalProperties": false, "properties": {"id": {"type": "string", "minLength": 1}, "provider_ref": {"type": "string", "minLength": 1}, "expected": {"type": "string", "minLength": 1}, "evidence_required": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}}}},
+    "mutations": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["id", "target_type", "target_ref", "mutation", "expected_detection", "required_by"], "additionalProperties": false, "properties": {"id": {"type": "string", "minLength": 1}, "target_type": {"enum": ["clause", "provider", "component", "artifact"]}, "target_ref": {"type": "string", "minLength": 1}, "mutation": {"type": "string", "minLength": 1}, "expected_detection": {"type": "string", "minLength": 1}, "required_by": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}}},
+    "acceptance_cases": {"type": "array", "minItems": 5, "items": {"type": "object", "required": ["id", "category", "input", "expected_semantics", "covered_clauses", "evidence_required"], "additionalProperties": false, "properties": {"id": {"type": "string", "minLength": 1}, "category": {"enum": ["load", "process", "boundary", "gate_lifecycle", "exception"]}, "input": {"type": "string", "minLength": 1}, "expected_semantics": {"type": "string", "minLength": 1}, "covered_clauses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "evidence_required": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}}}}
+  }
+}
