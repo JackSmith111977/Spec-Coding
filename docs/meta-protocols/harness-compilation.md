@@ -90,6 +90,8 @@ Adoption Baseline 中不应复制技术栈、CI 命令、模型列表、Runtime 
 
 这是一层可验证实现，不新增平行 Canonical 事实源：Workflow / Rules 继续持有规范语义，Adoption Baseline 继续持有目标接入事实，Current Runtime Evidence 继续持有当前能力事实。
 
+本仓库对 V2 的自举验证使用 `tests/harness_compiler/fixtures/spec-coding-harness/` 中的编译测试夹具：其中的 Adoption Baseline、Route、`AGENTS.md`、来源账本和审查回执只用于证明工具能对真实 Canonical Corpus 形成可追溯产物。它们不是根目录运行时 Harness，不会被作为本仓库的项目指令加载。
+
 ---
 
 ## 3. 转换流程

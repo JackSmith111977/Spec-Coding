@@ -10,18 +10,23 @@
 
 ## Unreleased｜未发布
 
+当前无未发布语义变更。
+
+## 0.11.0 - 2026-09-02
+
 ### Added｜新增
 
 - 新增 Harness Compiler V2 工具实现：双根目录输入、Adoption Baseline / Final Workflow Route 硬前置、Canonical + Adoption 来源解析、稳定 Markdown Block 引用、Compilation State JSON Schema、受限 Compose 与通用 Probe 验证。
-- 新增工具级确定性、失败路径、语义审查场景和受控目标级 E2E 测试；实际 Canonical Corpus 仅执行 Resolver / Scanner 集成扫描。
+- 新增工具级确定性、失败路径、语义审查场景和受控目标级 E2E 测试；新增针对当前 Canonical Corpus 的自举编译测试夹具、来源新鲜度检查与无效条件 Probe。
 
 ### Changed｜调整
 
 - Harness Compilation Protocol 明确 V2 工具只承担可确定性验证的编译边界；Agent 仍持有自然语言 Contract 推导、Runtime Discovery 与独立语义审查，所有生成状态均为短生命周期证据而非新的 Canonical 事实源。
+- 已编译的自举 Harness 从根目录移至 `tests/harness_compiler/fixtures/spec-coding-harness/`；根目录不再包含 `AGENTS.md` 或 `harness/` 运行时入口，测试夹具明确不作为项目指令加载。
 
 ### Notes｜说明
 
-- 未更新 `VERSION`、Manifest 版本或 Git Tag；只有工具完整验证、文档对齐与后续独立 Review 收敛后，才可评估是否形成版本发布变更。
+- `VERSION` 与 Manifest 版本已同步为 `0.11.0`；Git Tag 仍应在功能分支通过完整验证并合并后创建。
 
 ## 0.10.0 - 2026-08-31
 

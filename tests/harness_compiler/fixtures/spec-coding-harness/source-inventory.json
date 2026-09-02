@@ -3,7 +3,7 @@
   "passed": true,
   "diagnostic_count": 0,
   "diagnostics": [],
-  "candidate_inventory": ".harness-state/candidates-v3.json",
+  "candidate_inventory": "tests/harness_compiler/fixtures/spec-coding-harness/.harness-state/candidates.json",
   "source_blocks": [
     {
       "ref": "docs/workflows/main/04-implementation-planning/01-implementation-baseline-handoff.md#preamble@1",
@@ -2616,7 +2616,7 @@
       "fact": "publication-boundary",
       "line_start": null,
       "line_end": null,
-      "content_sha256": "e68dff8204ab9ad5dcc0a345c002d09520c4ebf80145c60baee2d232e505cd00",
+      "content_sha256": "de988e43b5152adcb6b33852f36ac09f34085850755e5b08758d319e6f0364c9",
       "semantic_required": true
     },
     {

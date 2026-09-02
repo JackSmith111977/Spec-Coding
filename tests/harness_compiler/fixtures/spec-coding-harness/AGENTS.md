@@ -1,10 +1,12 @@
-# Spec Coding Repository Harness
+# Spec Coding Harness Test Fixture
+
+> This is a compiled test fixture. It demonstrates the expected repository Harness output, but it is not an active repository-wide instruction.
 
 ## Entry, source binding, and authority
 
-Before any source-derived action, read `VERSION`, `docs/manifest.yaml`, the valid `harness/adoption-baseline.json`, its `harness/final-workflow-route.json`, and `harness/source-inventory.json`. Resolve every route-selected Canonical Workflow and Applicable Rule named by the inventory; the inventory is a digest ledger, not a replacement for the Canonical documents. A missing, conflicting, or stale Adoption Baseline returns work to Project Onboarding; do not infer publication, authority, or target scope.
+Before any source-derived action, read `VERSION`, `docs/manifest.yaml`, the valid fixture `adoption-baseline.json`, its `final-workflow-route.json`, and `source-inventory.json`. Resolve every route-selected Canonical Workflow and Applicable Rule named by the inventory; the inventory is a digest ledger, not a replacement for the Canonical documents. A missing, conflicting, or stale Adoption Baseline returns work to Project Onboarding; do not infer publication, authority, or target scope.
 
-Use the final route in order: implementation planning (`04`), development execution (`05`), then verification convergence (`06`). Follow a stricter applicable rule over a general workflow instruction. The Adoption Baseline binds this Harness only to this repository and permits outputs at the repository root and under `harness/`; it does not authorize changes outside that boundary.
+Use the final route in order: implementation planning (`04`), development execution (`05`), then verification convergence (`06`). Follow a stricter applicable rule over a general workflow instruction. The Adoption Baseline binds this Harness only to this test fixture and permits outputs below the fixture root; it does not authorize changes outside that boundary.
 
 Preserve Requirement → Design → Task → Change → Verification traceability. Tailor depth to risk, but never tailor away Requirement / Scope / Acceptance Criteria correctness, blocking Open Items, necessary Gates, risk-matched Evidence, authority boundaries, correction routing, or a Task Commit and `code_ref` when Git-fixed change exists. An `OI-xxx` retains one authoritative source and is not silently copied, closed, or bypassed. Risk, Finding, and Open Item are distinct facts.
 
@@ -42,4 +44,4 @@ Autonomous work may change only an established Contract-bound implementation det
 
 ## Repository release guard
 
-Work on a feature branch. Do not merge to `main`, tag, release, or change version fields until the required deterministic checks, independent review, and release gate have passed. Run `python3 harness/verify-harness.py` and `python3 -m unittest discover -v` before requesting integration. The compiler state and reports under `.harness-state/` are evidence for this compilation, not a replacement for the Canonical documents.
+The modeled target works on a feature branch. Do not merge to `main`, tag, release, or change version fields until the required deterministic checks, independent review, and release gate have passed. Verify this fixture through `python3 -m unittest discover -v`. The compiler state and reports under `.harness-state/` are evidence for this compilation, not a replacement for the Canonical documents.

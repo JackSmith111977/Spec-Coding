@@ -13,7 +13,7 @@
   "integration": {
     "scope": "repository"
   },
-  "workflow_route": "harness/final-workflow-route.json",
+  "workflow_route": "tests/harness_compiler/fixtures/spec-coding-harness/final-workflow-route.json",
   "constraints": [
     {
       "id": "branch-governance",
@@ -21,7 +21,7 @@
     },
     {
       "id": "publication-boundary",
-      "value": "repository-native-root-and-harness"
+      "value": "test-fixture-only; compiled artifacts stay below tests/harness_compiler/fixtures/spec-coding-harness"
     },
     {
       "id": "verification-policy",

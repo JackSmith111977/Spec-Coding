@@ -11,6 +11,7 @@ import unittest
 from pathlib import Path
 
 from tools.harness_compiler.scan import scan_markdown
+from tests.harness_compiler.verify_spec_coding_harness import verify_fixture
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
@@ -83,7 +84,7 @@ class HarnessCompilerV2Tests(unittest.TestCase):
         }
         checks["semantic_fidelity"]["reviewer"] = {"independent": True, "verdict": "pass", "findings": []}
         state = {
-            "compilation": {"spec_version": "0.10.0", "target_id": "fixture-target", "adoption_sha256": baseline_sha},
+            "compilation": {"spec_version": "0.11.0", "target_id": "fixture-target", "adoption_sha256": baseline_sha},
             "sources": sources,
             "contracts": [
                 {"id": "CT-001", "source": [source["id"] for source in semantic_sources], "guarantee": "instruction is available", "strength": "must"},
@@ -375,6 +376,18 @@ class HarnessCompilerV2Tests(unittest.TestCase):
             refs = {block["ref"] for block in json.loads(inventory.read_text(encoding="utf-8"))["source_blocks"]}
             self.assertIn("docs/workflows/main/01b-project-understanding/01-project-orientation.md#preamble@1", refs)
             self.assertIn("adoption://publication-boundary", refs)
+
+    def test_self_hosted_harness_fixture_is_current_and_rejects_invalid_conditions(self) -> None:
+        self.assertEqual(verify_fixture(), [])
+        probe = subprocess.run(
+            [sys.executable, "tests/harness_compiler/verify_spec_coding_harness.py", "--probe"],
+            cwd=REPOSITORY_ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertNotEqual(probe.returncode, 0)
+        self.assertIn("intentional invalid Harness fixture conditions rejected", probe.stderr)
 
 
 if __name__ == "__main__":

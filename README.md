@@ -6,7 +6,7 @@ Spec Coding / SDD（Specification-Driven Development，规格驱动开发）是�
 
 它不尝试规定某一种语言、框架或 Agent，而是把模糊意图逐步收敛为可追溯的 Requirement → Design → Task → Change → Verification，并通过 Meta Protocol（元协议）先建立项目接入关系，再把适用 Workflow（流程）、Rules（规则）与项目环境转换成当前项目真正需要的最小 Harness（执行框架）。
 
-**Version:** [`0.10.0`](VERSION) · **Status:** `candidate`
+**Version:** [`0.11.0`](VERSION) · **Status:** `candidate`
 
 ---
 
@@ -103,7 +103,7 @@ Harness Ready
 
 - [`Project Onboarding Protocol`](docs/meta-protocols/project-onboarding.md) 负责识别 Target、协作 / 发布方式、Spec Workspace、稳定 Repository / Authority 约束，以及 Existing Adoption 是否需要 Reuse / Refresh / Migrate。
 - [`Harness Compilation Protocol`](docs/meta-protocols/harness-compilation.md) 消费有效 Adoption Baseline、Applicable Workflow / Rules 与当前 Target Environment；先把规范要求归一为必要 Harness Primitive，再结合 Runtime Architecture Reference、当前官方资料与 Local Runtime Evidence 映射为当前 Coding Agent 的真实 Surface，只补真实 Capability / Reliability / Selection Gap，并按最低充分能力形成 Agent / Model / Thinking / Context / Tool / Workspace 路由。
-- [`Harness Compiler V2 tools`](tools/harness_compiler/README.md) 为该协议提供双根目录、接入基线门禁、稳定来源扫描、State Schema、唯一写入边界与只读验证；Agent 继续持有语义推导和独立审查责任。
+- [`Harness Compiler V2 tools`](tools/harness_compiler/README.md) 为该协议提供双根目录、接入基线门禁、稳定来源扫描、State Schema、唯一写入边界与只读验证；Agent 继续持有语义推导和独立审查责任。仓库自身的已编译示例仅作为测试夹具保存在 `tests/harness_compiler/fixtures/spec-coding-harness/`，不会成为根目录运行时指令。
 
 已有 Adoption Baseline 与 Harness 仍有效时直接复用，因此普通 Requirement / Task 不需要重复初始化。
 
