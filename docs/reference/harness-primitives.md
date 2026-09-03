@@ -2,15 +2,17 @@
 
 本文件为 Harness Compilation 提供跨 Coding Agent Runtime 的共同能力语言。它属于 Reference（参考）文档，不定义 Workflow、Rule 或 Meta Protocol 的规范语义，也不描述某个 Runtime 当前版本的完整能力。
 
-核心目标是：**先把 Spec Coding 的语义要求归一为稳定 Harness Primitive，再由 Runtime Architecture 与当前 Runtime Evidence 决定具体实现。**
+核心目标是：**先把 Spec Coding 的语义要求归一为稳定 Harness Primitive，再由公开标准与当前 Runtime Evidence 决定具体实现。**
 
 ```text
 Spec Coding Semantic
         ↓
 Harness Primitive
         ↓
-Runtime-native Surface
+Public Standard / Runtime-native Surface
 ```
+
+公开协议的当前采用基线、版本 / 状态、Official Sources 与 Freshness 统一见 [`harness-standards.md`](harness-standards.md)；本文件只维护 Primitive 的稳定语义与分类，避免重复维护快速变化的协议事实。
 
 ---
 
@@ -30,6 +32,8 @@ Runtime-native Surface
 
 ## 2. Open Standards / Formats｜开放标准与开放格式
 
+以下条目只用于说明 Primitive 与公开标准之间的概念关系；当前规范版本、成熟度和采用边界以 [`harness-standards.md`](harness-standards.md) 为准。
+
 ### MCP｜Model Context Protocol（模型上下文协议）
 
 **Classification:** Open Protocol
@@ -46,12 +50,6 @@ MCP available and sufficient?
    └─ no  → runtime-native tool / extension / script
 ```
 
-**Official Sources**
-
-- https://modelcontextprotocol.io/
-- https://modelcontextprotocol.io/specification/
-- https://modelcontextprotocol.io/llms.txt
-
 ### Agent Skills｜Agent 技能开放格式
 
 **Classification:** Open Format
@@ -59,12 +57,6 @@ MCP available and sufficient?
 以包含 `SKILL.md` 的目录封装可发现、按需加载的程序性知识、脚本与参考资料。
 
 适合可复用的复杂方法，不适合存储动态模型信息、Task State 或长期项目事实。
-
-**Official Sources**
-
-- https://agentskills.io/
-- https://agentskills.io/specification
-- https://agentskills.io/llms.txt
 
 ### AGENTS.md｜Coding Agent 项目指令格式
 
@@ -74,10 +66,6 @@ MCP available and sufficient?
 
 适合多个 Runtime 共享的轻量项目约束；不应承载会话状态、模型路由缓存或 Task State。
 
-**Official Source**
-
-- https://agents.md/
-
 ### ACP｜Agent Client Protocol（Agent 客户端协议）
 
 **Classification:** Open Protocol
@@ -85,13 +73,6 @@ MCP available and sufficient?
 标准化 Editor / IDE / Agent Client 与 Coding Agent Runtime 之间的通信，使 Agent Runtime 与客户端 UI 解耦。
 
 适合 IDE 嵌入、长期 Agent Host、跨客户端复用同一 Agent Runtime。
-
-**Official Sources**
-
-- https://agentclientprotocol.com/
-- https://agentclientprotocol.com/get-started/introduction
-- https://agentclientprotocol.com/get-started/architecture
-- https://agentclientprotocol.com/llms.txt
 
 ### A2A｜Agent2Agent Protocol（Agent 间协议）
 
@@ -101,22 +82,11 @@ MCP available and sufficient?
 
 当 Subagent 是远程独立 Agent Service，而不是当前 Runtime 的本地子会话时，可优先检查 A2A。
 
-**Official Sources**
-
-- https://a2a-protocol.org/
-- https://a2a-protocol.org/dev/specification/
-
 ### Agent Plugins｜Agent 插件开放格式
 
 **Classification:** Open Package Format
 
 Agent Plugins 提供 vendor-neutral 的可移植插件封装。当前可移植核心以 Agent Skills 与 MCP Server 为主；Hooks、Agents、Rules 等 Runtime-specific 能力不能因为被某个 Plugin 支持就被视为统一标准。
-
-**Official Sources**
-
-- https://agent-plugins.org/
-- https://agent-plugins.org/specification
-- https://agent-plugins.org/schemas
 
 ---
 
@@ -168,7 +138,7 @@ Plugin    ≠ Agent Plugins Standard
 
 ## 5. Compilation Use｜编译使用方式
 
-Harness Compilation 应按以下顺序使用本参考：
+Harness Compilation 应按以下顺序使用 Reference：
 
 ```text
 Workflow / Rule / Adoption Requirement
@@ -176,6 +146,8 @@ Workflow / Rule / Adoption Requirement
 Required Semantic Guarantee
         ↓
 Required Harness Primitive Set
+        ↓
+Public Standard Adoption Reference
         ↓
 Runtime Architecture Reference
         ↓
@@ -194,8 +166,9 @@ Runtime-native Mechanism
 
 ## 6. 维护边界
 
-本文件只维护稳定语义与开放规范入口，不维护：
+本文件只维护稳定 Primitive 语义与分类，不维护：
 
+- 外部协议当前版本、成熟度或 Preview 状态；
 - Runtime 当前版本；
 - 当前模型或 Thinking 档位；
 - 当前 Hook Event 数量；
@@ -203,4 +176,4 @@ Runtime-native Mechanism
 - Runtime-specific 配置字段；
 - Pricing、Quota 或 Availability。
 
-这些属于 Runtime Discovery（运行时发现），由 [`coding-agent-runtimes.md`](coding-agent-runtimes.md) 提供官方事实入口，并由 [`../meta-protocols/harness-compilation.md`](../meta-protocols/harness-compilation.md) 在编译时重新确认。
+公开协议状态与 Freshness 由 [`harness-standards.md`](harness-standards.md) 维护；Runtime Architecture 与官方事实入口由 [`coding-agent-runtimes.md`](coding-agent-runtimes.md) 维护；当前环境能力由 [`../meta-protocols/harness-compilation.md`](../meta-protocols/harness-compilation.md) 的 Environment Discover 使用当前证据重新确认。
