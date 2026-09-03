@@ -139,13 +139,19 @@ Build Manifest 至少保存：
 
 ### Release & Lifecycle
 
-当前阶段默认：
+发布只接受 Stage 3 `PASS` 的固定 Candidate，并遵守以下边界：
+
+- **Verified Release Only｜仅发布已验证候选**：只有 Stage 3 `PASS` Candidate 可以进入正式发布；
+- **Identity Preservation｜保持内容身份**：Stage 4 只核对并发布，不修改 Harness Artifact、Build Manifest、Package Envelope 或其他会改变 Candidate 内容身份的发布内容；需要修改时形成新 Candidate 并重新验证；
+- **Version Identity Before Verification｜版本身份先于最终验证**：最终预期版本及属于 Candidate 的版本元数据应在 Stage 3 Candidate Freeze 前确定；
+- **Git-backed History｜Git 承担历史**：`packages/harness/` 只维护当前版本，历史通过 Git Tag / GitHub Release 获取；
+- **Re-enter Pipeline｜变化重新入链**：发布后的 Canonical Delta、Harness Defect、Standard / Packaging Delta 或 Artifact Add / Update / Remove 均重新进入 Stage 1，禁止直接热修 Release Artifact。
+
+当前阶段继续保持：
 
 ```text
 Spec Coding VERSION = Harness Package VERSION
 ```
-
-不提前建立独立 IR / Component / Compiler 版本森林。历史发行通过 Git Tag / GitHub Release 获取；`packages/harness/` 只维护当前版本结构。
 
 ---
 
@@ -180,12 +186,14 @@ Spec Coding VERSION = Harness Package VERSION
 | `MINOR` | `0.x` 阶段的主要结构 / 语义演进，或新增兼容能力、规则、治理、Meta Protocol / Harness 发行能力 |
 | `PATCH` | 不改变 Canonical 语义的 Harness 修复、拼写、链接、格式或纯文档修正；Harness 修复改变实际执行行为时需在 CHANGELOG 明确 |
 
-形成版本时同步：
+形成最终候选发布身份时同步：
 
 - `VERSION`
 - `docs/manifest.yaml` 的 `spec_coding_version / status`
 - `CHANGELOG.md`
 - 当前 Harness Package / Build Manifest / Release Metadata
+
+这些属于 Candidate 内容身份的部分应在 Stage 3 最终验证前确定；验证后若发生影响 Candidate 身份的变化，必须重新验证。
 
 ---
 
@@ -204,11 +212,11 @@ Harness Build Scope（若影响 Harness）
   ↓
 Full or Incremental Precompile / Assembly
   ↓
+Candidate version identity convergence（需要时）
+  ↓
 Structural + Semantic + Behavioral Verification
   ↓
-Version convergence（需要时）
-  ↓
-Merge / Release
+Merge / Tag / Release
 ```
 
 合入前至少确认：
@@ -223,6 +231,7 @@ Merge / Release
 - Independent Semantic Review 由直接读取 Canonical 的 Reviewer 完成；
 - Behavioral Challenge 的 Test Agent 未读取 Canonical；
 - 最终准备发布的 Package 内容身份与验证通过 Candidate 完全一致；
+- Stage 3 `PASS` 后未直接修改 Candidate；
 - 生成 Harness 没有遗漏、弱化或新增 Canonical 行为；
 - Package 内容 Hash 与验证对象一致；
 - 不存在旧 Semantic IR / V3 compiler、废弃 fixture 或平行事实源残留；
