@@ -8,7 +8,7 @@ docs/
 ├── rules/           # 持续适用规则
 ├── meta-protocols/  # 项目接入与 Harness 编译
 ├── governance/      # 仓库、版本与 Semantic Compilation 治理
-├── reference/       # 术语、Harness Primitive、Runtime 参考
+├── reference/       # 术语、Harness Primitive、公开标准、Runtime 参考
 ├── overview.md
 └── manifest.yaml
 ```
@@ -78,13 +78,14 @@ Rules 不推进阶段状态；正式消费者引用规则语义，不复制规�
 
 ## Reference｜参考
 
-Reference 是非规范知识层：
+Reference 是非规范知识层；统一入口见 [`reference/README.md`](reference/README.md)：
 
-- [`reference/glossary.md`](reference/glossary.md)
-- [`reference/harness-primitives.md`](reference/harness-primitives.md)
-- [`reference/coding-agent-runtimes.md`](reference/coding-agent-runtimes.md)
+- [`reference/glossary.md`](reference/glossary.md)：术语与规范中文解释；
+- [`reference/harness-primitives.md`](reference/harness-primitives.md)：跨 Runtime Harness 抽象能力；
+- [`reference/harness-standards.md`](reference/harness-standards.md)：公开协议 / 开放格式、Portable / Adapter 边界、官方 Source 与 Freshness；
+- [`reference/coding-agent-runtimes.md`](reference/coding-agent-runtimes.md)：Runtime Architecture Invariant 与官方事实入口。
 
-Current Runtime Capability 始终由当前 Local / Official Evidence 决定。
+Current Runtime Capability 始终由当前 Local / Official Evidence 决定；快速变化的协议与 Runtime 事实遵循 **Stale + Relevant → Refresh**。
 
 ## Canonical Corpus｜规范文档集
 
