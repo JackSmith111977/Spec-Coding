@@ -433,47 +433,86 @@ Stage 3 负责发现、归因和阻断，不直接修改 Candidate 后继续判�
 
 # 4. Release & Lifecycle Convergence｜发布与生命周期收敛
 
-## 4.1 Version Binding｜版本绑定
+## 4.1 Release Identity Convergence｜发布身份收敛
 
-当前阶段默认：
+Stage 4 只接受 Stage 3 `PASS` 的固定 Candidate。进入最终验证前，应已确定本次预期发布身份；Stage 4 只核对，不再改变候选内容。
+
+当前阶段保持：
 
 ```text
 Spec Coding VERSION = Harness Package VERSION
 ```
 
-不提前建立 IR / Component / Compiler / Bundle 的独立版本森林。
+发布前至少核对：
 
-## 4.2 Release Content｜发布内容
+- Repository `VERSION`；
+- `docs/manifest.yaml` 的版本 / 状态；
+- Harness Package / Build Manifest version；
+- Build Manifest 的 `source_revision`；
+- Package / Artifact Hash 与通过验证的 Candidate；
+- CHANGELOG / Release Note 与必要兼容约束。
 
-正式 Release 至少包含：
+如果此时必须修改 Harness Artifact、Build Manifest、Package Envelope 或其他会改变 Candidate 内容身份的发布元数据，则该 Candidate 失效，必须形成新 Candidate 并重新进入 Stage 3。
 
-- 当前 Harness Package；
-- Build Manifest；
-- 必要 Integrity Metadata；
-- Release Note / CHANGELOG；
-- 已确认的最低兼容 / 使用约束。
+> **Release the verified candidate unchanged.｜发布已验证 Candidate 的原样内容。**
 
-`packages/harness/` 只维护当前版本；历史通过 Git Tag / GitHub Release 获取。
+## 4.2 Publish Release｜正式发布
 
-## 4.3 Create / Update / Remove｜组件生命周期
+只有 `PASS` Candidate 可以形成正式 Release：
 
 ```text
-Create → Build → Verify → Release
-Update → Affected Build → Verify → Release
-Remove → Prove behavior remains covered → Remove → Verify → Release
+Verified Candidate
+        ↓
+Merge / Release Commit
+        ↓
+Git Tag
+        ↓
+GitHub Release
 ```
 
-## 4.4 Rollback｜回滚
+正式 Release 至少绑定：
 
-发布后发现 Harness Defect 时：能安全修复则进入新 Build Scope；无法立即可靠修复则回滚到最近已验证 Release。不得手工修改 Release Artifact 绕过 Source / Build / Verification Trace。
+- Harness Package；
+- Build Manifest 与 `source_revision`；
+- Package version 与必要 Integrity Metadata；
+- CHANGELOG / Release Note；
+- 已确认的最低兼容 / 使用约束。
 
-## 4.5 完成条件
+`packages/harness/` 只维护当前版本；历史通过 Git Tag / GitHub Release 获取，不维护平行版本目录。
 
-- Package 版本与仓库版本事实一致；
-- Release Artifact 与验证通过的 Candidate 一致；
-- Build Manifest 绑定最终 `source_revision`；
-- Release Note / CHANGELOG 能解释实际行为变化；
-- 后续 Target 只需消费已发布 Package。
+## 4.3 Lifecycle Convergence｜生命周期收敛
+
+发布后的任何变化都重新进入 Stage 1，包括：
+
+- Canonical Delta；
+- Harness Defect；
+- Standard / Packaging Delta；
+- Artifact Add / Update / Remove。
+
+```text
+Post-release Delta
+        ↓
+Stage 1 Build Scope
+        ↓
+Stage 2 Build
+        ↓
+Stage 3 Verify
+        ↓
+Stage 4 Release
+```
+
+发布后发现 Harness Defect 时：能可靠修复则进入新的 Build Scope；无法立即可靠修复则回滚到最近已验证 Release。不得直接修改已发布 Artifact 绕过 Source / Build / Verification Trace。
+
+> **Every post-release change re-enters the build pipeline.｜发布后的任何修改都重新进入构建链。**
+
+## 4.4 完成条件
+
+- Release identity 与 Stage 3 `PASS` Candidate 完全一致；
+- Git Tag / GitHub Release 绑定正式版本与对应内容身份；
+- Build Manifest、`source_revision` 与 Integrity Metadata 正确；
+- CHANGELOG / Release Note 与实际变化一致；
+- 最近已验证 Release 可作为可靠回滚点；
+- 后续 Target 只消费正式 Released Harness Package。
 
 ---
 
@@ -506,5 +545,8 @@ Project Onboarding 只建立 Adoption Baseline，不参与 Harness Build。
 - **Reviewer reads source｜独立 Reviewer 直接读取 Canonical**；
 - **Test Agent reads Harness only｜行为测试只以 Harness 驱动执行**；
 - **Verify fixed candidate｜只发布被验证过的确定 Candidate**；
+- **Release unchanged｜发布阶段不修改已验证 Candidate**；
+- **Git-backed history｜历史版本由 Git Tag / GitHub Release 承担**；
+- **Re-enter on change｜发布后任何变化重新进入 Stage 1**；
 - **Build internals stay internal｜构建内部状态不暴露给使用方**；
 - **Release is versioned｜使用方只消费经过验证的版本化 Harness Package**。
