@@ -10,7 +10,7 @@ docs/
 ├── rules/           # 持续适用规则
 ├── meta-protocols/  # 项目接入与 Harness 编译
 ├── governance/      # 仓库、版本、Semantic Compilation 治理
-├── reference/       # 术语、Harness Primitive、Runtime 参考
+├── reference/       # 术语、Harness Primitive、公开标准、Runtime 参考
 ├── README.md
 ├── overview.md
 └── manifest.yaml
@@ -36,7 +36,7 @@ tools/
 6. **Semantic IR Is Derived｜Semantic IR 是派生物**：Canonical Markdown 改变后必须重新编译；不得通过直接修改 released IR 改变 Spec Coding 语义。
 7. **Adoption Persists Stable Intent｜Adoption 只持久化稳定接入**：只保存 Declared Intent、Target / Workspace / Repository Binding、Publication / Authority Constraint；动态 Runtime / Loader / Model / Tool / CI / Existing Harness 不进入 Baseline。
 8. **Environment Facts Stay Dynamic｜环境事实保持动态**：Environment Discovery 使用 Current Local / Official Evidence 重发现事实；Reference 与当前证据冲突时 Current Evidence 优先。
-9. **Reference Is Non-normative｜参考资料非规范**：`reference/` 只提供共同语言、架构不变量与官方事实入口。
+9. **Reference Is Non-normative｜参考资料非规范**：`reference/` 只提供共同语言、Harness Primitive、公开标准采用基线、Runtime 架构不变量与官方事实入口。
 10. **No Silent Semantic Change｜禁止静默语义变化**：润色、Reference Refresh 或目录迁移不得顺带改变 Canonical 契约。
 11. **Glossary Sync｜术语同步**：核心术语或规范译法变化时同步 Glossary。
 12. **Version Evidence｜版本证据**：形成版本时统一同步 `VERSION + manifest + CHANGELOG`；普通功能分支可在收敛前保持当前版本。
@@ -111,15 +111,28 @@ Stage 4 只消费已经通过 Stage 3 的 Candidate，不在验收层静默修�
 
 Verification Finding 必须标记最早 Fault Layer：`semantic / environment / adaptation / candidate / runtime`，并回到最早失真源修正，而不是在 Stage 4 形成新的设计事实源。
 
-## Runtime Reference 治理
+## External Reference Governance｜外部参考治理
 
-Runtime 高频变化分为：
+Reference 分工：
+
+| Reference | 长期维护内容 | 不承担 |
+|---|---|---|
+| `harness-primitives.md` | 稳定 Harness Primitive 与能力边界 | 外部协议当前版本 / Runtime 当前事实 |
+| `harness-standards.md` | 公开协议采用基线、Portable / Adapter 边界、官方 Source、Freshness | 当前 Runtime 是否真的支持该标准 |
+| `coding-agent-runtimes.md` | Runtime Architecture Invariant 与官方事实入口 | 当前版本、模型、Feature Flag、动态配置 |
+
+外部高频变化按 Delta 类型处理：
 
 | Delta | 示例 | 默认处理 |
 |---|---|---|
-| Feature Delta | 新模型、新 Hook、新参数、Feature Flag | Environment Discover 重新发现，不要求立即更新 Reference |
-| Source / Lifecycle Delta | 产品改名、文档迁移、deprecated | 更新 Runtime Reference 的身份 / 官方入口 |
+| Standard Delta | Agent Plugins / Skills / MCP 发布新规范 | 先刷新 Source Baseline；只有 Adoption Decision 改变时才传播到受影响 Component / Adapter |
+| Feature Delta | 新模型、新 Hook、新参数、Feature Flag | Environment Discover 重新发现，不要求立即更新 Runtime Reference |
+| Source / Lifecycle Delta | 产品改名、文档迁移、deprecated | 更新 Reference 的身份 / 官方入口 |
 | Architecture Delta | Plugin / Agent Runtime 边界根本变化 | 更新 Architecture Invariant；必要时进入 Spec Coding 语义演进 |
+
+Fast-changing Reference 遵循：
+
+> **Stale + Relevant → Refresh｜陈旧且当前相关时刷新。**
 
 Reference Drift 默认不阻塞业务 Workflow；只有当前关键 Capability / Permission / Loader 无法可靠确定时，Environment Handoff / Harness Ready 才被阻断。
 
