@@ -153,21 +153,58 @@ validation_focus:
 
 ## 2.1 目标
 
-直接从 Scope 内 Canonical 文档生成适合复用和分发的 Harness Artifact，并优先采用已有公开标准 / 开放格式。
+直接读取当前 Canonical，并将 Build Scope 内 Harness Artifact 重新生成、装配为可验证的 Harness Package Candidate。
 
 ```text
-Canonical Docs
+Build Scope
       ↓
-Understand stable behavior
+Direct Canonical Read
       ↓
-Select standard Harness form
+Transform & Assemble
       ↓
-Generate / Update / Remove artifacts
+Source Backcheck & Record
       ↓
-Assemble Harness Package
+Harness Package Candidate
 ```
 
-## 2.2 Standards-first Mapping｜标准优先映射
+> **Diff scopes the build; Canonical drives the content.｜Diff 只决定重建谁，Canonical 原文决定生成什么。**
+
+## 2.2 Direct Canonical Read｜直接读取规范
+
+Builder 直接读取当前 Canonical Markdown，不通过 Summary、Clause、IR 或其他 Agent 的二次转述替代原文。
+
+### Full Build
+
+首次 Full Build 依据 `docs/manifest.yaml` 的 Canonical 集合与 Rule 适用范围，逐 Artifact 直接读取所需 Workflow / Rule / Meta Protocol。可以分批处理，但每个 Builder 必须直接消费原始 Canonical。
+
+### Incremental Build
+
+Stage 1 只负责确定 `affected_artifacts`。一旦 Artifact 被判定为受影响，Builder 必须重新读取该 Artifact **完整、当前的 Canonical Sources**，再重新生成整个 Artifact。
+
+```text
+Git Diff
+      ↓
+Affected Artifact
+      ↓
+Reread complete current Canonical
+      ↓
+Rebuild complete Artifact
+```
+
+禁止将 Git Diff 作为 Harness 内容生成输入并直接 patch 旧 Artifact：
+
+```text
+Diff → patch old Skill        # 禁止
+Diff → stale Artifact → reread Canonical → rebuild   # 正确
+```
+
+这样可以避免多轮增量构建积累语义漂移。
+
+## 2.3 Transform & Assemble｜转化与装配
+
+读取 Canonical 后直接转化为适合复用和分发的公开标准 / 开放格式，不增加长期中间表示。
+
+### Standards-first Mapping｜标准优先映射
 
 | Canonical / Capability | Preferred Harness Form |
 |---|---|
@@ -181,15 +218,54 @@ Assemble Harness Package
 
 一段行为需要多个 Harness Mechanism 时直接组合已有标准与必要 Runtime Requirement，不额外创造 Spec Coding 私有 Component Protocol。
 
-## 2.3 Canonical-first Generation｜Canonical 直接生成
+信息转化以**执行保真与可达性**为目标，不以字数压缩率为目标：
 
-Harness Artifact 直接消费 Canonical Workflow / Rules / Meta Protocol，不先生成长期 Semantic IR 再重建流程。
+```text
+Main Procedure
+→ SKILL.md
 
-构建内部可以临时使用 Worklist、Checklist、原子化语义拆解、Fresh Reviewer、Mutation / Adversarial Challenge 或确定性工具，但这些都只属于 Build Internals，不进入 Release Package。
+Supporting Guidance / Explanation / Example
+→ references/ 或仍保留在 SKILL.md
 
-## 2.4 Build Manifest｜构建清单
+Template / Checklist
+→ assets/
 
-Build Manifest 是最薄的 Release Bill of Materials（发布物料清单），至少记录：
+Portable Capability
+→ standard Harness surface
+
+Runtime-specific Capability
+→ requirement / adaptation boundary
+```
+
+转化必须保持以下不变量：
+
+1. **Hard Semantics Preserved｜强语义完整**：`MUST / MUST NOT / Gate / Authority / Boundary / Trigger / State / Transition / Exception / Routing` 不得遗漏、弱化或改变；
+2. **Procedure Preserved｜流程完整**：进入条件、执行步骤、推进条件、失败路由与结束条件保持连贯；
+3. **Useful Guidance Reachable｜有效指导可达**：会影响 Agent 正确执行的启发式、解释和示例不得因精炼而消失；
+4. **No Invented Norms｜禁止新增规范行为**：不得把 Guidance 擅自升级为 MUST，也不得新增 Canonical 不存在的 Gate / Authority / Boundary。
+
+## 2.4 Source Backcheck & Record｜原文回查与记录
+
+Artifact 生成后，Builder 必须直接回到本轮实际读取的 Canonical 原文进行一次 Source Backcheck（原文回查）：
+
+```text
+Current Canonical
+       ↕
+Generated Harness
+```
+
+至少检查：
+
+- Hard Semantics 是否遗漏、弱化或冲突；
+- Procedure 是否断裂或改变执行顺序；
+- Gate / Authority / Boundary 是否仍保持原意；
+- Exception / Routing 是否完整；
+- 对执行有价值的 Guidance / Example 是否仍然可达；
+- Harness 是否新增 Canonical 不存在的强制行为。
+
+发现问题时直接修正 Harness 并再次回查。此步骤不生成持久化 Coverage IR、Mapping DSL 或新的事实源；独立 Fresh Review 仍由 Stage 3 负责。
+
+回查通过后更新 Build Manifest。`sources` 表示**生成当前 Artifact 时实际直接读取并依赖的 Canonical 文件**，而不是摘要、IR、宽泛目录或推理中间产物：
 
 ```yaml
 version: 0.12.0
@@ -208,17 +284,17 @@ artifacts:
     sha256: ...
 ```
 
-其中 `sources` 应尽量记录**实际依赖的 Canonical 文件**，使下一轮可以直接执行 Source → Artifact 反向查询。
-
-Build Manifest 不是新的 Harness Protocol，也不是第二套规范事实源。
+Build Manifest 只记录最终派生关系与内容身份，不记录 Builder 摘要、推理过程或审查 scratch state。
 
 ## 2.5 完成条件
 
-- Scope 内 Output 已创建 / 更新 / 删除；
+- Scope 内 Artifact 已创建 / 更新 / 删除；
+- 所有受影响 Artifact 均由完整当前 Canonical 重新读取并生成，而不是按 Diff patch；
 - Portable Artifact 优先使用公开标准且未弱化 Canonical 语义；
+- Hard Semantics、Procedure 与执行所需 Guidance 保持完整可达；
 - Runtime-specific 能力只保留 Requirement / Extension Boundary；
-- Package 不存在明显重复实现；
-- Build Manifest 已更新 `source_revision`、Source Trace 与 Artifact Hash；
+- Builder Source Backcheck 已完成且无未处理偏差；
+- Build Manifest 已更新 `source_revision`、实际直接读取的 Source Trace 与 Artifact Hash；
 - Package Envelope 已基于当前候选全量重生成。
 
 ---
@@ -349,9 +425,11 @@ Project Onboarding 只建立 Adoption Baseline，不参与 Harness Build。
 - **Canonical Only｜Canonical 唯一事实源**；
 - **Full first｜首次构建全量建立 Package 与 Source Mapping**；
 - **Diff-driven after release｜后续以上一正式 Release 为基线增量构建**；
+- **Diff scopes, Canonical generates｜Diff 只定范围，Canonical 原文负责生成**；
+- **Reread before rebuild｜受影响 Artifact 每次从完整当前 Canonical 重读重建**；
 - **Incremental when provable｜能证明范围时增量，不能证明时全量**；
 - **Standards first｜公开标准优先**；
 - **Compose, don't reinvent｜组合已有机制，不创造无必要协议层**；
-- **Verify against source｜生成 Harness 直接对照 Canonical 验证**；
+- **Backcheck against source｜生成后直接回到 Canonical 原文检查转化保真**；
 - **Build internals stay internal｜构建内部状态不暴露给使用方**；
 - **Release is versioned｜使用方只消费经过验证的版本化 Harness Package**。
