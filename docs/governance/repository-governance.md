@@ -127,13 +127,15 @@ Build Manifest 至少保存：
 
 ### Verification & Review
 
-至少区分：
+验证针对固定 Harness Package Candidate，并遵守以下边界：
 
-- Structural Verification：格式、引用、路径、Hash、Manifest、`source_revision`；
-- Semantic Review：Canonical ↔ Generated Harness 直接对照；
-- Behavioral Test：必要时由 Fresh Agent 挑战关键 Process、Boundary、Authority / Gate 与 Exception。
+- **Fixed Candidate｜固定候选**：进入验证后固定 Candidate 的 Commit / Hash；任何修改都会产生新 Candidate 并重新验证；
+- **Deterministic Structural Verification｜确定性结构验证**：格式、引用、路径、Manifest、`source_revision`、Source Trace、Artifact Hash 与 Package Envelope 优先机器检查；
+- **Independent Reviewer｜独立审查**：Semantic Reviewer 直接读取 Canonical 与 Candidate，不依赖 Builder Summary、Source Backcheck 结论或 Builder 推理；
+- **Harness-only Behavioral Test｜仅 Harness 行为测试**：Fresh Test Agent 只消费 Harness Candidate 与 Scenario，不读取 Canonical；Canonical 仅作为 Reviewer 的 Test Oracle；
+- **Affected Verification｜受影响验证**：Full Build 全量审查；Incremental Build 全量执行 Package Structural Verification，Semantic Review 聚焦 `affected_artifacts`，Behavioral Challenge 聚焦 `validation_focus`；共享 Rule / Bootstrap / Routing / Package Composition 变化时扩大到包级集成挑战。
 
-验证失败回到最早失真源，不在验证层形成新的行为事实源。
+验证失败回到最早失真源，不在验证层直接修 Candidate 后继续判定 PASS。最终只允许 `PASS / BLOCKED`。
 
 ### Release & Lifecycle
 
@@ -218,6 +220,9 @@ Merge / Release
 - Builder Source Backcheck 已完成；
 - Harness Package 的 Source Trace 指向本轮实际直接读取的当前 Canonical；
 - Build Manifest 的 `source_revision` 与最终验证对象一致；
+- Independent Semantic Review 由直接读取 Canonical 的 Reviewer 完成；
+- Behavioral Challenge 的 Test Agent 未读取 Canonical；
+- 最终准备发布的 Package 内容身份与验证通过 Candidate 完全一致；
 - 生成 Harness 没有遗漏、弱化或新增 Canonical 行为；
 - Package 内容 Hash 与验证对象一致；
 - 不存在旧 Semantic IR / V3 compiler、废弃 fixture 或平行事实源残留；
