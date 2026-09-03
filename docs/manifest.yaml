@@ -20,8 +20,10 @@ navigation:
   exception_flows: workflows/exceptions/README.md
   repository_governance: governance/repository-governance.md
   semantic_compilation: governance/semantic-compilation.md
+  reference_index: reference/README.md
   glossary: reference/glossary.md
   harness_primitives: reference/harness-primitives.md
+  harness_standards: reference/harness-standards.md
   coding_agent_runtimes: reference/coding-agent-runtimes.md
   stage_overviews:
     - workflows/main/01a-project-definition/README.md
@@ -38,8 +40,10 @@ governance:
   semantic_compilation: governance/semantic-compilation.md
 
 reference:
+  index: reference/README.md
   glossary: reference/glossary.md
   harness_primitives: reference/harness-primitives.md
+  harness_standards: reference/harness-standards.md
   coding_agent_runtimes: reference/coding-agent-runtimes.md
 
 rule_documents:
@@ -194,7 +198,7 @@ rules:
   - Documents listed under exception_workflows.documents are canonical exception workflow documents and are loaded only when their trigger applies.
   - Documents listed under meta_protocols are canonical meta protocol documents and define Spec Coding onboarding, composition, or transformation behavior without becoming workflow stages.
   - Human overview README files and navigation, governance, and reference documents are not counted as canonical stage, rule, exception workflow, or meta protocol documents.
-  - Reference documents are non-normative knowledge sources; Environment Discover / Harness Adapt may consume harness_primitives and coding_agent_runtimes for common capability language, runtime architecture guidance, and official source discovery, but current environment capability is resolved from current executable / local / official evidence.
+  - Reference documents are non-normative knowledge sources; Environment Discover / Harness Adapt may consume harness_primitives, harness_standards, and coding_agent_runtimes for common capability language, public-standard adoption guidance, runtime architecture guidance, and official source discovery, but current environment capability is resolved from current executable / local / official evidence.
   - Project adoption should follow meta-protocols/project-onboarding.md before target-side Harness compilation when no valid Adoption Baseline exists.
   - Canonical Markdown remains the normative Source of Truth; target-side Harness Compilation consumes a version-bound Semantic IR derived from that Canonical Corpus plus the valid Adoption Baseline.
   - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
