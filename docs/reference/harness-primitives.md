@@ -1,11 +1,11 @@
 # Harness Primitives｜Harness 原语参考
 
-本文件为 Harness Compilation 提供跨 Coding Agent Runtime 的共同能力语言。它属于 Reference（参考）文档，不定义 Workflow、Rule 或 Meta Protocol 的规范语义，也不描述某个 Runtime 当前版本的完整能力。
+本文件为 Harness Build & Release（Harness 构建与发布）与后续 Target-side Harness Adaptation（目标侧 Harness 适配）提供跨 Coding Agent Runtime 的共同能力语言。它属于 Reference（参考）文档，不定义 Workflow、Rule 或 Meta Protocol 的规范语义，也不描述某个 Runtime 当前版本的完整能力。
 
-核心目标是：**先把 Spec Coding 的语义要求归一为稳定 Harness Primitive，再由公开标准与当前 Runtime Evidence 决定具体实现。**
+核心目标是：**先把 Spec Coding 的行为要求归一为稳定 Harness Primitive，再由公开标准与当前 Runtime Evidence 决定具体承载方式。**
 
 ```text
-Spec Coding Semantic
+Spec Coding Behavior
         ↓
 Harness Primitive
         ↓
@@ -20,11 +20,11 @@ Public Standard / Runtime-native Surface
 
 不能把所有 Coding Agent 常见能力都称为行业标准。本参考区分三类：
 
-| Category | 含义 | 编译用途 |
+| Category | 含义 | 构建 / 适配用途 |
 |---|---|---|
-| **Open Standard / Open Format｜开放标准 / 开放格式** | 有公开规范、明确互操作目标或开放格式。 | 等价可靠时优先形成可移植 Harness。 |
+| **Open Standard / Open Format｜开放标准 / 开放格式** | 有公开规范、明确互操作目标或开放格式。 | 等价可靠时优先形成可移植 Harness Artifact。 |
 | **De facto Convention｜事实约定** | 被多个主流 Runtime 采用、相对稳定，但约束弱于正式协议。 | 可作为共享约定，仍需确认当前 Runtime 支持。 |
-| **Common Harness Primitive｜常见 Harness 原语** | 多个 Runtime 都存在的稳定能力语义，但实现方式没有统一。 | 作为 Compiler 的抽象能力词汇，由 Runtime 决定映射。 |
+| **Common Harness Primitive｜常见 Harness 原语** | 多个 Runtime 都存在的稳定能力语义，但实现方式没有统一。 | 作为维护者构建与目标侧适配的抽象能力词汇，由标准或 Runtime 决定实现。 |
 
 > **Portable when equivalent; preserve semantics when not｜等价时优先可移植，不能等价时优先保持语义。**
 
@@ -92,7 +92,7 @@ Agent Plugins 提供 vendor-neutral 的可移植插件封装。当前可移植�
 
 ## 3. Common Harness Primitives｜常见 Harness 原语
 
-以下能力在主流 Coding Agent 中广泛存在，但没有统一、足够稳定的跨 Runtime 配置标准。Harness Compilation 只固化它们的语义。
+以下能力在主流 Coding Agent 中广泛存在，但没有统一、足够稳定的跨 Runtime 配置标准。Spec Coding 只固化它们的稳定能力语义，不固化当前 Runtime 实现。
 
 | Primitive | 稳定语义 | 常见用途 |
 |---|---|---|
@@ -136,29 +136,37 @@ Plugin    ≠ Agent Plugins Standard
 
 ---
 
-## 5. Compilation Use｜编译使用方式
+## 5. Build & Adaptation Use｜构建与适配使用方式
 
-Harness Compilation 应按以下顺序使用 Reference：
+维护者 Harness Build 应按以下顺序使用 Reference：
 
 ```text
-Workflow / Rule / Adoption Requirement
+Canonical Workflow / Rule / Meta Protocol
         ↓
-Required Semantic Guarantee
+Required Behavior
         ↓
 Required Harness Primitive Set
         ↓
 Public Standard Adoption Reference
         ↓
+Portable Harness Artifact / Capability Requirement
+```
+
+目标侧 Harness Adaptation 再继续：
+
+```text
+Released Harness Package
+        ↓
 Runtime Architecture Reference
         ↓
 Current Official Evidence + Local Probe
         ↓
-Runtime-native Mechanism
+Runtime-native Mechanism / Enhancement
 ```
 
 同一 Requirement 可以映射到多个 Primitive，同一 Primitive 也可能由多个 Runtime Surface 组合实现；不得采用“一条 Rule = 一个 Skill”“一个 Role = 一个固定 Subagent 文件”等机械转换。
 
-当 Portable Surface 与 Runtime-native Surface 都能完整、可靠地满足同一 Contract 时，可优先可移植方案；若 Runtime-native Surface 提供 Contract 必需的更强隔离、权限或确定性保证，则优先原生机制。
+当 Portable Surface 与 Runtime-native Surface 都能完整、可靠地满足同一 Contract 时，可优先可移植方案；若 Runtime-native Surface 提供 Contract 必需的更强隔离、权限或确定性保证，则目标侧应优先原生机制。
 
 > **Portable when equivalent; native when necessary｜等价时优先可移植，必要时优先原生能力。**
 
@@ -176,4 +184,4 @@ Runtime-native Mechanism
 - Runtime-specific 配置字段；
 - Pricing、Quota 或 Availability。
 
-公开协议状态与 Freshness 由 [`harness-standards.md`](harness-standards.md) 维护；Runtime Architecture 与官方事实入口由 [`coding-agent-runtimes.md`](coding-agent-runtimes.md) 维护；当前环境能力由 [`../meta-protocols/harness-compilation.md`](../meta-protocols/harness-compilation.md) 的 Environment Discover 使用当前证据重新确认。
+公开协议状态与 Freshness 由 [`harness-standards.md`](harness-standards.md) 维护；Runtime Architecture 与官方事实入口由 [`coding-agent-runtimes.md`](coding-agent-runtimes.md) 维护；维护者构建流程见 [`../governance/harness-build-and-release.md`](../governance/harness-build-and-release.md)。当前环境能力由后续 Target-side Harness Adaptation 使用当前 Local / Official Evidence 重新确认。

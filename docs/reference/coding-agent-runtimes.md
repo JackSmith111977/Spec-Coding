@@ -1,6 +1,6 @@
 # Coding Agent Runtime Reference｜Coding Agent 运行时参考
 
-本文件为 Harness Compilation 提供 Coding Agent Runtime 的 Architecture Invariant（架构不变量）与 Official Sources（官方事实入口）。它属于 Reference（参考）文档，不定义 Workflow / Rule / Meta Protocol，也不作为当前 Runtime Capability 的权威事实源。
+本文件为 Target-side Harness Adaptation（目标侧 Harness 适配）提供 Coding Agent Runtime 的 Architecture Invariant（架构不变量）与 Official Sources（官方事实入口）。它属于 Reference（参考）文档，不定义 Workflow / Rule / Meta Protocol，也不作为当前 Runtime Capability 的权威事实源。
 
 > **Architecture guides mapping; current evidence decides capability｜架构指导映射，当前证据决定能力。**
 
@@ -13,9 +13,9 @@
 本文件只长期保存：
 
 1. Runtime Identity / Lifecycle；
-2. 会影响 Harness 编译策略的 Architecture Invariant；
+2. 会影响 Harness 适配策略的 Architecture Invariant；
 3. 由架构不变量推导出的 Harness Implication；
-4. 可在编译时重新 fetch 的官方 Docs / Repo / Release / Changelog 入口。
+4. 可在适配时重新 fetch 的官方 Docs / Repo / Release / Changelog 入口。
 
 本文件不作为以下事实的权威来源：
 
@@ -27,13 +27,13 @@
 - Runtime-specific 配置字段；
 - 版本特定行为。
 
-这些事实必须由 Harness Compilation 使用当前 Official Evidence 与 Local Executable Evidence 重新发现。
+这些事实必须由 Target-side Harness Adaptation 使用当前 Official Evidence 与 Local Executable Evidence 重新发现。
 
 ---
 
 ## 2. Runtime Scope
 
-`Primary` 表示值得为 Harness Compiler 建立一等参考，不表示绝对市场排名。
+`Primary` 表示值得为 Target-side Harness Adaptation 建立一等参考，不表示绝对市场排名。
 
 | Runtime | Region | Type | Coverage | Lifecycle |
 |---|---|---|---|---|
@@ -54,7 +54,7 @@
 | DeepSeek Harness / DSH | China / Global | Open Agent Harness | Primary | preview |
 | MiniMax Code | China / Global | Coding Agent / Agent Team Runtime | Primary | active |
 
-可继续观察但暂不建立同等深度 Architecture Entry 的 Runtime，例如 WorkBuddy、Devin Desktop、Cline / Roo Code / Kilo Code、CodeArts Agent、Lingma 等；真正需要编译时仍可通过官方资料执行 Generic Runtime Discovery。
+可继续观察但暂不建立同等深度 Architecture Entry 的 Runtime，例如 WorkBuddy、Devin Desktop、Cline / Roo Code / Kilo Code、CodeArts Agent、Lingma 等；真正需要适配时仍可通过官方资料执行 Generic Runtime Discovery。
 
 ---
 
@@ -62,7 +62,7 @@
 
 只有同时满足以下条件的信息才进入本文件：
 
-1. **Compilation-relevant**：会改变 Spec Coding → Runtime 的编译策略；
+1. **Adaptation-relevant**：会改变 Spec Coding → Runtime 的适配策略；
 2. **Version-stable**：跨多个版本具有较高稳定性；
 3. **Architecture-level**：若发生根本变化，通常意味着 Runtime 本身架构明显变化；
 4. **Officially evidenced**：具有官方文档、官方源码或官方技术材料支持。
@@ -70,7 +70,7 @@
 Architecture Evidence 使用以下强度：
 
 - `explicit`：官方直接描述架构原则；
-- `official-surface`：由多个长期稳定的官方 Surface 归纳编译模式，不声称知道未公开内部实现；
+- `official-surface`：由多个长期稳定的官方 Surface 归纳适配模式，不声称知道未公开内部实现；
 - `none`：暂无值得长期固化的 Architecture Invariant，只保留官方入口。
 
 以下信息不得作为 Architecture Invariant：
@@ -116,7 +116,7 @@ Architecture Evidence 使用以下强度：
 - Hooks: https://code.claude.com/docs/en/hooks
 - Docs index: https://code.claude.com/docs/llms.txt
 
-**Fetch at compile time:** models / effort、Agent Teams、worktree、permissions、Hook Event 与 managed settings。
+**Fetch at adaptation time:** models / effort、Agent Teams、worktree、permissions、Hook Event 与 managed settings。
 
 ---
 
@@ -147,7 +147,7 @@ Architecture Evidence 使用以下强度：
 - Plugins: https://help.openai.com/en/articles/20001256-plugins-in-chatgpt-and-codex
 - Releases: https://github.com/openai/codex/releases
 
-**Fetch at compile time:** active Codex surface、subagent / child-agent support、sandbox、approval、plugins / tools、model / reasoning options。
+**Fetch at adaptation time:** active Codex surface、subagent / child-agent support、sandbox、approval、plugins / tools、model / reasoning options。
 
 ---
 
@@ -178,7 +178,7 @@ Architecture Evidence 使用以下强度：
 - Rules: https://cursor.com/docs/context/rules
 - Worktrees: https://cursor.com/docs/configuration/worktrees
 
-**Fetch at compile time:** Agent modes、cloud/background execution、subagent/model routing、plugin fields、Hook 与 worktree behavior。
+**Fetch at adaptation time:** Agent modes、cloud/background execution、subagent/model routing、plugin fields、Hook 与 worktree behavior。
 
 ---
 
@@ -210,7 +210,7 @@ Custom Agent 使用 Prompt / Tool / MCP 等声明式配置形成 Agent Profile�
 - Hooks: https://docs.github.com/en/copilot/concepts/agents/hooks
 - Hooks reference: https://docs.github.com/en/copilot/reference/hooks-reference
 
-**Fetch at compile time:** active Copilot surface、custom-agent schema、parallel / subagent capability、policy、model selection、cloud workspace behavior。
+**Fetch at adaptation time:** active Copilot surface、custom-agent schema、parallel / subagent capability、policy、model selection、cloud workspace behavior。
 
 ---
 
@@ -248,7 +248,7 @@ Hard Boundary→ Policy / Sandbox / Hook
 - Policy Engine: https://geminicli.com/docs/reference/policy-engine/
 - Configuration: https://geminicli.com/docs/reference/configuration/
 
-**Fetch at compile time:** experimental status、subagent schema、policy、sandbox、model routing 与计划 / workspace 功能。
+**Fetch at adaptation time:** experimental status、subagent schema、policy、sandbox、model routing 与计划 / workspace 功能。
 
 ---
 
@@ -279,7 +279,7 @@ Hard Boundary→ Policy / Sandbox / Hook
 - Source: https://github.com/xai-org/grok-build
 - Releases: https://github.com/xai-org/grok-build/releases
 
-**Fetch at compile time:** compatibility coverage、agents、workflow / hook schema、sandbox / permission、models / effort、ACP version。
+**Fetch at adaptation time:** compatibility coverage、agents、workflow / hook schema、sandbox / permission、models / effort、ACP version。
 
 ---
 
@@ -309,7 +309,7 @@ Agent 明确区分 Primary Agent 与 Subagent，并可为 Agent 配置 Prompt、
 - Permissions: https://opencode.ai/docs/permissions/
 - Config: https://opencode.ai/docs/config/
 
-**Fetch at compile time:** Agent schema、recursive delegation、models/providers、permission keys、workspace / sessions、plugin / MCP behavior。
+**Fetch at adaptation time:** Agent schema、recursive delegation、models/providers、permission keys、workspace / sessions、plugin / MCP behavior。
 
 ---
 
@@ -342,7 +342,7 @@ Agent 明确区分 Primary Agent 与 Subagent，并可为 Agent 配置 Prompt、
 - Skills: https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md
 - Packages: https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/packages.md
 
-**Fetch at compile time:** installed packages/extensions、subagent capability、models/providers、thinking、permission / sandbox extensions 与 resource paths。
+**Fetch at adaptation time:** installed packages/extensions、subagent capability、models/providers、thinking、permission / sandbox extensions 与 resource paths。
 
 ---
 
@@ -357,7 +357,7 @@ Agent 明确区分 Primary Agent 与 Subagent，并可为 Agent 配置 Prompt、
 
 **IDE-native Composition of Rules + On-demand Skills + Configurable Agents + MCP**
 
-官方长期 Surface 稳定区分持续 Rule、按需 Skill、Agent / Subagent 与 MCP。内部 Agent Loop 未完整公开，因此只固化可直接影响 Harness Compilation 的公开 Surface。
+官方长期 Surface 稳定区分持续 Rule、按需 Skill、Agent / Subagent 与 MCP。内部 Agent Loop 未完整公开，因此只固化可直接影响 Target-side Harness Adaptation 的公开 Surface。
 
 ### Harness Implication
 
@@ -377,7 +377,7 @@ Agent 明确区分 Primary Agent 与 Subagent，并可为 Agent 配置 Prompt、
 - Work Skills: https://docs.trae.cn/work_skills
 - MCP: https://docs.trae.cn/enterprise_model-context-protocol
 
-**Fetch at compile time:** active TRAE surface、Agent schema、subagent、model routing、sandbox / permission、cloud execution。
+**Fetch at adaptation time:** active TRAE surface、Agent schema、subagent、model routing、sandbox / permission、cloud execution。
 
 ---
 
@@ -411,7 +411,7 @@ Plugin 可组合 Skills、Agents、Hooks、MCP、LSP 等能力；Permission 使�
 - Hooks: https://www.codebuddy.cn/docs/cli/hooks
 - Permissions: https://www.codebuddy.cn/docs/cli/permissions
 
-**Fetch at compile time:** permission precedence、agent fields、model / effort、Hook maturity、worktree、plugin trust policy。
+**Fetch at adaptation time:** permission precedence、agent fields、model / effort、Hook maturity、worktree、plugin trust policy。
 
 ---
 
@@ -448,7 +448,7 @@ Declarative Agent Profile
 - Subagent: https://docs.qoder.com/cli/subagent
 - Permissions: https://docs.qoder.com/cli/permissions
 
-**Fetch at compile time:** Agent schema、built-in roles、worktree limits、MCP / Hook、Memory switch、model aliases。
+**Fetch at adaptation time:** Agent schema、built-in roles、worktree limits、MCP / Hook、Memory switch、model aliases。
 
 ---
 
@@ -481,7 +481,7 @@ Declarative Agent Profile
 - Subagents: https://qwenlm.github.io/qwen-code-docs/en/users/features/sub-agents/
 - Source: https://github.com/QwenLM/qwen-code
 
-**Fetch at compile time:** ACP / daemon protocol、extension compatibility、Hook、model aliases、subagent approval、workspace limits。
+**Fetch at adaptation time:** ACP / daemon protocol、extension compatibility、Hook、model aliases、subagent approval、workspace limits。
 
 ---
 
@@ -510,7 +510,7 @@ Declarative Agent Profile
 - Tools: https://www.kimi.com/code/docs/en/kimi-code-cli/reference/tools.html
 - Changelog: https://www.kimi.com/code/docs/en/kimi-code/whats-new.html
 
-**Fetch at compile time:** custom agent schema、swarm limits、models、MCP / Hook / ACP、background、fork / resume semantics。
+**Fetch at adaptation time:** custom agent schema、swarm limits、models、MCP / Hook / ACP、background、fork / resume semantics。
 
 ---
 
@@ -542,7 +542,7 @@ Plugin 可组合 Skill、Command、Subagent、MCP、Hook；Subagent 使用隔离
 - MCP: https://zcode.z.ai/en/docs/mcp-services
 - Chinese docs: https://zcode.z.ai/cn/docs/
 
-**Fetch at compile time:** instruction / memory precedence、plugin compatibility、Agent fields、Hooks、models、parallel/workspace behavior。
+**Fetch at adaptation time:** instruction / memory precedence、plugin compatibility、Agent fields、Hooks、models、parallel/workspace behavior。
 
 ---
 
@@ -579,7 +579,7 @@ Avoid Core Modification
 - Source: https://github.com/deepseek-ai/deepseek-harness
 - Releases: https://github.com/deepseek-ai/deepseek-harness/releases
 
-**Fetch at compile time:** breaking changes、plugin contract、preset schema、runtime modes、agent/workflow plugin、model adapter。
+**Fetch at adaptation time:** breaking changes、plugin contract、preset schema、runtime modes、agent/workflow plugin、model adapter。
 
 ---
 
@@ -610,13 +610,13 @@ Avoid Core Modification
 - Docs index: https://agent.minimaxi.com/docs/llms.txt
 - Changelog: https://agent.minimaxi.com/docs/changelog
 
-**Fetch at compile time:** Agent Team availability、role customization、memory / skill lifecycle、models、workspace、Verifier、MCP / Tool behavior。
+**Fetch at adaptation time:** Agent Team availability、role customization、memory / skill lifecycle、models、workspace、Verifier、MCP / Tool behavior。
 
 ---
 
 ## 20. Runtime Fact Evidence Priority
 
-本 Reference 不是 Runtime Fact 的证据优先级来源。Harness Compilation 判断当前能力时应使用：
+本 Reference 不是 Runtime Fact 的证据优先级来源。Target-side Harness Adaptation 判断当前能力时应使用：
 
 ```text
 Local Executable Evidence
@@ -636,7 +636,7 @@ Provider 或社区描述的理论能力不能让当前 Runtime 中不存在的 S
 
 ## 21. Capability Normalization
 
-Harness Compilation 可将当前版本的 Capability 临时归一为：
+Target-side Harness Adaptation 可将当前版本的 Capability 临时归一为：
 
 | Status | 含义 |
 |---|---|
@@ -665,7 +665,7 @@ Runtime 变化按三类处理：
 ```text
 Current Evidence wins
         ↓
-Compile using current truth
+Adapt using current truth
         ↓
 Record Reference Drift
         ↓
@@ -682,4 +682,4 @@ Runtime Reference 的目标不是建设实时 Coding Agent Wiki，而是为 Fres
 
 > **Persist primitives, preserve architecture, fetch version facts｜固化共同原语，保留架构不变量，版本事实随用随取。**
 
-具体编译行为仍由 [`../meta-protocols/harness-compilation.md`](../meta-protocols/harness-compilation.md) 决定；Primitive 语义参见 [`harness-primitives.md`](harness-primitives.md)。
+具体目标侧 Adaptation / Acceptance 协议将在后续独立定义；Primitive 语义参见 [`harness-primitives.md`](harness-primitives.md)。

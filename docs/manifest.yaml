@@ -1,11 +1,11 @@
-schema_version: 4
+schema_version: 5
 spec_coding_version: "0.11.0"
 status: candidate
 canonical_root: docs
 canonical_document_count: 34
 canonical_rule_document_count: 4
 canonical_exception_document_count: 4
-canonical_meta_protocol_document_count: 2
+canonical_meta_protocol_document_count: 1
 history_policy: git
 
 navigation:
@@ -16,15 +16,15 @@ navigation:
   rules_index: rules/README.md
   meta_protocols_index: meta-protocols/README.md
   project_onboarding: meta-protocols/project-onboarding.md
-  harness_compilation: meta-protocols/harness-compilation.md
   exception_flows: workflows/exceptions/README.md
   repository_governance: governance/repository-governance.md
-  semantic_compilation: governance/semantic-compilation.md
+  harness_build_release: governance/harness-build-and-release.md
   reference_index: reference/README.md
   glossary: reference/glossary.md
   harness_primitives: reference/harness-primitives.md
   harness_standards: reference/harness-standards.md
   coding_agent_runtimes: reference/coding-agent-runtimes.md
+  harness_package: ../packages/harness/README.md
   stage_overviews:
     - workflows/main/01a-project-definition/README.md
     - workflows/main/01b-project-understanding/README.md
@@ -37,7 +37,7 @@ navigation:
 
 governance:
   repository_governance: governance/repository-governance.md
-  semantic_compilation: governance/semantic-compilation.md
+  harness_build_release: governance/harness-build-and-release.md
 
 reference:
   index: reference/README.md
@@ -72,11 +72,7 @@ rule_documents:
 meta_protocols:
   - id: project-onboarding
     path: meta-protocols/project-onboarding.md
-    description: 在 Harness 编译前建立、复用、刷新或迁移 Target 的 Adoption Baseline，仅持久化长期意图与稳定绑定
-
-  - id: harness-compilation
-    path: meta-protocols/harness-compilation.md
-    description: 消费有效 Adoption Baseline 与版本绑定 Semantic IR，经 Environment Discover、Harness Adapt、Verify & Accept 转换为最小充分 Harness
+    description: 建立、复用、刷新或迁移 Target 的 Adoption Baseline，仅持久化长期意图与稳定绑定；不承担维护者 Harness 构建
 
 terminology:
   glossary: reference/glossary.md
@@ -196,14 +192,16 @@ rules:
   - Only documents listed under stages.documents are canonical stage documents for this version.
   - Documents listed under rule_documents are canonical rules and are not counted as canonical stage documents; their actual applicability follows each rule document and current context.
   - Documents listed under exception_workflows.documents are canonical exception workflow documents and are loaded only when their trigger applies.
-  - Documents listed under meta_protocols are canonical meta protocol documents and define Spec Coding onboarding, composition, or transformation behavior without becoming workflow stages.
-  - Human overview README files and navigation, governance, and reference documents are not counted as canonical stage, rule, exception workflow, or meta protocol documents.
-  - Reference documents are non-normative knowledge sources; Environment Discover / Harness Adapt may consume harness_primitives, harness_standards, and coding_agent_runtimes for common capability language, public-standard adoption guidance, runtime architecture guidance, and official source discovery, but current environment capability is resolved from current executable / local / official evidence.
-  - Project adoption should follow meta-protocols/project-onboarding.md before target-side Harness compilation when no valid Adoption Baseline exists.
-  - Canonical Markdown remains the normative Source of Truth; target-side Harness Compilation consumes a version-bound Semantic IR derived from that Canonical Corpus plus the valid Adoption Baseline.
-  - Historical versions are retrieved from Git history; do not keep parallel versioned copies under docs.
+  - Documents listed under meta_protocols are canonical meta protocol documents and define target-side Spec Coding onboarding behavior without becoming workflow stages.
+  - Human overview README files and navigation, governance, reference documents, and released Harness Package are not counted as canonical stage, rule, exception workflow, or meta protocol documents.
+  - Reference documents are non-normative knowledge sources; Harness Build may consume harness_primitives and harness_standards for capability language and public-standard adoption guidance, while target-side adaptation may consume coding_agent_runtimes and current official/local evidence.
+  - Project adoption should follow meta-protocols/project-onboarding.md when no valid Adoption Baseline exists or stable adoption facts changed.
+  - Canonical Markdown remains the normative Source of Truth; released Harness Package is a derived, version-bound execution asset built and verified by governance/harness-build-and-release.md.
+  - Maintainer build internals such as temporary semantic decomposition, worklists, review scratch state, or deterministic build state are not published as a required intermediate architecture layer.
+  - Historical versions are retrieved from Git history / GitHub Release; do not keep parallel versioned copies under docs or packages.
   - Add, delete, move, or rename a canonical stage, rule, exception workflow, or meta protocol document only together with a manifest update.
-  - Consumers should resolve VERSION and this manifest, load the matching Semantic IR, resolve or validate Project Onboarding, then perform Environment Discover → Harness Adapt → Verify & Accept before entering or resuming Workflow execution.
+  - Harness Package creation, update, removal, verification, and release follow governance/harness-build-and-release.md.
+  - Target-side Released Harness Package Adoption / Adaptation is intentionally separate from maintainer build and will be defined independently; target Coding Agents must not be required to rerun Canonical-to-Harness precompilation.
   - All formal workflows inherit rules/global-contracts.md unless a workflow defines a stricter rule.
   - Human-Agent Collaboration applies to all formal workflows and to Meta Protocol interactions that involve Human intent, authority, or key judgment.
   - Agent Delegation & Coordination applies whenever Main Agent delegates bounded work, independent review, context isolation, or runtime capability/model routing is used; workflows and Meta Protocols reference rather than duplicate its semantics.

@@ -1,3 +1,0 @@
-# Runtime dependencies for Spec Coding compiler support tools.
-PyYAML>=6.0,<7.0
-jsonschema>=4.0,<5.0

@@ -42,7 +42,7 @@
 
 | English | 中文 | 含义 |
 |---|---|---|
-| Project Onboarding | 项目接入 | 在 Harness Compilation 之前，建立、复用、刷新或迁移 Spec Coding 与当前 Target 的稳定接入关系。 |
+| Project Onboarding | 项目接入 | 在消费 Released Harness Package 并进入正式 Workflow 前，建立、复用、刷新或迁移 Spec Coding 与当前 Target 的稳定接入关系。 |
 | Adoption Baseline | 接入基线 | 当前 Target 如何采用 Spec Coding 的唯一接入事实源，只保存长期使用意图、稳定绑定及必要 Override / Constraint。 |
 | Usage Contract | 使用契约 | 由 Collaboration Mode 派生的 Spec Workspace、Artifact Publication、Repository Binding、Authority 与 Integration 等长期使用约定。 |
 | Spec Workspace | Spec Coding 工作空间 | Requirement、Design、Task、Evidence、Adoption Baseline 等 Spec Coding 持久工作状态的承载空间；可与目标 Repository 分离。 |
@@ -78,12 +78,15 @@
 | Delegation | 委派 | Main Agent 将目标、边界、上下文、权限与预期结果明确交给 Subagent 执行的运行时协作行为。 |
 | Single Writer Boundary | 单写入者边界 | 同一可变工作边界在同一时刻默认只有一个 Worker Owner，避免共享写入冲突。 |
 | Harness | 执行框架 | 组织 Agent、工具、上下文、状态、规则与验证的运行机制。 |
-| Harness Primitive | Harness 原语 | 跨 Coding Agent Runtime 描述 Rule、Skill、Tool、Subagent、Hook、Permission、Sandbox、Workspace 等稳定能力语义的中间抽象；具体实现由当前 Runtime 决定。 |
-| Runtime Reference | 运行时参考 | 为 Harness Compilation 提供 Coding Agent 的架构不变量与官方事实入口的非规范 Reference；不作为当前 Runtime Capability 的权威来源。 |
-| Runtime Architecture Invariant | 运行时架构不变量 | 会实质影响 Harness 编译策略、跨版本相对稳定且具有官方证据的 Runtime 底层设计特征。 |
-| Runtime Discovery | 运行时发现 | 在 Harness Compilation 中识别当前执行 Runtime，并结合当前官方资料与本地可执行证据确认实际 Capability 的过程。 |
-| Harness Compilation | Harness 编译 | 通过 Harness Compilation Meta Protocol，将 Applicable Workflow / Rules 与有效 Adoption Baseline 的语义要求归一为必要 Harness Primitive，再结合 Runtime Architecture 与当前 Runtime Evidence 映射为最小充分 Harness 的过程。 |
-| Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程、规则与接入约束所需的最少 Harness 组件，避免重复能力与过度设计。 |
+| Harness Primitive | Harness 原语 | 跨 Coding Agent Runtime 描述 Rule、Skill、Tool、Subagent、Hook、Permission、Sandbox、Workspace 等稳定能力语义的中间抽象；具体实现由公开标准或当前 Runtime 决定。 |
+| Harness Build & Release | Harness 构建与发布 | 仓库维护者直接从当前 Canonical Workflow / Rules / Meta Protocol 预编译、验证、版本化并发布可复用 Harness Package 的维护流程。 |
+| Harness Package | Harness 发行包 | 已通过维护者构建与验证、供目标项目直接取得并适配的版本化 Harness 资产集合；它是 Derived Artifact，不替代 Canonical Source。 |
+| Build Manifest | 构建清单 | Harness Package 中用于记录版本、Source Trace、Artifact Identity、必要 Capability Requirement 与内容 Hash 的轻量发布物料清单；不是新的规范协议。 |
+| Target-side Harness Adaptation | 目标侧 Harness 适配 | 使用方基于 Released Harness Package 与当前 Runtime / Project 事实完成必要选配、Runtime-native Enhancement 与 Acceptance 的过程；不重新执行 Canonical-to-Harness 预编译。 |
+| Runtime Reference | 运行时参考 | 为目标侧 Harness Adaptation 提供 Coding Agent 架构不变量与官方事实入口的非规范 Reference；不作为当前 Runtime Capability 的权威来源。 |
+| Runtime Architecture Invariant | 运行时架构不变量 | 会实质影响 Harness 适配策略、跨版本相对稳定且具有官方证据的 Runtime 底层设计特征。 |
+| Runtime Discovery | 运行时发现 | 在目标侧 Harness Adaptation 中识别当前执行 Runtime，并结合当前官方资料与本地可执行证据确认实际 Capability 的过程。 |
+| Minimum Sufficient Harness | 最小充分 Harness | 只保留可靠满足当前流程、规则与接入约束所需的最少 Harness 机制，避免重复能力与过度设计。 |
 | Effective Runtime Capability | 有效运行时能力 | 当前 Coding Agent Runtime 实际暴露并可执行的 Model、Thinking、Context、Tool、Isolation、Quota 等能力，而非 Provider 理论能力。 |
 | Capability-aware Routing | 能力感知路由 | 先发现当前 Runtime 可用能力，再结合 Role、任务特征与必要证据选择 Model / Thinking / Context / Tool 等执行配置。 |
 | Minimum Sufficient Capability | 最低充分能力 | 能够可靠满足当前 Delegation / Execution Contract 的最低充分运行时能力配置。 |
