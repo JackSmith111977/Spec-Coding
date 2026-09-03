@@ -106,17 +106,24 @@ Package Manifest、Artifact Inventory、Hash List、Routing / Bootstrap Index �
 
 ### Precompile & Assembly
 
-Harness 直接从 Canonical 生成。复杂行为需要多个机制时直接组合公开标准与必要 Runtime Requirement，不创造无必要的 Spec Coding 私有 Component Protocol。
+Harness 直接从 Canonical 生成，并遵守以下边界：
+
+- **Direct Source｜直接读源**：Builder 直接读取当前 Canonical Markdown；Summary、Clause、IR 或其他 Agent 的二次转述不得替代原文；
+- **Complete Rebuild｜完整重建**：被 Stage 1 判定受影响的 Artifact 必须重新读取其完整当前 Canonical Sources，并重建整个 Artifact；
+- **Diff Is Scope Only｜Diff 只定范围**：Git Diff 只用于确定 stale Artifact，不作为内容生成依据，也不允许据此直接 patch 旧 Harness；
+- **Source Backcheck｜原文回查**：生成后由 Builder 直接回到实际读取的 Canonical 检查 Hard Semantics、Procedure、Authority / Gate、Exception / Routing 与有效 Guidance 是否保持完整。
+
+复杂行为需要多个机制时直接组合公开标准与必要 Runtime Requirement，不创造无必要的 Spec Coding 私有 Component Protocol。
 
 Build Manifest 至少保存：
 
 - Harness Package version；
 - 最终 `source_revision`；
-- 每个 Artifact 的精确 Canonical Source 列表；
+- 每个 Artifact 本轮实际直接读取并依赖的精确 Canonical Source 列表；
 - Artifact type / requirement metadata；
 - Artifact content hash。
 
-首次 Full Build 同时建立后续增量构建所需的 Source → Artifact 派生关系。
+首次 Full Build 同时建立后续增量构建所需的 Source → Artifact 派生关系；后续增量重建必须根据本轮真实读取结果刷新 Source Trace。
 
 ### Verification & Review
 
@@ -207,7 +214,9 @@ Merge / Release
 - 上下游术语、状态、Artifact Contract 与适用 Rules 一致；
 - Manifest、Human Navigation、Governance 与实际目录一致；
 - Build Scope Baseline 与上一正式 Release 对齐；
-- Harness Package 的 Source Trace 指向当前 Canonical；
+- 受影响 Artifact 已从完整当前 Canonical 重新读取并生成，而不是按 Diff patch；
+- Builder Source Backcheck 已完成；
+- Harness Package 的 Source Trace 指向本轮实际直接读取的当前 Canonical；
 - Build Manifest 的 `source_revision` 与最终验证对象一致；
 - 生成 Harness 没有遗漏、弱化或新增 Canonical 行为；
 - Package 内容 Hash 与验证对象一致；
