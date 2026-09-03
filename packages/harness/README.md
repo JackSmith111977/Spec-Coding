@@ -33,13 +33,17 @@ artifacts:
     sha256: <artifact content hash>
 ```
 
-首次 Full Build 建立 `artifact → exact source files` 映射；后续构建以上一正式 Release 的 `source_revision` 为 Git Diff 基线，并反向查询 Source → Artifact 得到增量 Build Scope。
+`sources` 表示**生成当前 Artifact 时 Builder 实际直接读取并依赖的 Canonical Markdown 文件**。它不是摘要来源、IR、宽泛目录或推理中间产物。
+
+首次 Full Build 建立 `artifact → exact source files` 映射；后续构建以上一正式 Release 的 `source_revision` 为 Git Diff 基线，并反向查询 Source → Artifact 得到增量 Build Scope。受影响 Artifact 重建后，必须根据本轮真实直接读取的 Canonical 刷新 `sources`。
 
 原则：
 
 - 不在这里复制 Canonical Workflow / Rules 原文作为第二套事实源；
-- 不保存 Semantic IR、Clause Release 或维护者构建 scratch state；
-- `sources` 尽量记录实际依赖的 Canonical 文件，而不是只记录宽泛目录；
+- 不保存 Semantic IR、Clause Release、Builder Summary、Coverage Scratch State 或其他维护者构建中间层；
+- `sources` 记录实际直接读取的精确 Canonical 文件，不记录宽泛目录；
+- Git Diff 只用于确定 Build Scope，不能替代 Canonical 作为 Harness 生成输入；
+- 受影响 Artifact 必须从完整当前 Canonical 重新生成，不能按 Diff 直接 patch 旧 Harness；
 - 不把当前 Runtime / Model / Tool / Hook / Worktree 等动态环境事实固化进 Portable Package；
 - Package Envelope 每次构建全量重生成，实际 Harness 内容可以按 Scope 增量重建；
 - 需要多个标准机制时直接组合；
