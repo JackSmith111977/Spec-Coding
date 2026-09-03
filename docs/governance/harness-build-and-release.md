@@ -301,40 +301,72 @@ Build Manifest 只记录最终派生关系与内容身份，不记录 Builder �
 
 # 3. Package Verification & Review｜包验证与独立审查
 
-## 3.1 目标
+## 3.1 Goal & Candidate Freeze｜目标与候选固定
 
-证明候选 Package **完整、准确地表达 Canonical 行为，并能作为真实 Harness 被 Agent 消费**。
+证明候选 Package **结构合法、语义忠实，并能作为真实 Harness 被 Agent 消费**。
+
+进入验证后必须固定 Candidate 的内容身份（Commit / Hash）。验证期间一旦修改任何 Harness Artifact、Manifest 或 Package Envelope，当前 Candidate 即失效，必须形成新的 Candidate 并重新验证。
+
+```text
+Fixed Harness Package Candidate
+        ↓
+Structural Verification
+        ↓
+Independent Semantic Review
+        ↓
+Behavioral Challenge
+        ↓
+PASS / BLOCKED
+```
+
+> **Verify the exact candidate you intend to release.｜只验证准备发布的那个确定候选。**
+
+## 3.2 Structural Verification｜结构验证
+
+能确定性验证的全部优先使用确定性工具检查：
+
+- Agent Skill / Agent Plugin / MCP / Bootstrap 格式；
+- 引用、路径、Assets / References；
+- Build Manifest、`source_revision` 与 Source Trace；
+- Artifact Hash 与 Package Envelope；
+- 悬空引用、重复文件和旧版本残留。
+
+Structural Verification 不判断语义优劣，只证明候选包的结构与身份自洽。
+
+## 3.3 Independent Semantic Review｜独立语义审查
+
+使用与 Builder 尽量隔离的 Fresh Reviewer。Reviewer 必须直接读取 Canonical 原文与固定 Candidate，不依赖 Builder Summary、Stage 2 Source Backcheck 结论、Builder 推理或临时语义拆解作为判断依据。
 
 ```text
 Canonical Docs
       ↕
-Generated Harness Package
+Fixed Harness Candidate
 ```
 
-## 3.2 Structural Verification｜结构验证
+重点检查：
 
-优先确定性检查：
-
-- Agent Skill / Agent Plugin / MCP / Bootstrap 格式；
-- 引用、路径、Assets / References；
-- Build Manifest、`source_revision`、Source Trace；
-- Artifact Hash；
-- 悬空引用、重复文件和旧版本残留。
-
-## 3.3 Semantic Review｜语义审查
-
-由与生成过程尽量隔离的 Reviewer 直接对照 Canonical 与候选 Harness，重点检查：
-
-- `MUST / MUST NOT / Gate / Authority / Trigger / Routing` 是否遗漏或弱化；
+- `MUST / MUST NOT / Gate / Authority / Boundary / Trigger / State / Transition / Exception / Routing` 是否遗漏、弱化或改变；
 - 是否新增 Canonical 不存在的强制行为；
 - Guidance 是否被错误升级为 Normative Rule；
-- 阶段边界、状态推进、Human Authority 是否发生漂移；
-- Procedure、边界说明和必要示例是否仍足以支持 Agent 执行；
-- Rule 分散到多个 Skill / Bootstrap 后是否出现语义空洞或冲突。
+- Procedure、阶段边界、状态推进与 Human Authority 是否发生漂移；
+- 对 Agent 实际执行有价值的 Guidance / Example 是否仍然可达；
+- Rule 分散到多个 Skill / Bootstrap 后是否出现语义空洞、重复或冲突。
 
-## 3.4 Behavioral Test｜行为测试
+> **Reviewer reads Canonical directly.｜Reviewer 直接读 Canonical，不复用 Builder 的解释。**
 
-对高价值 / 高风险 Harness 使用 Fresh Agent 或隔离 Session 挑战代表性场景：
+## 3.4 Behavioral Challenge｜行为挑战
+
+使用 Fresh Agent 或隔离 Session，只向 Test Agent 提供：
+
+```text
+Harness Candidate
++
+Representative Scenario
+```
+
+**Test Agent 不读取 Canonical。** Canonical 只由 Reviewer 作为 Test Oracle（测试判定依据）判断行为是否符合预期，从而验证 Harness 本身是否足以驱动正确行为。
+
+默认挑战四类场景：
 
 ```text
 normal process
@@ -343,18 +375,59 @@ authority / gate
 exception / routing
 ```
 
-具体 Runtime compatibility 留给目标侧适配和认证，不要求 Portable Build 穷举全部 Runtime。
+并根据 Stage 1 的 `validation_focus` 增加针对性场景。具体 Runtime Compatibility 留给目标侧适配和认证，不要求 Portable Build 穷举全部 Runtime。
 
-## 3.5 Failure Routing｜失败回流
+> **Test Agent reads Harness only.｜行为测试 Agent 只消费 Harness。**
+
+## 3.5 Verification Scope｜验证范围
+
+### Full Build
+
+首次 Full Build 建立完整发行基线：
+
+- Package Structural Verification 全量执行；
+- Semantic Review 覆盖全部新生成 Harness Artifact；
+- Behavioral Challenge 至少覆盖代表性跨 Workflow 场景。
+
+### Incremental Build
+
+后续增量构建：
+
+- Package Structural Verification 仍然全量执行；
+- Semantic Review 覆盖 Stage 1 的 `affected_artifacts`；
+- Behavioral Challenge 围绕 `validation_focus` 与受影响行为执行；
+- Global Rule、Bootstrap、Routing、Package Composition 或其他共享行为变化时，增加 Package-level Integration Challenge（包级集成挑战）。
+
+未受影响且内容 Hash 未变化的 Artifact 不要求机械重复全文 Semantic Review；如果影响边界无法可靠证明，则扩大验证范围。
+
+## 3.6 Verdict & Failure Routing｜结论与失败回流
+
+最终结论只使用：
+
+```text
+PASS
+BLOCKED
+```
+
+失败必须回到最早失真位置：
 
 ```text
 Canonical semantics wrong → Canonical Source
-Generated expression wrong → Precompile
-Package structure wrong → Assembly
-Test / Review design wrong → Verification assets
+Build Scope missed artifact → Stage 1 Build Scope
+Generated expression wrong → Stage 2 Transform
+Package / Manifest assembly wrong → Stage 2 Assembly
+Verification method wrong → Stage 3 Verification
 ```
 
-最终结论只使用 `PASS / BLOCKED`。
+Stage 3 负责发现、归因和阻断，不直接修改 Candidate 后继续判定 PASS。任何修改都会产生新 Candidate，并重新进入验证。
+
+只有同时满足以下条件才允许 PASS：
+
+- Structural Verification 通过；
+- Independent Semantic Review 无 Blocking Finding；
+- 必要 Behavioral Challenge 通过；
+- Candidate 内容身份与全部验证对象一致；
+- 本轮 `validation_focus` 已得到覆盖。
 
 ---
 
@@ -430,6 +503,8 @@ Project Onboarding 只建立 Adoption Baseline，不参与 Harness Build。
 - **Incremental when provable｜能证明范围时增量，不能证明时全量**；
 - **Standards first｜公开标准优先**；
 - **Compose, don't reinvent｜组合已有机制，不创造无必要协议层**；
-- **Backcheck against source｜生成后直接回到 Canonical 原文检查转化保真**；
+- **Reviewer reads source｜独立 Reviewer 直接读取 Canonical**；
+- **Test Agent reads Harness only｜行为测试只以 Harness 驱动执行**；
+- **Verify fixed candidate｜只发布被验证过的确定 Candidate**；
 - **Build internals stay internal｜构建内部状态不暴露给使用方**；
 - **Release is versioned｜使用方只消费经过验证的版本化 Harness Package**。
