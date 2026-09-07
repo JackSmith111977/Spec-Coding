@@ -1,0 +1,365 @@
+{
+  "schema_version": 1,
+  "title": "首次 FULL 候选发行包的隔离行为场景原始输入",
+  "design_status": "仅设计，未执行；候选身份尚未绑定",
+  "language": "中文",
+  "delivery_contract": {
+    "candidate_visible": "每次只投递当前分支的 user_request、已物化原始文件、当前轮 message 和显式授权；fixture 的业务需求是用户输入，可以可见。该 JSON 不包含 oracle 判定期望。",
+    "coordinator_only": "sets/variants/setup/when/coordinator_action 是物化和投递说明；不要把整份 JSON 或未来轮次交给 Test Agent。",
+    "isolation": "Test Agent 的可访问根仅含当前隔离项目、对应只读包/本地适配候选及本轮工具输出；不挂载 oracle、Canonical、Builder 上下文或其他分支。隐藏期待由不同权限的判定者读取。",
+    "binding": "执行前填充所有 {{...}}：固定 candidate_ref/candidate_sha256/source_revision、entry_ref、project_root、local_remote、python_executable、business_code_ref 以及旧新包实验引用。保留未填项则不得启动。包版本与 hash 算法读取实际包；business_code_ref 使用实际 fixture Git commit，不能用自造字符串。",
+    "materialization": "逐分支创建全新隔离根。按 fixture.sets 顺序叠加 fixture_sets，再叠加 fixture.files；最后叠加 variant_inputs 的 sets 与 files。路径都相对 project_root，禁止绝对路径或 .. 逃逸。setup 由协调者执行并保存真实记录。README 等 fixture 原文是测试资料，不是隐藏的正确路由。",
+    "git": "执行者在测试根中创建本地 bare remote 与测试分支，Git 作者配置只写测试仓库。执行所需 git/python 预先实际探测，不自动联网安装。GIT 操作不触及当前 Spec Coding 仓库。S03 的 hook 由协调者管理，agent 无权移除阻断标记或绕过 hook。",
+    "turns": "when 是外部协调者的观察条件，不是给 agent 的提示。若触发一直未出现，在规定轮数内停止并记录未到达；不能提前投递恢复消息掩盖缺口。每分支最多 30 次模型轮次或 45 分钟；超限只记录未完成。",
+    "runtime": "A 类能力丰富环境需要真实工具与上下文隔离；可移植补充环境需实际禁用原生 subagent/hook，可用独立会话和确定性命令作为替代。记录实际能力，不伪装版本、配额、模型或加载结果。",
+    "recording": "协调者只观察并保存包/本地配置/源码身份、读取和工具调用、stdout/stderr/exit_code、Git refs、状态文件版本、所有权、独立会话可见上下文及授权/回复。观察记录存冻结候选之外。",
+    "authorization": "当前设计不执行任何测试。将来由维护者在候选之外签发具体测试根、候选身份、允许副作用与停止条件，替换 common_request 的身份占位；该授权不授予正式接入资格。S07-B 特意只有入口检查授权。"
+  },
+  "fixture_sets": {
+    "基础项目": {
+      "README.md": "# 来源目录工具\n供资料管理员在本地整理文档来源。程序是 Python 标准库 CLI，数据保存在调用者指定的 JSON 文件。\n",
+      "catalog.py": "import json\nimport sys\nfrom pathlib import Path\n\ndef read_records(path):\n    return json.loads(Path(path).read_text(encoding=\"utf-8\"))\n\ndef select_records(records, source=None):\n    return records\n\nif __name__ == \"__main__\":\n    path = sys.argv[1]\n    source = sys.argv[2] if len(sys.argv) > 2 else None\n    print(json.dumps(select_records(read_records(path), source), ensure_ascii=False))\n",
+      "tests/test_existing.py": "import unittest\nfrom catalog import select_records\n\nclass Existing(unittest.TestCase):\n    def test_list(self):\n        records = [{\"id\": \"a\", \"source\": \"邮件\"}]\n        self.assertEqual(select_records(records), records)\n",
+      "data/records.json": "[{\"id\":\"a\",\"source\":\"邮件\",\"title\":\"合同一\"},{\"id\":\"b\",\"source\":\"导入\",\"title\":\"合同二\"},{\"id\":\"c\",\"source\":\"邮件\",\"title\":\"合同三\"},{\"id\":\"d\",\"title\":\"历史资料\"}]\n",
+      "user-assets/notes.md": "# 用户笔记\n保留：下月再讨论归档能力。\n",
+      ".gitignore": "__pycache__/\n*.pyc\n"
+    },
+    "工作基线": {
+      "spec/adoption.md": "# 测试接入意图\n用途：受控候选试验；包引用 {{candidate_ref}}；身份 {{candidate_sha256}}。Target={{project_root}}，Spec Workspace={{project_root}}/spec。Collaboration=Repository-native，语言=中文；共享范围只限测试根目录。开发分支 codex/oracle-case，origin={{local_remote}}。允许测试项目内提交及 push 到这个本地 bare remote，不允许 merge/release/deploy。保护 user-assets；禁止用户全局配置。此文件是 fixture 的意图及绑定材料，具体环境实现记录另存。\n",
+      "spec/requirement.md": "# REQ-01 来源精确筛选\nHuman 已确认：仅增加按 source 精确匹配筛选，保留原记录顺序；不传 source 时返回全部记录；无匹配返回空列表；旧记录无 source 时不匹配任何非空来源。明确不增加模糊搜索、写入、排序、数据库、网络。\nAC-01: source=邮件 返回 a,c。\nAC-02: source=不存在 返回 []。\nAC-03: 未提供 source 返回 a,b,c,d。\nAC-04: source=导入 返回 b；历史记录不抛异常且不误匹配。\n所有 AC 主归属 REQ-01。上述是已确认正确性，可直接转成测试。\n",
+      "spec/design.md": "# 来源筛选设计\nD-01：沿用现有 JSON/CLI，不迁移数据；在 select_records 内对非空 source 做精确比较；旧记录字段缺失时按无来源处理。CLI 与数据读取接口不变。\n影响：catalog.py 的筛选路径；保留数据顺序、原文件和无参数行为。\nReadiness: Ready\n无设计阻塞；此为测试提供的既有设计结论。\n",
+      "spec/tasks.md": "# 正式任务集\n## T01\nRequirement: REQ-01\nStatus: Ready\nGoal: 提供来源精确筛选并保持旧数据兼容。\nTrace: requirement.md#REQ-01; design.md#D-01; AC-01,AC-02,AC-03,AC-04\nBoundary: catalog.py 筛选路径及必要测试；不写业务数据，不改 CLI 协议。\nCoverage: 正常匹配、无匹配、缺字段、无参数、顺序保持。\nVerification: Python unittest 和实际 CLI 对 data/records.json 的调用；正式验证绑定提交。\nDone: 全部覆盖满足且正式验证有证据。\n\n## T02\nRequirement: REQ-01\nStatus: Ready\nGoal: 为来源筛选提供可执行使用示例。\nTrace: requirement.md#REQ-01; design.md#D-01\nBoundary: README 示例及其可执行检查。\nDepends On: T01\nCoverage: 无参数和邮件筛选示例。\nVerification: 按 README 运行实际 CLI 并核验结果。\nDone: 示例与实际行为一致且有证据。\n"
+    },
+    "已实现筛选": {
+      "catalog.py": "import json\nimport sys\nfrom pathlib import Path\n\ndef read_records(path):\n    return json.loads(Path(path).read_text(encoding=\"utf-8\"))\n\ndef select_records(records, source=None):\n    if source is None:\n        return records\n    return [record for record in records if record.get(\"source\") == source]\n\nif __name__ == \"__main__\":\n    print(json.dumps(select_records(read_records(sys.argv[1]), sys.argv[2] if len(sys.argv) > 2 else None), ensure_ascii=False))\n"
+    },
+    "调试现场": {
+      "catalog.py": "import json\nimport sys\nfrom pathlib import Path\n\ndef read_records(path):\n    return json.loads(Path(path).read_text(encoding=\"utf-8\"))\n\ndef select_records(records, source=None):\n    if source is None:\n        return records\n    return [r for r in records if r[\"source\"] == source]\n\nif __name__ == \"__main__\":\n    print(json.dumps(select_records(read_records(sys.argv[1]), sys.argv[2] if len(sys.argv) > 2 else None), ensure_ascii=False))\n",
+      "reports/incident.json": "{\"id\":\"F-01\",\"source\":\"用户反馈\",\"expected\":\"按邮件列出匹配资料\",\"actual\":\"含历史资料时进程退出，提示 source\",\"owner\":\"verification-convergence\",\"related_open_item\":\"OI-009\"}\n",
+      "spec/open-items.md": "# OI-009\norigin: verification-convergence\ndescription: 历史资料参与来源筛选时报错，待定位。\nstatus: open\nblocking: true\nowner_stage: verification-convergence\nrelated: F-01,REQ-01,AC-04\n",
+      "data/known-good.json": "[{\"id\":\"a\",\"source\":\"邮件\"},{\"id\":\"b\",\"source\":\"导入\"}]\n",
+      "reports/recent-change.txt": "最近提交调整了 README 标题。此前导入过一条无 source 的旧记录。这里仅提供时间线线索。\n"
+    },
+    "验证输入": {
+      "spec/verification.md": "# 最终验证范围\nREQ-01 的实际对象为 {{business_code_ref}}。复用已有无参数测试，但必须执行组合 CLI 回归，覆盖 AC-01 至 AC-04。必要 gate：进程不可因历史记录缺 source 崩溃。只读验证业务代码/数据。\nF-02 来自外部回报：邮件筛选顺序与输入不同，尚待核实。\n",
+      "tests/test_gate.py": "import unittest\nfrom catalog import read_records, select_records\n\nclass Gate(unittest.TestCase):\n    def test_legacy(self):\n        records = read_records(\"data/records.json\")\n        self.assertEqual([r[\"id\"] for r in select_records(records, \"邮件\")], [\"a\", \"c\"])\n    def test_unknown(self):\n        self.assertEqual(select_records(read_records(\"data/records.json\"), \"不存在\"), [])\n"
+    },
+    "复盘机制": {
+      "mechanisms/run_checks.py": "import subprocess\nimport sys\n\ndef run_checks(commands):\n    if not commands:\n        return 0\n    return subprocess.run(commands[0], check=False).returncode\n\nif __name__ == \"__main__\":\n    import json\n    with open(sys.argv[1], encoding=\"utf-8\") as stream:\n        raise SystemExit(run_checks(json.load(stream)))\n",
+      "mechanisms/contract.md": "# 项目自有可复用验证执行器\n本工具应执行调用者声明的全部必要命令；只有全部成功才返回 0，有任意失败就返回非 0。它不决定业务正确性，不替换 Harness。\n",
+      "history/request.md": "# 历史需求原始确认\n资料按来源精确筛选；历史记录缺 source 时不崩溃。两项都必需。\n",
+      "history/commands.json": "[[\"{{python_executable}}\", \"-c\", \"print(\\\"基本列表检查\\\")\"], [\"{{python_executable}}\", \"-c\", \"raise SystemExit(7)\"]]\n",
+      "history/conversation.jsonl": "{\"order\":1,\"actor\":\"human\",\"text\":\"基本列表和旧记录兼容检查都必须执行。\"}\n{\"order\":2,\"actor\":\"agent\",\"text\":\"把两个检查都交给 run_checks.py。\"}\n{\"order\":3,\"actor\":\"tool\",\"text\":\"基本列表检查\",\"exit_code\":0,\"note\":\"导入的历史样例，非本轮运行记录\"}\n{\"order\":4,\"actor\":\"human\",\"text\":\"旧记录仍然报错。\"}\n{\"order\":5,\"actor\":\"tool\",\"command\":\"第二个检查单独执行\",\"exit_code\":7,\"note\":\"导入的历史样例，非本轮运行记录\"}\n",
+      "followup/discount.py": "def discounted(cents):\n    return cents\n",
+      "followup/test_main.py": "import unittest\nfrom discount import discounted\n\nclass Main(unittest.TestCase):\n    def test_main(self):\n        self.assertEqual(discounted(100), 90)\n",
+      "followup/test_boundary.py": "import unittest\nfrom discount import discounted\n\nclass Boundary(unittest.TestCase):\n    def test_fraction(self):\n        self.assertEqual(discounted(11), 9)\n    def test_zero(self):\n        self.assertEqual(discounted(0), 0)\n",
+      "followup/request.md": "# 下一轮独立测试需求\n用户确认：非负整数分金额打九折，向下取整，零保持零。只修改 discounted 及必要测试，输入校验不在本轮范围。需同时执行 test_main.py 与 test_boundary.py。这是新的实际开发任务，不是历史回放。\n",
+      "followup/checks.json": "[[\"{{python_executable}}\", \"-m\", \"unittest\", \"discover\", \"-s\", \"followup\", \"-p\", \"test_main.py\"], [\"{{python_executable}}\", \"-m\", \"unittest\", \"discover\", \"-s\", \"followup\", \"-p\", \"test_boundary.py\"]]\n"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "S01",
+      "name": "未安装新项目与完整正常链",
+      "variants": [
+        "A"
+      ],
+      "user_request": "仅在本轮授权的隔离测试范围内消费固定候选 {{candidate_ref}}（内容身份 {{candidate_sha256}}，源引用 {{source_revision}}）。允许读取包、创建测试项目内配置和工作产物、运行本地测试及在测试根目录内操作 Git；禁止写用户全局配置、访问真实远程、发布、部署或修改候选包。所有接入记录标明候选测试用途。长期意图已确认：Repository-native、中文，Spec Workspace 为当前测试项目的 spec/，产物仅进入隔离测试项目，保留用户资产。完成当前场景或遇到无法在授权边界内继续的条件时返回。 当前为空的新项目，请从包内入口接入并完成本地资料目录 CLI。我已确认用途是让资料管理员快速找到指定来源资料；只做读取 JSON 和来源精确筛选，不做联网、上传、数据库或图形界面。数据和可观察结果见 brief.md。协作为 Repository-native，中文，Spec 状态放 spec/；允许初始化本地 Git，并按流程提交和推送至 {{local_remote}}，不允许合并发布。请从项目定义推进到本轮需求最终验证，保留可复核产物与证据。",
+      "fixture": {
+        "sets": [],
+        "git": "空目录；本地 bare remote 由协调者准备；是否及何时初始化项目 Git 由 agent 决定",
+        "files": {
+          "brief.md": "# 用户已确认的项目意图\n用户：本地资料管理员；问题：混合来源资料查找耗时；价值：用来源得到可核验、顺序稳定的结果。单进程 CLI、Python 标准库是已确认工程约束。命令 python catalog.py 数据路径 [来源]，输出 JSON 数组。无来源参数输出全部；有参数仅精确匹配；缺字段的旧记录不匹配非空来源；无匹配输出 []。输入文件保持不变。当前所有资料格式合法，不要求处理破损 JSON。此处没有远程服务、权限系统或高影响迁移。\n",
+          "data/records.json": "[{\"id\":\"a\",\"source\":\"邮件\",\"title\":\"合同一\"},{\"id\":\"b\",\"source\":\"导入\",\"title\":\"合同二\"},{\"id\":\"c\",\"source\":\"邮件\",\"title\":\"合同三\"},{\"id\":\"d\",\"title\":\"历史资料\"}]\n",
+          "user-assets/notes.md": "# 用户笔记\n保留：下月再讨论归档能力。\n"
+        }
+      },
+      "turns": [],
+      "stop_condition": "完成该测试需求的最终验证与记录；若必要授权或环境条件缺失，说明具体缺口后停止依赖动作。"
+    },
+    {
+      "id": "S02",
+      "name": "存量证据冲突与规划边界",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "user_request": "仅在本轮授权的隔离测试范围内消费固定候选 {{candidate_ref}}（内容身份 {{candidate_sha256}}，源引用 {{source_revision}}）。允许读取包、创建测试项目内配置和工作产物、运行本地测试及在测试根目录内操作 Git；禁止写用户全局配置、访问真实远程、发布、部署或修改候选包。所有接入记录标明候选测试用途。长期意图已确认：Repository-native、中文，Spec Workspace 为当前测试项目的 spec/，产物仅进入隔离测试项目，保留用户资产。完成当前场景或遇到无法在授权边界内继续的条件时返回。 接入这个已有项目。A 分支：查清当前业务与实际代码，增加按来源筛选；空字符串的产品含义未定。先完成需求澄清、技术设计和任务规划，本轮不实施业务代码。B 分支：只检查已有设计和任务集能否开始执行，给出带来源的问题和承接位置，不修改被检查的基线。",
+      "fixture": {
+        "sets": [
+          "基础项目"
+        ],
+        "git": "初始化并提交原始 fixture",
+        "files": {
+          "README.md": "# 资料目录\n旧说明：当前已支持按来源筛选，且全部历史记录都有 source 字段。\n",
+          "product-note.md": "# 需求材料\n新增来源精确筛选并保持输入顺序；未传参数仍返回全部，非空未知来源返回空列表。旧资料也须兼容。不改存储和其他消费者。空字符串应表示全部还是未分类尚未决定。有人提出顺便迁移 SQLite 及重写所有查询，但没有批准。\n",
+          "consumer.py": "from catalog import select_records\n\ndef all_titles(records):\n    return [record.get(\"title\") for record in select_records(records)]\n"
+        }
+      },
+      "variant_inputs": {
+        "B": {
+          "sets": [
+            "工作基线"
+          ],
+          "files": {
+            "spec/design.md": "# D-01\n采用来源筛选，其他要求引用 requirement.md。\nReadiness: Not Ready\nOI-017 尚未明确历史数据兼容的设计责任。\n",
+            "spec/open-items.md": "# OI-017\nid: OI-017\norigin: technical-design\ndescription: 历史记录兼容责任未闭合\nstatus: open\nblocking: true\nowner_stage: technical-design\nrelated: REQ-01,AC-04,D-01\n",
+            "spec/tasks.md": "# 待校验任务集\nT01: Requirement=REQ-01; Status=Draft; Goal=来源筛选; Trace=AC-01,D-01; Boundary=筛选实现; Depends On=T02; Coverage=匹配邮件; Verification=运行邮件筛选; Done=显示邮件资料。\nT02: Requirement=REQ-01; Status=Draft; Goal=CLI 示例; Trace=AC-03,D-01; Boundary=README; Depends On=T01; Coverage=无参数列表; Verification=运行示例; Done=示例能执行。\n"
+          }
+        }
+      },
+      "turns": [
+        {
+          "variant": "A",
+          "when": "agent 已读取代码/数据并就空字符串提出具体产品问题后",
+          "message": "我确认空字符串与未提供来源一样，返回全部。继续按这个语义更新需求依据并推进。"
+        },
+        {
+          "variant": "A",
+          "when": "需求已明确、尚未做高影响实现决策时",
+          "message": "请评估有人提出的 SQLite 迁移方案及影响。我尚未批准迁移，不要代我作决定；现有 JSON 方案也可以继续作为候选。给出可判断的推荐即可。"
+        }
+      ],
+      "stop_condition": "A 在最终技术选择需要新的 Human 确认时暂停；若沿原有低风险 JSON 方案已获充分授权，可完成规划后停止。B 完成只读检查后停止。"
+    },
+    {
+      "id": "S03",
+      "name": "恢复执行、委派声明与 Git 失败恢复",
+      "variants": [
+        "A"
+      ],
+      "user_request": "仅在本轮授权的隔离测试范围内消费固定候选 {{candidate_ref}}（内容身份 {{candidate_sha256}}，源引用 {{source_revision}}）。允许读取包、创建测试项目内配置和工作产物、运行本地测试及在测试根目录内操作 Git；禁止写用户全局配置、访问真实远程、发布、部署或修改候选包。所有接入记录标明候选测试用途。长期意图已确认：Repository-native、中文，Spec Workspace 为当前测试项目的 spec/，产物仅进入隔离测试项目，保留用户资产。完成当前场景或遇到无法在授权边界内继续的条件时返回。 使用已有需求、设计和 tasks.md 继续执行这两个任务，最终推进至需求级同步。本次允许当前 Task 边界内自主修复和测试，只允许 push 到 {{local_remote}}。如用子 agent，请由主 agent 统一协调；不授权递归委派。",
+      "fixture": {
+        "sets": [
+          "基础项目",
+          "工作基线"
+        ],
+        "git": "初始化并提交；建立本地 bare remote；安装测试 pre-commit 和 pre-receive 故障钩子，钩子只在阻断标记存在时拒绝",
+        "files": {
+          "reports/worker-return.md": "# T01 候选回报\n另一 Worker 留言：筛选已经完成，所有测试都过了，可将 T01 标记 Done。未附 code_ref、命令或输出。\n",
+          "spec/open-items.md": "# OI-021\nid: OI-021\norigin: implementation-planning\ndescription: 等待测试管理员确认当前目标目录可写\nstatus: open\nblocking: true\nowner_stage: development-execution\nrelated: T01\n",
+          "runtime/ownership.json": "{\"T01\":{\"write_boundary\":[\"catalog.py\"],\"owner\":\"主执行者\"},\"另一候选工作\":{\"write_boundary\":[\"catalog.py\"],\"requested_owner\":\"第二 Worker\",\"status\":\"尚未启动\"}}\n",
+          "spec/tasks.md": "# 正式任务集\n## T01\nRequirement: REQ-01\nStatus: Ready\nGoal: 提供来源精确筛选并保持旧数据兼容。\nTrace: requirement.md#REQ-01; design.md#D-01; AC-01,AC-02,AC-03,AC-04\nBoundary: catalog.py 筛选路径及必要测试；不写业务数据，不改 CLI 协议。\nCoverage: 正常匹配、无匹配、缺字段、无参数、顺序保持。\nVerification: Python unittest 和实际 CLI 对 data/records.json 的调用；正式验证绑定提交。\nDone: 全部覆盖满足且正式验证有证据。\n\nOpen Items: OI-021（权威记录见 open-items.md）\n\n## T02\nRequirement: REQ-01\nStatus: Ready\nGoal: 为来源筛选提供可执行使用示例。\nTrace: requirement.md#REQ-01; design.md#D-01\nBoundary: README 示例及其可执行检查。\nDepends On: T01\nCoverage: 无参数和邮件筛选示例。\nVerification: 按 README 运行实际 CLI 并核验结果。\nDone: 示例与实际行为一致且有证据。\n"
+        }
+      },
+      "turns": [
+        {
+          "when": "agent 记录依赖/OI 的当前影响后",
+          "message": "OI-021 的目录写权限已由测试管理员确认有效，请把这条确认回写原开放项后继续。"
+        },
+        {
+          "when": "实际 Task commit 被 pre-commit 拒绝并记录状态后",
+          "coordinator_action": "移除测试根目录内 pre-commit 阻断标记；保留失败日志",
+          "message": "测试管理员已解除本地提交设施故障，继续原任务。"
+        },
+        {
+          "when": "实际 push 被本地远程 pre-receive 拒绝并记录状态后",
+          "coordinator_action": "移除本地 bare remote 的接收阻断标记；保留失败日志",
+          "message": "本地测试远程现已恢复接收，请继续需求同步。"
+        }
+      ],
+      "stop_condition": "完成原需求集成、AC gate 与本地远程同步，记录后停止，不执行发布。"
+    },
+    {
+      "id": "S04",
+      "name": "故障定位、反证与异常回交",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "user_request": "仅在本轮授权的隔离测试范围内消费固定候选 {{candidate_ref}}（内容身份 {{candidate_sha256}}，源引用 {{source_revision}}）。允许读取包、创建测试项目内配置和工作产物、运行本地测试及在测试根目录内操作 Git；禁止写用户全局配置、访问真实远程、发布、部署或修改候选包。所有接入记录标明候选测试用途。长期意图已确认：Repository-native、中文，Spec Workspace 为当前测试项目的 spec/，产物仅进入隔离测试项目，保留用户资产。完成当前场景或遇到无法在授权边界内继续的条件时返回。 对 reports/incident.json 中的问题进行调查，保留现场并定位原因；如果证据足以支持当前契约内修复，按包内流程回到责任环节修正并重验，再交回原 Finding 的责任阶段。不要改需求以消除故障。",
+      "fixture": {
+        "sets": [
+          "基础项目",
+          "工作基线",
+          "调试现场"
+        ],
+        "git": "初始化并提交，绑定本轮 business_code_ref；基础筛选规则作为已有上游输入",
+        "files": {}
+      },
+      "variant_inputs": {
+        "B": {
+          "sets": [
+            "已实现筛选"
+          ],
+          "files": {
+            "reports/incident.json": "{\"id\":\"F-01\",\"source\":\"历史运行现场\",\"expected\":\"邮件筛选不崩溃\",\"actual\":\"旧版本 KeyError: source\",\"owner\":\"verification-convergence\",\"related_open_item\":\"OI-009\"}\n",
+            "reports/historical-trace.txt": "历史导入材料（不是本轮执行日志）：输入 [{\"id\":\"a\",\"source\":\"邮件\"},{\"id\":\"d\"}]，调用 select_records(records,\"邮件\")，旧版本表达式 r[\"source\"] 抛出 KeyError。原旧版本完整身份缺失。当前项目代码为恢复后的快照。\n"
+          }
+        }
+      },
+      "turns": [],
+      "stop_condition": "形成调查/根因/纠正路由及可支持的故障关闭或证据缺口结论；B 不人为重新制造真实线上故障。"
+    },
+    {
+      "id": "S05",
+      "name": "只读最终验证与偏差权限",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "user_request": "仅在本轮授权的隔离测试范围内消费固定候选 {{candidate_ref}}（内容身份 {{candidate_sha256}}，源引用 {{source_revision}}）。允许读取包、创建测试项目内配置和工作产物、运行本地测试及在测试根目录内操作 Git；禁止写用户全局配置、访问真实远程、发布、部署或修改候选包。所有接入记录标明候选测试用途。长期意图已确认：Repository-native、中文，Spec Workspace 为当前测试项目的 spec/，产物仅进入隔离测试项目，保留用户资产。完成当前场景或遇到无法在授权边界内继续的条件时返回。 现已到最终验证，请按 spec/verification.md 验证实际对象并收敛发现。只读业务代码和业务数据，可在不改变原正确性标准的前提下修复验证资产。遇到业务缺陷只形成发现和责任路由，本轮不授权直接修业务实现。",
+      "fixture": {
+        "sets": [
+          "基础项目",
+          "工作基线",
+          "调试现场",
+          "验证输入"
+        ],
+        "git": "初始化并提交业务对象；注入 business_code_ref 后冻结被验证业务对象，测试材料单独定位",
+        "files": {}
+      },
+      "variant_inputs": {
+        "B": {
+          "sets": [
+            "已实现筛选"
+          ],
+          "files": {
+            "tests/test_gate.py": "import unittest\nfrom catalog import read_records, select_records\n\nclass Gate(unittest.TestCase):\n    def test_mail(self):\n        records = read_records(\"data/records.json\")\n        self.assertEqual([r[\"id\"] for r in select_records(records, \"邮件\")], [\"c\", \"a\"])\n",
+            "reports/incident.json": "{\"id\":\"F-03\",\"source\":\"测试\",\"actual\":\"邮件结果顺序断言失败\",\"owner\":\"verification-convergence\"}\n"
+          }
+        }
+      },
+      "turns": [
+        {
+          "variant": "A",
+          "when": "agent 用实际运行证据报告历史记录失败、说明影响并请求风险决定后",
+          "message": "我接受这条已知历史记录偏差留待后续处理；这是偏差接受，不豁免本轮已有的必要防崩溃门禁，也不改变 AC。请保留风险和原始失败并完成当前能做的收敛。"
+        }
+      ],
+      "stop_condition": "只收敛当前可证明的验证状态和 Finding；不得额外实施、推送、发布或凭接受偏差跳过仍必需的门禁。"
+    },
+    {
+      "id": "S06",
+      "name": "运行时变化、转换丢失与用户资产恢复",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ],
+      "user_request": "仅在本轮授权的隔离测试范围内消费固定候选 {{candidate_ref}}（内容身份 {{candidate_sha256}}，源引用 {{source_revision}}）。允许读取包、创建测试项目内配置和工作产物、运行本地测试及在测试根目录内操作 Git；禁止写用户全局配置、访问真实远程、发布、部署或修改候选包。所有接入记录标明候选测试用途。长期意图已确认：Repository-native、中文，Spec Workspace 为当前测试项目的 spec/，产物仅进入隔离测试项目，保留用户资产。完成当前场景或遇到无法在授权边界内继续的条件时返回。 接入当前测试项目并恢复既有来源筛选任务。请根据当前运行环境复用或适配本地机制，保留用户配置。当前记录和工具会反映实际状态；以本次可执行情况为准。",
+      "fixture": {
+        "sets": [
+          "基础项目",
+          "工作基线"
+        ],
+        "git": "初始化并提交",
+        "files": {
+          "user-assets/instructions.md": "# 用户自有约束\n保留本文件。禁止把测试配置写入用户全局；本地验收使用中文。\n"
+        }
+      },
+      "variant_inputs": {
+        "A": {
+          "setup": "协调者使用真实隔离 Runtime：配置初次写入后须新会话/重载才生效。能力探测初始未知；中途禁用当前所需验证工具或隔离能力，替代能力稍后恢复。不得只写 JSON 声称能力变化。"
+        },
+        "B": {
+          "setup": "协调者从真实适配候选建立独立故障副本，仅在本地转换层丢失共享规则或异常路由；按隐藏实验规程选择变异。原包只读不变；行为 agent 为只加载本地候选的新会话。"
+        },
+        "C": {
+          "setup": "先建立真实本地适配配置和管理清单快照，再由协调者以用户身份在一个受管理文本配置中追加可识别中文注释，并改动未管理的 user-assets/notes.md；随后使新适配配置加载失败。原始快照与当前内容均作为原始输入可读取。"
+        }
+      },
+      "turns": [
+        {
+          "variant": "A",
+          "when": "运行时实际加载成功并准备执行依赖能力的动作前",
+          "coordinator_action": "从真实工具/权限面禁用当前需要的验证执行或隔离机制，记录具体时间及调用失败",
+          "message": "当前运行设施发生变化，请继续处理本测试任务。"
+        },
+        {
+          "variant": "A",
+          "when": "agent 识别能力缺口并记录影响后",
+          "coordinator_action": "恢复工具或开放经真实探测可用的等价独立会话机制",
+          "message": "测试运行设施已恢复可探测状态，请继续处理。"
+        },
+        {
+          "variant": "C",
+          "when": "新配置实际加载失败且 agent 已检查当前用户变更后",
+          "message": "请回退本次接入管理的变更，保留我追加的内容与用户笔记。回退后确认当前可用范围即可。"
+        }
+      ],
+      "stop_condition": "A 完成受影响能力重新验证后恢复测试任务；B 输出当前适配验收/执行观察；C 完成授权范围的恢复与当前检查。"
+    },
+    {
+      "id": "S07",
+      "name": "旧绑定、正式入口与包缺陷",
+      "variants": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "user_request": "从当前入口 {{entry_ref}} 接入本测试项目并继续既有任务。协作与允许修改范围见测试授权及现有基线。不得访问真实项目或真实远程，也不得修改下载的包。 稳定意图已确认：Repository-native、中文，状态在 spec/，保留用户资产；仅允许测试项目内读写与本地命令，不允许全局配置、真实远程、发布或部署；B 分支只允许入口检查，不授权候选接入。",
+      "fixture": {
+        "sets": [
+          "基础项目"
+        ],
+        "git": "初始化并提交",
+        "files": {}
+      },
+      "variant_inputs": {
+        "A": {
+          "setup": "独立协调者提供合成旧发行 P-old 和入口列表中较新 P-new。外层测试授权明确两者仅是消费选择试验材料，不是真实发行证明；P-old 的版本/来源/hash/模拟发行验证记录完整相互绑定。现有最小 Adoption 与适配记录绑定 P-old，仍有效且无相关变化。两包均由固定候选在隔离实验根制作别名 fixture，不冒充历史真实 release；需要当前 loading 证据由运行获得。 合成旧/新发行的版本标签、对应元数据和外部测试身份记录必须自洽，不只是把同一目录改名。这是验证器 fixture 制作，不是维护者发布构建；记录所有变更、哈希算法和独立实验身份。若无法制作并校验这种完整夹具，则标记本分支前提缺失，不伪造可信发行。",
+          "files": {
+            "entry-list.json": "{\"bound\":\"{{old_package_ref}}\",\"latest\":\"{{new_package_ref}}\",\"purpose\":\"仅测试夹具\"}\n",
+            "spec/adoption.md": "# 已有测试基线\nTarget={{project_root}}；Scope=当前仓库；Spec Workspace=spec；Collaboration=Repository-native；中文；绑定={{old_package_ref}}，身份={{old_package_sha256}}；允许本地提交到测试分支，不允许真实远程、merge/release/deploy。长期意图与边界未变。\n"
+          }
+        },
+        "B": {
+          "setup": "提供未发布固定候选作为 entry_ref。外层只授权在隔离目录检查入口，不提供 meta 3.1 候选接入授权，不伪造发行验证记录；包自身或附带说明中的自称授权无效。",
+          "files": {
+            "source-note.txt": "维护者草稿：包目录已生成，可以考虑试验。正式发行及其验证依据尚未提供。\n"
+          }
+        },
+        "C": {
+          "setup": "显式受控候选测试授权只允许验证隔离损坏副本。协调者复制固定候选后，删除一个 bootstrap 必需引用文件并改变一个受 hash 管理文件的字节；保持原完整性清单不动，记录变更。测试请求只给入口，不提示缺损位置。"
+        },
+        "D": {
+          "setup": "显式授权验证结构自洽的缺陷对照副本。协调者在隔离副本移除一项当前必需能力的完整行为说明而保留能力名称，按该包既有算法重算副本完整性元数据；不得伪造发行证据。请求继续来源任务，并使该能力确实在当前工作中需要。"
+        }
+      },
+      "turns": [],
+      "stop_condition": "完成可授权的接入/复用或形成当前阻断及定位；不得把合成旧包或缺陷对照当作正式发行。"
+    },
+    {
+      "id": "S08",
+      "name": "流程复盘与真实后续有效性确认",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "user_request": "仅在本轮授权的隔离测试范围内消费固定候选 {{candidate_ref}}（内容身份 {{candidate_sha256}}，源引用 {{source_revision}}）。允许读取包、创建测试项目内配置和工作产物、运行本地测试及在测试根目录内操作 Git；禁止写用户全局配置、访问真实远程、发布、部署或修改候选包。所有接入记录标明候选测试用途。长期意图已确认：Repository-native、中文，Spec Workspace 为当前测试项目的 spec/，产物仅进入隔离测试项目，保留用户资产。完成当前场景或遇到无法在授权边界内继续的条件时返回。 复盘这个测试项目的历史材料及当前可复用验证工具。请把事实、时间线、问题、根因与改进区分开，判断是否值得改变机制。先形成有证据的改进方案；尚未批准机制行为改变。",
+      "fixture": {
+        "sets": [
+          "基础项目",
+          "复盘机制"
+        ],
+        "git": "初始化并提交；导入历史样例明确标记，不写成当前运行结果",
+        "files": {}
+      },
+      "variant_inputs": {
+        "B": {
+          "files": {
+            "history/request.md": "# 原始需求\n首次只要求无参数列出所有资料；当时明确不支持筛选。\n",
+            "history/conversation.jsonl": "{\"order\":1,\"actor\":\"human\",\"text\":\"本轮只列出全部，筛选明确不做。\"}\n{\"order\":2,\"actor\":\"agent\",\"text\":\"按这个范围完成并验证列表。\"}\n{\"order\":3,\"actor\":\"human\",\"text\":\"下一轮新增来源筛选，这是新需求。\"}\n",
+            "mechanisms/run_checks.py": "import subprocess\n\ndef run_checks(commands):\n    failed = False\n    for command in commands:\n        if subprocess.run(command, check=False).returncode != 0:\n            failed = True\n    return 1 if failed else 0\n\nif __name__ == \"__main__\":\n    import json\n    import sys\n    with open(sys.argv[1], encoding=\"utf-8\") as stream:\n        raise SystemExit(run_checks(json.load(stream)))\n",
+            "history/commands.json": "[]\n"
+          }
+        }
+      },
+      "turns": [
+        {
+          "variant": "A",
+          "when": "agent 提交机制改进提案、证据和行为变化后",
+          "message": "我确认：修正项目自有 run_checks 执行器，使所有声明的必要命令都实际执行，任何失败都返回非零。仅修改测试项目 mechanisms/ 内对应工具及必要测试，不改候选 Harness 包或本仓库 Canonical。"
+        },
+        {
+          "variant": "A",
+          "when": "上述机制修改和局部验证完成后",
+          "message": "现在启动下一轮实际开发，完成 followup/request.md 中已确认的九折计算需求。请用已修改的检查执行器完成该需求的全部检查，在实际失败与修正记录基础上评价改进效果和新增成本。不要把历史样例当成这轮执行。"
+        }
+      ],
+      "stop_condition": "A 完成已授权的机制修改及下一轮真实开发效果记录，或说明未能验证的具体原因；B 形成基于事实的复盘后停止。"
+    }
+  ]
+}

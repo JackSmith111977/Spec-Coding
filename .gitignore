@@ -1,2 +1,4 @@
 .harness-build/
 .harness-staging/
+__pycache__/
+*.py[cod]

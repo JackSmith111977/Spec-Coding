@@ -12,7 +12,7 @@ Requirement → Design → Task → Change → Verification
 
 并通过可复用 Workflow、Rules 与 Harness 让 Coding Agent 在不同项目和 Runtime 中保持相同的核心行为。
 
-**Version:** [`0.11.0`](VERSION) · **Status:** `candidate`
+**Version:** [`0.12.0`](VERSION) · **Status:** `candidate`
 
 ---
 
@@ -161,7 +161,7 @@ Spec Coding 同时支持 Greenfield（新项目）、Brownfield（存量项目�
 
 ## Project status
 
-当前仍处于 `candidate` 阶段。本分支采用维护者预编译、版本化 Harness Package 的分发模型。维护者 Build & Release 与目标侧 Adoption & Adaptation 已通过包消费契约衔接；正式全量 Package 尚未生成，结构验证和真实 Runtime 接入试验仍待执行。
+当前为 `0.12.0 candidate`。首次全量预编译包位于 [`packages/harness/`](packages/harness/README.md)，包括主流程、异常、接入程序与共享规则。从包内 Bootstrap 开始消费；构建、独立审查、行为验证及正式发行状态见 [`verification/harness/`](verification/harness/build.md)。候选包和测试就绪不代表正式发布。
 
 ## License
 

@@ -1,0 +1,558 @@
+{
+  "version": "0.12.0",
+  "source_revision": "2f585f0faa8c0ba831161858a2e1418fd2d527e7",
+  "build_mode": "FULL",
+  "entrypoint": "bootstrap/BOOTSTRAP.md",
+  "integrity_definition": "README.md",
+  "capability_definitions": "bootstrap/requirements.md",
+  "conditional_dependencies": {
+    "delegation-isolation-review-routing": "rule-delegation",
+    "code-changes": "rule-code-quality"
+  },
+  "artifacts": [
+    {
+      "id": "rule-global",
+      "type": "rule",
+      "path": "rules/global.md",
+      "sources": [
+        "docs/rules/global-contracts.md"
+      ],
+      "applies_when": "所有正式 Workflow 默认继承的全局执行规则",
+      "dependencies": [],
+      "requires": [
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "370fe732dded08b27545960304611ea23d495afe365d7d152b61724ff74f95a2"
+    },
+    {
+      "id": "rule-collaboration",
+      "type": "rule",
+      "path": "rules/collaboration.md",
+      "sources": [
+        "docs/rules/human-agent-collaboration.md"
+      ],
+      "applies_when": "正式 Workflow 与涉及 Human 意图 / 权限 / 关键判断的 Meta Protocol 共用的人机协作规则",
+      "dependencies": [
+        "rule-global"
+      ],
+      "requires": [
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "76b46926911494c9ba7c14435f0ab7806cddabc25b257397d11dd68cb270239a"
+    },
+    {
+      "id": "rule-delegation",
+      "type": "rule",
+      "path": "rules/delegation.md",
+      "sources": [
+        "docs/rules/agent-delegation-and-coordination.md"
+      ],
+      "applies_when": "Main Agent / Subagent 角色、委派协调、运行时能力与模型路由、结果验证与升级规则",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "authority-and-state",
+        "trace-and-evidence",
+        "independent-review",
+        "scoped-execution"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "e31b977407307bf616115fd65b6bc4590766e88d46282f29f0099739a4c7bfa7"
+    },
+    {
+      "id": "rule-code-quality",
+      "type": "rule",
+      "path": "rules/code-quality.md",
+      "sources": [
+        "docs/rules/code-quality.md"
+      ],
+      "applies_when": "代码产物的通用可理解性、信息质量、变更清晰度与一致性规则",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "2ee66c084a039e0b6112125f8070184cc6f350e4973b2e347c48f28c4f947cdd"
+    },
+    {
+      "id": "spec-project-definition",
+      "type": "agent-skill",
+      "path": "skills/spec-project-definition",
+      "sources": [
+        "docs/workflows/main/01a-project-definition/01-project-positioning.md",
+        "docs/workflows/main/01a-project-definition/02-business-definition.md",
+        "docs/workflows/main/01a-project-definition/03-system-definition.md",
+        "docs/workflows/main/01a-project-definition/04-requirement-framework.md"
+      ],
+      "applies_when": "项目定义建立",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "5717a0528684e6725132716a35ff6cdcd301a28a546e103c7760347f70303941"
+    },
+    {
+      "id": "spec-project-understanding",
+      "type": "agent-skill",
+      "path": "skills/spec-project-understanding",
+      "sources": [
+        "docs/workflows/main/01b-project-understanding/01-project-orientation.md",
+        "docs/workflows/main/01b-project-understanding/02-business-understanding.md",
+        "docs/workflows/main/01b-project-understanding/03-system-understanding.md",
+        "docs/workflows/main/01b-project-understanding/04-requirement-positioning.md"
+      ],
+      "applies_when": "项目认知建立",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "47de8cf934cecb63c35f955934a207a500606c87d367c6d37e4b661c26bdd6a5"
+    },
+    {
+      "id": "spec-requirement-clarification",
+      "type": "agent-skill",
+      "path": "skills/spec-requirement-clarification",
+      "sources": [
+        "docs/workflows/main/02-requirement-clarification/01-requirement-interpretation.md",
+        "docs/workflows/main/02-requirement-clarification/02-ambiguity-gap-identification.md",
+        "docs/workflows/main/02-requirement-clarification/03-scope-rule-confirmation.md",
+        "docs/workflows/main/02-requirement-clarification/04-acceptance-criteria-confirmation.md"
+      ],
+      "applies_when": "需求澄清",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "2f91d11a188f9d886aca3bb6322e7d3c33e32a0e5ce5a47a7147c61251ecec16"
+    },
+    {
+      "id": "spec-technical-design",
+      "type": "agent-skill",
+      "path": "skills/spec-technical-design",
+      "sources": [
+        "docs/workflows/main/03-technical-design/01-current-state-impact-analysis.md",
+        "docs/workflows/main/03-technical-design/02-solution-design-decision.md",
+        "docs/workflows/main/03-technical-design/03-detailed-technical-design.md",
+        "docs/workflows/main/03-technical-design/04-design-acceptance-convergence.md"
+      ],
+      "applies_when": "技术方案设计",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "b1f175343a3b51ec555da4a89004e17a5657544064bc854e6e589ed08cfe6a60"
+    },
+    {
+      "id": "spec-implementation-planning",
+      "type": "agent-skill",
+      "path": "skills/spec-implementation-planning",
+      "sources": [
+        "docs/workflows/main/04-implementation-planning/01-implementation-baseline-handoff.md",
+        "docs/workflows/main/04-implementation-planning/02-implementation-task-decomposition.md",
+        "docs/workflows/main/04-implementation-planning/03-task-definition-and-orchestration.md",
+        "docs/workflows/main/04-implementation-planning/04-task-set-validation.md"
+      ],
+      "applies_when": "实施规划",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "e16345794774d5c0a4fa6931e3d9ba6f80461db0bbb49296f20654aba10d04e3"
+    },
+    {
+      "id": "spec-development-execution",
+      "type": "agent-skill",
+      "path": "skills/spec-development-execution",
+      "sources": [
+        "docs/workflows/main/05-development-execution/01-ready-task-scheduling.md",
+        "docs/workflows/main/05-development-execution/02-autonomous-implementation-and-closure.md",
+        "docs/workflows/main/05-development-execution/03-verification-and-exception-convergence.md",
+        "docs/workflows/main/05-development-execution/04-state-commit-and-continuous-progression.md"
+      ],
+      "applies_when": "开发实施",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration",
+        "rule-code-quality"
+      ],
+      "requires": [
+        "read-and-route",
+        "authority-and-state",
+        "trace-and-evidence",
+        "deterministic-verification",
+        "git-lifecycle"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "e495a16771ffd9815a5ba907fe4f925fa16f315439ef7032894f7ab0f3f4c829"
+    },
+    {
+      "id": "spec-verification-convergence",
+      "type": "agent-skill",
+      "path": "skills/spec-verification-convergence",
+      "sources": [
+        "docs/workflows/main/06-verification-convergence/01-verification-baseline-establishment.md",
+        "docs/workflows/main/06-verification-convergence/02-multi-dimensional-verification-execution.md",
+        "docs/workflows/main/06-verification-convergence/03-verification-finding-triage-and-deviation-convergence.md",
+        "docs/workflows/main/06-verification-convergence/04-evidence-closure-and-status-convergence.md"
+      ],
+      "applies_when": "验证收敛",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration",
+        "rule-code-quality"
+      ],
+      "requires": [
+        "read-and-route",
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "0e7264a8e01d3f46315c309d9c5a6c38ec7d19b0c1bb6dfbadb880bd1192d838"
+    },
+    {
+      "id": "spec-process-improvement",
+      "type": "agent-skill",
+      "path": "skills/spec-process-improvement",
+      "sources": [
+        "docs/workflows/main/07-process-review-improvement/01-evidence-collection.md",
+        "docs/workflows/main/07-process-review-improvement/02-process-reconstruction.md",
+        "docs/workflows/main/07-process-review-improvement/03-issue-detection.md",
+        "docs/workflows/main/07-process-review-improvement/04-root-cause-analysis.md",
+        "docs/workflows/main/07-process-review-improvement/05-improvement-design.md",
+        "docs/workflows/main/07-process-review-improvement/06-implementation-and-validation.md"
+      ],
+      "applies_when": "流程复盘改进",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "7a4b9937a85d3455cca48cc917b4060a4b1f0934694bf3907e72ee6e2ac18cf9"
+    },
+    {
+      "id": "spec-debug",
+      "type": "agent-skill",
+      "path": "skills/spec-debug",
+      "sources": [
+        "docs/workflows/exceptions/debug-and-defect-resolution/01-failure-intake-and-reproduction.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/02-evidence-collection-and-fault-localization.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/03-root-cause-confirmation-and-correction-routing.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/04-fix-verification-and-failure-convergence.md"
+      ],
+      "applies_when": "调试与缺陷解决",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "f685f463253f7e5836adf263eade712cccb965c764bcbf6e2f04fb739fcb91dd"
+    },
+    {
+      "id": "spec-project-onboarding",
+      "type": "agent-skill",
+      "path": "skills/spec-project-onboarding",
+      "sources": [
+        "docs/meta-protocols/project-onboarding.md"
+      ],
+      "applies_when": "建立、复用、刷新或迁移 Target 的 Adoption Baseline，仅持久化长期意图与稳定绑定；不承担维护者 Harness 构建",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "authority-and-state",
+        "trace-and-evidence"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "490d931561d4a295c3f3dfc890ebed4d62034f5dbb93592b6a6d55268e3642fb"
+    },
+    {
+      "id": "spec-harness-adoption",
+      "type": "agent-skill",
+      "path": "skills/spec-harness-adoption",
+      "sources": [
+        "docs/meta-protocols/harness-adoption-and-adaptation.md"
+      ],
+      "applies_when": "定义包消费契约及目标侧读取、环境发现、适配、验收与恢复；预编译程序随 Harness Package 提供",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "identity-and-scope",
+        "authority-and-state",
+        "trace-and-evidence",
+        "deterministic-verification",
+        "independent-review",
+        "scoped-execution",
+        "git-lifecycle",
+        "observe-and-recover"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "2d181fa3982757d060ecd4a8ba4625dc5249cbdfcd0fb091b24db0de5b80d2f0"
+    },
+    {
+      "id": "entry",
+      "type": "bootstrap",
+      "path": "bootstrap/BOOTSTRAP.md",
+      "sources": [
+        "docs/meta-protocols/harness-adoption-and-adaptation.md",
+        "docs/meta-protocols/project-onboarding.md"
+      ],
+      "applies_when": "包消费入口、组合或完整性核验",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "identity-and-scope"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "89914e42519f4543bd83f0c3e527b5e3be6d7d087671129cab0987a32e37c6a7"
+    },
+    {
+      "id": "routes",
+      "type": "bootstrap",
+      "path": "bootstrap/routes.md",
+      "sources": [
+        "docs/meta-protocols/harness-adoption-and-adaptation.md",
+        "docs/meta-protocols/project-onboarding.md",
+        "docs/rules/agent-delegation-and-coordination.md",
+        "docs/rules/code-quality.md",
+        "docs/rules/global-contracts.md",
+        "docs/rules/human-agent-collaboration.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/01-failure-intake-and-reproduction.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/02-evidence-collection-and-fault-localization.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/03-root-cause-confirmation-and-correction-routing.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/04-fix-verification-and-failure-convergence.md",
+        "docs/workflows/main/01a-project-definition/01-project-positioning.md",
+        "docs/workflows/main/01a-project-definition/02-business-definition.md",
+        "docs/workflows/main/01a-project-definition/03-system-definition.md",
+        "docs/workflows/main/01a-project-definition/04-requirement-framework.md",
+        "docs/workflows/main/01b-project-understanding/01-project-orientation.md",
+        "docs/workflows/main/01b-project-understanding/02-business-understanding.md",
+        "docs/workflows/main/01b-project-understanding/03-system-understanding.md",
+        "docs/workflows/main/01b-project-understanding/04-requirement-positioning.md",
+        "docs/workflows/main/02-requirement-clarification/01-requirement-interpretation.md",
+        "docs/workflows/main/02-requirement-clarification/02-ambiguity-gap-identification.md",
+        "docs/workflows/main/02-requirement-clarification/03-scope-rule-confirmation.md",
+        "docs/workflows/main/02-requirement-clarification/04-acceptance-criteria-confirmation.md",
+        "docs/workflows/main/03-technical-design/01-current-state-impact-analysis.md",
+        "docs/workflows/main/03-technical-design/02-solution-design-decision.md",
+        "docs/workflows/main/03-technical-design/03-detailed-technical-design.md",
+        "docs/workflows/main/03-technical-design/04-design-acceptance-convergence.md",
+        "docs/workflows/main/04-implementation-planning/01-implementation-baseline-handoff.md",
+        "docs/workflows/main/04-implementation-planning/02-implementation-task-decomposition.md",
+        "docs/workflows/main/04-implementation-planning/03-task-definition-and-orchestration.md",
+        "docs/workflows/main/04-implementation-planning/04-task-set-validation.md",
+        "docs/workflows/main/05-development-execution/01-ready-task-scheduling.md",
+        "docs/workflows/main/05-development-execution/02-autonomous-implementation-and-closure.md",
+        "docs/workflows/main/05-development-execution/03-verification-and-exception-convergence.md",
+        "docs/workflows/main/05-development-execution/04-state-commit-and-continuous-progression.md",
+        "docs/workflows/main/06-verification-convergence/01-verification-baseline-establishment.md",
+        "docs/workflows/main/06-verification-convergence/02-multi-dimensional-verification-execution.md",
+        "docs/workflows/main/06-verification-convergence/03-verification-finding-triage-and-deviation-convergence.md",
+        "docs/workflows/main/06-verification-convergence/04-evidence-closure-and-status-convergence.md",
+        "docs/workflows/main/07-process-review-improvement/01-evidence-collection.md",
+        "docs/workflows/main/07-process-review-improvement/02-process-reconstruction.md",
+        "docs/workflows/main/07-process-review-improvement/03-issue-detection.md",
+        "docs/workflows/main/07-process-review-improvement/04-root-cause-analysis.md",
+        "docs/workflows/main/07-process-review-improvement/05-improvement-design.md",
+        "docs/workflows/main/07-process-review-improvement/06-implementation-and-validation.md"
+      ],
+      "applies_when": "包消费入口、组合或完整性核验",
+      "dependencies": [
+        "rule-global",
+        "rule-collaboration"
+      ],
+      "requires": [
+        "read-and-route",
+        "identity-and-scope"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "8393f805812ad3053aa7ec5fa1e8406336a0cca42f20c40a3ca9a87e18413332"
+    },
+    {
+      "id": "requirements",
+      "type": "requirements",
+      "path": "bootstrap/requirements.md",
+      "sources": [
+        "docs/meta-protocols/harness-adoption-and-adaptation.md",
+        "docs/meta-protocols/project-onboarding.md",
+        "docs/rules/agent-delegation-and-coordination.md",
+        "docs/rules/code-quality.md",
+        "docs/rules/global-contracts.md",
+        "docs/rules/human-agent-collaboration.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/01-failure-intake-and-reproduction.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/02-evidence-collection-and-fault-localization.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/03-root-cause-confirmation-and-correction-routing.md",
+        "docs/workflows/exceptions/debug-and-defect-resolution/04-fix-verification-and-failure-convergence.md",
+        "docs/workflows/main/01a-project-definition/01-project-positioning.md",
+        "docs/workflows/main/01a-project-definition/02-business-definition.md",
+        "docs/workflows/main/01a-project-definition/03-system-definition.md",
+        "docs/workflows/main/01a-project-definition/04-requirement-framework.md",
+        "docs/workflows/main/01b-project-understanding/01-project-orientation.md",
+        "docs/workflows/main/01b-project-understanding/02-business-understanding.md",
+        "docs/workflows/main/01b-project-understanding/03-system-understanding.md",
+        "docs/workflows/main/01b-project-understanding/04-requirement-positioning.md",
+        "docs/workflows/main/02-requirement-clarification/01-requirement-interpretation.md",
+        "docs/workflows/main/02-requirement-clarification/02-ambiguity-gap-identification.md",
+        "docs/workflows/main/02-requirement-clarification/03-scope-rule-confirmation.md",
+        "docs/workflows/main/02-requirement-clarification/04-acceptance-criteria-confirmation.md",
+        "docs/workflows/main/03-technical-design/01-current-state-impact-analysis.md",
+        "docs/workflows/main/03-technical-design/02-solution-design-decision.md",
+        "docs/workflows/main/03-technical-design/03-detailed-technical-design.md",
+        "docs/workflows/main/03-technical-design/04-design-acceptance-convergence.md",
+        "docs/workflows/main/04-implementation-planning/01-implementation-baseline-handoff.md",
+        "docs/workflows/main/04-implementation-planning/02-implementation-task-decomposition.md",
+        "docs/workflows/main/04-implementation-planning/03-task-definition-and-orchestration.md",
+        "docs/workflows/main/04-implementation-planning/04-task-set-validation.md",
+        "docs/workflows/main/05-development-execution/01-ready-task-scheduling.md",
+        "docs/workflows/main/05-development-execution/02-autonomous-implementation-and-closure.md",
+        "docs/workflows/main/05-development-execution/03-verification-and-exception-convergence.md",
+        "docs/workflows/main/05-development-execution/04-state-commit-and-continuous-progression.md",
+        "docs/workflows/main/06-verification-convergence/01-verification-baseline-establishment.md",
+        "docs/workflows/main/06-verification-convergence/02-multi-dimensional-verification-execution.md",
+        "docs/workflows/main/06-verification-convergence/03-verification-finding-triage-and-deviation-convergence.md",
+        "docs/workflows/main/06-verification-convergence/04-evidence-closure-and-status-convergence.md",
+        "docs/workflows/main/07-process-review-improvement/01-evidence-collection.md",
+        "docs/workflows/main/07-process-review-improvement/02-process-reconstruction.md",
+        "docs/workflows/main/07-process-review-improvement/03-issue-detection.md",
+        "docs/workflows/main/07-process-review-improvement/04-root-cause-analysis.md",
+        "docs/workflows/main/07-process-review-improvement/05-improvement-design.md",
+        "docs/workflows/main/07-process-review-improvement/06-implementation-and-validation.md"
+      ],
+      "applies_when": "包消费入口、组合或完整性核验",
+      "dependencies": [],
+      "requires": [
+        "read-and-route",
+        "identity-and-scope"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "48ab8bb6d2af0d52c9bbefa19c2c107306c9fbb8443d97da04ea801f077cfda4"
+    },
+    {
+      "id": "readme",
+      "type": "documentation",
+      "path": "README.md",
+      "sources": [
+        "docs/meta-protocols/harness-adoption-and-adaptation.md",
+        "docs/meta-protocols/project-onboarding.md"
+      ],
+      "applies_when": "包消费入口、组合或完整性核验",
+      "dependencies": [],
+      "requires": [
+        "read-and-route",
+        "identity-and-scope"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "c3a8a708577fead54eb602f60c604061f5a566c549b79c640639c6d48a0edd52"
+    },
+    {
+      "id": "plugin",
+      "type": "agent-plugin",
+      "path": "plugin.json",
+      "sources": [],
+      "applies_when": "包消费入口、组合或完整性核验",
+      "dependencies": [],
+      "requires": [
+        "read-and-route",
+        "identity-and-scope"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "423cd76906f28638b5e4561c912d4b88538d628ca1f2eb8038258e1b124116c9"
+    },
+    {
+      "id": "integrity",
+      "type": "tool",
+      "path": "scripts/verify.py",
+      "sources": [
+        "docs/meta-protocols/harness-adoption-and-adaptation.md"
+      ],
+      "applies_when": "包消费入口、组合或完整性核验",
+      "dependencies": [],
+      "requires": [
+        "read-and-route",
+        "identity-and-scope"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "fb548615d15143ccdf4c293c858eef01c404f246507c979a98bc9c2d3ae17f36"
+    }
+  ],
+  "files": {
+    "bootstrap/BOOTSTRAP.md": "40784682fa52df74b9006d3f7b11f410fad2a385028c51c86a40bf2969f550e2",
+    "bootstrap/requirements.md": "ab68478fe5e106bfbc1a5d8fb1a701d8d9f1856e8fb7022d85704bf0da638c66",
+    "bootstrap/routes.md": "704704864ffd62ab555df40b0ce718a205bfe34b8db0581d0192fa58dc5778d8",
+    "plugin.json": "5ce1881e1359dfb7657c041c8cdb9826db14335cfc8f01eb95450bae4a2c6c80",
+    "README.md": "66e31f7e58e74b01c731e40f1f5830d06f25980b5654eb3108099a9c7e7c21f9",
+    "rules/code-quality.md": "7f6b0e5d05f8a79778dda950844ce3f0bf0aeccd3d9c0666eb307f1c9b3cae89",
+    "rules/collaboration.md": "7ee8da4fbf8fea89fac19f864700d3772f3f489a53a17cc1057e49168768b413",
+    "rules/delegation.md": "8a70b666b2fbcb4cfdbe042f5fd52cb7334ace01cae165878f26ea7057baf20e",
+    "rules/global.md": "9871584999e6d58f9e7cc67bcc712f91bf2c06a4896dd5d585e1b18eca5d015a",
+    "scripts/verify.py": "62812b7c380421b2dbfb62aa84a72b1543b0efc50c5bf7ca3b7066bbd0b1c6bc",
+    "skills/spec-debug/SKILL.md": "a4b2f6d51b338b76e91d42821a1e6cd44285a69e91c21ee867ff3c351597a26c",
+    "skills/spec-development-execution/SKILL.md": "91c74ffb3c020db1468d2abe19eaa281a8278b3deef72577433099293e821147",
+    "skills/spec-harness-adoption/references/candidate-validation.md": "8d0bf9d5e4a2ecb24345c8f51be57d9fbcd22e52fec19b6df78007039cacafd4",
+    "skills/spec-harness-adoption/SKILL.md": "5db3edf416e284ac1b2f62248a61ec327091d3478ed7b4e6c99883543767c664",
+    "skills/spec-implementation-planning/SKILL.md": "394be7b2f687afd9cdf0df60e6f5dfc91cbd8ccc1291598d2f44b35fed2a6b9f",
+    "skills/spec-process-improvement/SKILL.md": "b9d3fc13208c4090a1cc3d436ae9bfd9710374d9f37f62e157939f433e8db123",
+    "skills/spec-project-definition/SKILL.md": "0591557d42d56da275d0007fa61e3aa042af38a518d09e873666d9a1ac83e463",
+    "skills/spec-project-onboarding/SKILL.md": "3abbd8c7b6dc765111a9d9c58b055db6d5b131d86a5ac1696ff77267dc4713ab",
+    "skills/spec-project-understanding/SKILL.md": "b750a21f1992a4f977200bac7afb97dc022067b76c512c8eb75d15f9e2f63878",
+    "skills/spec-requirement-clarification/SKILL.md": "3bed21544cc133281660e51d483b6d9406b6d233484169d6cdb85c71f71c09c8",
+    "skills/spec-technical-design/SKILL.md": "8d61c6eb2d5a4b61ee789cb67145fe2c67023d3b78b8af334147adbe647dbec7",
+    "skills/spec-verification-convergence/SKILL.md": "b6458519f2f62d44499644186b9ba5366042e9008ef641aae6535f23a1f2fad9"
+  }
+}
