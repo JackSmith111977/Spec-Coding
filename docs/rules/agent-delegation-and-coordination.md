@@ -240,7 +240,9 @@ Subagent 完成仅表示当前 Delegated Work 完成，不自动意味着 Task `
 
 本规则负责稳定的 Main Agent / Subagent 协作语义；Workflow 只声明局部委派条件或验证需要并引用本规则，不复制角色与调度正文。
 
-Harness Compilation 负责将本规则编译到当前 Coding Agent：发现可用 Agent / Model / Thinking / Tools / Workspace，按需补能力证据，并以最低复杂度实现 Role、Context Isolation、Model Routing、Fallback 与 Runtime Coordination。
+维护者按 [`Harness Build & Release`](../governance/harness-build-and-release.md) 预编译本规则中的稳定角色、边界与能力要求。目标侧按 [`Harness Adoption & Adaptation`](../meta-protocols/harness-adoption-and-adaptation.md) 发现当前 Agent / Model / Thinking / Tools / Workspace，以最低必要复杂度实现 Role、Context Isolation、Model Routing、Fallback 与 Runtime Coordination，并完成验收。
+
+执行期间由 Main Agent 与当前 Harness 按本规则的 Capability-aware Routing 选择具体配置；任务需求或能力变化时，只刷新并验证受影响机制。稳定规范不绑定具体模型，运行时调度不重新启动 Canonical → Harness 预编译。
 
 最终必须保持：
 

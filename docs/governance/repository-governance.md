@@ -98,6 +98,8 @@ Diff 只判断“哪些 Source 变化”，不预先判断变化是否足够语�
 
 Harness Defect 与 Standard / Packaging Delta 可以显式加入 Scope。新增 Canonical Source 无现有映射时，先按所属 Workflow / Rule / Meta Protocol 解析候选 Artifact；无法可靠归属时由 Maintainer 建立首次绑定。
 
+同时比较两个源版本中的 `docs/manifest.yaml`：规范登记、所属阶段、Rule 适用范围或执行路由改变时，按旧、新关系及资产依赖扩展受影响消费者，即使 Markdown 正文没有变化也必须重建相应内容。仅从清单移除的 Source 也按移除处理；新 Schema 或字段影响无法解释时回退 Full Build。Manifest 属于构建输入，不计入 Canonical 正文数量；只重生成 Package Envelope 不能替代消费者重建。
+
 无法证明受影响范围时必须回退 Full Build：
 
 > **Incremental when provable; full when uncertain.｜能证明范围时增量，不能证明时全量。**
@@ -134,6 +136,8 @@ Build Manifest 至少保存：
 - **Independent Reviewer｜独立审查**：Semantic Reviewer 直接读取 Canonical 与 Candidate，不依赖 Builder Summary、Source Backcheck 结论或 Builder 推理；
 - **Harness-only Behavioral Test｜仅 Harness 行为测试**：Fresh Test Agent 只消费 Harness Candidate 与 Scenario，不读取 Canonical；Canonical 仅作为 Reviewer 的 Test Oracle；
 - **Affected Verification｜受影响验证**：Full Build 全量审查；Incremental Build 全量执行 Package Structural Verification，Semantic Review 聚焦 `affected_artifacts`，Behavioral Challenge 聚焦 `validation_focus`；共享 Rule / Bootstrap / Routing / Package Composition 变化时扩大到包级集成挑战。
+- **Manifest-aware Verification｜清单变化验证**：适用关系或路由变化需覆盖受影响消费者的语义与组合验证，正文 Hash 未变不豁免。
+- **Controlled Candidate Validation｜受控候选验证**：首次构建及接入链路变化时，维护者按目标侧协议的受控入口验证未发布候选；绑定固定内容、隔离测试项目及场景授权，不伪造发行身份或将测试 `READY` 用于正式接入。
 
 验证失败回到最早失真源，不在验证层直接修 Candidate 后继续判定 PASS。最终只允许 `PASS / BLOCKED`。
 
@@ -145,7 +149,7 @@ Build Manifest 至少保存：
 - **Identity Preservation｜保持内容身份**：Stage 4 只核对并发布，不修改 Harness Artifact、Build Manifest、Package Envelope 或其他会改变 Candidate 内容身份的发布内容；需要修改时形成新 Candidate 并重新验证；
 - **Version Identity Before Verification｜版本身份先于最终验证**：最终预期版本及属于 Candidate 的版本元数据应在 Stage 3 Candidate Freeze 前确定；
 - **Git-backed History｜Git 承担历史**：`packages/harness/` 只维护当前版本，历史通过 Git Tag / GitHub Release 获取；
-- **Re-enter Pipeline｜变化重新入链**：发布后的 Canonical Delta、Harness Defect、Standard / Packaging Delta 或 Artifact Add / Update / Remove 均重新进入 Stage 1，禁止直接热修 Release Artifact。
+- **Re-enter Pipeline｜变化重新入链**：发布后的 Canonical Delta、影响构建解释的 Manifest Delta、Harness Defect、Standard / Packaging Delta 或 Artifact Add / Update / Remove 均重新进入 Stage 1，禁止直接热修 Release Artifact。
 
 当前阶段继续保持：
 
@@ -224,6 +228,7 @@ Merge / Tag / Release
 - 上下游术语、状态、Artifact Contract 与适用 Rules 一致；
 - Manifest、Human Navigation、Governance 与实际目录一致；
 - Build Scope Baseline 与上一正式 Release 对齐；
+- 两个源版本的 Manifest 已比较，规范集合、适用范围和路由变化已传播到消费者及验证范围；
 - 受影响 Artifact 已从完整当前 Canonical 重新读取并生成，而不是按 Diff patch；
 - Builder Source Backcheck 已完成；
 - Harness Package 的 Source Trace 指向本轮实际直接读取的当前 Canonical；
@@ -254,12 +259,18 @@ Canonical
 
 ```text
 Released Harness Package
-→ Current Environment Adaptation
+→ Bootstrap / 预编译接入程序
+→ Project Onboarding（按需）
+→ Current Environment Discovery / Adaptation
 → Harness Acceptance
 → Workflow Execution
 ```
 
 目标项目 Coding Agent 不读取维护者构建内部状态，也不重新执行 Canonical → Harness 预编译。
+
+维护者与客户端共用 [`Harness Adoption & Adaptation`](../meta-protocols/harness-adoption-and-adaptation.md) 的包消费契约。该协议及 Project Onboarding 都属于预编译输入；包内必须提供无需先安装 Skill 即可读取的入口。契约信息应附着于现有 Package / Skill / Bootstrap，不额外发布强制 IR 层。
+
+目标侧转换资产必须对照未修改的原始包完成语义回查，再验证真实加载与行为；验收预期不能随本地转换一起改变。发布前候选试验复用同一接入链路，但其授权、基线和证据仅对测试边界有效，不代替正式发布和真实项目验收。
 
 ---
 
@@ -272,5 +283,5 @@ Released Harness Package
 - Scenario Stress Test / Fresh-Agent Blind Run；
 - 至少一次真实 Diff-driven Incremental Build 演练；
 - 2–3 个真实 Runtime / 项目 Pilot；
-- Target-side Package Adoption / Adaptation Protocol 收敛；
+- Target-side Package Adoption / Adaptation Protocol 经真实接入、复用与变化恢复试验验证；
 - 未发现重大 Trace 逃逸、静默假设或无法解释的人工依赖。

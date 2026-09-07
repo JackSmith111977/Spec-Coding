@@ -97,9 +97,9 @@ Active Constraints
 
 > **Artifact 保持完整，Context 保持最小。**
 
-Execution Unit 已是 Formal Task 的正式运行时委派输入，不再叠加第二套 Delegation Contract。Agent Role、Model、Thinking、Fresh / Fork、Scout、Tools、Workspace、Attempt 与 Fallback 属于运行时策略，由当前 Task、Agent Delegation Rules 与 Harness Compilation 动态推导，不写回 Task 核心定义。
+Execution Unit 已是 Formal Task 的正式运行时委派输入，不再叠加第二套 Delegation Contract。Agent Role、Model、Thinking、Fresh / Fork、Scout、Tools、Workspace、Attempt 与 Fallback 属于运行时策略，由 Main Agent 与当前 Harness 根据 Task、Agent Delegation Rules 及有效环境证据动态推导，不写回 Task 核心定义。
 
-模型选择遵循 Harness Compilation 的 Capability-aware Routing（能力感知路由）：先发现当前 Runtime 实际可用模型 / Thinking / Tool / Context，再按 Role 与当前 Task 的复杂度、风险和约束选择最低充分能力配置。
+模型选择遵循 [`Agent Delegation & Coordination`](../../../rules/agent-delegation-and-coordination.md) 的 Capability-aware Routing（能力感知路由）：先确认当前 Runtime 实际可用模型 / Thinking / Tool / Context，再按 Role 与当前 Task 的复杂度、风险和约束选择最低充分能力配置。现有机制不能满足需求或环境证据失效时，按 [`Harness Adoption & Adaptation`](../../../meta-protocols/harness-adoption-and-adaptation.md) 刷新受影响机制并验证；必要能力未满足前不启动依赖它的任务，不重新执行仓库预编译。
 
 ---
 

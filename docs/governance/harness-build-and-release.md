@@ -2,7 +2,7 @@
 
 本文件定义 Spec Coding 仓库维护者如何从当前 Canonical Workflow / Rules / Meta Protocol 创建、更新、验证并发布可复用 Harness Package。
 
-它属于 Governance（治理）与 Release Engineering（发布工程），**不属于目标项目 Coding Agent 的执行流程**。使用方只消费已发布 Harness Package，不参与预编译过程。
+它属于 Governance（治理）与 Release Engineering（发布工程），**不属于目标项目 Coding Agent 的执行流程**。正式使用方只消费已发布 Harness Package，不参与预编译过程；维护者可在 Stage 3 受控地验证未发布候选。
 
 > **Canonical defines behavior; released Harness is derived.｜Canonical 定义行为，发布 Harness 是派生产物。**
 
@@ -29,6 +29,8 @@ Canonical Workflow / Rules / Meta Protocol
 ```
 
 本流程覆盖首次创建、Canonical 更新、Harness 缺陷修复、外部标准 / Packaging 变化、组件删除、发布与回滚。
+
+维护者输出与目标侧输入统一遵循 [`Harness 读取与适配：包消费契约`](../meta-protocols/harness-adoption-and-adaptation.md#2-package-consumption-contract包消费契约)。Build 负责提供完整的包内入口、行为、适配要求和验收依据；目标侧按该契约读取和实现环境差异。
 
 ---
 
@@ -82,10 +84,13 @@ Diff 负责识别 `Added / Modified / Deleted / Renamed` Source，**不负责判
 
 除 Canonical Diff 外，Scope 还可来自：
 
+- **Manifest Delta｜规范清单变化**：比较上一 `source_revision` 与当前候选源版本中的 `docs/manifest.yaml`，识别规范登记、所属阶段、Rule 适用范围、入口 / 路由以及其他影响构建解释的字段变化；即使 Markdown 文件没有变化，也必须进入范围判定；
 - **Harness Defect**：Canonical 未变，但已发布 Harness 存在遗漏、弱化、错误装配或不可用表达；
 - **Standard / Packaging Delta**：Agent Skills、Agent Plugins、MCP、AGENTS.md 等采用方式变化并实质影响当前 Package。
 
 仅 Reference 文案、官方 URL 或版本号变化本身，不自动触发 Harness 重建；只有 Build / Packaging Decision 变化时才进入 Scope。
+
+两侧 Manifest 必须与各自源版本绑定，不能用当前 Manifest 解释旧 Release 的适用关系。纯导航文案或版本元数据变化可只刷新相应 Package Envelope；涉及执行路由或行为适用范围的变化必须传播到实际 Harness 内容。无法判断新字段或 Schema 变化的影响时回退 Full Build。Manifest 是构建输入，不因此计入 Canonical 正文数量或混入 Artifact 的 `sources`。
 
 ## 1.4 Resolve Affected Outputs｜解析受影响产物
 
@@ -113,10 +118,13 @@ Affected Harness Artifacts
 - `Deleted`：必须使用上一版 Manifest 反查，不能依赖当前文件仍存在；
 - `Renamed`：迁移旧 Source Mapping，并重建关联 Artifact；
 - `Added`：根据所属 Canonical Workflow / Rule / Meta Protocol 分组确定候选 Artifact；无法可靠归属时由 Maintainer 建立首次绑定；
+- `Manifest Delta`：联合旧、新规范集合及适用关系解析消费者。只从清单移除但仍在磁盘上的 Source 也按移除处理；新增登记按新增处理。Rule 适用范围、所属阶段或执行路由改变时，重建需要新增、移除或调整该行为的消费者及受影响共享依赖；不能只更新清单而保留旧 Skill 组合；
 - `Harness Defect`：直接将已确认的 Artifact 加入 Scope；
 - `Standard / Packaging Delta`：按受影响 Artifact Type 或 Package Surface 扩展 Scope。
 
 Package Envelope（如 package manifest、artifact inventory、hash list、routing / bootstrap index）成本较低，**每次构建都重新生成**；只有 Skill、MCP、Bootstrap 等实际 Harness 内容采用增量重建。
+
+正文 Source 映射与 Manifest 变化的影响集合取并集，再沿资产依赖扩展到受影响消费者。旧、新映射不能完整解释影响时回退 Full Build；`validation_focus` 必须包含适用范围增减、入口转换及共享规则组合的相关挑战。
 
 ## 1.5 Build Scope Result｜范围结果
 
@@ -129,7 +137,7 @@ baseline:
   source_revision: <commit>
 candidate_revision: <commit>
 changes:
-  - <changed source / defect / standard delta>
+  - <正文变化 / 规范清单变化 / 缺陷 / 标准变化>
 affected_artifacts:
   - <artifact id>
 validation_focus:
@@ -142,7 +150,7 @@ validation_focus:
 
 - 首次构建明确进入 Full Build；
 - 增量构建绑定到上一正式 Release 的 `source_revision`；
-- 所有 Diff / Defect / Standard Delta 均已解析到受影响 Artifact；
+- 所有正文 Diff / Manifest Delta / Defect / Standard Delta 均已解析到受影响 Artifact；
 - 无法可靠解释的影响范围已回退 Full Build；
 - 未把无关 Canonical / Harness 资产扩大进 Scope；
 - 如果真正问题在 Canonical，已先修正 Canonical，而不是在 Harness 中覆盖错误。
@@ -176,6 +184,8 @@ Builder 直接读取当前 Canonical Markdown，不通过 Summary、Clause、IR 
 ### Full Build
 
 首次 Full Build 依据 `docs/manifest.yaml` 的 Canonical 集合与 Rule 适用范围，逐 Artifact 直接读取所需 Workflow / Rule / Meta Protocol。可以分批处理，但每个 Builder 必须直接消费原始 Canonical。
+
+Full / Incremental Build 均按当前候选源版本的 Manifest 解释集合、适用条件和路由；即使正文未变，因 Manifest Delta 受影响的 Artifact 也必须按当前关系完整重建。旧 Manifest 仅用于判定变化范围，不用于生成新行为。
 
 ### Incremental Build
 
@@ -244,6 +254,18 @@ Runtime-specific Capability
 3. **Useful Guidance Reachable｜有效指导可达**：会影响 Agent 正确执行的启发式、解释和示例不得因精炼而消失；
 4. **No Invented Norms｜禁止新增规范行为**：不得把 Guidance 擅自升级为 MUST，也不得新增 Canonical 不存在的 Gate / Authority / Boundary。
 
+### Consumer Handoff｜消费者交接
+
+按包消费契约装配接入入口及其依赖：
+
+- 将 Project Onboarding 与 Harness Adoption & Adaptation 一并预编译；Bootstrap 提供安装前即可直接读取的入口，不能依赖尚未加载的 Skill 才能完成接入。
+- 全局约束、阶段路由与异常触发必须在相关动作之前可取得；流程正文、Guidance 和参考资源可以渐进加载。
+- 包内明确适用条件、共享依赖、环境能力的行为要求、允许适配边界和验收预期。能力名称不能替代完整要求，客户端不得被迫回读 Canonical 才能确定必要语义。
+- 当前包内执行所需引用绑定同一发行版本。Runtime 动态事实留给客户端发现，不与稳定能力要求混淆。
+- 检查完整 Canonical 集合中的适用行为是否都有承载位置，包括跨 Artifact 的共享规则与接入行为；不能只审查已经生成的 Artifact 而漏掉未分配的行为。
+
+本节定义构建交付责任，具体信息要求以包消费契约为准，不另建平行格式。
+
 ## 2.4 Source Backcheck & Record｜原文回查与记录
 
 Artifact 生成后，Builder 必须直接回到本轮实际读取的 Canonical 原文进行一次 Source Backcheck（原文回查）：
@@ -286,6 +308,8 @@ artifacts:
 
 Build Manifest 只记录最终派生关系与内容身份，不记录 Builder 摘要、推理过程或审查 scratch state。
 
+同时提供 Artifact 实际路径及包内 Bootstrap / 路由入口定位。适用条件、依赖、适配要求与验收依据可直接放在资产正文或配套资源中，由清单或入口明确引用；不要求把自然语言契约展开为结构化 IR。完整性信息应覆盖执行所需文件，目录型资产须明确其文件清单与 Hash 计算范围。
+
 ## 2.5 完成条件
 
 - Scope 内 Artifact 已创建 / 更新 / 删除；
@@ -296,6 +320,7 @@ Build Manifest 只记录最终派生关系与内容身份，不记录 Builder �
 - Builder Source Backcheck 已完成且无未处理偏差；
 - Build Manifest 已更新 `source_revision`、实际直接读取的 Source Trace 与 Artifact Hash；
 - Package Envelope 已基于当前候选全量重生成。
+- 包消费契约所需信息已随候选提供，客户端无需读取构建内部状态或重新预编译 Canonical。
 
 ---
 
@@ -330,6 +355,7 @@ PASS / BLOCKED
 - Build Manifest、`source_revision` 与 Source Trace；
 - Artifact Hash 与 Package Envelope；
 - 悬空引用、重复文件和旧版本残留。
+- 安装前入口及其必要引用可达，包内路径、版本绑定和完整性范围明确。
 
 Structural Verification 不判断语义优劣，只证明候选包的结构与身份自洽。
 
@@ -351,6 +377,7 @@ Fixed Harness Candidate
 - Procedure、阶段边界、状态推进与 Human Authority 是否发生漂移；
 - 对 Agent 实际执行有价值的 Guidance / Example 是否仍然可达；
 - Rule 分散到多个 Skill / Bootstrap 后是否出现语义空洞、重复或冲突。
+- 从完整 Canonical 集合反查是否有适用行为没有承载位置；包内适配要求和验收预期是否足以指导客户端且未发明新的规范行为。
 
 > **Reviewer reads Canonical directly.｜Reviewer 直接读 Canonical，不复用 Builder 的解释。**
 
@@ -377,6 +404,10 @@ exception / routing
 
 并根据 Stage 1 的 `validation_focus` 增加针对性场景。具体 Runtime Compatibility 留给目标侧适配和认证，不要求 Portable Build 穷举全部 Runtime。
 
+首次构建或接入入口、消费契约发生变化时，按 [`受控候选验证`](../meta-protocols/harness-adoption-and-adaptation.md#31-受控候选验证) 从未安装 Harness 的起点执行包内 Bootstrap、Project Onboarding、环境发现、适配和验收，并在测试项目内执行约定场景，检查安装循环依赖和对 Canonical 的隐式依赖。
+
+维护者将候选 Commit / 内容 Hash、测试项目和隔离范围、允许的副作用及停止条件作为 Scenario 中的显式测试授权。授权与测试记录位于冻结候选之外，不通过修改候选内容或伪造 Release Metadata 绕过发行检查。测试结论只对该候选及测试范围有效，作为 Stage 3 证据；不能代替完整发布验证或授予正式接入资格。
+
 > **Test Agent reads Harness only.｜行为测试 Agent 只消费 Harness。**
 
 ## 3.5 Verification Scope｜验证范围
@@ -397,6 +428,7 @@ exception / routing
 - Semantic Review 覆盖 Stage 1 的 `affected_artifacts`；
 - Behavioral Challenge 围绕 `validation_focus` 与受影响行为执行；
 - Global Rule、Bootstrap、Routing、Package Composition 或其他共享行为变化时，增加 Package-level Integration Challenge（包级集成挑战）。
+- Manifest Delta 影响适用范围或消费者关系时，即使正文 Hash 不变，也对受影响消费者执行语义审查，并挑战行为新增、移除及路由转换。
 
 未受影响且内容 Hash 未变化的 Artifact 不要求机械重复全文 Semantic Review；如果影响边界无法可靠证明，则扩大验证范围。
 
@@ -477,6 +509,7 @@ GitHub Release
 - Package version 与必要 Integrity Metadata；
 - CHANGELOG / Release Note；
 - 已确认的最低兼容 / 使用约束。
+- 固定发行包的接入入口及其验证依据；随发布提供的验证记录应回指 Stage 3 候选身份，不修改已冻结包内容或形成自引用 Hash。
 
 `packages/harness/` 只维护当前版本；历史通过 Git Tag / GitHub Release 获取，不维护平行版本目录。
 
@@ -485,6 +518,7 @@ GitHub Release
 发布后的任何变化都重新进入 Stage 1，包括：
 
 - Canonical Delta；
+- 影响构建解释的 Manifest Delta；
 - Harness Defect；
 - Standard / Packaging Delta；
 - Artifact Add / Update / Remove。
@@ -512,7 +546,7 @@ Stage 4 Release
 - Build Manifest、`source_revision` 与 Integrity Metadata 正确；
 - CHANGELOG / Release Note 与实际变化一致；
 - 最近已验证 Release 可作为可靠回滚点；
-- 后续 Target 只消费正式 Released Harness Package。
+- 正式使用方只消费 Released Harness Package；维护者的受控候选验证证据不能被当作正式发布身份。
 
 ---
 
@@ -528,7 +562,7 @@ Project Onboarding 只建立 Adoption Baseline，不参与 Harness Build。
 
 ## Target-side Harness Adaptation｜目标侧 Harness 适配
 
-目标 Coding Agent 只消费 Released Harness Package，并根据当前 Runtime / Project 完成必要 Adaptation / Enhancement / Acceptance；它不重新执行 Canonical → Harness 预编译。
+目标 Coding Agent 按 [`Harness Adoption & Adaptation`](../meta-protocols/harness-adoption-and-adaptation.md) 消费 Released Harness Package，并根据当前 Runtime / Project 完成必要 Adaptation / Enhancement / Acceptance；它不重新执行 Canonical → Harness 预编译。该协议本身属于构建输入，其预编译程序随包提供。
 
 ---
 

@@ -682,4 +682,4 @@ Runtime Reference 的目标不是建设实时 Coding Agent Wiki，而是为 Fres
 
 > **Persist primitives, preserve architecture, fetch version facts｜固化共同原语，保留架构不变量，版本事实随用随取。**
 
-具体目标侧 Adaptation / Acceptance 协议将在后续独立定义；Primitive 语义参见 [`harness-primitives.md`](harness-primitives.md)。
+目标侧读取、Adaptation / Acceptance 遵循 [`../meta-protocols/harness-adoption-and-adaptation.md`](../meta-protocols/harness-adoption-and-adaptation.md)；Primitive 语义参见 [`harness-primitives.md`](harness-primitives.md)。

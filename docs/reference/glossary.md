@@ -42,7 +42,7 @@
 
 | English | 中文 | 含义 |
 |---|---|---|
-| Project Onboarding | 项目接入 | 在消费 Released Harness Package 并进入正式 Workflow 前，建立、复用、刷新或迁移 Spec Coding 与当前 Target 的稳定接入关系。 |
+| Project Onboarding | 项目接入 | 建立、复用、刷新或迁移 Spec Coding 与当前 Target 的稳定接入关系；其预编译程序由包内接入入口调用，为环境适配与 Workflow 提供基线。 |
 | Adoption Baseline | 接入基线 | 当前 Target 如何采用 Spec Coding 的唯一接入事实源，只保存长期使用意图、稳定绑定及必要 Override / Constraint。 |
 | Usage Contract | 使用契约 | 由 Collaboration Mode 派生的 Spec Workspace、Artifact Publication、Repository Binding、Authority 与 Integration 等长期使用约定。 |
 | Spec Workspace | Spec Coding 工作空间 | Requirement、Design、Task、Evidence、Adoption Baseline 等 Spec Coding 持久工作状态的承载空间；可与目标 Repository 分离。 |
@@ -82,6 +82,7 @@
 | Harness Build & Release | Harness 构建与发布 | 仓库维护者直接从当前 Canonical Workflow / Rules / Meta Protocol 预编译、验证、版本化并发布可复用 Harness Package 的维护流程。 |
 | Harness Package | Harness 发行包 | 已通过维护者构建与验证、供目标项目直接取得并适配的版本化 Harness 资产集合；它是 Derived Artifact，不替代 Canonical Source。 |
 | Build Manifest | 构建清单 | Harness Package 中用于记录版本、Source Trace、Artifact Identity、必要 Capability Requirement 与内容 Hash 的轻量发布物料清单；不是新的规范协议。 |
+| Package Consumption Contract | 包消费契约 | Harness Adoption & Adaptation 定义的维护者输出与客户端输入共同信息要求，涵盖发行身份、接入入口、行为路由、依赖、适配要求与验收依据；由现有包和资产承载，不引入独立 IR。 |
 | Target-side Harness Adaptation | 目标侧 Harness 适配 | 使用方基于 Released Harness Package 与当前 Runtime / Project 事实完成必要选配、Runtime-native Enhancement 与 Acceptance 的过程；不重新执行 Canonical-to-Harness 预编译。 |
 | Runtime Reference | 运行时参考 | 为目标侧 Harness Adaptation 提供 Coding Agent 架构不变量与官方事实入口的非规范 Reference；不作为当前 Runtime Capability 的权威来源。 |
 | Runtime Architecture Invariant | 运行时架构不变量 | 会实质影响 Harness 适配策略、跨版本相对稳定且具有官方证据的 Runtime 底层设计特征。 |

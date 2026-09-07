@@ -5,7 +5,7 @@ canonical_root: docs
 canonical_document_count: 34
 canonical_rule_document_count: 4
 canonical_exception_document_count: 4
-canonical_meta_protocol_document_count: 1
+canonical_meta_protocol_document_count: 2
 history_policy: git
 
 navigation:
@@ -16,6 +16,7 @@ navigation:
   rules_index: rules/README.md
   meta_protocols_index: meta-protocols/README.md
   project_onboarding: meta-protocols/project-onboarding.md
+  harness_adoption_adaptation: meta-protocols/harness-adoption-and-adaptation.md
   exception_flows: workflows/exceptions/README.md
   repository_governance: governance/repository-governance.md
   harness_build_release: governance/harness-build-and-release.md
@@ -73,6 +74,9 @@ meta_protocols:
   - id: project-onboarding
     path: meta-protocols/project-onboarding.md
     description: 建立、复用、刷新或迁移 Target 的 Adoption Baseline，仅持久化长期意图与稳定绑定；不承担维护者 Harness 构建
+  - id: harness-adoption-and-adaptation
+    path: meta-protocols/harness-adoption-and-adaptation.md
+    description: 定义包消费契约及目标侧读取、环境发现、适配、验收与恢复；预编译程序随 Harness Package 提供
 
 terminology:
   glossary: reference/glossary.md
@@ -201,7 +205,7 @@ rules:
   - Historical versions are retrieved from Git history / GitHub Release; do not keep parallel versioned copies under docs or packages.
   - Add, delete, move, or rename a canonical stage, rule, exception workflow, or meta protocol document only together with a manifest update.
   - Harness Package creation, update, removal, verification, and release follow governance/harness-build-and-release.md.
-  - Target-side Released Harness Package Adoption / Adaptation is intentionally separate from maintainer build and will be defined independently; target Coding Agents must not be required to rerun Canonical-to-Harness precompilation.
+  - 维护者构建与目标侧消费共用 meta-protocols/harness-adoption-and-adaptation.md 的包消费契约；接入程序随包预编译，客户端不重新执行 Canonical-to-Harness 构建。
   - All formal workflows inherit rules/global-contracts.md unless a workflow defines a stricter rule.
   - Human-Agent Collaboration applies to all formal workflows and to Meta Protocol interactions that involve Human intent, authority, or key judgment.
   - Agent Delegation & Coordination applies whenever Main Agent delegates bounded work, independent review, context isolation, or runtime capability/model routing is used; workflows and Meta Protocols reference rather than duplicate its semantics.

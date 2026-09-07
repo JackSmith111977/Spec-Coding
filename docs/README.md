@@ -78,8 +78,9 @@ Rules 不推进阶段状态；正式消费者引用规则语义，不复制规�
 当前目标项目侧正式 Meta Protocol：
 
 - [`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)：建立、复用、刷新或迁移 Adoption Baseline。
+- [`meta-protocols/harness-adoption-and-adaptation.md`](meta-protocols/harness-adoption-and-adaptation.md)：包消费契约与目标侧读取、环境发现、适配、验收和恢复。
 
-Harness 的维护者构建 / 发布属于 Governance，不再作为目标项目 Coding Agent 的 Meta Protocol。Released Package 的目标侧 Environment Adaptation 将作为后续独立协议设计。
+Harness 的维护者构建 / 发布属于 Governance。两份目标侧 Meta Protocol 的预编译程序随 Package 提供，由安装前可直接读取的 Bootstrap 启动；构建输出与客户端输入遵循同一包消费契约。
 
 ## Governance｜治理
 
@@ -97,6 +98,6 @@ Reference 是非规范知识层；统一入口见 [`reference/README.md`](refere
 
 ## Canonical Corpus｜规范文档集
 
-当前 `manifest.yaml` 登记：34 份 Canonical Stage Documents、4 份 Canonical Rule Documents、4 份 Canonical Exception Workflow Documents、1 份 Canonical Meta Protocol Document。
+当前 `manifest.yaml` 登记：34 份 Canonical Stage Documents、4 份 Canonical Rule Documents、4 份 Canonical Exception Workflow Documents、2 份 Canonical Meta Protocol Documents。
 
 Governance、Reference、README、Overview 与发布后的 Harness Package 不计入 Canonical Corpus。Canonical Markdown 仍是规范 Source of Truth；Harness Package 是从其派生并经过发布验证的执行资产。

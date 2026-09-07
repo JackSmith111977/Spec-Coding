@@ -199,7 +199,9 @@ Harness Ready
 Enter / Resume Workflow
 ```
 
-当前协议只保证 Adoption Baseline 与 Route 已稳定；目标侧如何扫描 Runtime、选配 Portable Artifact、使用 Runtime-native Enhancement 并完成 Harness Acceptance，将在独立协议中定义。
+当前协议只保证 Adoption Baseline 与 Route 已稳定；目标侧扫描 Runtime、选配 Portable Artifact、使用 Runtime-native Enhancement 并完成 Harness Acceptance，遵循 [`harness-adoption-and-adaptation.md`](harness-adoption-and-adaptation.md)。用户从包内 Bootstrap 开始，由预编译接入程序调用本协议的预编译程序，再继续环境适配；本节移交关系不要求安装前已经存在 Harness。
+
+维护者按该协议第 3.1 节验证未发布候选时，本协议在授权的测试项目内执行，移交固定候选包和标明测试用途的基线；不建立真实项目的正式发行绑定，也不将测试状态直接迁移为正式接入。
 
 **完成条件**：Adoption Baseline 有效、最小且稳定绑定当前 Target；Route 明确；后续接入不再需要猜测长期使用意图。
 

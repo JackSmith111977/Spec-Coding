@@ -98,7 +98,15 @@ Human 仍然只需要表达自然语言目标，例如：
 按照 Spec Coding 接入当前项目，并按当前任务继续推进。
 ```
 
-Project Onboarding 只建立长期使用意图与稳定绑定。Released Harness Package 如何根据当前 Runtime 做 Environment Discovery、Adaptation 与 Enhancement，将在独立的目标侧接入协议中定义；它不再与维护者侧 Harness Build 混在同一条流程中。
+首次使用需要向 Agent 提供发行入口；已有接入时复用稳定绑定。Agent 从包内可直接读取的 Bootstrap 启动，执行预编译接入程序：
+
+```text
+读取固定发行包 → Project Onboarding（按需）
+      ↓
+环境发现 → 适配与装配 → 验证与接管 → 01A / 01B / Resume
+```
+
+Project Onboarding 只建立长期使用意图与稳定绑定。客户端读取顺序、包消费契约和本地适配规则见 [`Harness Adoption & Adaptation`](docs/meta-protocols/harness-adoption-and-adaptation.md)；该协议由维护者预编译到包中，客户端不重新构建整套规范。
 
 > **Persist intent, rediscover dynamic environment facts｜持久化意图，动态环境事实按需重发现。**
 
@@ -141,6 +149,7 @@ Spec Coding 同时支持 Greenfield（新项目）、Brownfield（存量项目�
 | 快速理解完整流程 | [`docs/overview.md`](docs/overview.md) |
 | 查看机器可读规范入口 | [`docs/manifest.yaml`](docs/manifest.yaml) |
 | 接入目标项目 | [`docs/meta-protocols/project-onboarding.md`](docs/meta-protocols/project-onboarding.md) |
+| 读取发行包并适配当前 Agent / 项目 | [`docs/meta-protocols/harness-adoption-and-adaptation.md`](docs/meta-protocols/harness-adoption-and-adaptation.md) |
 | 维护 / 发布 Harness | [`docs/governance/harness-build-and-release.md`](docs/governance/harness-build-and-release.md) |
 | 查看当前 Harness Package 入口 | [`packages/harness/`](packages/harness/) |
 | 查看 Workflow | [`docs/workflows/`](docs/workflows/) |
@@ -152,7 +161,7 @@ Spec Coding 同时支持 Greenfield（新项目）、Brownfield（存量项目�
 
 ## Project status
 
-当前仍处于 `candidate` 阶段。本分支正在把旧的 Semantic IR / V3 target-side compilation 架构替换为维护者预编译、版本化 Harness Package 的分发模型。维护者侧 Build & Release 流程先完成收敛，目标侧 Package Adoption / Adaptation 协议随后独立设计。
+当前仍处于 `candidate` 阶段。本分支采用维护者预编译、版本化 Harness Package 的分发模型。维护者 Build & Release 与目标侧 Adoption & Adaptation 已通过包消费契约衔接；正式全量 Package 尚未生成，结构验证和真实 Runtime 接入试验仍待执行。
 
 ## License
 

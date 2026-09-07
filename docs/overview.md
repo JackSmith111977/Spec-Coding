@@ -18,13 +18,13 @@ Canonical Workflow / Rules / Meta Protocol
                     ↓
                  Target Project
 ────────────────────────────────────────────────
-Target / Intent
+Target / Intent + 固定发行包
       ↓
-Project Onboarding（按需）
+包内 Bootstrap + 预编译接入程序
       ↓
-Adoption Baseline
+Project Onboarding（按需）→ Adoption Baseline
       ↓
-Released Harness Package Adoption / Adaptation
+环境发现 → 适配与装配 → 验证与接管
       ↓
 Harness Ready
       ↓
@@ -47,7 +47,7 @@ Harness Ready
     流程复盘改进
 ```
 
-当前架构先正式收敛维护者侧 Harness Build & Release；目标侧 Released Package Adoption / Adaptation 将在后续独立协议中定义，不再与维护者构建流程混合。
+维护者与客户端通过同一包消费契约交接：维护者预编译并发布行为、接入入口、适配要求和验收依据；客户端读取包内程序并处理当前环境差异。规则衔接不代表正式 Package 或真实 Runtime 试验已经完成。
 
 ---
 
@@ -74,6 +74,7 @@ Harness Ready
 识别本轮来自：
 
 - Canonical Change；
+- Manifest 中影响规范登记、适用范围或执行路由的变化；
 - Harness Defect；
 - Standard / Packaging Change。
 
@@ -136,6 +137,10 @@ Runtime Loader、Model、Tool、Subagent、CI Command、Existing Harness 等动�
 
 ## Main / Exception Workflow
 
+目标侧接入按 [`Harness Adoption & Adaptation`](meta-protocols/harness-adoption-and-adaptation.md) 执行：先核验包和项目基线，按要求发现当前环境，复用或补齐本地机制，再验证加载、边界、异常和恢复。`READY` 绑定具体 Runtime、项目与执行范围；未激活流程保持可达，执行其依赖动作前再完成必要适配和验收。
+
+发生本地转换时，先对照原始包回查语义，验收预期始终绑定原包。发布前维护者可以显式授权固定候选在隔离测试项目中执行同一链路；测试就绪只适用于授权场景，不自动获得正式接入资格。
+
 Main Workflow：
 
 ```text
@@ -170,6 +175,7 @@ Main Agent 可以按需委派 Scout、Researcher、Worker、Reviewer、Oracle，
 ## 详细入口
 
 - Project Onboarding：[`meta-protocols/project-onboarding.md`](meta-protocols/project-onboarding.md)
+- Harness 读取与适配：[`meta-protocols/harness-adoption-and-adaptation.md`](meta-protocols/harness-adoption-and-adaptation.md)
 - Harness Build & Release：[`governance/harness-build-and-release.md`](governance/harness-build-and-release.md)
 - Harness Package：[`../packages/harness/`](../packages/harness/)
 - Workflow：[`workflows/`](workflows/)
