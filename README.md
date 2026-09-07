@@ -68,7 +68,7 @@ Canonical Workflow / Rules / Meta Protocol
 
 完整维护协议：[`docs/governance/harness-build-and-release.md`](docs/governance/harness-build-and-release.md)
 
-当前发行入口：[`packages/harness/`](packages/harness/)
+当前候选包入口：[`packages/harness/`](packages/harness/)；构建、独立审查、行为验证与发布准备记录见[`verification/harness/`](verification/harness/)。候选验证不等于已经正式发布。
 
 ---
 

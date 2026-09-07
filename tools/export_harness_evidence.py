@@ -23,11 +23,9 @@ def export(names, output):
         if root == staging or not root.is_relative_to(staging):
             raise ValueError("试验路径越界")
         metadata = json.loads((root / "coordinator-input.json").read_text(encoding="utf-8"))
-        # 包已有独立发行归档；本证据包保留其身份，不重复多份正文。
+        # 保留执行者实际消费的包，包括故障对照；不能只留正常发行包来替代坏副本证据。
         snapshot = {}
         for relative, sha256 in hp.integrity.inventory(root).items():
-            if relative.startswith("harness/"):
-                continue
             if any(part in ("__pycache__", ".venv", "node_modules") for part in Path(relative).parts):
                 continue
             entries[name + "/" + relative] = root / relative

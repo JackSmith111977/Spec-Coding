@@ -5,10 +5,15 @@
 固定源为`2f585f0faa8c0ba831161858a2e1418fd2d527e7`，当前包内容Hash为`4451d39351a32576e99552aada821f98cc69f0c087e041273d294e6bc332db9b`。
 
 - [构建、冻结与可复现命令](build.md)
+- [确定性终检及原始命令](final-checks.json)
+- [候选Git字节身份](candidate-identity.json)
 - [共享规则与接入R2独立审查](reviews/shared-r2.md)
 - [01A—04 R2独立审查](reviews/planning-r2.md)
 - [05—07及Debug R2独立审查](reviews/execution-r2.md)
 - [全源覆盖与场景设计](oracle/coverage.md)：设计不等于执行结果。
+- [本地转换负控独立语义回查](reviews/local-adaptation-negative-r2.md)：缺陷副本为BLOCKED，不能冒充正常候选。
+- [20个案例的原始证据归档身份](evidence-archive.json)
+- [发布准备说明与兼容范围](release-notes.md)
 
 行为测试使用包外明确授权的独立项目、固定包副本和Fresh上下文；原始命令、运行记录和目标Git仓库位于`.harness-staging/`，完成后另行导出证据归档。行为执行者禁止读取Canonical、Oracle预期、Builder摘要或其他案例。当前隔离依靠Fresh初始输入及显式工具读写边界，未宣称操作系统向执行者隐藏整个父目录。
 
