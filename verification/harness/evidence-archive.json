@@ -1,0 +1,38 @@
+{
+  "archive": ".harness-build/spec-coding-harness-0.12.0-r2-evidence-after-correction.zip",
+  "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868",
+  "cases": [
+    "s01-a-r2",
+    "s02-a-r2",
+    "s02-b-r2",
+    "s03-a-r2",
+    "s04-a-r2",
+    "s04-b-r2",
+    "s05-a-r2",
+    "s05-b-r2",
+    "s06-a-r2",
+    "s06-b-r2",
+    "s06-c-r2",
+    "s07-a-r2",
+    "s07-b-r2",
+    "s07-c-r2",
+    "s07-d-r2",
+    "s08-a-r2",
+    "s08-b-r2-v2",
+    "s01-a-cli-r2",
+    "s02-b-cli-r2",
+    "s06-a-cli-r2"
+  ],
+  "files": 5011,
+  "verified_file_hashes": 5010,
+  "credential_patterns": "未命中；模式检查不是所有秘密的完整证明",
+  "scanned_files": 5010,
+  "purpose": "已结束试验的原始证据及实际消费包，不自动判定发行通过",
+  "prior_immutable_files_preserved": 4870,
+  "authorized_correction_scope": "S06-A CLI新增第四段记录和项目内权威文档、本地project/.git与remote.git同步状态；原先其他案例及全部既有raw保持原字节",
+  "prior_archive": {
+    "archive": ".harness-build/spec-coding-harness-0.12.0-r2-evidence.zip",
+    "archive_sha256": "28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9",
+    "purpose": "初次20案例结束截面；保留CLI S06A跨会话原OI未收敛的独立评审发现"
+  }
+}

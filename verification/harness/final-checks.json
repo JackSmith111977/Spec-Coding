@@ -1,0 +1,192 @@
+{
+  "status": "PASS",
+  "scope": "确定性结构、工具、标准Skill格式及冻结字节，不自动证明语义或行为",
+  "identity": {
+    "version": "0.12.0",
+    "source_revision": "2f585f0faa8c0ba831161858a2e1418fd2d527e7",
+    "files": 23,
+    "package_sha256": "4451d39351a32576e99552aada821f98cc69f0c087e041273d294e6bc332db9b",
+    "integrity": "PASS",
+    "structure": "PASS",
+    "canonical_sources": 44,
+    "artifacts": 21,
+    "skills": 11,
+    "limitation": "仅确定性结构与身份检查，不证明来源映射语义或行为正确"
+  },
+  "candidate_commit": "02c69747743293847ea21496480b1627742c3030",
+  "git_bytes_unchanged": true,
+  "archive_reproducible": true,
+  "archive_sha256": "7f7d5e2c4447231f5bf83afc68a4dba5504097d79a99f9291ee502ced2735a79",
+  "commands": [
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_preserves_consumed_faulty_package_and_hash (test_harness_evidence.EvidenceTests.test_preserves_consumed_faulty_package_and_hash) ... ok\ntest_refuses_evidence_changed_after_inventory (test_harness_evidence.EvidenceTests.test_refuses_evidence_changed_after_inventory) ... ok\ntest_archive_is_reproducible_and_cannot_enter_package (test_harness_package.PackageTests.test_archive_is_reproducible_and_cannot_enter_package) ... ok\ntest_candidate_and_supporting_file_tamper (test_harness_package.PackageTests.test_candidate_and_supporting_file_tamper) ... ok\ntest_dependency_cycle (test_harness_package.PackageTests.test_dependency_cycle) ... ok\ntest_envelope_cannot_mask_missing_procedure_source (test_harness_package.PackageTests.test_envelope_cannot_mask_missing_procedure_source) ... ok\ntest_manifest_identity_is_in_package_hash (test_harness_package.PackageTests.test_manifest_identity_is_in_package_hash) ... ok\ntest_missing_and_extra_files (test_harness_package.PackageTests.test_missing_and_extra_files) ... ok\ntest_path_traversal_and_duplicate_json_keys (test_harness_package.PackageTests.test_path_traversal_and_duplicate_json_keys) ... ok\ntest_source_mapping_rejects_noncanonical (test_harness_package.PackageTests.test_source_mapping_rejects_noncanonical) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 2.204s\n\nOK\n"
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-debug"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-development-execution"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-harness-adoption"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-implementation-planning"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-process-improvement"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-project-definition"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-project-onboarding"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-project-understanding"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-requirement-clarification"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-technical-design"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "E:\\software\\Python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "C:\\Users\\hp\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py",
+        "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\packages\\harness\\skills\\spec-verification-convergence"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it\n"
+    }
+  ]
+}

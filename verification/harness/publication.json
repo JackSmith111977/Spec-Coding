@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "version": "0.12.0",
+  "tag": "0.12.0",
+  "release_url": "https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.12.0",
+  "publication_authority": "以所列远端GitHub Release实际公开状态、Tag指向及附件为准；文件存在不等于已经发布",
+  "stage3_verdict": "PASS",
+  "source_revision": "2f585f0faa8c0ba831161858a2e1418fd2d527e7",
+  "candidate_commit": "02c69747743293847ea21496480b1627742c3030",
+  "verified_records_commit": "cee74135d3c98169c3478f8555912b3c69038dfb",
+  "package_sha256": "4451d39351a32576e99552aada821f98cc69f0c087e041273d294e6bc332db9b",
+  "assets": {
+    "spec-coding-harness-0.12.0.zip": {
+      "sha256": "7f7d5e2c4447231f5bf83afc68a4dba5504097d79a99f9291ee502ced2735a79",
+      "bytes": 122499
+    },
+    "spec-coding-harness-0.12.0-r2-evidence.zip": {
+      "sha256": "28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9",
+      "bytes": 14355595
+    },
+    "spec-coding-harness-0.12.0-r2-evidence-after-correction.zip": {
+      "sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868",
+      "bytes": 15180063
+    },
+    "manifest.json": {
+      "sha256": "eed8d83f7d3db9b454d6e264aafbb6517dd65fc4b34a28ee2304527ba5e6ad79",
+      "bytes": 25950
+    },
+    "release-validation.json": {
+      "sha256": "1866959da973bb77ddf106d29da33fa1833d9b3404fd34da602b9ca863f305e1",
+      "bytes": 4473
+    }
+  },
+  "verification_bundle": {
+    "filename": "spec-coding-harness-0.12.0-verification.zip",
+    "hash_locator": "Release附件SHA256SUMS"
+  },
+  "history_note": "release-validation.json及release-notes.md保留发布准备时的原始状态和字节；该历史状态不覆盖本次公开Release身份",
+  "release_delta": "只更新仓库发行状态、导航、CHANGELOG及包外发行记录；44份Canonical正文和清单非status字段与固定源相同，包和已有验证收据不变",
+  "limitations_reference": "verification/harness/publication.md及原始独立报告"
+}

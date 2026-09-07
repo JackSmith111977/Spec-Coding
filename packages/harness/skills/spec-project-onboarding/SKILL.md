@@ -1,0 +1,44 @@
+---
+name: spec-project-onboarding
+description: 建立、复用、刷新或迁移 Spec Coding 的目标项目接入基线；用于接入缺失、稳定意图或绑定变化，由 Harness 接入程序调用。
+---
+
+# 建立稳定接入关系
+
+先读[权限](../../rules/global.md)的权限段和[协作](../../rules/collaboration.md)。本程序只持久化长期意图、绑定、硬约束，不推进业务阶段、不建立项目认知、不构建 Harness。
+
+## 触发与解析
+
+没有有效基线；Target/Scope/仓库绑定变化；Human 改变协作、发布等长期意图；稳定权限/约束改变；规范语义影响接入；旧基线冲突、缺失、不可验证；或 Human 要求重接入时执行。普通需求、Bug、Task、代码变化不自动触发。
+
+先查仓库、Git、配置和已有产物，确定 Target 是单仓、Monorepo、Workspace、模块或多仓边界，发现既有 Adoption Baseline 与 Spec Workspace。判定 Initialize/Reuse/Refresh/Migrate 及变化来源。Target Scope 是管理变化的边界，不等同 Harness 放置范围。Greenfield 未建仓时可用 provisional 绑定，建仓后轻量刷新。
+
+## 使用契约
+
+先确定共享意图，再派生落点。可发现的事实自行调查，只询问无法安全推导的真实意图、歧义与权限，复用已有授权。
+
+| 模式 | 状态共享边界 |
+|---|---|
+| Local | 当前 Human + Agent，不进入目标项目共享边界 |
+| Shared | 团队共享，不要求进入代码仓库 |
+| Repository-native | 流程产物作为正式资产进入目标仓库 |
+
+解析 Working Language、需跨会话保存的 Workflow Artifact、Publication Boundary。Spec Workspace 承载需求/设计/任务/证据/基线，可与代码分离，但稳定绑定 Target。Workflow 决定什么是事实源，这里只决定保存在哪里和谁可见。
+
+已有仓库只记录必要稳定事实：Repository/Remote Identity、Base/Development Branch、fork/upstream/origin 的 Push/PR Target、Branch Isolation/PR 要求、Push/Merge Authority、禁止额外工作区等硬限制。Git 时机由开发实施定义，具体 Worktree/工具/并行不进入这里。
+
+记录长期 Harness 共享与所有权边界、现有资产必须保留等约束。不把 Runtime、Loader、Model/Thinking、Tool/Subagent、包管理器、CI 命令、已有 Harness 清单、临时上下文或具体适配设计放入基线。
+
+## 对齐与固化
+
+只处理 Target、Usage、Spec Coding 或稳定集成相关 Delta；找到最早失效的接入事实，只刷新/迁移其受影响链路，判断包和 Workflow 影响。版本数字不同不自动迁移，要看版本、清单、变更记录和必要差异的真实语义影响。动态能力变化交回 Harness 环境发现；只有稳定意图/绑定受影响才改基线。
+
+基线仅含 Declared Intent、Resolved Binding、Overrides/Constraints 三类内容。固化前检查完整性（后续不猜意图绑定）、一致性（协作发布仓库权限不冲突）、权限安全（不弱化规范/项目更严格约束/安全）、最小性（删冗余字段）。按 Spec Workspace 共享边界保存；Reuse 无变化不重写。已有事实源可引用，不复制项目结构、需求、设计、Task 或 Harness 状态。
+
+## 移交
+
+选择最终路由：Greenfield 无有效流程状态进入[01A](../spec-project-definition/SKILL.md)；Brownfield 项目认知不足进入[01B](../spec-project-understanding/SKILL.md)；已有有效权威产物/状态则恢复最早仍有效 Owner Stage。
+
+向[Harness 接入](../spec-harness-adoption/SKILL.md)移交有效最小基线、最终路由和兼容的固定发行包。此时基线稳定不代表 Runtime 已验收。受控候选测试只在外部授权边界内建立明确标为测试的基线并移交固定候选；不建立真实项目正式发行绑定，不迁移测试 READY。
+
+完成标准：Target 稳定可识别，原接入已发现或确认不存在，变化归属明确；无需猜测工作空间、发布、仓库或权限；Relevant Delta 已收敛，基线最小有效、路由明确。无需固定问卷或全量业务扫描。
