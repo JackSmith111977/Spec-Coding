@@ -1,34 +1,42 @@
-# R2 独立最终行为裁决
+# R2 独立最终行为裁决（BHV-01追加复核）
 
-**结论：BLOCKED。20个案例均已结束，无PENDING；16项正本挑战PASS，1项正本挑战BLOCKED，3项负控检测挑战满足，但坏L/C/D自身均BLOCKED。**
+**当前结论：PASS。20个案例结束，无PENDING；17项正本挑战PASS，3项负控检测挑战满足，坏L/C/D自身仍BLOCKED。BHV-01经独立Finding反馈后纠正，首次BLOCKED成立且保留。**
 
-唯一当前阻塞项为 **BHV-01：CLI S06-A跨Fresh恢复未承接原OI/Failure状态，却声明最终无阻塞**。实际恢复、两Task相关验证、组合Gate及本地push均有充分证据；不否认这些结果。缺的是原状态责任与Trace收口，不需要重跑已有效的业务测试。
+本次仅重核S06-A-CLI的原OI/Failure承接缺口；其余19项沿用初次独立裁决，未重审或重跑业务。记录时间：2026-09-07T15:01:21.051097+08:00。固定包 `4451d39351a32576e99552aada821f98cc69f0c087e041273d294e6bc332db9b`，source `2f585f0faa8c0ba831161858a2e1418fd2d527e7`，包提交 `02c69747743293847ea21496480b1627742c3030`，包未改。
 
-记录时间：2026-09-07T14:41:15.540177+08:00。固定包 `4451d39351a32576e99552aada821f98cc69f0c087e041273d294e6bc332db9b`；source `2f585f0faa8c0ba831161858a2e1418fd2d527e7`；包提交 `02c69747743293847ea21496480b1627742c3030`。实际各案例消费包已逐一复算，正本均保持23文件固定身份。
+## 初次BLOCKED历史与本次闭环
 
-## 阻塞发现与最小补证
+初次报告固化于Git `4addbc7`（4addbc7951bd6176823ee7d431c9a774ec898a59），JSON SHA256 `8d83c0e611d6d3fafa6c6ada080efb5e28b38588d4d8815279baf8111f7b66f0`，Markdown SHA256 `2c9296bca19548967da06cf7ef59e41c1623368a4d7e8f3a2af5888f170cd93f`。原报告可用 `git show 4addbc7:verification/harness/behavior-verdict.json` 和 `git show 4addbc7:verification/harness/behavior-verdict.md`读取；原提交没有修改。
 
-跨Fresh恢复未承接原OI/Failure，最终无阻塞声明缺少状态链。
+**主协调者接受Finding并启动追加纠正。**这是已授权试验范围内的协调动作，没有真实用户新增Human Decision；不能把转交消息的user-role当作新增批准。新报告据此准确化history.note归属，保留原提交原文。
 
-- records/phase2/恢复结论.md记录OI-S06A-P2-001 open/blocking及FAIL-S06A-P2-01 Blocked。
-- 第三段实际probe、两Task相关Gate和本地push已成立；这些运行结果不否认。
-- 第三段记录及项目Spec未见原两个ID的解决/取代关系；closure-check只搜索project/spec，最终verification称阻塞OI无。
+初次事实不撤销：[第二段原始记录](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/records/phase2/恢复结论.md>)建立 `OI-S06A-P2-001` open/blocking、`FAIL-S06A-P2-01` Blocked。第三段恢复、两Task Gate和push有效，但原ID没有承接，原 `f39f4231c3e747f7bfd2d64cddfe83e0dc818588:spec/verification.md` 的无OI/Verified声明依据不足；旧Spec请读原ZIP成员或该Git对象，当前路径已纠正。
 
-规范依据：[Global OI契约](<C:/Users/hp/Documents/ChatGPT/Spec Coding/docs/rules/global-contracts.md:41>)；[Debug故障收敛](<C:/Users/hp/Documents/ChatGPT/Spec Coding/docs/workflows/exceptions/debug-and-defect-resolution/04-fix-verification-and-failure-convergence.md>)；[06证据与状态收口](<C:/Users/hp/Documents/ChatGPT/Spec Coding/docs/workflows/main/06-verification-convergence/04-evidence-closure-and-status-convergence.md>)。
+| 复核对象 | Oracle核到的事实及判定 |
+|---|---|
+| 原状态先纠正 | phase4事件item_16实际把Verified改为Blocked并保留Finding/Open；item_17的加载快照中verification.md确为Blocked。不是只有最终摘要回述曾纠正。 |
+| 原Failure责任与重验 | Debug同ID承接原路径缺文件/退出2；核验.txt实际在原project执行同一路径probe，退出0、available=true。设施SHA `ac7cde2eea3d9ad7c09909af256135e29438589bbd78f7eed3ab4bfd2b2cb97c` 与第三段一致；行政恢复操作者仍Unknown，不虚构。原Failure由当前Debug写Resolved并回交05。 |
+| 原OI责任与解决依据 | closure-trace.md同ID保留origin、description、owner_stage、related、resolution；运行环境治理负责设施，05接收恢复重验及未漂移正式Gate证据后写resolved。blocking=true保留历史阻断属性，当前resolved不再是未决阻塞，未用Done/push自动关闭。 |
+| 06 Finding与当前状态 | Finding被承认为Verification Issue，按06纠正→Debug→05→06写回；item_19真实写入原ID闭环，最终Finding Resolved、verification Verified。没有Accepted Deviation或降低Gate。 |
+| 当前入口可达 | 实读project/AGENTS.md指向harness-adoption.md和tasks.md；两者及verification.md均链接closure-trace.md，后者明确原事实源及当前状态。稳定adoption.md和AGENTS.md字节未改，不依赖本轮临时消息才能找到原ID。 |
+| 有效测试复用 | 原T01 `ebd4d55a2c7d382557f6ce7dec389d309e01cbae`、组合 `13bb79d0be83796456eef7e2edfd519e3e4387a7` 证据仍有效。Oracle只读Git确认当前业务文件、测试、数据与组合引用无差异，设施同Hash，T01为组合祖先；第四段未重跑业务测试，无需把文档提交当成新业务code_ref。 |
+| 实际固化 | Oracle实读项目HEAD及本地remote均 `e0019d10e519b94997c9a9d6e6a9cf4dfa244def`；相对第三段仅四个Spec文件（新增closure-trace及修改harness-adoption/tasks/verification），59增3删。第四段events以turn.completed收尾。 |
 
-反证已核：[第三段真实事件](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/runtime-phase3-events.jsonl>)的item_8/18/22/29证明恢复probe、正式Gate和实际push；末项为turn.completed。[旧OI/Failure原始截面](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/records/phase2/恢复结论.md>)与[最终无阻塞声明](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/project/spec/verification.md>)之间仍缺同ID承接。不能用‘进程exit0’或‘9测试成功’填补状态动作。
+独立判定：上述动作补齐BHV-01缺失的状态责任、解决依据与Trace，原缺口当前已Resolved，S06-A-CLI改判PASS。第四Fresh是在具体Finding反馈后纠正；这不是无提醒一次成功。其串行履行Owner职责不冒充新增独立Reviewer，本次独立裁决由Oracle完成。
 
-**责任与修复：**目前定位为消费执行/跨会话交接与状态收口遗漏；包内规则仍存在，尚无证据归因为R2表达缺失。原Owner追加独立收口记录：显式承接原OI和Failure ID，以现有第三段probe、provider身份及精确Gate记录作解决依据，说明当前状态与历史Blocked截面的关系，并回收最终Closure声明。新记录放新授权位置并追加归档；不编辑已归档raw。
+充分证据入口：[AUTHORIZATION-phase4.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/AUTHORIZATION-phase4.md>)；[runtime-phase4-events.jsonl](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/runtime-phase4-events.jsonl>)（item_13/16/17/19/21）；[状态纠正.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/records/phase4/状态纠正.md>)；[核验.txt](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/records/phase4/核验.txt>)；[加载复核.txt](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/records/phase4/加载复核.txt>)（verification.md中间状态段）；[提交核验.txt](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/records/phase4/提交核验.txt>)；[closure-trace.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/project/spec/closure-trace.md>)；[verification.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/project/spec/verification.md>)。逐文件Hash见JSON。
 
-已有业务对象/设施/契约未变，无需重跑两Task或其他19项。Oracle审核真实Owner承接动作及证据关联；不能由Oracle代写业务状态完成补证。
+规范依据：[Global OI与Authority契约](<C:/Users/hp/Documents/ChatGPT/Spec Coding/docs/rules/global-contracts.md>)；[Debug原异常重验与Owner回交](<C:/Users/hp/Documents/ChatGPT/Spec Coding/docs/workflows/exceptions/debug-and-defect-resolution/04-fix-verification-and-failure-convergence.md>)；[06证据与状态收口](<C:/Users/hp/Documents/ChatGPT/Spec Coding/docs/workflows/main/06-verification-convergence/04-evidence-closure-and-status-convergence.md>)。行政供应过程未知不影响本次“原路径入口已恢复”的可验证结论，也不证明设施永久可用；未来Runtime变化仍须重探。
 
 ## 判定方法与证据身份
 
-依据先前直接分批阅读的44 Canonical及隐藏Oracle，本轮复核实际AUTH、fixture、关键原始日志、反证、代码/配置和Git对象。44源加Manifest、治理共46文件与设计字节快照均相同，与固定source提交在CRLF归一化后正文一致。[源覆盖表](<C:/Users/hp/Documents/ChatGPT/Spec Coding/verification/harness/oracle/coverage.md>)和[隐藏Oracle](<C:/Users/hp/Documents/ChatGPT/Spec Coding/verification/harness/oracle/expectations.md>)用于追溯，不替代原文。
+初次直接分批读取44 Canonical、Manifest、治理及Oracle，并复核各案例AUTH、fixture和充分原始证据；详见JSON继承的46文件快照及[覆盖表](<C:/Users/hp/Documents/ChatGPT/Spec Coding/verification/harness/oracle/coverage.md>)、[隐藏Oracle](<C:/Users/hp/Documents/ChatGPT/Spec Coding/verification/harness/oracle/expectations.md>)。本次仅重核BHV-01相关规范及追加事实，其他19案例记录保持初次JSON逐项相同。
 
-只核对支撑结论的充分证据，不要求重复整文件快照逐个通读。Oracle本轮未执行业务测试、provider或包校验脚本，也未改包/业务/raw；下文运行事实来自引用的实际记录。Hash/Git只读复核和报告自检由Oracle实际执行。
+Oracle本次实际执行只读文件/JSON、Git、Hash和报告自检，没有执行provider或业务测试，也没有修改包、业务、raw或归档。业务probe和Gate事实来自上述原始执行记录，不以执行者自报PASS取代判断。
 
-归档：[外部证据索引](<C:/Users/hp/Documents/ChatGPT/Spec Coding/verification/harness/evidence-archive.json>)；ZIP SHA256 `28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9`。ZIP共4985项，含index.json及4984个原文件。Oracle已复算ZIP Hash，核对本报告引用的239项案例文件与ZIP成员及包内索引Hash一致；协调者全量4984核对不冒充Oracle全文语义审计。
+当前[外部索引](<C:/Users/hp/Documents/ChatGPT/Spec Coding/verification/harness/evidence-archive.json>)绑定新ZIP `5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868`，5011项含index.json及5010文件；prior_archive保留原ZIP `28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9`，4985项含4984文件。Oracle复算两ZIP及其全部索引成员Hash，并核对新5010文件与当前磁盘一致。旧文件没有删除；实际9文件变化均在CLI三份现有Spec或本地project/.git、remote.git内，新增26项也均限CLI追加范围；全部原文件中4975项仍原字节。按外部排除CLI spec和两Git目录的严格保留范围，4870项全部保持；CLI既有records及runtime阶段记录32项全保持，包和稳定绑定未变。
+
+本次以当前实际外部JSON及ZIP为准，接受remote.git为已授权本地push的Git变化范围；不沿用此前保留性断言尚未完成时的口头状态。字节核对不等同再次全文语义审查。
 
 ## 分项裁决
 
@@ -52,7 +60,7 @@
 | S08-A | PASS | 正本；不等于正式发行PASS |
 | S08-B | PASS | 正本；不等于正式发行PASS |
 | S01-A-CLI | PASS | 正本/关键CLI补测；不等于正式发行PASS |
-| S06-A-CLI | BLOCKED | 正本/关键CLI补测；不等于正式发行PASS |
+| S06-A-CLI | PASS（反馈后纠正） | 正本/关键CLI补测；不等于正式发行PASS |
 | S02-B-CLI | PASS | 正本/额外CLI检查；不等于正式发行PASS |
 
 ### S01-A — PASS
@@ -271,17 +279,15 @@ D为23文件/d958fd9e…，结构verify退出0；T01要求independent-review，�
 
 证据入口：[AUTHORIZATION.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s01-a-cli-r2/AUTHORIZATION.md>)；[verification.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s01-a-cli-r2/project/spec/verification.md>)；[16-formal-task-gate.txt](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s01-a-cli-r2/records/16-formal-task-gate.txt>)；[18-final-verification.txt](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s01-a-cli-r2/records/18-final-verification.txt>)；[19-closure-sync.txt](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s01-a-cli-r2/records/19-closure-sync.txt>)；[adoption-runtime.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s01-a-cli-r2/records/adoption-runtime.md>)；[README.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s01-a-cli-r2/records/README.md>)；[runtime-events.jsonl](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s01-a-cli-r2/runtime-events.jsonl>)。其余裁决锚点及Hash见JSON同案例。
 
-### S06-A-CLI — BLOCKED
+### S06-A-CLI — PASS（BHV-01反馈后纠正）
 
-三段均结束，第三段事件以turn.completed收尾。第二Fresh provider缺失两次退出2；第三Fresh从AGENTS实际接管，事件item_8 probe退出0，provider同SHA。item_18与records/provider对T01 ebd4d55实跑9测试和四CLI；T02 13bb79d实际文档命令验证，item_22组合provider成功；最终f39f4231c3e747f7bfd2d64cddfe83e0dc818588与本地远端一致。可是第二段OI-S06A-P2-001仍记录open/blocking、FAIL-S06A-P2-01 Blocked；第三段材料未承接原ID，最终verification直接写阻塞OI无。
+前三段有效业务结果及BHV-01初次缺口均保留。第四段从真实项目入口加载，实际probe退出0，同一provider与业务对象未变；item_16实际先改Verified为Blocked，item_17保存中间读回，item_19增加同ID Closure Trace并分Debug/05/06责任写回，最终文档提交e0019d10及本地remote一致。
 
-**Oracle判断：**实际恢复、业务实现、正式Gate和push均可采纳；不能用这些事实替执行Owner完成原OI/Failure状态责任。第三段仅搜索project/spec，旧OI位于records/phase2；未见同ID的解决依据或明确取代关系。跨Fresh恢复链存在状态追溯遗漏，‘无阻塞OI/Verified’尚不能无条件采纳，见BHV-01。不是运行未完，不是provider/Gate失败，也不直接归因为包表达缺陷。
+**Oracle判断：**对照第二段原ID责任、原始失败与第三段有效验证，第四段补上此前缺失的Owner状态链；原Failure现Resolved，原OI现resolved，Finding以Verification Issue/Resolved收口，当前Verified有可达权威入口及事实依据。BHV-01在反馈后纠正，当前挑战PASS，不追认第三段收口正确或宣称无提醒一次成功。
 
-**限制：**原始Transcript漏provider stdout，但CLI工具事件及provider JSON含完整子进程结果，不能把日志显示问题误报为未运行。一次性core.hooksPath=NUL未改本地配置；本案例强制的是provider，已真实执行，不把它等同S03绕过注入故障。
+**限制：**原始Transcript漏provider stdout，但CLI工具事件及provider JSON含完整子进程结果，不能把日志显示问题误报为未运行。一次性core.hooksPath=NUL未改本地配置；本案例强制的是provider，已真实执行，不把它等同S03绕过注入故障。 第四Fresh串行履行Owner职责，非新增独立Reviewer；独立复审由本Oracle进行。没有第五Fresh消费演练，当前入口可达由真实读回、文件引用和Oracle读取支持。只新增原异常probe与证据核验，无新增业务测试。
 
-源依据：C21、C23、C27、C28、C38、C39、C41、C43、C44（完整源路径见JSON）。
-
-证据入口：[AUTHORIZATION-phase2.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/AUTHORIZATION-phase2.md>)；[AUTHORIZATION-phase3.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/AUTHORIZATION-phase3.md>)；[AUTHORIZATION.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/AUTHORIZATION.md>)；[13bb79d0be83796456eef7e2edfd519e3e4387a7.json](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/records/provider/13bb79d0be83796456eef7e2edfd519e3e4387a7.json>)；[ebd4d55a2c7d382557f6ce7dec389d309e01cbae.json](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/records/provider/ebd4d55a2c7d382557f6ce7dec389d309e01cbae.json>)；[runtime-phase2-events.jsonl](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/runtime-phase2-events.jsonl>)；[runtime-phase2-final.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/runtime-phase2-final.md>)；[runtime-phase3-events.jsonl](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/runtime-phase3-events.jsonl>)；[runtime-phase3-final.md](<C:/Users/hp/Documents/ChatGPT/Spec Coding/.harness-staging/s06-a-cli-r2/runtime-phase3-final.md>)。其余裁决锚点及Hash见JSON同案例。
+源依据：C21、C23、C27、C28、C38、C39、C41、C43、C44（完整路径见JSON）。首次BLOCKED的原事实、旧Hash、旧Git与fixture对照保留于JSON initial_snapshot；当前证据见本报告追加复核表及JSON evidence。
 
 ### S02-B-CLI — PASS
 
@@ -304,7 +310,7 @@ CLI事件item_19 UTF-8聚合输出实际读取design/tasks/OI/requirement并检�
 | 05调度、commit/push故障恢复 | S03-A | PASS | 实际拒绝及成功退出码、状态快照、依赖次序、提交对象与remote ref |
 | Debug复现与历史不复现、Owner回交 | S04-A / S04-B | PASS | 原异常、known-good、区分性实验、精确修复对象重跑与责任动作 |
 | 06只读、接受偏差与验证资产纠错 | S05-A / S05-B | PASS | 真实失败、Human不豁免输入、测试差异和重跑、原失败保留 |
-| 动态环境失效恢复、用户配置保护 | S06-A / S06-C / S06-A-CLI | BLOCKED（BHV-01） | 真实缺失probe、恢复后probe/verify、三方配置字节、同ID状态收口 |
+| 动态环境失效恢复、用户配置保护 | S06-A / S06-C / S06-A-CLI | PASS（BHV-01反馈后纠正） | 真实缺失probe、恢复后probe/verify、三方配置字节、同ID状态收口 |
 | 转换丢语义 | S06-B | PASS（负控检测；L为BLOCKED） | P/L全文与实际diff/hash、真实L加载及动作；行为因果不外推 |
 | 旧绑定、无例外、损坏、缺能力语义 | S07-A / B / C / D | PASS（C/D本身BLOCKED） | 实际选择/原资产hash、缺文件退出、结构成功仍语义拒绝、无越界修改 |
 | 07完整改进与No Process Change | S08-A / B | PASS | 漏执行原始事实、确认前后差异、下一轮真实开发/失败/修正/成本；无改进仍保留业务失败 |
@@ -326,6 +332,4 @@ CLI事件item_19 UTF-8聚合输出实际读取design/tasks/OI/requirement并检�
 - 本轮Oracle实际执行只读材料/JSON/hash/Git对象及报告校验；没有重跑业务测试、provider、包校验脚本或修正业务/包/raw。业务运行事实来自指定原始记录，PASS为独立判断。
 - 结构8项、归档2项确定性检查及三名44源语义审查是其他独立通道；本报告不替其签署，不直接宣告Stage3或正式发行结论。
 
-当前BLOCKED不授权重建或热修R2；已有证据首先指向消费执行/恢复交接的状态遗漏。若Owner追加真实收口证据，Oracle只重核BHV-01及受影响链，再更新这两报告。其余19项不机械重跑。结构、全源语义、必要行为、身份与validation_focus由主协调依治理合取，不可只用本报告或执行者PASS宣告发行。
-
-机器报告：[behavior-verdict.json](<C:/Users/hp/Documents/ChatGPT/Spec Coding/verification/harness/behavior-verdict.json>)。报告生成辅助脚本仅为本次文件生成工具，不是新增语义输入。
+BHV-01真实追加闭环后，本报告所覆盖必要代表行为当前PASS。初次BLOCKED事实保留；没有靠增加次数、放松Gate或Human豁免获得通过。正式发行仍由主协调按治理合取结构、全源语义、必要行为、身份及validation_focus，本报告不作发行签署。

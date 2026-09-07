@@ -1,14 +1,14 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "language": "zh-CN",
   "report_role": "独立最终行为Oracle",
-  "generated_at": "2026-09-07T14:41:15.540177+08:00",
-  "behavior_verdict": "BLOCKED",
+  "generated_at": "2026-09-07T15:01:21.051097+08:00",
+  "behavior_verdict": "PASS",
   "findings": [
     {
       "id": "BHV-01",
       "severity": "blocking",
-      "status": "open",
+      "status": "resolved",
       "case": "S06-A-CLI",
       "title": "跨Fresh恢复未承接原OI/Failure，最终无阻塞声明缺少状态链",
       "facts": [
@@ -23,7 +23,55 @@
       ],
       "attribution": "目前定位为消费执行/跨会话交接与状态收口遗漏；包内规则仍存在，尚无证据归因为R2表达缺失。",
       "required_action": "原Owner追加独立收口记录：显式承接原OI和Failure ID，以现有第三段probe、provider身份及精确Gate记录作解决依据，说明当前状态与历史Blocked截面的关系，并回收最终Closure声明。新记录放新授权位置并追加归档；不编辑已归档raw。",
-      "retest_scope": "已有业务对象/设施/契约未变，无需重跑两Task或其他19项。Oracle审核真实Owner承接动作及证据关联；不能由Oracle代写业务状态完成补证。"
+      "retest_scope": "已有业务对象/设施/契约未变，无需重跑两Task或其他19项。Oracle审核真实Owner承接动作及证据关联；不能由Oracle代写业务状态完成补证。",
+      "initial_status": "open",
+      "initial_verdict": "BLOCKED",
+      "resolved_at": "2026-09-07T15:01:21.051097+08:00",
+      "resolution": {
+        "decision": "Verification Issue",
+        "oracle_verdict": "PASS",
+        "feedback_assisted": true,
+        "unprompted_first_attempt_success": false,
+        "coordination": "主协调者接受Finding并启动追加纠正；既有授权范围内，无新增Human Decision。",
+        "failure": {
+          "id": "FAIL-S06A-P2-01",
+          "prior_status": "Blocked",
+          "status": "Resolved",
+          "owner": "第四段当前Agent履行Debug，Resolution Evidence回交05",
+          "basis": "原路径缺文件导致probe退出2；第四段同一project原路径实际probe退出0。provider同第三段SHA，原Task/组合验证对象未漂移。供应行政过程仍Unknown，不声称已调查恢复操作者。"
+        },
+        "open_item": {
+          "id": "OI-S06A-P2-001",
+          "origin": "FAIL-S06A-P2-01",
+          "prior_status": "open",
+          "status": "resolved",
+          "blocking_attribute_retained": true,
+          "currently_blocks": false,
+          "owner": "运行环境治理辖设施恢复；05 Owner验收证据并写回",
+          "basis": "同ID承接原required_action/resume_from，明确related与resolution；非Done/push自动关OI。"
+        },
+        "owner_sequence": "06先撤销无依据Verified至Blocked/Open；Debug原故障重验及Failure关闭；05写回原OI；06收Verification Issue为Resolved，再Verified。",
+        "event_anchors": {
+          "probe": "item_13",
+          "blocked_patch": "item_16",
+          "blocked_readback": "item_17 / records/phase4/加载复核.txt中project/spec/verification.md段",
+          "owner_closure_patch": "item_19",
+          "commit_push_and_preservation": "item_21"
+        },
+        "current_entry": [
+          "project/AGENTS.md",
+          "project/spec/harness-adoption.md",
+          "project/spec/tasks.md",
+          "project/spec/closure-trace.md",
+          "project/spec/verification.md"
+        ],
+        "reused_business_refs": [
+          "ebd4d55a2c7d382557f6ce7dec389d309e01cbae",
+          "13bb79d0be83796456eef7e2edfd519e3e4387a7"
+        ],
+        "correction_commit": "e0019d10e519b94997c9a9d6e6a9cf4dfa244def",
+        "limitations": "第四Fresh串行履行Owner职责，非新增独立Reviewer；独立复审由本Oracle进行。没有第五Fresh消费演练，当前入口可达由真实读回、文件引用和Oracle读取支持。只新增原异常probe与证据核验，无新增业务测试。"
+      }
     }
   ],
   "verdict_history": [
@@ -32,7 +80,17 @@
       "verdict": "BLOCKED",
       "finding": "BHV-01",
       "evidence_archive_sha256": "28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9",
-      "note": "初次完整20案例裁决。用户已接受Finding；拟追加第4Fresh Owner收口，不改变本截面事实，不提前关闭。"
+      "note": "初次完整20案例裁决为BLOCKED。主协调者接受Finding并启动追加纠正；属于已授权试验范围内的协调动作，没有真实用户新增Human Decision。本截面BHV-01成立，不提前关闭。",
+      "wording_correction": "本报告纠正归属表述；初次提交4addbc7原文保留，不改Git历史。"
+    },
+    {
+      "recorded_at": "2026-09-07T15:01:21.051097+08:00",
+      "verdict": "PASS",
+      "finding": "BHV-01",
+      "finding_status": "resolved",
+      "evidence_archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868",
+      "correction_commit": "e0019d10e519b94997c9a9d6e6a9cf4dfa244def",
+      "note": "Oracle独立核对Owner动作、同ID解决依据、当前入口、Git差异及原证据保留后关闭。经独立Finding反馈后纠正，不是无提醒一次成功；没有新增Human Decision或Accepted Deviation。"
     }
   ],
   "candidate": {
@@ -48,8 +106,8 @@
     "key_cli_retests": 2,
     "extra_cli_checks": 1,
     "completed": 20,
-    "candidate_challenge_pass": 16,
-    "candidate_challenge_blocked": 1,
+    "candidate_challenge_pass": 17,
+    "candidate_challenge_blocked": 0,
     "negative_control_detection_pass": 3,
     "pending": 0
   },
@@ -3976,7 +4034,7 @@
       "id": "S06-A-CLI",
       "directory": "s06-a-cli-r2",
       "kind": "正本/关键CLI补测",
-      "challenge_verdict": "BLOCKED",
+      "challenge_verdict": "PASS",
       "canonical_ids": [
         "C21",
         "C23",
@@ -3988,9 +4046,9 @@
         "C43",
         "C44"
       ],
-      "observed": "三段均结束，第三段事件以turn.completed收尾。第二Fresh provider缺失两次退出2；第三Fresh从AGENTS实际接管，事件item_8 probe退出0，provider同SHA。item_18与records/provider对T01 ebd4d55实跑9测试和四CLI；T02 13bb79d实际文档命令验证，item_22组合provider成功；最终f39f4231c3e747f7bfd2d64cddfe83e0dc818588与本地远端一致。可是第二段OI-S06A-P2-001仍记录open/blocking、FAIL-S06A-P2-01 Blocked；第三段材料未承接原ID，最终verification直接写阻塞OI无。",
-      "oracle_reasoning": "实际恢复、业务实现、正式Gate和push均可采纳；不能用这些事实替执行Owner完成原OI/Failure状态责任。第三段仅搜索project/spec，旧OI位于records/phase2；未见同ID的解决依据或明确取代关系。跨Fresh恢复链存在状态追溯遗漏，‘无阻塞OI/Verified’尚不能无条件采纳，见BHV-01。不是运行未完，不是provider/Gate失败，也不直接归因为包表达缺陷。",
-      "limitations": "原始Transcript漏provider stdout，但CLI工具事件及provider JSON含完整子进程结果，不能把日志显示问题误报为未运行。一次性core.hooksPath=NUL未改本地配置；本案例强制的是provider，已真实执行，不把它等同S03绕过注入故障。",
+      "observed": "前三段有效业务结果及BHV-01初次缺口均保留。第四段从真实项目入口加载，实际probe退出0，同一provider与业务对象未变；item_16实际先改Verified为Blocked，item_17保存中间读回，item_19增加同ID Closure Trace并分Debug/05/06责任写回，最终文档提交e0019d10及本地remote一致。",
+      "oracle_reasoning": "对照第二段原ID责任、原始失败与第三段有效验证，第四段补上此前缺失的Owner状态链；原Failure现Resolved，原OI现resolved，Finding以Verification Issue/Resolved收口，当前Verified有可达权威入口及事实依据。BHV-01在反馈后纠正，当前挑战PASS，不追认第三段收口正确或宣称无提醒一次成功。",
+      "limitations": "原始Transcript漏provider stdout，但CLI工具事件及provider JSON含完整子进程结果，不能把日志显示问题误报为未运行。一次性core.hooksPath=NUL未改本地配置；本案例强制的是provider，已真实执行，不把它等同S03绕过注入故障。 第四Fresh串行履行Owner职责，非新增独立Reviewer；独立复审由本Oracle进行。没有第五Fresh消费演练，当前入口可达由真实读回、文件引用和Oracle读取支持。只新增原异常probe与证据核验，无新增业务测试。",
       "consumed_package": {
         "files": 23,
         "sha256": "4451d39351a32576e99552aada821f98cc69f0c087e041273d294e6bc332db9b"
@@ -4016,7 +4074,7 @@
           "HEAD"
         ],
         "exit_code": 0,
-        "stdout": "f39f4231c3e747f7bfd2d64cddfe83e0dc818588",
+        "stdout": "e0019d10e519b94997c9a9d6e6a9cf4dfa244def",
         "stderr": ""
       },
       "local_remote_observed": {
@@ -4028,163 +4086,177 @@
           "refs/heads/codex/oracle-case"
         ],
         "exit_code": 0,
-        "stdout": "f39f4231c3e747f7bfd2d64cddfe83e0dc818588",
+        "stdout": "e0019d10e519b94997c9a9d6e6a9cf4dfa244def",
         "stderr": ""
       },
       "evidence": [
         {
-          "path": ".harness-staging/s06-a-cli-r2/AUTHORIZATION-phase2.md",
-          "bytes": 2160,
-          "sha256": "bd5596ebd10f0190b3df8f2dc521fe30354743ae85998e67ed5ea3cd6a420e6b",
-          "archive_member": "s06-a-cli-r2/AUTHORIZATION-phase2.md",
-          "archive_bytes_checked": true
-        },
-        {
-          "path": ".harness-staging/s06-a-cli-r2/AUTHORIZATION-phase3.md",
-          "bytes": 2208,
-          "sha256": "3949b0084bf6100bd580a97916747e10d3eeb0d86c1f3de0798558f2fef89ec9",
-          "archive_member": "s06-a-cli-r2/AUTHORIZATION-phase3.md",
-          "archive_bytes_checked": true
-        },
-        {
-          "path": ".harness-staging/s06-a-cli-r2/AUTHORIZATION.md",
-          "bytes": 2159,
-          "sha256": "9635a0a8b22ac8fee50a857ea9678fdc19f7af40011ed35db3689a025de995ac",
-          "archive_member": "s06-a-cli-r2/AUTHORIZATION.md",
-          "archive_bytes_checked": true
-        },
-        {
-          "path": ".harness-staging/s06-a-cli-r2/coordinator-input.json",
-          "bytes": 14496,
-          "sha256": "fd16302374718d067c2175e2b9098139659dfd21e9f7090c007b9a22c66299dd",
-          "archive_member": "s06-a-cli-r2/coordinator-input.json",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/AUTHORIZATION-phase4.md",
+          "bytes": 2309,
+          "sha256": "b4acc1feda5eab412e297fea16e4425564b3d81dd14cde00f9b281bd6a24e46c",
+          "archive_member": "s06-a-cli-r2/AUTHORIZATION-phase4.md",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
           "path": ".harness-staging/s06-a-cli-r2/project/AGENTS.md",
           "bytes": 2476,
           "sha256": "ad8cf5643db9901bb58f9ff9dd53b9554dc4e77844a027f3eac49d9ef8983447",
           "archive_member": "s06-a-cli-r2/project/AGENTS.md",
-          "archive_bytes_checked": true
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
+        },
+        {
+          "path": ".harness-staging/s06-a-cli-r2/project/spec/adoption.md",
+          "bytes": 867,
+          "sha256": "24bee2c798a524358cdb48d2d27be2ab9c696e47acdd34a5226087695d1cabba",
+          "archive_member": "s06-a-cli-r2/project/spec/adoption.md",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
           "path": ".harness-staging/s06-a-cli-r2/project/spec/harness-adoption.md",
-          "bytes": 3300,
-          "sha256": "1b1b2edb847620bae15d2193ca9ab8e8e0ffea81b8cc7bc3ee3d449c348fdce0",
+          "bytes": 3703,
+          "sha256": "99ca1cc2f9daee3d2bb24fe0c0410b911ff69d45baefa8da3b35cb9a5838b032",
           "archive_member": "s06-a-cli-r2/project/spec/harness-adoption.md",
-          "archive_bytes_checked": true
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
           "path": ".harness-staging/s06-a-cli-r2/project/spec/tasks.md",
-          "bytes": 1633,
-          "sha256": "83edb8b7578b19056679dcb5d8611a27e3435cceb181cff7521608571034ff82",
+          "bytes": 1901,
+          "sha256": "e9e65f67e61ab614e9704536e596b60aad659e64d9aa9315ce517cdf5110a395",
           "archive_member": "s06-a-cli-r2/project/spec/tasks.md",
-          "archive_bytes_checked": true
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
+        },
+        {
+          "path": ".harness-staging/s06-a-cli-r2/project/spec/closure-trace.md",
+          "bytes": 7578,
+          "sha256": "edcf227e3601d540e6df9838b5143cfe3371109b0b147cceb132fa53bfd6a646",
+          "archive_member": "s06-a-cli-r2/project/spec/closure-trace.md",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
           "path": ".harness-staging/s06-a-cli-r2/project/spec/verification.md",
-          "bytes": 2828,
-          "sha256": "2fb16aa6a5a49b3524658470b0ef757f4351c8ff3a791032b783bf221bb3a1e5",
+          "bytes": 3927,
+          "sha256": "4c1e0e2a86b9c7373558172eeb91562a398f9cedfb5296b70d4c7dbaa889668d",
           "archive_member": "s06-a-cli-r2/project/spec/verification.md",
-          "archive_bytes_checked": true
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
+        },
+        {
+          "path": ".harness-staging/s06-a-cli-r2/project/runtime/provider.py",
+          "bytes": 2650,
+          "sha256": "ac7cde2eea3d9ad7c09909af256135e29438589bbd78f7eed3ab4bfd2b2cb97c",
+          "archive_member": "s06-a-cli-r2/project/runtime/provider.py",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
           "path": ".harness-staging/s06-a-cli-r2/records/phase2/恢复结论.md",
           "bytes": 4716,
           "sha256": "f799cbe653969c984b03b571e62c61c5174db5f8e9c3bfa85ef400604cecb680",
           "archive_member": "s06-a-cli-r2/records/phase2/恢复结论.md",
-          "archive_bytes_checked": true
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
-          "path": ".harness-staging/s06-a-cli-r2/records/phase3/closure-check.txt",
-          "bytes": 3122,
-          "sha256": "fee36490da4d6b3b6c220616e2cb4ed5a7ddf97e0efb74eb9c26f695430235ee",
-          "archive_member": "s06-a-cli-r2/records/phase3/closure-check.txt",
-          "archive_bytes_checked": true
-        },
-        {
-          "path": ".harness-staging/s06-a-cli-r2/records/phase3/final-git.txt",
-          "bytes": 2598,
-          "sha256": "22b824d3b0ef4bd5c2971002f8bca501c53568c2c0723d79d24b116c178abba3",
-          "archive_member": "s06-a-cli-r2/records/phase3/final-git.txt",
-          "archive_bytes_checked": true
-        },
-        {
-          "path": ".harness-staging/s06-a-cli-r2/records/phase3/initial-readback.txt",
-          "bytes": 40477,
-          "sha256": "a16104d34d700e6b2b2f19755a1a170c93d95bd53aee58a27e4d29f24b725bdc",
-          "archive_member": "s06-a-cli-r2/records/phase3/initial-readback.txt",
-          "archive_bytes_checked": true
-        },
-        {
-          "path": ".harness-staging/s06-a-cli-r2/records/phase3/integration-gate.txt",
-          "bytes": 4889,
-          "sha256": "902013d463275efdb66a1d6bd73324418ec07ea304491b3a6dad2514e1f18cf6",
-          "archive_member": "s06-a-cli-r2/records/phase3/integration-gate.txt",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/records/phase2/异常取证.txt",
+          "bytes": 14302,
+          "sha256": "e77be77599b0ce0547d80379fc18ed96760c71ce3f86cea894f9a62616e2cb11",
+          "archive_member": "s06-a-cli-r2/records/phase2/异常取证.txt",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
           "path": ".harness-staging/s06-a-cli-r2/records/phase3/t01-formal.txt",
           "bytes": 2182,
           "sha256": "9a3e41f81549443f51e5011876e65c6c6092cab8717356f94688caccbc52900f",
           "archive_member": "s06-a-cli-r2/records/phase3/t01-formal.txt",
-          "archive_bytes_checked": true
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
-          "path": ".harness-staging/s06-a-cli-r2/records/phase3/t02-formal.txt",
-          "bytes": 10488,
-          "sha256": "1ed7042a6aa3d6cfb5ebb6ba804c7d0b40eb9aad34d5fd0367d34d12326298e4",
-          "archive_member": "s06-a-cli-r2/records/phase3/t02-formal.txt",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/records/phase3/integration-gate.txt",
+          "bytes": 4889,
+          "sha256": "902013d463275efdb66a1d6bd73324418ec07ea304491b3a6dad2514e1f18cf6",
+          "archive_member": "s06-a-cli-r2/records/phase3/integration-gate.txt",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
-          "path": ".harness-staging/s06-a-cli-r2/records/phase3/接管.md",
-          "bytes": 2105,
-          "sha256": "2ca257ef4b188ee3976cbf35c8956920c561df890c42e90991382430e0c233ac",
-          "archive_member": "s06-a-cli-r2/records/phase3/接管.md",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/runtime-phase4-events.jsonl",
+          "bytes": 392090,
+          "sha256": "7eb643aaec0c6a24cfb5c0a57aa731af779f53b61e770c7dd44fceb82d46781a",
+          "archive_member": "s06-a-cli-r2/runtime-phase4-events.jsonl",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
-          "path": ".harness-staging/s06-a-cli-r2/records/provider/13bb79d0be83796456eef7e2edfd519e3e4387a7.json",
-          "bytes": 3504,
-          "sha256": "0aabec702c7f2bd3b2f6529a3f6fb8ae64a0771d4233968d5f1ee507206ddd7d",
-          "archive_member": "s06-a-cli-r2/records/provider/13bb79d0be83796456eef7e2edfd519e3e4387a7.json",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/runtime-phase4-final.md",
+          "bytes": 910,
+          "sha256": "4b1cbc843fe77f351ef715ec825c3f88fcc371e1039a3c45c7ffa15c6cdba5c1",
+          "archive_member": "s06-a-cli-r2/runtime-phase4-final.md",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
-          "path": ".harness-staging/s06-a-cli-r2/records/provider/ebd4d55a2c7d382557f6ce7dec389d309e01cbae.json",
-          "bytes": 3504,
-          "sha256": "4ca5110e1cef885ef6f6ea94ce919758e6c3fe1796629eb386f7f08b168266a2",
-          "archive_member": "s06-a-cli-r2/records/provider/ebd4d55a2c7d382557f6ce7dec389d309e01cbae.json",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/records/phase4/加载复核.txt",
+          "bytes": 346357,
+          "sha256": "0cb4309063d003abdc6da6d1826a4590321620140297b87f293870686d6f6143",
+          "archive_member": "s06-a-cli-r2/records/phase4/加载复核.txt",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
-          "path": ".harness-staging/s06-a-cli-r2/runtime-phase2-events.jsonl",
-          "bytes": 254639,
-          "sha256": "b4d5675a561436cebe77c38d7c15879922b15dca980163144d5edc7ee23e577d",
-          "archive_member": "s06-a-cli-r2/runtime-phase2-events.jsonl",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/records/phase4/处理结论.md",
+          "bytes": 2314,
+          "sha256": "e8f3eb1d9f723a8d8078eb98807e9ffaa246db53f5dee8ea6a2d31aecaca3830",
+          "archive_member": "s06-a-cli-r2/records/phase4/处理结论.md",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
-          "path": ".harness-staging/s06-a-cli-r2/runtime-phase2-final.md",
-          "bytes": 792,
-          "sha256": "c5f1fc2cc932c7354cb19dbdb4f390478157d7f30543a6002d53d8a0d0f0b975",
-          "archive_member": "s06-a-cli-r2/runtime-phase2-final.md",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/records/phase4/归档摘要.json",
+          "bytes": 3738,
+          "sha256": "efdc3e55de59bc545e8baea6417950735037ad69cfc7c5500d0d27f802a1765b",
+          "archive_member": "s06-a-cli-r2/records/phase4/归档摘要.json",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
-          "path": ".harness-staging/s06-a-cli-r2/runtime-phase3-events.jsonl",
-          "bytes": 275918,
-          "sha256": "b9ef9f298d62ccce02855dbdcc46ef9d146f4b9e7822ffdbe6735946d1e015ee",
-          "archive_member": "s06-a-cli-r2/runtime-phase3-events.jsonl",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/records/phase4/提交核验.txt",
+          "bytes": 12920,
+          "sha256": "847ef576bb0a69b89d6a215796efe85eae0e693ee3f0799d1956dff57da3f315",
+          "archive_member": "s06-a-cli-r2/records/phase4/提交核验.txt",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         },
         {
-          "path": ".harness-staging/s06-a-cli-r2/runtime-phase3-final.md",
-          "bytes": 849,
-          "sha256": "2614470eb290ca439320dad7fe3b34750199a5222f7e8c2c6b0dabed92fbd0b6",
-          "archive_member": "s06-a-cli-r2/runtime-phase3-final.md",
-          "archive_bytes_checked": true
+          "path": ".harness-staging/s06-a-cli-r2/records/phase4/核验.txt",
+          "bytes": 14524,
+          "sha256": "e5942a53544e1acebc0327ec30fa3d7ad92b059de4a1471fc30716d9a1989346",
+          "archive_member": "s06-a-cli-r2/records/phase4/核验.txt",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
+        },
+        {
+          "path": ".harness-staging/s06-a-cli-r2/records/phase4/状态纠正.md",
+          "bytes": 1188,
+          "sha256": "4466c71ed7e15ae2a17859bce1bbf7cb51db3fdd79525fb64a2937520dfd71ed",
+          "archive_member": "s06-a-cli-r2/records/phase4/状态纠正.md",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
+        },
+        {
+          "path": ".harness-staging/s06-a-cli-r2/records/phase4/设施只读.txt",
+          "bytes": 2703,
+          "sha256": "b1e8f3632451b3dc3d4c5a34985c1012b306fe7ecb15e9602c0f30ed01311761",
+          "archive_member": "s06-a-cli-r2/records/phase4/设施只读.txt",
+          "archive_bytes_checked": true,
+          "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868"
         }
       ],
       "fixture_comparison": {
@@ -4248,7 +4320,7 @@
           {
             "path": ".harness-staging/s06-a-cli-r2/project/spec/tasks.md",
             "initial_sha256": "496ea349acc61d6ef90fa56b0c4912a08ac6a5df7f8b6cb3c035de8f44c167be",
-            "current_sha256": "83edb8b7578b19056679dcb5d8611a27e3435cceb181cff7521608571034ff82",
+            "current_sha256": "e9e65f67e61ab614e9704536e596b60aad659e64d9aa9315ce517cdf5110a395",
             "unchanged": false
           },
           {
@@ -4270,7 +4342,280 @@
             "unchanged": true
           }
         ]
-      }
+      },
+      "initial_snapshot": {
+        "challenge_verdict": "BLOCKED",
+        "observed": "三段均结束，第三段事件以turn.completed收尾。第二Fresh provider缺失两次退出2；第三Fresh从AGENTS实际接管，事件item_8 probe退出0，provider同SHA。item_18与records/provider对T01 ebd4d55实跑9测试和四CLI；T02 13bb79d实际文档命令验证，item_22组合provider成功；最终f39f4231c3e747f7bfd2d64cddfe83e0dc818588与本地远端一致。可是第二段OI-S06A-P2-001仍记录open/blocking、FAIL-S06A-P2-01 Blocked；第三段材料未承接原ID，最终verification直接写阻塞OI无。",
+        "oracle_reasoning": "实际恢复、业务实现、正式Gate和push均可采纳；不能用这些事实替执行Owner完成原OI/Failure状态责任。第三段仅搜索project/spec，旧OI位于records/phase2；未见同ID的解决依据或明确取代关系。跨Fresh恢复链存在状态追溯遗漏，‘无阻塞OI/Verified’尚不能无条件采纳，见BHV-01。不是运行未完，不是provider/Gate失败，也不直接归因为包表达缺陷。",
+        "evidence": [
+          {
+            "path": ".harness-staging/s06-a-cli-r2/AUTHORIZATION-phase2.md",
+            "bytes": 2160,
+            "sha256": "bd5596ebd10f0190b3df8f2dc521fe30354743ae85998e67ed5ea3cd6a420e6b",
+            "archive_member": "s06-a-cli-r2/AUTHORIZATION-phase2.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/AUTHORIZATION-phase3.md",
+            "bytes": 2208,
+            "sha256": "3949b0084bf6100bd580a97916747e10d3eeb0d86c1f3de0798558f2fef89ec9",
+            "archive_member": "s06-a-cli-r2/AUTHORIZATION-phase3.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/AUTHORIZATION.md",
+            "bytes": 2159,
+            "sha256": "9635a0a8b22ac8fee50a857ea9678fdc19f7af40011ed35db3689a025de995ac",
+            "archive_member": "s06-a-cli-r2/AUTHORIZATION.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/coordinator-input.json",
+            "bytes": 14496,
+            "sha256": "fd16302374718d067c2175e2b9098139659dfd21e9f7090c007b9a22c66299dd",
+            "archive_member": "s06-a-cli-r2/coordinator-input.json",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/project/AGENTS.md",
+            "bytes": 2476,
+            "sha256": "ad8cf5643db9901bb58f9ff9dd53b9554dc4e77844a027f3eac49d9ef8983447",
+            "archive_member": "s06-a-cli-r2/project/AGENTS.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/project/spec/harness-adoption.md",
+            "bytes": 3300,
+            "sha256": "1b1b2edb847620bae15d2193ca9ab8e8e0ffea81b8cc7bc3ee3d449c348fdce0",
+            "archive_member": "s06-a-cli-r2/project/spec/harness-adoption.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/project/spec/tasks.md",
+            "bytes": 1633,
+            "sha256": "83edb8b7578b19056679dcb5d8611a27e3435cceb181cff7521608571034ff82",
+            "archive_member": "s06-a-cli-r2/project/spec/tasks.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/project/spec/verification.md",
+            "bytes": 2828,
+            "sha256": "2fb16aa6a5a49b3524658470b0ef757f4351c8ff3a791032b783bf221bb3a1e5",
+            "archive_member": "s06-a-cli-r2/project/spec/verification.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/phase2/恢复结论.md",
+            "bytes": 4716,
+            "sha256": "f799cbe653969c984b03b571e62c61c5174db5f8e9c3bfa85ef400604cecb680",
+            "archive_member": "s06-a-cli-r2/records/phase2/恢复结论.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/phase3/closure-check.txt",
+            "bytes": 3122,
+            "sha256": "fee36490da4d6b3b6c220616e2cb4ed5a7ddf97e0efb74eb9c26f695430235ee",
+            "archive_member": "s06-a-cli-r2/records/phase3/closure-check.txt",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/phase3/final-git.txt",
+            "bytes": 2598,
+            "sha256": "22b824d3b0ef4bd5c2971002f8bca501c53568c2c0723d79d24b116c178abba3",
+            "archive_member": "s06-a-cli-r2/records/phase3/final-git.txt",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/phase3/initial-readback.txt",
+            "bytes": 40477,
+            "sha256": "a16104d34d700e6b2b2f19755a1a170c93d95bd53aee58a27e4d29f24b725bdc",
+            "archive_member": "s06-a-cli-r2/records/phase3/initial-readback.txt",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/phase3/integration-gate.txt",
+            "bytes": 4889,
+            "sha256": "902013d463275efdb66a1d6bd73324418ec07ea304491b3a6dad2514e1f18cf6",
+            "archive_member": "s06-a-cli-r2/records/phase3/integration-gate.txt",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/phase3/t01-formal.txt",
+            "bytes": 2182,
+            "sha256": "9a3e41f81549443f51e5011876e65c6c6092cab8717356f94688caccbc52900f",
+            "archive_member": "s06-a-cli-r2/records/phase3/t01-formal.txt",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/phase3/t02-formal.txt",
+            "bytes": 10488,
+            "sha256": "1ed7042a6aa3d6cfb5ebb6ba804c7d0b40eb9aad34d5fd0367d34d12326298e4",
+            "archive_member": "s06-a-cli-r2/records/phase3/t02-formal.txt",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/phase3/接管.md",
+            "bytes": 2105,
+            "sha256": "2ca257ef4b188ee3976cbf35c8956920c561df890c42e90991382430e0c233ac",
+            "archive_member": "s06-a-cli-r2/records/phase3/接管.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/provider/13bb79d0be83796456eef7e2edfd519e3e4387a7.json",
+            "bytes": 3504,
+            "sha256": "0aabec702c7f2bd3b2f6529a3f6fb8ae64a0771d4233968d5f1ee507206ddd7d",
+            "archive_member": "s06-a-cli-r2/records/provider/13bb79d0be83796456eef7e2edfd519e3e4387a7.json",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/records/provider/ebd4d55a2c7d382557f6ce7dec389d309e01cbae.json",
+            "bytes": 3504,
+            "sha256": "4ca5110e1cef885ef6f6ea94ce919758e6c3fe1796629eb386f7f08b168266a2",
+            "archive_member": "s06-a-cli-r2/records/provider/ebd4d55a2c7d382557f6ce7dec389d309e01cbae.json",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/runtime-phase2-events.jsonl",
+            "bytes": 254639,
+            "sha256": "b4d5675a561436cebe77c38d7c15879922b15dca980163144d5edc7ee23e577d",
+            "archive_member": "s06-a-cli-r2/runtime-phase2-events.jsonl",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/runtime-phase2-final.md",
+            "bytes": 792,
+            "sha256": "c5f1fc2cc932c7354cb19dbdb4f390478157d7f30543a6002d53d8a0d0f0b975",
+            "archive_member": "s06-a-cli-r2/runtime-phase2-final.md",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/runtime-phase3-events.jsonl",
+            "bytes": 275918,
+            "sha256": "b9ef9f298d62ccce02855dbdcc46ef9d146f4b9e7822ffdbe6735946d1e015ee",
+            "archive_member": "s06-a-cli-r2/runtime-phase3-events.jsonl",
+            "archive_bytes_checked": true
+          },
+          {
+            "path": ".harness-staging/s06-a-cli-r2/runtime-phase3-final.md",
+            "bytes": 849,
+            "sha256": "2614470eb290ca439320dad7fe3b34750199a5222f7e8c2c6b0dabed92fbd0b6",
+            "archive_member": "s06-a-cli-r2/runtime-phase3-final.md",
+            "archive_bytes_checked": true
+          }
+        ],
+        "git_head_observed": {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\.harness-staging\\s06-a-cli-r2\\project",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "f39f4231c3e747f7bfd2d64cddfe83e0dc818588",
+          "stderr": ""
+        },
+        "local_remote_observed": {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Users\\hp\\Documents\\ChatGPT\\Spec Coding\\.harness-staging\\s06-a-cli-r2\\remote.git",
+            "rev-parse",
+            "refs/heads/codex/oracle-case"
+          ],
+          "exit_code": 0,
+          "stdout": "f39f4231c3e747f7bfd2d64cddfe83e0dc818588",
+          "stderr": ""
+        },
+        "fixture_comparison": {
+          "baseline": "configured_fixture_hashes",
+          "note": "只读比较登记的非.git原资产；合法实现/状态变化可有差异。新增资产与副作用另按原始快照/Git记录判断，不把协调配置前初始Git等同最终fixture。",
+          "files": [
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/.gitignore",
+              "initial_sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793",
+              "current_sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793",
+              "unchanged": true
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/catalog.py",
+              "initial_sha256": "38104a97e8b4ae9e5793816f294554c0b1bfea5c6cfc0b6bdd8de2ecbb72139e",
+              "current_sha256": "6d5b1076fd41b836916c50b59bbcfc388769f429e515d42e9ad5e1a021ccd867",
+              "unchanged": false
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/data/records.json",
+              "initial_sha256": "c2c4aeb08473b7ef3ab09628ac6f03ad91f3b82b52b0a2158044c35cd73da875",
+              "current_sha256": "c2c4aeb08473b7ef3ab09628ac6f03ad91f3b82b52b0a2158044c35cd73da875",
+              "unchanged": true
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/README.md",
+              "initial_sha256": "79976149ab7b06b13e9fc643608482cbc5c2e96c9371c51e6b011c19b979f968",
+              "current_sha256": "f70324d460260c74155a39e0db5d2e4e1d621667515bca8243924e4d7adc495f",
+              "unchanged": false
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/runtime/provider.py",
+              "initial_sha256": "ac7cde2eea3d9ad7c09909af256135e29438589bbd78f7eed3ab4bfd2b2cb97c",
+              "current_sha256": "ac7cde2eea3d9ad7c09909af256135e29438589bbd78f7eed3ab4bfd2b2cb97c",
+              "unchanged": true
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/runtime/README.md",
+              "initial_sha256": "1184b50b25c1b71ff742b4d10fdab39f223a024ae93923a5d12cf4327aee3a84",
+              "current_sha256": "1184b50b25c1b71ff742b4d10fdab39f223a024ae93923a5d12cf4327aee3a84",
+              "unchanged": true
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/spec/adoption.md",
+              "initial_sha256": "24bee2c798a524358cdb48d2d27be2ab9c696e47acdd34a5226087695d1cabba",
+              "current_sha256": "24bee2c798a524358cdb48d2d27be2ab9c696e47acdd34a5226087695d1cabba",
+              "unchanged": true
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/spec/design.md",
+              "initial_sha256": "8313597791b59ac95c62146e1d72ad497c5caefa9e94976c8d08f3410e0b03c2",
+              "current_sha256": "8313597791b59ac95c62146e1d72ad497c5caefa9e94976c8d08f3410e0b03c2",
+              "unchanged": true
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/spec/requirement.md",
+              "initial_sha256": "56d95fc0418c4b4aaa9c3c64d4f89c78516e8c9c7a515059c4362c4bf07bd8c6",
+              "current_sha256": "56d95fc0418c4b4aaa9c3c64d4f89c78516e8c9c7a515059c4362c4bf07bd8c6",
+              "unchanged": true
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/spec/tasks.md",
+              "initial_sha256": "496ea349acc61d6ef90fa56b0c4912a08ac6a5df7f8b6cb3c035de8f44c167be",
+              "current_sha256": "83edb8b7578b19056679dcb5d8611a27e3435cceb181cff7521608571034ff82",
+              "unchanged": false
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/tests/test_existing.py",
+              "initial_sha256": "38b55f7df833e4221086d742539d04ace82623c0c500efc4444e81ad57fe6815",
+              "current_sha256": "38b55f7df833e4221086d742539d04ace82623c0c500efc4444e81ad57fe6815",
+              "unchanged": true
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/user-assets/instructions.md",
+              "initial_sha256": "39e31b96858a822e1f5c8bdccd6d9ae2aaa226d55b3c9c63be87afb4cde880ee",
+              "current_sha256": "39e31b96858a822e1f5c8bdccd6d9ae2aaa226d55b3c9c63be87afb4cde880ee",
+              "unchanged": true
+            },
+            {
+              "path": ".harness-staging/s06-a-cli-r2/project/user-assets/notes.md",
+              "initial_sha256": "7d0611f3221ee5decd8e6765b1178176bd4a3566051b84a36796c4b6840aa4e4",
+              "current_sha256": "7d0611f3221ee5decd8e6765b1178176bd4a3566051b84a36796c4b6840aa4e4",
+              "unchanged": true
+            }
+          ]
+        },
+        "report_commit": "4addbc7",
+        "archive_sha256": "28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9",
+        "note": "旧Hash/路径描述原ZIP与第三段截面；已变化Spec请读旧归档成员，不能当作当前文件Hash。"
+      },
+      "feedback_assisted_correction": true
     },
     {
       "id": "S02-B-CLI",
@@ -4761,13 +5106,83 @@
   ],
   "archive": {
     "index": "verification/harness/evidence-archive.json",
-    "index_sha256": "e89d25c42826dd7776de75f5bcda7bc0083c67c42f87c64b9cf30f686224a3c2",
-    "path": ".harness-build/spec-coding-harness-0.12.0-r2-evidence.zip",
-    "sha256": "28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9",
-    "zip_entries": 4985,
-    "original_files": 4984,
-    "oracle_checked_cited_archive_files": 239,
-    "note": "Oracle复算ZIP Hash并逐项比较本报告引用的案例原文件、ZIP成员及包内index Hash；4984全量核对是协调者报告，不冒充本轮逐正文审计。4985含额外index.json。"
+    "index_sha256": "d041dfb72b77189ce6ee5d49a79baa78b34501a61a5a642e749647b1c02cc6a1",
+    "path": ".harness-build/spec-coding-harness-0.12.0-r2-evidence-after-correction.zip",
+    "sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868",
+    "zip_entries": 5011,
+    "original_files": 5010,
+    "prior_archive": {
+      "index": "verification/harness/evidence-archive.json",
+      "index_sha256": "e89d25c42826dd7776de75f5bcda7bc0083c67c42f87c64b9cf30f686224a3c2",
+      "path": ".harness-build/spec-coding-harness-0.12.0-r2-evidence.zip",
+      "sha256": "28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9",
+      "zip_entries": 4985,
+      "original_files": 4984,
+      "oracle_checked_cited_archive_files": 239,
+      "note": "Oracle复算ZIP Hash并逐项比较本报告引用的案例原文件、ZIP成员及包内index Hash；4984全量核对是协调者报告，不冒充本轮逐正文审计。4985含额外index.json。"
+    },
+    "oracle_readonly_checks": {
+      "scope": "仅BHV-01语义复核；其余19案例保持4addbc7裁决，不重审、不重跑业务",
+      "old_zip_sha256": "28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9",
+      "new_zip_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868",
+      "old_zip_members_hash_checked": 4984,
+      "new_zip_and_current_files_hash_checked": 5010,
+      "changed_original_files": [
+        "s06-a-cli-r2/project/.git/COMMIT_EDITMSG",
+        "s06-a-cli-r2/project/.git/index",
+        "s06-a-cli-r2/project/.git/logs/HEAD",
+        "s06-a-cli-r2/project/.git/logs/refs/heads/codex/oracle-case",
+        "s06-a-cli-r2/project/.git/refs/heads/codex/oracle-case",
+        "s06-a-cli-r2/project/spec/harness-adoption.md",
+        "s06-a-cli-r2/project/spec/tasks.md",
+        "s06-a-cli-r2/project/spec/verification.md",
+        "s06-a-cli-r2/remote.git/refs/heads/codex/oracle-case"
+      ],
+      "added_files": [
+        "s06-a-cli-r2/AUTHORIZATION-phase4.md",
+        "s06-a-cli-r2/project/.git/objects/08/4448f0d149940ae01b29331384d6cbadab8573",
+        "s06-a-cli-r2/project/.git/objects/20/669bc0158f92ca95158d1680a8aba22f6547fb",
+        "s06-a-cli-r2/project/.git/objects/43/f875eb6ed235adf81d2db9fa01a34712c57974",
+        "s06-a-cli-r2/project/.git/objects/5a/772a4573036519a149f3adaeba48a0ccc432ff",
+        "s06-a-cli-r2/project/.git/objects/ab/3becaca1e62e786561543b35a9930ad635205d",
+        "s06-a-cli-r2/project/.git/objects/dc/f20863914f7dba890cb3d51710d3852a10af6e",
+        "s06-a-cli-r2/project/.git/objects/e0/019d10e519b94997c9a9d6e6a9cf4dfa244def",
+        "s06-a-cli-r2/project/spec/closure-trace.md",
+        "s06-a-cli-r2/records/phase4/加载复核.txt",
+        "s06-a-cli-r2/records/phase4/处理结论.md",
+        "s06-a-cli-r2/records/phase4/归档摘要.json",
+        "s06-a-cli-r2/records/phase4/提交核验.txt",
+        "s06-a-cli-r2/records/phase4/核验.txt",
+        "s06-a-cli-r2/records/phase4/状态纠正.md",
+        "s06-a-cli-r2/records/phase4/设施只读.txt",
+        "s06-a-cli-r2/remote.git/objects/08/4448f0d149940ae01b29331384d6cbadab8573",
+        "s06-a-cli-r2/remote.git/objects/20/669bc0158f92ca95158d1680a8aba22f6547fb",
+        "s06-a-cli-r2/remote.git/objects/43/f875eb6ed235adf81d2db9fa01a34712c57974",
+        "s06-a-cli-r2/remote.git/objects/5a/772a4573036519a149f3adaeba48a0ccc432ff",
+        "s06-a-cli-r2/remote.git/objects/ab/3becaca1e62e786561543b35a9930ad635205d",
+        "s06-a-cli-r2/remote.git/objects/dc/f20863914f7dba890cb3d51710d3852a10af6e",
+        "s06-a-cli-r2/remote.git/objects/e0/019d10e519b94997c9a9d6e6a9cf4dfa244def",
+        "s06-a-cli-r2/runtime-phase4-events.jsonl",
+        "s06-a-cli-r2/runtime-phase4-final.md",
+        "s06-a-cli-r2/runtime-phase4-stderr.log"
+      ],
+      "deleted_original_files": [],
+      "all_original_files_byte_preserved": 4975,
+      "external_strict_preservation_scope_files": 4870,
+      "all_old_cli_records_and_runtime_files_preserved": 32,
+      "project_head": "e0019d10e519b94997c9a9d6e6a9cf4dfa244def",
+      "local_remote_ref": "e0019d10e519b94997c9a9d6e6a9cf4dfa244def",
+      "project_commit_diff_paths": [
+        "spec/closure-trace.md",
+        "spec/harness-adoption.md",
+        "spec/tasks.md",
+        "spec/verification.md"
+      ],
+      "business_provider_stable_binding_unchanged": true,
+      "actual_blocked_patch_then_readback_then_verified_patch": true,
+      "last_phase4_event": "turn.completed"
+    },
+    "note": "Oracle本次复算新旧ZIP及全部索引成员Hash，新5010文件与当前磁盘逐项一致。字节核对不等于重审19案例或全文审计；当前外部JSON已把remote.git纳入授权Git变化。prior_archive.index_sha256描述旧外部索引截面。"
   },
   "excluded": {
     "R1": "仅诊断，不计R2通过依据",
@@ -4807,7 +5222,7 @@
     {
       "focus": "动态环境失效恢复、用户配置保护",
       "cases": "S06-A / S06-C / S06-A-CLI",
-      "verdict": "BLOCKED（BHV-01）",
+      "verdict": "PASS（BHV-01反馈后纠正）",
       "mandatory_real_evidence": "真实缺失probe、恢复后probe/verify、三方配置字节、同ID状态收口"
     },
     {
@@ -4839,13 +5254,26 @@
     "PowerShell早期Transcript漏原生输出，中文多编码失真保留；仅采纳实际后续UTF-8重跑、双流JSON/二进制或CLI工具事件，缺失双流不伪造。S03管理员commit重检只作设施补证。",
     "CLI与桌面Fresh同供应商、两种实际能力配置，不证明Claude、跨厂商或全部Runtime兼容。确定性Gate不冒充Fresh推理审查。",
     "本轮Oracle实际执行只读材料/JSON/hash/Git对象及报告校验；没有重跑业务测试、provider、包校验脚本或修正业务/包/raw。业务运行事实来自指定原始记录，PASS为独立判断。",
-    "结构8项、归档2项确定性检查及三名44源语义审查是其他独立通道；本报告不替其签署，不直接宣告Stage3或正式发行结论。"
+    "结构8项、归档2项确定性检查及三名44源语义审查是其他独立通道；本报告不替其签署，不直接宣告Stage3或正式发行结论。",
+    "S06-A-CLI首次BLOCKED成立，主协调者反馈Finding后第四Fresh补Owner闭环，本Oracle再判PASS；不代表独立无提醒一次成功或所有Runtime均能自主正确收口。"
   ],
   "release_verdict": null,
-  "governance_note": "BLOCKED源自已观察的跨Fresh状态追溯缺口，而非次数、未退出进程或假设风险。治理3.6的全体验证条件尚不能据本报告满足；不改冻结包，先回消费执行/交接收口责任，未证明需重建包。",
+  "governance_note": "BHV-01真实追加闭环后，本报告所覆盖必要代表行为当前PASS。初次BLOCKED事实保留；没有靠增加次数、放松Gate或Human豁免获得通过。正式发行仍由主协调按治理合取结构、全源语义、必要行为、身份及validation_focus，本报告不作发行签署。",
   "oracle_write_scope": [
     "verification/harness/behavior-verdict.md",
     "verification/harness/behavior-verdict.json",
     ".harness-build/oracle-finalize.py"
-  ]
+  ],
+  "review_scope": "仅BHV-01语义复核；其余19案例保持4addbc7裁决，不重审、不重跑业务",
+  "initial_report": {
+    "git_commit": "4addbc7951bd6176823ee7d431c9a774ec898a59",
+    "json_git_object": "4addbc7:verification/harness/behavior-verdict.json",
+    "json_sha256": "8d83c0e611d6d3fafa6c6ada080efb5e28b38588d4d8815279baf8111f7b66f0",
+    "markdown_git_object": "4addbc7:verification/harness/behavior-verdict.md",
+    "markdown_sha256": "2c9296bca19548967da06cf7ef59e41c1623368a4d7e8f3a2af5888f170cd93f",
+    "behavior_verdict": "BLOCKED",
+    "archive_sha256": "28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9",
+    "note": "只读git show取初次报告，原提交未改。新报告准确化协调者归属，不将工具消息user-role当作真实用户新增批准。"
+  },
+  "source_snapshot_checks_note": "沿用4addbc7首次全源审查记录；本轮仅复核BHV-01相关规范与追加证据，不重审其他19case。"
 }

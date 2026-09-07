@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "stage3_verdict": "PASS",
+  "lifecycle_status": "发布准备完成，尚未正式发布",
+  "formal_release_published": false,
+  "version": "0.12.0",
+  "source_revision": "2f585f0faa8c0ba831161858a2e1418fd2d527e7",
+  "package_sha256": "4451d39351a32576e99552aada821f98cc69f0c087e041273d294e6bc332db9b",
+  "candidate_commit": "02c69747743293847ea21496480b1627742c3030",
+  "initial_blocked_verdict_commit": "4addbc7951bd6176823ee7d431c9a774ec898a59",
+  "structure": "PASS",
+  "independent_semantics": "PASS；44份固定Canonical及全部消费者组合，见三份独立报告",
+  "behavior": "PASS；包括初次遗漏经独立Finding反馈后追加纠正，不是零提醒一次全过",
+  "counts": {
+    "base_variants": 17,
+    "key_cli_retests": 2,
+    "extra_cli_checks": 1,
+    "completed": 20,
+    "candidate_challenge_pass": 17,
+    "candidate_challenge_blocked": 0,
+    "negative_control_detection_pass": 3,
+    "pending": 0
+  },
+  "candidate_archive": {
+    "path": ".harness-build/spec-coding-harness-0.12.0-candidate-r2.zip",
+    "sha256": "7f7d5e2c4447231f5bf83afc68a4dba5504097d79a99f9291ee502ced2735a79",
+    "bytes": 122499
+  },
+  "evidence_archive": {
+    "archive": ".harness-build/spec-coding-harness-0.12.0-r2-evidence-after-correction.zip",
+    "archive_sha256": "5780bd6ca7a95d2826bb14e2ac70ed5bc2925c46b7d6bc126b6e52853cf40868",
+    "cases": [
+      "s01-a-r2",
+      "s02-a-r2",
+      "s02-b-r2",
+      "s03-a-r2",
+      "s04-a-r2",
+      "s04-b-r2",
+      "s05-a-r2",
+      "s05-b-r2",
+      "s06-a-r2",
+      "s06-b-r2",
+      "s06-c-r2",
+      "s07-a-r2",
+      "s07-b-r2",
+      "s07-c-r2",
+      "s07-d-r2",
+      "s08-a-r2",
+      "s08-b-r2-v2",
+      "s01-a-cli-r2",
+      "s02-b-cli-r2",
+      "s06-a-cli-r2"
+    ],
+    "files": 5011,
+    "verified_file_hashes": 5010,
+    "credential_patterns": "未命中；模式检查不是所有秘密的完整证明",
+    "scanned_files": 5010,
+    "purpose": "已结束试验的原始证据及实际消费包，不自动判定发行通过",
+    "prior_immutable_files_preserved": 4870,
+    "authorized_correction_scope": "S06-A CLI新增第四段记录和项目内权威文档、本地project/.git与remote.git同步状态；原先其他案例及全部既有raw保持原字节",
+    "prior_archive": {
+      "archive": ".harness-build/spec-coding-harness-0.12.0-r2-evidence.zip",
+      "archive_sha256": "28a91e498523b24b760985284f8ff1b11fdd3eb0afba31013fc654256ec000a9",
+      "purpose": "初次20案例结束截面；保留CLI S06A跨会话原OI未收敛的独立评审发现"
+    }
+  },
+  "report_files": {
+    "build.md": "a68f133a6e9a19656ddede31dec2b994cb716d4c915f253b55ed1407cd40b873",
+    "final-checks.json": "43044aae41208c9f4ad7de46812e5fca310d669f534371ce7b875140132a1ea3",
+    "candidate-identity.json": "bd1efbb8fcb12835fa063c0452d7b0e1b53599e083020a5ed513ebe7a9c3bb51",
+    "behavior-verdict.md": "1ddca739cd15f577c323d98f3a2549bd44be2f83003c601c9d93751e25b9d97e",
+    "behavior-verdict.json": "0517898804cdd238df9da785eed322e01d179cb00cbc4b2e7e3f28c49d8b4dac",
+    "evidence-archive.json": "d041dfb72b77189ce6ee5d49a79baa78b34501a61a5a642e749647b1c02cc6a1",
+    "method-corrections.md": "fc845b66f290dd93741dbce0c5306d21640d9820a0cfaba41a85977f2988f339",
+    "release-notes.md": "80b000f317064f2349a2353acba19981a96d99c82e35f1331a67e14dfb380212",
+    "reviews/shared-r2.md": "b8dc70c5e003df98908e53f2f6119a99b9574c6f8045c8e66afb349796c1f951",
+    "reviews/planning-r2.md": "f72a7f3e46422c1f625897b13cb06e600ed7094c1f01093435112871417ad7b3",
+    "reviews/execution-r2.md": "c9fa5eb77ef9e7fcfb875e5e1265ebabdfe11faeb4d28ab195fa402e30e40166",
+    "reviews/local-adaptation-negative-r2.md": "d61bd9fa652e440c6a071c31045953a0fd37d2f2b6a1d2aa6abca4d2edacdfc4"
+  },
+  "behavior_evidence_references_checked": 238,
+  "evidence_reference_scope": "报告中每项案例证据的路径及SHA必须命中当前追加归档或被保留的初次归档；包外报告另外核对当前字节",
+  "limitations": [
+    "只认证记录中的Windows/Codex能力配置和验证范围，不外推所有Runtime或原生插件安装",
+    "BHV-01初次跨Fresh状态遗漏保留历史，纠正后由独立Oracle重新判定",
+    "L/C/D负控自身仍BLOCKED，不进入正式发行对象",
+    "合并、Tag和GitHub Release未执行；正式发行必须原样使用已验证候选"
+  ]
+}
