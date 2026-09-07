@@ -1,6 +1,6 @@
 schema_version: 5
 spec_coding_version: "0.12.0"
-status: candidate
+status: released
 canonical_root: docs
 canonical_document_count: 34
 canonical_rule_document_count: 4

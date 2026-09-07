@@ -12,7 +12,7 @@ Requirement → Design → Task → Change → Verification
 
 并通过可复用 Workflow、Rules 与 Harness 让 Coding Agent 在不同项目和 Runtime 中保持相同的核心行为。
 
-**Version:** [`0.12.0`](VERSION) · **Status:** `candidate`
+**Version:** [`0.12.0`](VERSION) · **Status:** `released`
 
 ---
 
@@ -68,7 +68,7 @@ Canonical Workflow / Rules / Meta Protocol
 
 完整维护协议：[`docs/governance/harness-build-and-release.md`](docs/governance/harness-build-and-release.md)
 
-当前候选包入口：[`packages/harness/`](packages/harness/)；构建、独立审查、行为验证与发布准备记录见[`verification/harness/`](verification/harness/)。候选验证不等于已经正式发布。
+当前正式发行：[`0.12.0`](https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.12.0)。完整包入口为[`packages/harness/`](packages/harness/)，固定身份、接入方式及验证依据见[`发行记录`](verification/harness/publication.md)。
 
 ---
 

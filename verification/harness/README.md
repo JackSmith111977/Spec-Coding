@@ -1,6 +1,8 @@
 # 首次 Harness 构建与验证
 
-当前交付为 **0.12.0 R2 已验证候选，Stage 3：PASS，发布准备完成**。尚未执行合并、Tag或GitHub Release，不能把候选目录或测试READY当作正式发行及真实项目接入证明。
+当前发行版本为 **0.12.0**，原样使用Stage 3 PASS的R2包。[发行记录](publication.md)绑定正式Tag、Release、下载附件与固定内容身份。真实项目仍须完成自身接入及适配验收。
+
+本目录的release-validation.json和release-notes.md保留发布准备时的原始截面及Hash，其中“尚未正式发布”描述的是该历史时点；当前发行生命周期以publication.json及所指向的公开GitHub Release为准，不能修改旧收据来追认发布。
 
 固定源为`2f585f0faa8c0ba831161858a2e1418fd2d527e7`，当前包内容Hash为`4451d39351a32576e99552aada821f98cc69f0c087e041273d294e6bc332db9b`。
 
@@ -21,7 +23,7 @@
 
 CLI跨Fresh恢复初次遗漏原OI/Failure收口，独立评审提出BHV-01并判BLOCKED。Owner追加真实纠正与同ID收敛，Oracle独立复核后关闭Finding；原始失败归档及提交4addbc7保留。本轮验证了含独立审查回流的闭环，不能表述为零提醒一次全过。
 
-行为测试使用包外明确授权的独立项目、固定包副本和Fresh上下文；原始命令、运行记录和目标Git仓库位于`.harness-staging/`。候选ZIP及前后两份证据ZIP位于`.harness-build/`，文件名和Hash见最终收据；这些本地归档尚未上传为Release附件。行为执行者禁止读取Canonical、Oracle预期、Builder摘要或其他案例。当前隔离依靠Fresh初始输入及显式工具读写边界，未宣称操作系统向执行者隐藏整个父目录。
+行为测试使用包外明确授权的独立项目、固定包副本和Fresh上下文；原始命令、运行记录和目标Git仓库位于`.harness-staging/`。发行包、验证报告及前后两份证据归档通过Release附件提供，文件名与Hash见发行记录。行为执行者禁止读取Canonical、Oracle预期、Builder摘要或其他案例。当前隔离依靠Fresh初始输入及显式工具读写边界，未宣称操作系统向执行者隐藏整个父目录。
 
 当前第二能力环境为禁用原生委派、插件、应用与Hook的Codex CLI；这是同一产品的不同能力配置，不是跨供应商兼容证明。Claude CLI的无工具有界探测45秒超时，未取得可用行为结果，不能列为通过。
 
