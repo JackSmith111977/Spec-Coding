@@ -199,6 +199,10 @@ Spec Coding VERSION = Harness Package VERSION
 
 这些属于 Candidate 内容身份的部分应在 Stage 3 最终验证前确定；验证后若发生影响 Candidate 身份的变化，必须重新验证。
 
+### 发布标题
+
+GitHub Release 的标题必须与对应 Git Tag 名称逐字一致，直接使用 Tag，不添加项目名、副标题或其他说明。例如 Tag 为 `0.12.0` 时，Release 标题也必须为 `0.12.0`。版本内容、亮点与兼容说明放在 Release 正文中。创建或编辑 Release 后，应复核标题与 Tag 一致。
+
 ---
 
 ## 6. 标准变更流程

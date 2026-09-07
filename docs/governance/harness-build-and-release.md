@@ -502,6 +502,8 @@ Git Tag
 GitHub Release
 ```
 
+发布标题遵循[仓库版本管理规则](repository-governance.md)：直接使用对应 Git Tag 名称。创建或编辑 GitHub Release 后，核对 `name` 与 `tag_name` 完全一致；版本说明写入正文。
+
 正式 Release 至少绑定：
 
 - Harness Package；
