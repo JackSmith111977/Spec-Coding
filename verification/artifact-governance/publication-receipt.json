@@ -1,0 +1,58 @@
+{
+  "assets": [
+    {
+      "browser_download_url": "https://github.com/JackSmith111977/Spec-Coding/releases/download/0.13.0/SHA256SUMS",
+      "digest": "sha256:6a56c8dc60e9e99189b9beba0c420d530bb5a85b98d0d3a2e526d7cb2041cc80",
+      "id": 551085764,
+      "name": "SHA256SUMS",
+      "size": 548
+    },
+    {
+      "browser_download_url": "https://github.com/JackSmith111977/Spec-Coding/releases/download/0.13.0/spec-coding-harness-0.13.0-behavior-evidence.zip",
+      "digest": "sha256:3962ff8b38d3838a7601f36ccfb8e9f7b586d0c62ba9ba00465115208754eb17",
+      "id": 551085740,
+      "name": "spec-coding-harness-0.13.0-behavior-evidence.zip",
+      "size": 6493016
+    },
+    {
+      "browser_download_url": "https://github.com/JackSmith111977/Spec-Coding/releases/download/0.13.0/spec-coding-harness-0.13.0-manifest.json",
+      "digest": "sha256:cc0717b3c18cd098e8d1be7e6d9a8852d3bfbffbe7151c07358309c937c35090",
+      "id": 551085742,
+      "name": "spec-coding-harness-0.13.0-manifest.json",
+      "size": 27694
+    },
+    {
+      "browser_download_url": "https://github.com/JackSmith111977/Spec-Coding/releases/download/0.13.0/spec-coding-harness-0.13.0-runtime-evidence.zip",
+      "digest": "sha256:36d7e7df720a4340a6a7d645cff19b0d815350b9f0bfd84f49ab0a06433b609d",
+      "id": 551085748,
+      "name": "spec-coding-harness-0.13.0-runtime-evidence.zip",
+      "size": 2187892
+    },
+    {
+      "browser_download_url": "https://github.com/JackSmith111977/Spec-Coding/releases/download/0.13.0/spec-coding-harness-0.13.0-verification.zip",
+      "digest": "sha256:b6012e5bd50eb4ed648641275e692e605378bd83508e752740a69d3f2c2dc4d1",
+      "id": 551085739,
+      "name": "spec-coding-harness-0.13.0-verification.zip",
+      "size": 323568
+    },
+    {
+      "browser_download_url": "https://github.com/JackSmith111977/Spec-Coding/releases/download/0.13.0/spec-coding-harness-0.13.0.zip",
+      "digest": "sha256:3c7908906c9d1a01a09f7038ba242d157661ff9125af1d3dde4745ac00c0cddd",
+      "id": 551085747,
+      "name": "spec-coding-harness-0.13.0.zip",
+      "size": 171891
+    }
+  ],
+  "draft": false,
+  "html_url": "https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.13.0",
+  "id": 384979741,
+  "name": "0.13.0",
+  "prerelease": false,
+  "published_at": "2026-09-08T18:45:06Z",
+  "tag_name": "0.13.0",
+  "tag_commit": "61edc16b8f2089c5ec6ad409e4b2108ae8010782",
+  "package_sha256": "3a32530d2d28dd43b8c0afed75faa13c130a04d39b78cfce6afa7ed81906540c",
+  "asset_digest_verification": "PASS：六附件服务器digest与已审本地公开载荷逐字节Hash一致",
+  "privacy": "公开脱敏副本；原始证据与含原始报告的本地分支未推送",
+  "note": "发布后收据另行提交，不修改发行包、报告附件或既有Tag"
+}

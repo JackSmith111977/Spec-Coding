@@ -2,7 +2,7 @@
 
 [GitHub Release：0.13.0](https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.13.0) · [完整包](https://github.com/JackSmith111977/Spec-Coding/releases/download/0.13.0/spec-coding-harness-0.13.0.zip) · [升级说明](migration.md)
 
-此页在发布前固定交付身份；正式发布事实以对应Tag与非草稿Release为准。Release标题必须逐字为 `0.13.0`。维护者发布后的实际核对另存收据，不修改原包或移动Tag。公开附件均按用户要求脱敏，方法与可复核性限制见[脱敏说明](sanitization.md)。
+0.13.0 已于2026-09-09（北京时间）正式发布，标题与Tag逐字一致，非草稿、非预发布；六附件的服务器Hash与已验公开载荷一致。实际核对见[发布收据](publication-receipt.json)，该收据在发布后另行提交，不修改原包、附件或Tag。公开附件均按用户要求脱敏，方法与可复核性限制见[脱敏说明](sanitization.md)。
 
 ## 固定对象
 
