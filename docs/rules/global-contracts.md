@@ -95,3 +95,7 @@ Human / Agent Authority 继续定义 Human 与 Agent 的决策权限；Human-Age
 使用 Subagent 不改变上游 Authority、Gate、Artifact Contract 或 Canonical Source of Truth。Main Agent 可以按需委派探索、执行或独立审查，但仍负责全局一致性、结果整合、跨 Agent 冲突与最终责任；Subagent 只在明确边界内自治，超出当前 Contract 时返回 Main Agent 重新路由。
 
 Agent、Model、Thinking、Fresh / Fork、Workspace、Attempt 与并行策略默认属于 Runtime Strategy（运行时策略），除正式 Workflow 另有明确 Artifact Contract 外不作为长期状态持久化。
+
+## 产物组织与读取
+
+涉及持久产物、上下文裁剪、审阅入口或结果写回时，遵循[产物组织与读取规则](artifact-organization-and-reading.md)。保持原权威状态与稳定 ID，按需读取必要正文和证据，写回原事实源后同步直接入口；不复制规则正文或创建第二套状态。

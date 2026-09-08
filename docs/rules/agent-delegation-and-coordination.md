@@ -247,3 +247,7 @@ Subagent 完成仅表示当前 Delegated Work 完成，不自动意味着 Task `
 最终必须保持：
 
 > **Main Agent owns coherence; Subagents execute bounded work; Harness derives runtime strategy｜Main Agent 持有全局一致性，Subagent 执行有界工作，Harness 动态推导具体运行策略。**
+
+## 产物组织与读取
+
+涉及持久产物、上下文裁剪、审阅入口或结果写回时，遵循[产物组织与读取规则](artifact-organization-and-reading.md)。保持原权威状态与稳定 ID，按需读取必要正文和证据，写回原事实源后同步直接入口；不复制规则正文或创建第二套状态。

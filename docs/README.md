@@ -69,6 +69,7 @@ Exception Workflow：[`workflows/exceptions/`](workflows/exceptions/)。
 - [`rules/global-contracts.md`](rules/global-contracts.md)
 - [`rules/human-agent-collaboration.md`](rules/human-agent-collaboration.md)
 - [`rules/agent-delegation-and-coordination.md`](rules/agent-delegation-and-coordination.md)
+- [`rules/artifact-organization-and-reading.md`](rules/artifact-organization-and-reading.md)
 - [`rules/code-quality.md`](rules/code-quality.md)
 
 Rules 不推进阶段状态；正式消费者引用规则语义，不复制规则正文。
@@ -98,6 +99,6 @@ Reference 是非规范知识层；统一入口见 [`reference/README.md`](refere
 
 ## Canonical Corpus｜规范文档集
 
-当前 `manifest.yaml` 登记：34 份 Canonical Stage Documents、4 份 Canonical Rule Documents、4 份 Canonical Exception Workflow Documents、2 份 Canonical Meta Protocol Documents。
+当前 `manifest.yaml` 登记：34 份 Canonical Stage Documents、5 份 Canonical Rule Documents、4 份 Canonical Exception Workflow Documents、2 份 Canonical Meta Protocol Documents。
 
 Governance、Reference、README、Overview 与发布后的 Harness Package 不计入 Canonical Corpus。Canonical Markdown 仍是规范 Source of Truth；Harness Package 是从其派生并经过发布验证的执行资产。

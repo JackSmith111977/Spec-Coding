@@ -1,9 +1,9 @@
 schema_version: 5
-spec_coding_version: "0.12.0"
-status: released
+spec_coding_version: "0.13.0"
+status: candidate
 canonical_root: docs
 canonical_document_count: 34
-canonical_rule_document_count: 4
+canonical_rule_document_count: 5
 canonical_exception_document_count: 4
 canonical_meta_protocol_document_count: 2
 history_policy: git
@@ -61,6 +61,11 @@ rule_documents:
   - id: agent-delegation-and-coordination
     path: rules/agent-delegation-and-coordination.md
     description: Main Agent / Subagent 角色、委派协调、运行时能力与模型路由、结果验证与升级规则
+    applies_to: all
+
+  - id: artifact-organization-and-reading
+    path: rules/artifact-organization-and-reading.md
+    description: Main/Exception Workflow 与两个 Meta Protocol 中的产物存储、权威归属、渐进读取、索引维护及恢复约束
     applies_to: all
 
   - id: code-quality
@@ -206,6 +211,7 @@ rules:
   - Add, delete, move, or rename a canonical stage, rule, exception workflow, or meta protocol document only together with a manifest update.
   - Harness Package creation, update, removal, verification, and release follow governance/harness-build-and-release.md.
   - 维护者构建与目标侧消费共用 meta-protocols/harness-adoption-and-adaptation.md 的包消费契约；接入程序随包预编译，客户端不重新执行 Canonical-to-Harness 构建。
+  - 产物组织与读取规则适用于全部正式 Main/Exception Workflow 及两个 Meta Protocol 的相关产物读写和维护动作；接入前由包内入口提供必要规则，不依赖尚未建立的工作空间。
   - All formal workflows inherit rules/global-contracts.md unless a workflow defines a stricter rule.
   - Human-Agent Collaboration applies to all formal workflows and to Meta Protocol interactions that involve Human intent, authority, or key judgment.
   - Agent Delegation & Coordination applies whenever Main Agent delegates bounded work, independent review, context isolation, or runtime capability/model routing is used; workflows and Meta Protocols reference rather than duplicate its semantics.

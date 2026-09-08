@@ -30,10 +30,11 @@ SKILLS = {
     "harness-adoption-and-adaptation": "spec-harness-adoption",
 }
 RULES = {"global-execution": "global", "human-agent-collaboration": "collaboration",
-         "agent-delegation-and-coordination": "delegation", "code-quality": "code-quality"}
+         "agent-delegation-and-coordination": "delegation", "code-quality": "code-quality",
+         "artifact-organization-and-reading": "artifacts"}
 CAPABILITIES = ["read-and-route", "identity-and-scope", "authority-and-state", "trace-and-evidence",
                 "deterministic-verification", "independent-review", "scoped-execution",
-                "git-lifecycle", "observe-and-recover"]
+                "git-lifecycle", "observe-and-recover", "artifact-navigation"]
 
 
 def git(*args):
@@ -93,22 +94,23 @@ def assemble(revision):
                           "applies_when": applies, "dependencies": dependencies, "requires": requires,
                           "requirements": "bootstrap/requirements.md", "sha256": integrity.tree_digest(subset)})
 
-    common = ["rule-global", "rule-collaboration"]
+    common = ["rule-global", "rule-collaboration", "rule-artifacts"]
     for item in data["rule_documents"]:
         key = RULES[item["id"]]
-        deps = [] if key == "global" else (["rule-global"] if key == "collaboration" else common)
+        deps = [] if key == "artifacts" else (["rule-artifacts"] if key == "global" else
+                (["rule-global", "rule-artifacts"] if key == "collaboration" else common))
         artifact("rule-" + key, "rule", f"rules/{key}.md", ["docs/" + item["path"]], item["description"], deps,
-                 ["authority-and-state", "trace-and-evidence"] + (["independent-review", "scoped-execution"] if key == "delegation" else []))
+                 ["authority-and-state", "trace-and-evidence", "artifact-navigation"] + (["independent-review", "scoped-execution"] if key == "delegation" else []))
     for item in data["stages"] + data["exception_workflows"]:
         key = SKILLS[item["name"]]
         extra = ["rule-code-quality"] if item["name"] in ("development-execution", "verification-convergence") else []
         artifact(key, "agent-skill", "skills/" + key, ["docs/" + p for p in item["documents"]], item["description"],
-                 common + extra, ["read-and-route", "authority-and-state", "trace-and-evidence"] +
+                 common + extra, ["read-and-route", "authority-and-state", "trace-and-evidence", "artifact-navigation"] +
                  (["deterministic-verification", "git-lifecycle"] if item["name"] == "development-execution" else []))
     for item in data["meta_protocols"]:
         key = SKILLS[item["id"]]
         artifact(key, "agent-skill", "skills/" + key, ["docs/" + item["path"]], item["description"], common,
-                 CAPABILITIES if item["id"] == "harness-adoption-and-adaptation" else ["authority-and-state", "trace-and-evidence"])
+                 CAPABILITIES if item["id"] == "harness-adoption-and-adaptation" else ["authority-and-state", "trace-and-evidence", "artifact-navigation"])
     meta = ["docs/" + x["path"] for x in data["meta_protocols"]]
     envelope = [("entry", "bootstrap", "bootstrap/BOOTSTRAP.md", meta, common),
                 ("routes", "bootstrap", "bootstrap/routes.md", sources, common),
@@ -187,6 +189,11 @@ def validate(package=PACKAGE):
         done.add(ident)
     for ident in ids:
         visit(ident)
+    if any(item["id"] == "artifact-organization-and-reading" for item in data["rule_documents"]):
+        for item in artifacts:
+            if item["type"] == "agent-skill" or item["id"] == "entry":
+                if "rule-artifacts" not in item["dependencies"]:
+                    raise ValueError(f"消费者缺少产物规则依赖：{item['id']}")
     plugin = json.loads((package / "plugin.json").read_text(encoding="utf-8"))
     if plugin != {"$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json", "name": "spec-coding", "version": version,
                   "description": "Spec Coding 预编译流程、共享规则与目标侧按需接入程序", "repository": "https://github.com/JackSmith111977/Spec-Coding"}:

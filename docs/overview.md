@@ -53,6 +53,8 @@ Harness Ready
 
 ## Harness Build & Release｜维护者构建与发布
 
+目标项目产物按[产物组织与读取规则](rules/artifact-organization-and-reading.md)建立统一入口；目录与共享边界由 Project Onboarding 绑定，实际读取与写回由目标侧验收。
+
 维护者只维护 Canonical Source；Harness Package 是可重新生成、可验证、可发布的 Derived Artifact（派生产物）。
 
 ```text

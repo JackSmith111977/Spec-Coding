@@ -146,7 +146,7 @@ Subagent 的主要价值是 Context Isolation（上下文隔离），并行只�
 
 ## 3.7 动态组织任务
 
-默认使用统一 `tasks.md` 维护完整任务集：
+默认使用所绑定 Spec Workspace 中统一 `tasks.md`（或经稳定绑定的等价既有位置）维护该管理范围的完整任务集，遵循[产物组织与读取规则](../../../rules/artifact-organization-and-reading.md)。不得按需求拆出可独立修改的任务核心状态；跨需求/空间依赖保持可定位：
 
 ```text
 tasks.md

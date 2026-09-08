@@ -157,3 +157,7 @@ Continue Autonomous Work
 Harness 可以根据目标项目将本规则映射为轻量 Summary、Decision Packet、Checkpoint、UI 提示、结构化会话状态或其他机制，但不得要求 Human 持续跟踪 Agent 全部 Working Context，也不得通过新增无必要 Gate 降低已有 Autonomous 边界。
 
 > **Global applicability does not imply mandatory interaction｜全局适用，不代表全程打扰 Human。**
+
+## 产物组织与读取
+
+涉及持久产物、上下文裁剪、审阅入口或结果写回时，遵循[产物组织与读取规则](artifact-organization-and-reading.md)。保持原权威状态与稳定 ID，按需读取必要正文和证据，写回原事实源后同步直接入口；不复制规则正文或创建第二套状态。

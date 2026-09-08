@@ -31,6 +31,8 @@ Workflow Entry / Resume
 
 两份 Meta Protocol 均由维护者预编译到发行包。客户端从安装前可读取的 Bootstrap 启动，只处理当前 Runtime / Project 才能确定的动态环境差异，不重新执行维护者的 Canonical → Harness 预编译。
 
+两个协议在产物定位、存储、导航和维护时共同消费[产物组织与读取规则](../rules/artifact-organization-and-reading.md)；仅接入请求在适配验收后结束，具体开发目标由后续 Workflow 承接。
+
 职责边界：
 
 - Workflow：怎么推进；

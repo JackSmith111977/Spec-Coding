@@ -29,6 +29,8 @@ Workflow Entry / Resume
 - **Affected Trace Only｜只处理受影响链路**：项目、协作方式或 Spec Coding 演进时，只刷新或迁移真正失效的接入事实及其派生项。
 - **Constraint Precedence｜约束优先级**：接入配置不得弱化 Spec Coding 强制规则、目标项目更严格约束或安全边界。
 
+产物的空间布局、入口、权威归属和维护遵循[产物组织与读取规则](../rules/artifact-organization-and-reading.md)，从安装前接入动作起适用。
+
 涉及 Human 意图、权限或重要接入决策时，适用 [`Human-Agent Collaboration Rules`](../rules/human-agent-collaboration.md)。
 
 ---
@@ -63,7 +65,7 @@ Baseline Validation & Handoff
 
 ### 3.1 Adoption Resolution｜接入解析
 
-确认 Target Identity 与 Target Scope，并识别是否存在可复用的 Adoption Baseline / Spec Workspace。
+确认 Target Identity 与 Target Scope，并识别是否存在可复用的 Adoption Baseline / Spec Workspace。先从当前 Runtime 已授权入口与既有绑定定向发现，再检查必要结构及代表性记录；不因未看到默认 spec/ 目录就新建一套，也不提前执行全量业务认知。
 
 重点识别：
 
@@ -101,6 +103,10 @@ Spec Workspace 承载 Requirement、Design、Task、Evidence、Adoption Baseline
 - `Publication Boundary`：Artifact 仅在 Spec Workspace、团队共享空间还是目标 Repository 中可见。
 
 Workflow 决定“什么 Artifact 是事实源”；Onboarding 只决定“保存在哪里、对谁可见”。
+
+按产物组织与读取规则解析空间总入口、稳定目录映射及现有产物所有权。新建 Repository-native 空间默认使用项目根 spec/；Local / Shared 空间按已有意图选择，不因默认布局扩大共享权限。同名目录不明时先检查，不覆盖用户资产。已有等价目录或外部系统优先映射复用，默认布局不要求生成全套空文件。
+
+原 Adoption Baseline 记录空间根、管理范围及必要的角色到位置映射；默认布局不逐文件重复登记。Monorepo / 多仓按实际管理范围绑定，跨范围引用带空间/仓库身份，不能切断统一任务集的依赖。真实 Runtime 加载位置和当前适配状态仍由后续协议记录，不进入稳定 Baseline。
 
 #### Repository Binding & Constraints｜仓库绑定与约束
 
@@ -146,6 +152,13 @@ Version 不同本身不等于 Migration；应结合 VERSION、Manifest、CHANGEL
 
 动态 Runtime Capability、Model、Tool、Loader、CI 等变化不直接修改 Adoption Baseline；它们由后续 Target-side Adaptation 重新发现。只有长期接入意图或稳定绑定受影响时才 Refresh / Migrate Adoption。
 
+布局需要变化时，在现有 Initialize / Reuse / Refresh / Migrate 中处理：
+
+1. 核对已有空间、权限、用户修改、对象身份和入站引用，确定直接复用、只补导航或确需迁移的范围。
+2. 保留可回退依据；按授权迁移并核对目标正文后更新引用和入口，最后清理本次确认不再需要的旧管理副本。目录名或归档状态不构成删除授权。
+3. 中断恢复以原绑定及已确认权威内容为依据；新旧位置共存时不按修改时间盲选，重复身份/冲突先消歧，保护用户修改与原证据。
+4. 无 Relevant Delta 时 Reuse 不生成无意义改动；普通业务任务不触发全量重整。布局迁移不改变业务状态或事实，也不证明新 Harness 已生效。
+
 **完成条件**：所有 Relevant Delta 已归属，受影响 Adoption Trace 已收敛，并能判断后续 Released Harness Package 是否需要重新接入 / 适配。
 
 ### 3.4 Baseline Validation & Handoff｜基线验证与移交
@@ -153,7 +166,7 @@ Version 不同本身不等于 Migration；应结合 VERSION、Manifest、CHANGEL
 Adoption Baseline 只持久化三类信息：
 
 1. **Declared Intent｜声明意图**：Collaboration Mode、Working Language、Publication Boundary 等 Human-owned 意图；
-2. **Resolved Binding｜稳定绑定**：Target Identity / Scope、Spec Workspace、必要 Repository / Remote Binding；
+2. **Resolved Binding｜稳定绑定**：Target Identity / Scope、Spec Workspace 及必要布局映射、必要 Repository / Remote Binding；
 3. **Overrides / Constraints｜覆盖与硬约束**：Push / Merge / Production 等 Authority 或项目稳定约束。
 
 明确不持久化：
@@ -177,11 +190,15 @@ Runtime-specific Harness design
 
 Baseline 保存位置跟随 Spec Workspace 共享边界。`Reuse` 无 Relevant Delta 时不产生无意义修改；`Refresh / Migrate` 只更新受影响事实。
 
+先确认基线与空间总入口可以相互定位，权威产物与原状态可达，未完成迁移或必要写回权限缺口已明确。只读空间可用于阅读，但不能声称完成了必需的持久写回。
+
 随后解析最终 Workflow Route：
 
 - Greenfield 且无可复用 Workflow State → `01A Project Definition`；
 - Brownfield 且项目认知不足 → `01B Project Understanding`；
 - 已有有效 Canonical Artifact / Workflow State → Resume 最早仍有效 Owner Stage。
+
+仅要求建立 Harness 时不要求业务目标，不创建虚构 Requirement 或空任务集。Route 表示后续入口，不扩大本次请求；必要适配验收后按原请求结束或继续。
 
 最终移交：
 

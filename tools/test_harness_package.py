@@ -57,6 +57,11 @@ class PackageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "循环"):
             hp.validate(self.root)
 
+    def test_artifact_rule_must_reach_workflows_and_bootstrap(self):
+        self.manifest(lambda m: next(a for a in m["artifacts"] if a["id"] == "entry")["dependencies"].remove("rule-artifacts"))
+        with self.assertRaisesRegex(ValueError, "缺少产物规则依赖"):
+            hp.validate(self.root)
+
     def test_envelope_cannot_mask_missing_procedure_source(self):
         self.manifest(lambda m: next(a for a in m["artifacts"] if a["id"] == "spec-debug")["sources"].clear())
         with self.assertRaisesRegex(ValueError, "主体来源缺失"):
