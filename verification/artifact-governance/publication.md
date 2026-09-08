@@ -30,7 +30,7 @@ Tag包含后续包外验证与发布文档提交；它不冒充构建规范源�
 
 先核对下载文件与 `SHA256SUMS`，再运行完整包内 `harness/scripts/verify.py`。ZIP Hash与包内容聚合Hash是不同对象，不能互换。结构校验不能代替[Stage 3判定](stage-3.md)及目标侧实际验收。
 
-两份公开证据归档分别含692与195项（含各自index.json），SHA256分别为 `3962ff8b38d3838a7601f36ccfb8e9f7b586d0c62ba9ba00465115208754eb17` 和 `eb32293d1990b31b39ae091441d2adf28981417c5ddb241dd7fd5c60a2732d83`。index绑定原件Hash和公开字节Hash，并列出省略项；归档本身不自动判定PASS。
+两份公开证据归档分别含692与195项（含各自index.json），SHA256分别为 `3962ff8b38d3838a7601f36ccfb8e9f7b586d0c62ba9ba00465115208754eb17` 和 `36d7e7df720a4340a6a7d645cff19b0d815350b9f0bfd84f49ab0a06433b609d`。index绑定原件Hash和公开字节Hash，并列出省略项；归档本身不自动判定PASS。
 
 解压公开副本后以各 `v013-*` 目录为场景根。报告中的 `.harness-staging/v013-*` 指相应目录，`.harness-build/*initial*.json` 可从本报告包 `initial-state/` 按[来源映射](initial-state/来源映射.json)查到。公开日志中的本机绝对路径已替换为角色占位；按同一场景相对路径阅读。原始Git数据库仅本地保留，公开摘录不替代完整对象验证。报告中的仓库源码链接在[固定Tag源码](https://github.com/JackSmith111977/Spec-Coding/tree/0.13.0)查阅，客户端执行仍只消费完整包。
 

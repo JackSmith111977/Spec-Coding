@@ -222,9 +222,9 @@
     },
     {
       "archive": "spec-coding-harness-0.13.0-runtime-evidence.zip",
-      "public_sha256": "eb32293d1990b31b39ae091441d2adf28981417c5ddb241dd7fd5c60a2732d83",
+      "public_sha256": "36d7e7df720a4340a6a7d645cff19b0d815350b9f0bfd84f49ab0a06433b609d",
       "files": 195,
-      "bytes": 2187758,
+      "bytes": 2187892,
       "original_archive_sha256": "f995c26ce16c291000d720eee74211fea1180032522cdee7d9d0ec42e99b965e"
     }
   ]

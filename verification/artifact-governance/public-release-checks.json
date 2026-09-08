@@ -1,0 +1,23 @@
+{
+  "version": "0.13.0",
+  "package_sha256": "3a32530d2d28dd43b8c0afed75faa13c130a04d39b78cfce6afa7ed81906540c",
+  "package_files_identical_to_R2": 24,
+  "archives": [
+    {
+      "name": "spec-coding-harness-0.13.0-behavior-evidence.zip",
+      "sha256": "3962ff8b38d3838a7601f36ccfb8e9f7b586d0c62ba9ba00465115208754eb17",
+      "files": 692,
+      "bytes": 6493016
+    },
+    {
+      "name": "spec-coding-harness-0.13.0-runtime-evidence.zip",
+      "sha256": "36d7e7df720a4340a6a7d645cff19b0d815350b9f0bfd84f49ab0a06433b609d",
+      "files": 195,
+      "bytes": 2187892
+    }
+  ],
+  "sensitive_path_and_token_scan": "PASS（公开文本定向检查；独立脱敏复核另见public-sanitization-review.md）",
+  "original_git_database": "未发布",
+  "private_report_commits": "2289ba5、0590869不进入公开分支祖先",
+  "scope": "公开证据是脱敏派生物，原始Hash保留为来源身份；不是原字节重演归档"
+}
