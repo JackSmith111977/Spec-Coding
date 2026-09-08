@@ -198,7 +198,7 @@ Baseline 保存位置跟随 Spec Workspace 共享边界。`Reuse` 无 Relevant D
 - Brownfield 且项目认知不足 → `01B Project Understanding`；
 - 已有有效 Canonical Artifact / Workflow State → Resume 最早仍有效 Owner Stage。
 
-仅要求建立 Harness 时不要求业务目标，不创建虚构 Requirement 或空任务集。Route 表示后续入口，不扩大本次请求；必要适配验收后按原请求结束或继续。
+仅要求建立 Harness 时不要求业务目标，不创建虚构 Requirement 或空任务集。Route 表示后续入口，不扩大本次请求；必要适配验收后按原请求结束或继续。明确要求启动新业务工作时可进入 01A / 01B 等适当入口，不以已有 Task 为条件；仅接入的本次请求不固化为永久禁止业务推进的意图。
 
 最终移交：
 
