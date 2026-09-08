@@ -1,6 +1,6 @@
 {
   "version": "0.13.0",
-  "source_revision": "36b92f7257a8b69aeb2f93de8f90c40c66e3f402",
+  "source_revision": "8a41958f3feaf08f02dabc5fd67c9b70c7f87604",
   "build_mode": "FULL",
   "entrypoint": "bootstrap/BOOTSTRAP.md",
   "integrity_definition": "README.md",
@@ -87,7 +87,7 @@
         "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "52019bebc684a32ddbfe6bbdc46994de9e38fd952cea07d62e9764f5b1ca23b3"
+      "sha256": "4f6e79251ab5d5752b1bdd372771bfdc0f7e8d54cce6ba2f1015c354d187efe7"
     },
     {
       "id": "rule-code-quality",
@@ -261,7 +261,7 @@
         "git-lifecycle"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "770f77e97e2f75011c51e9ecc7b62c633e5618fc3875ba540da441c2db827c45"
+      "sha256": "bf0046da13e3c92b60d7ffb8c0238438b9490b3a98ba3b7221a9d7edbde2744d"
     },
     {
       "id": "spec-verification-convergence",
@@ -360,7 +360,7 @@
         "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "fa3c60c8971f3eead4fd5505e3750101371536e5a4c1c718db1f8a2a0bd78d0e"
+      "sha256": "8fd1b51bace24813790265a871b10c6f2d1721655f32f3f289b7d7e42b234d56"
     },
     {
       "id": "spec-harness-adoption",
@@ -388,7 +388,7 @@
         "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "724b32e940a909b122facaa9d78179b78942ae1e07f6a9f2183e6dfd19f704dd"
+      "sha256": "6b0dc18283b841e37cf7d8960e8c26542da397dde6146a0da47c4268b0618e58"
     },
     {
       "id": "entry",
@@ -409,7 +409,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "3bc8d1f4d15821a136b34a803d351c20ae01e7b6f4ef5ab59c74e824f2342bfa"
+      "sha256": "3e8d39e5f7d5be95dcf0d4ebcc50e1d2d6e4ace21540763882de4a36cd530369"
     },
     {
       "id": "routes",
@@ -473,7 +473,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "c2387792cc9b292016e85e3474847d4ac01a90e213791083ee726ff8b5eaec21"
+      "sha256": "8cf3b579cf3071240f7ad9ffcda6d1b6c50e2a3cd5c0d009e90a9791b1e3ca07"
     },
     {
       "id": "requirements",
@@ -550,7 +550,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "a692b2b349f7085690fdfab996dc5f0d75cc3bcce0c48c2b8f2a9cceb46da625"
+      "sha256": "c022cf3e3df0615b8fdffc558af8cbd9e0e340122eb3b32eb07814424f82ffce"
     },
     {
       "id": "plugin",
@@ -584,25 +584,25 @@
     }
   ],
   "files": {
-    "bootstrap/BOOTSTRAP.md": "872f8a3ed9fd3e6564db4c2f1f7c86a12ad9f99b19ae740563bbcac0e94b78ce",
+    "bootstrap/BOOTSTRAP.md": "7262f4cff2f36af9b9b2accb70ae16fce548bf98ff425887603028c3d045a616",
     "bootstrap/requirements.md": "1e9bb4e3441aed882146b36075f131a8d6c73937bdc93650633fbe03798a7786",
-    "bootstrap/routes.md": "2ab7b6784022f79e2ce405d060d469e6bb5a977c3ec4c797a390629783a16a7f",
+    "bootstrap/routes.md": "95be465f182ca6bae97fbdcedfbf3b10caf50ddfa7521a1f0820081707c481ed",
     "plugin.json": "a95ffc6908574ef15d904dbc1ccd7be42860c525dd3534fd3ae1e9427238d147",
-    "README.md": "1ccf9e68b13acc9d87d69540c1134d0de0854a1d9aeff8fc688365ad9deb90fa",
-    "rules/artifacts.md": "a7b1ce0a728068857e679ea7d82d05fe98aaf260cc2e835d6f65efe2c0cfc663",
+    "README.md": "a57a2d4109ab7088c03781a47adf3bdc3bbc731c250772dda039e8bf389524be",
+    "rules/artifacts.md": "374039703a2439de81ef836ba0d30bdabd5be819fb13a6d6227ef8753c0fd535",
     "rules/code-quality.md": "d3cff36ad0bdc285fd76a0ae9d3aa69d3906b1aafd928c84ddf0948a9af68389",
     "rules/collaboration.md": "d04d0bc5e93046d250296866b04c404c2097d1b5b4c29ae3680dc9b3fc49dcea",
     "rules/delegation.md": "c9b21959050749d25a715c71c45a07c7b894ea11b2eb2b29124f45c03bf417b5",
     "rules/global.md": "66f185be8fc18c71477b628e8fdfeb5d4a55353792a7f6ccf965f81eeada5e1d",
     "scripts/verify.py": "62812b7c380421b2dbfb62aa84a72b1543b0efc50c5bf7ca3b7066bbd0b1c6bc",
     "skills/spec-debug/SKILL.md": "214f2193ceb2742faaad9457c8d8245e2f9f50e75f6a454edd712f6852fc4649",
-    "skills/spec-development-execution/SKILL.md": "2f3077bd1937f5201c9d9837932faf63e048c5aa549038b42c102dd0b2e41cdc",
+    "skills/spec-development-execution/SKILL.md": "4356fda5d01029a0ce1170042a43674764adc8b8049ab505070a8bc67ba382b8",
     "skills/spec-harness-adoption/references/candidate-validation.md": "8d0bf9d5e4a2ecb24345c8f51be57d9fbcd22e52fec19b6df78007039cacafd4",
-    "skills/spec-harness-adoption/SKILL.md": "eb4ddf640f62cc3b81225cf4c483b298bf650088679e5c5819e3818fd3c3525d",
+    "skills/spec-harness-adoption/SKILL.md": "c5aaccfd7214be7c6ec7a7588bdc731b46372f4df1a88506b7b45cd1d5e367f7",
     "skills/spec-implementation-planning/SKILL.md": "e999365ec4cbd61f54ffceeaf25a99978bd21cd62d7f8b03a3881369fca7e50e",
     "skills/spec-process-improvement/SKILL.md": "6b4148e3ab8f7422d3ab9d929dfa7022a69347f93063ee5513955d119463d326",
     "skills/spec-project-definition/SKILL.md": "fe53d8d6f9f04215cc18d037becfd4855eafdfff18b5b2d81a13add70bd66efb",
-    "skills/spec-project-onboarding/SKILL.md": "1a4e69920fa0624bb35adb012c397010b429db66ae29b49d78b12c747da88670",
+    "skills/spec-project-onboarding/SKILL.md": "3801c4097148f53959dd43660f64d98bb2de27ca75a288c7565748f42ed6793c",
     "skills/spec-project-understanding/SKILL.md": "981ea965495bb93802dbec89e8b9e811bf9aa30c8cf96fb29255cab7183fe652",
     "skills/spec-requirement-clarification/SKILL.md": "86571bf0325d9430ac5acacf867cce75b3f57386e2b11d9c59947e965d7b486d",
     "skills/spec-technical-design/SKILL.md": "7b631dbd714f875273b28fd58abb8d8aba0b26220610787581e49cce43a65c59",

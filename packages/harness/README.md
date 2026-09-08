@@ -4,7 +4,7 @@
 
 一句指令：
 
-> 从这份固定 Spec Coding 发行包的 bootstrap/BOOTSTRAP.md 接入当前项目，按当前 Agent 与项目环境适配 Harness，建立适配的完整Harness，完成适配与验收后汇报结果，本次指令到此结束。
+> 从这份固定 Spec Coding 发行包的 bootstrap/BOOTSTRAP.md 接入当前项目，为当前 Agent 与项目环境建立适配的完整 Harness，完成适配与验收后汇报结果，本次指令到此结束。
 
 打开[Bootstrap](bootstrap/BOOTSTRAP.md)，无需先安装插件。保持整个包结构；只复制SKILL.md会丢失依赖。支持Agent Plugins 1.0的客户端可读plugin.json发现skills/；其他客户端按包内要求绑定真实加载面。安装成功不代表接入及能力验收成功。
 
@@ -18,7 +18,7 @@ Hash算法：对范围内文件按包内POSIX路径排序，每行UTF-8为 `sha2
 
 正式消费还须从可信发行入口取得固定Tag/Release、归档SHA-256及包外验证报告，确认报告绑定同一package_sha256、version、source_revision，结构、独立语义和行为全部通过。目录、版本号、Hash或候选测试记录本身不构成正式发布证明。尚未发布时，仅凭包外维护者授权可进行受控候选试验。
 
-授权、验证报告、兼容实测和发布元数据在维护者仓库verification/harness/中，不进入冻结包。发行入口无可信通过依据则正式接入BLOCKED。客户端执行语义全部在包内，报告不补缺失行为。
+授权、验证报告、兼容实测和发布元数据随对应 Release 提供，本版本维护者记录位于 verification/artifact-governance/ 中，不进入冻结包。发行入口无可信通过依据则正式接入BLOCKED。客户端执行语义全部在包内，报告不补缺失行为。
 
 ## 使用与变化
 

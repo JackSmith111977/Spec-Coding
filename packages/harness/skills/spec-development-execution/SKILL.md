@@ -60,6 +60,6 @@ Inspect→Hypothesize→Implement→Run/Observe→Adjust，契约内自主选文
 
 新Runnable立即调度，不等固定Wave。没有Runnable时：全部Required需求Task Done且Integration/AC Gate/Push完成才进入[验证收敛](../spec-verification-convergence/SKILL.md)；Required Blocked等待纠偏/外部恢复；需求同步未完继续处理对应环节；Task契约改变重新规划有效性确认。
 
-Task Graph Update按需保存task、requirement、status、result、evidence、code_ref、blocker、dependency_updates、runnable_updates、requirement_sync、next_action。确认状态证据已写回、可执行条件重算、需求边界结果明确和下一动作后继续循环。
+Task Graph Update保存task、requirement、status、result、evidence、dependency_updates、runnable_updates、next_action；无依赖或可执行条件变化时明确无变化。code_ref保存本次正式验证的代码引用，无则省略；Blocked时保存blocker，包括原因、证据、受影响契约、所需动作/决策与恢复点；requirement_sync在触发后保存当前REQ的task completion、integration、AC gate、push及必要代码引用，尚未触发可省略。它仍是既有事实及必要运行时结论的输出视图，不建立第二份任务状态。确认状态证据已写回、可执行条件重算、需求边界结果明确和下一动作后继续循环。
 
 写回与恢复遵循产物规则：先固定必要证据，再更新权威产物与直接入口，检查引用及摘要依据；共享写入单一Owner，中断先核对原状态，被正式结论引用的临时证据先晋升/保留再清理。

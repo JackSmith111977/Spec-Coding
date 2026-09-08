@@ -6,7 +6,7 @@
 
 | 触发 | 程序 | 移交 |
 |---|---|---|
-| 首次接入或相关变化 | [Harness接入](../skills/spec-harness-adoption/SKILL.md) | 基线、发现、适配、验收；仅接入则结束，有任务与继续意图才进Workflow |
+| 首次接入或相关变化 | [Harness接入](../skills/spec-harness-adoption/SKILL.md) | 基线、发现、适配、验收；仅接入则结束，有明确启动新业务工作或继续既有工作的意图则进入或恢复适当Workflow，不要求已有Task |
 | 基线缺失/稳定意图或绑定失效/显式重接入 | [Project Onboarding](../skills/spec-project-onboarding/SKILL.md) | 回Harness接入，不直接宣称READY |
 | Greenfield且无有效流程状态 | [01A](../skills/spec-project-definition/SKILL.md) | 02 |
 | Brownfield且项目认知不足 | [01B](../skills/spec-project-understanding/SKILL.md) | 02 |
