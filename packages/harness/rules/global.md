@@ -1,25 +1,101 @@
-# 全局执行程序
+# Global Contracts｜全局执行契约
 
-所有正式主流程和异常流程执行前加载本文件及[人机协作](collaboration.md)。有委派、隔离、独立审查或能力路由时加载[委派规则](delegation.md)。具体流程更严格的要求继续适用。元协议只复用下面的权限语义及适用协作规则，不继承仅属于 Workflow 的 Task/Gate。
+本文件定义所有正式 Workflow（包括 Main Workflow 与 Exception Workflow）默认继承的通用规则。具体 Workflow 存在更严格规则时，以更严格规则为准。
 
-先选择深度：已有完整有效证据用 Reuse；局部、低风险、边界清晰用 Light；一般 Feature 或跨层变化用 Standard；高风险、不确定、跨系统、难回滚用 Deep。职责可以由有效证据满足，不机械重做文档。出现 Schema/数据迁移、状态机、权限安全、并发异步、兼容性、难回滚或影响不明时提高深度。
+## Terminology｜术语
 
-无论深度，都保留正确的 Requirement、Scope、Acceptance Criteria（验收标准），以及 Requirement → Design → Task → Change → Verification 可追溯链；Blocking Open Item、必要 Gate、与风险相称的验证证据、权限边界、真实协作触发时的决策就绪、偏差纠正链路均不得裁掉。Git 固化变更必须保留 Task Commit 与 `code_ref`。
+核心英文术语及规范中文解释统一见 包内流程与规则中的术语定义。
 
-## 权限判定
+- 非直观术语首次承担关键语义时使用 `English Term（中文解释）`。
+- Schema 字段、状态值、ID、代码标识可直接保留英文。
+- `Spec Coding` 是流程 / 方法名称，不默认存在独立 `Spec` 产物。
 
-依据是否改变已确认事实源及错误影响判定权限，不按阶段机械审批：
+## Tailoring｜流程裁剪
 
-- Autonomous：不改变既定语义契约，可回退、可验证、边界清楚，继续自主推进。
-- Confirm：显著技术、架构、数据或安全影响，先完成可审阅方案及依据，再取得 Human 确认。
-- Human Decision：业务意图、Requirement 语义、In/Out Scope、核心业务规则、AC 语义、Accepted Deviation、风险接受和强制 Gate 豁免，由 Human 决定。
+原则：**核心不变量固定，执行深度按风险调整。**
 
-先取证缩小问题，复用已确认边界和授权，不重复请求批准。不把一句启动指令解释为额外权限。出现边界时按[协作程序](collaboration.md)提供最小充分信息。
+| 深度 | 适用情况 |
+|---|---|
+| `Reuse` | 已有上下文、设计或证据仍完整有效。 |
+| `Light` | 局部、低风险、边界清晰。 |
+| `Standard` | 一般 Feature 或常规跨层变化。 |
+| `Deep` | 高风险、高不确定、跨系统或难回滚变化。 |
 
-## 开放项传递
+Workflow 责任可以被已有有效证据直接满足，但以下内容不能因裁剪而消失：
 
-Open Item 是当前尚未解决、需要后续阶段或 Workflow 继续承接的问题。首次识别到符合该条件的问题时建立稳定 `OI-xxx`，记录 `origin, description, status, blocking, owner_stage, related`；状态为 `open / resolved / deferred`。下游继续引用同一 ID，不复制事实源。resolved 补充 resolution 结论和必要依据；deferred 补充明确延期理由和承接位置。`blocking=true` 不得越过对应 Gate。Risk、Finding 与 Open Item 分别管理，按需关联，不自动转换。
+- Requirement / Scope / Acceptance Criteria 的正确性。
+- Requirement → Design → Task → Change → Verification 的 Traceability（可追溯性）。
+- Blocking Open Item 与必要 Gate。
+- 与风险匹配的 Verification 与 Evidence。
+- Human / Agent Authority 边界。
+- 当真实 Sync Trigger 或 Human 决策边界成立时，必要的 Human-Agent Collaboration 与 Decision Readiness。
+- 发现偏差后的纠偏链路。
+- 有 Git 固化变更时的 Task Commit 与 `code_ref`。
 
-非直观术语首次承载关键语义时写英文及中文解释；字段、状态、ID、代码标识可保留英文。Spec Coding 是方法名称，不默认另建名为 Spec 的产物。
+执行中若出现跨系统、Schema / 数据迁移、状态机、权限 / 安全、并发 / 异步、兼容性、难回滚决策或影响范围不明等信号，应提高执行深度。
 
-发生失败信号、非预期行为、归因不可靠或未解决 Finding 时，按[全局路由](../bootstrap/routes.md)判断 Debug 和最早失真源；不能靠改下游判定标准掩盖上游问题。
+## Open Item｜开放项
+
+Open Item 表示尚未解决、需要后续阶段或 Workflow 继续承接的具体问题或决策。
+
+最小字段：
+
+| 字段 | 说明 |
+|---|---|
+| `id` | 稳定 `OI-xxx`，跨阶段持续复用。 |
+| `origin` | 最初发现位置。 |
+| `description` | 当前未决问题。 |
+| `status` | `open` / `resolved` / `deferred`。 |
+| `blocking` | 是否阻塞当前 Gate。 |
+| `owner_stage` | 当前承接阶段。 |
+| `related` | Requirement / AC / Design / Task / Finding / Evidence 等关联。 |
+| `resolution` | `resolved` 时记录结论与必要依据。 |
+
+```text
+首次发现
+  ↓
+OI-xxx / open
+  ↓
+跨阶段引用同一 ID
+  ├→ resolved
+  └→ deferred
+```
+
+- 下游引用同一个 `OI-xxx`，不复制新的事实源。
+- `blocking = true` 时不能绕过对应 Gate。
+- `deferred` 必须有明确延期理由与承接位置。
+- Risk、Finding 与 Open Item 是不同对象，可以关联但不自动互相转换。
+
+## Human / Agent Authority｜人机决策权限
+
+权限按“是否改变已确认事实源”和“错误决策影响”划分，而不是按阶段固定角色。
+
+| 权限 | 边界 |
+|---|---|
+| `Autonomous` | 不改变既定语义契约，可回退、可验证、边界明确。 |
+| `Confirm` | Agent 可提出方案，但技术 / 架构 / 数据 / 安全等影响显著，需要 Human 确认。 |
+| `Human Decision` | 直接定义业务意图、正确性标准或风险接受边界。 |
+
+典型 Human Decision 包括 Requirement 语义、In / Out Scope、核心 Business Rule、AC 语义变化、Accepted Deviation，以及对强制 Gate 的豁免。
+
+> **Evidence before Escalation｜先取证，再升级。** Agent 应先缩小问题；Human 已确认的边界不重复请求确认。
+
+## Human-Agent Collaboration｜人机协作
+
+Human / Agent Authority 回答“谁有权决定”；[`human-agent-collaboration.md`](collaboration.md) 回答“什么时候需要协作、Human 做判断前需要同步什么，以及反馈如何重新进入事实源”。
+
+所有正式 Workflow 默认适用 Human-Agent Collaboration Rules，但**全局适用不代表每个阶段都必须发生 Human Interaction**：Agent 在 Autonomous 边界内继续自主推进，只有 Shared Model 建立 / 变化、Decision Boundary、Authority Escalation、Shared Model Invalidated、Major Closure 等真实 Trigger 成立时才同步。
+
+进入重要 Confirm、Human Decision 或 Human Acceptance 前，应满足与当前风险匹配的 Decision Readiness；如果 Human 已掌握必要上下文则直接复用，不重复汇报。Human 的有效反馈若改变后续依赖的事实或语义，应更新对应 Canonical Source of Truth，并只重新对齐受影响 Trace。
+
+## Agent Delegation & Coordination｜Agent 委派与协调
+
+Human / Agent Authority 继续定义 Human 与 Agent 的决策权限；Human-Agent Collaboration 负责 Human ↔ Main Agent 的共享认知与关键协作；[`agent-delegation-and-coordination.md`](delegation.md) 负责 Main Agent ↔ Subagent 的角色、委派、协调、运行时能力路由与结果收敛。
+
+使用 Subagent 不改变上游 Authority、Gate、Artifact Contract 或 Canonical Source of Truth。Main Agent 可以按需委派探索、执行或独立审查，但仍负责全局一致性、结果整合、跨 Agent 冲突与最终责任；Subagent 只在明确边界内自治，超出当前 Contract 时返回 Main Agent 重新路由。
+
+Agent、Model、Thinking、Fresh / Fork、Workspace、Attempt 与并行策略默认属于 Runtime Strategy（运行时策略），除正式 Workflow 另有明确 Artifact Contract 外不作为长期状态持久化。
+
+## 产物组织与读取
+
+涉及持久产物、上下文裁剪、审阅入口或结果写回时，遵循[产物组织与读取规则](artifacts.md)。保持原权威状态与稳定 ID，按需读取必要正文和证据，写回原事实源后同步直接入口；不复制规则正文或创建第二套状态。

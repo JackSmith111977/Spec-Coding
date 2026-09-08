@@ -1,10 +1,10 @@
-# Spec Coding Harness 0.12.0
+# Spec Coding Harness 0.13.0
 
-本包提供11个预编译 Skills、4类共享规则、安装前入口、路由及适配验收要求。它是版本绑定的派生产物，目标 Agent 不需要重新读取规范源码。
+本包提供11个预编译 Skills、5类共享规则、安装前入口、路由及适配验收要求。它是版本绑定的派生产物，目标 Agent 不需要重新读取规范源码。
 
 一句指令：
 
-> 从这份固定 Spec Coding 发行包的 bootstrap/BOOTSTRAP.md 接入当前项目，按当前 Agent 与项目环境适配 Harness，并继续当前任务。
+> 从这份固定 Spec Coding 发行包的 bootstrap/BOOTSTRAP.md 接入当前项目，按当前 Agent 与项目环境适配 Harness，建立适配的完整Harness，完成适配与验收后汇报结果，本次指令到此结束。
 
 打开[Bootstrap](bootstrap/BOOTSTRAP.md)，无需先安装插件。保持整个包结构；只复制SKILL.md会丢失依赖。支持Agent Plugins 1.0的客户端可读plugin.json发现skills/；其他客户端按包内要求绑定真实加载面。安装成功不代表接入及能力验收成功。
 
@@ -24,4 +24,4 @@ Hash算法：对范围内文件按包内POSIX路径排序，每行UTF-8为 `sha2
 
 完整[路由](bootstrap/routes.md)保持可达，当前流程正文按需读；[能力要求](bootstrap/requirements.md)说明适配边界和可观察预期。包不固定供应商、模型、Hook、隔离方式或CI命令，不能从格式推断Runtime已通过。
 
-0.12.0首次提供预编译流程与接入。已有绑定不默认升级；相关环境变化重验受影响机制，候选测试不代替真实项目验收。历史版本用Git/Release，不在包内维护副本。
+0.13.0新增[产物组织与读取](rules/artifacts.md)，统一空间入口、权威正文与按需导航，并支持仅接入结束。已有绑定不默认升级；相关环境变化重验受影响机制，候选测试不代替真实项目验收。历史版本用Git/Release，不在包内维护副本。

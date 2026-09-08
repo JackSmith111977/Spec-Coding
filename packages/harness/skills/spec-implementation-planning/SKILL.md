@@ -7,6 +7,8 @@ description: 接管 Ready 设计，拆解独立可验证任务，定义契约和
 
 确认[接入](../../bootstrap/BOOTSTRAP.md)当前范围有效；读[全局](../../rules/global.md)、[协作](../../rules/collaboration.md)，涉及委派时读[委派](../../rules/delegation.md)。
 
+产物读写前使[产物组织与读取](../../rules/artifacts.md)有效：从已绑定工作空间入口定位当前权威正文，按需沿依赖读必要状态/证据，写回原事实源后同步直接导航；不复制状态、不全文读取无关历史。
+
 ## 1. 接管实施基线
 
 仅接管 Design Acceptance Result 的 Readiness=Ready、无阻塞规划实施OI、已收敛最终需求设计版本。Not Ready 或上游冲突/缺口返回其Owner，不自行补全。接管 Scope/Rules/AC、Solution Decision及取舍约束、Detailed Design的结构/To-Be/契约/边界、Design Acceptance的已验证假设/风险/OI/Readiness。
@@ -46,7 +48,7 @@ Verification优先确定性：逻辑/规则/状态机用Unit/Property；API用AP
 
 仅记录真阻塞依赖（数据、契约、能力、验证），不按层级/习惯排固定顺序。独立、上下文可隔离、可验证时可在运行时委派，否则Main顺序推进；并行只是额外收益，上下文隔离是核心。Execution Unit已有正式委派输入，不另建Delegation Contract。
 
-默认统一 tasks.md 保留完整任务集及权威状态、主REQ。单项上下文大、跨会话长生命周期、多人Agent独立负责或证据多时可下钻 tasks/Txx.md，但索引仍留核心定义、主REQ、依赖、状态、引用。上下文从Trace按需读取，不复制完整上游。不持久化Agent、Role、Model、Thinking、Fresh/Fork、Workspace、Attempt、Wave，运行时推导策略。
+默认在已绑定 Spec Workspace 的 tasks.md（或稳定映射的等价既有位置）保留完整任务集及权威状态、主REQ，不按需求拆出独立核心状态；跨范围依赖用限定引用。单项上下文大、跨会话长生命周期、多人Agent独立负责或证据多时可下钻 tasks/Txx.md，但索引仍留核心定义、主REQ、依赖、状态、引用。上下文从Trace按需读取，不复制完整上游。不持久化Agent、Role、Model、Thinking、Fresh/Fork、Workspace、Attempt、Wave，运行时推导策略。
 
 ## 4. 任务集只读验收
 

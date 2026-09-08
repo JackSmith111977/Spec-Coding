@@ -7,6 +7,8 @@ description: 对完整 Requirement/Change 补齐跨任务、回归、风险和�
 
 接入当前范围有效，先读[全局](../../rules/global.md)、[协作](../../rules/collaboration.md)、[委派](../../rules/delegation.md)，代码变更读[质量规则](../../rules/code-quality.md)。本阶段不把Task Done或Push当最终Verified。
 
+产物读写前使[产物组织与读取](../../rules/artifacts.md)有效：从已绑定工作空间入口定位当前权威正文，按需沿依赖读必要状态/证据，写回原事实源后同步直接导航；不复制状态、不全文读取无关历史。
+
 ## 1. 建立验证基线
 
 接管Implementation Baseline引用、已完成Task的Boundary/Coverage/Verification/主REQ/状态、有效证据、正式验收Task code_ref及需求集成/Push引用，据此还原最终代码/配置/数据/接口Actual Change Set，读取Integration/AC Gate/Push真实状态、稳定OI及明确治理审批。只引用已有事实，必要才沿Trace回查。

@@ -7,6 +7,8 @@ description: 从真实执行证据重建过程、识别问题、分析机制根�
 
 读取[全局](../../rules/global.md)、[协作](../../rules/collaboration.md)，委派时读[委派](../../rules/delegation.md)。当前[接入](../../bootstrap/BOOTSTRAP.md)范围须有效。这里改进可复用 Workflow/Rule/Meta Protocol/Harness，不将具体项目REQ/AC/Design/Task/Change/Verification或业务代码当改进对象。业务故障走[Debug](../spec-debug/SKILL.md)和其Owner。
 
+产物读写前使[产物组织与读取](../../rules/artifacts.md)有效：从已绑定工作空间入口定位当前权威正文，按需沿依赖读必要状态/证据，写回原事实源后同步直接导航；不复制状态、不全文读取无关历史。
+
 ## 1. 收集关键事实
 
 按需收原需求及评论补充变更、澄清/设计关键会话中的确认假设决策纠正、正式REQ/AC/Design/Task/Change/Verification及必要版本、执行日志关键行为/Diff/Commit/测试工具输出、验证评审偏差反馈、返工修正重验证据。Spec Coding不是默认独立Spec产物；真实Technical Contract/Executable Specification按实际名称引用。

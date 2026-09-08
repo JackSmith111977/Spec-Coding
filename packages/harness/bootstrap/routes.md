@@ -1,12 +1,12 @@
 # 全局流程路由
 
-正式Workflow前使[全局](../rules/global.md)和[协作](../rules/collaboration.md)有效；委派/隔离/独立审查/能力路由前读[委派](../rules/delegation.md)。代码产物遵守[质量](../rules/code-quality.md)，05/06主要消费。Meta只复用适用权限/协作/委派，不继承Workflow特有Task/Gate。
+正式Workflow前使[全局](../rules/global.md)和[协作](../rules/collaboration.md)有效；委派/隔离/独立审查/能力路由前读[委派](../rules/delegation.md)。代码产物遵守[质量](../rules/code-quality.md)，05/06主要消费。所有相关产物动作使[产物规则](../rules/artifacts.md)有效，从空间入口定位权威内容与必要依赖。Meta只复用适用权限/协作/委派/产物约束，不继承Workflow特有Task/Gate。
 
 执行当前步骤前读完整Skill与适用资源，按manifest.dependencies读共享依赖；跨阶段链接是路由，不要求同时加载全部。未激活程序保持可达，激活前补齐[能力](requirements.md)适配与验收。
 
 | 触发 | 程序 | 移交 |
 |---|---|---|
-| 首次接入或相关变化 | [Harness接入](../skills/spec-harness-adoption/SKILL.md) | 基线、发现、适配、验收后进Workflow |
+| 首次接入或相关变化 | [Harness接入](../skills/spec-harness-adoption/SKILL.md) | 基线、发现、适配、验收；仅接入则结束，有任务与继续意图才进Workflow |
 | 基线缺失/稳定意图或绑定失效/显式重接入 | [Project Onboarding](../skills/spec-project-onboarding/SKILL.md) | 回Harness接入，不直接宣称READY |
 | Greenfield且无有效流程状态 | [01A](../skills/spec-project-definition/SKILL.md) | 02 |
 | Brownfield且项目认知不足 | [01B](../skills/spec-project-understanding/SKILL.md) | 02 |

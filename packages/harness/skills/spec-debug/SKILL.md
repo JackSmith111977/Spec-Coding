@@ -7,6 +7,8 @@ description: 将失败信号、异常行为或无法可靠归因的 Finding 转�
 
 失败、非预期行为、归因不可靠或未解决Finding触发时，从[路由](../../bootstrap/routes.md)进入；可靠可归因的局部实现缺陷保持最短原Worker修复路径。读取[全局](../../rules/global.md)、[协作](../../rules/collaboration.md)，委派时读[委派](../../rules/delegation.md)，写代码时读[质量](../../rules/code-quality.md)。当前所需环境能力须[验收](../spec-harness-adoption/SKILL.md)。本流程提供Resolution Evidence，不拥有Task/Finding/OI/Requirement最终状态。
 
+产物读写前使[产物组织与读取](../../rules/artifacts.md)有效：从已绑定工作空间入口定位当前权威正文，按需沿依赖读必要状态/证据，写回原事实源后同步直接导航；不复制状态、不全文读取无关历史。
+
 ## 1. 异常接管与复现
 
 归一Source（用户/测试/CI/运行/监控/Finding）、Expected、Actual、Context（时间环境输入状态）、Impact，已有Finding/OI/缺陷单直接引用。不先猜根因或改上游定义。

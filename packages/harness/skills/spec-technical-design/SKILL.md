@@ -7,6 +7,8 @@ description: 从已确认需求和 AC 建立影响基线、技术决策、详细
 
 先确认[接入](../../bootstrap/BOOTSTRAP.md)就绪，加载[全局](../../rules/global.md)、[协作](../../rules/collaboration.md)，委派时读[委派](../../rules/delegation.md)。输入为已确认 Scope/Rule、AC 和对应项目上下文，深度按风险调整。
 
+产物读写前使[产物组织与读取](../../rules/artifacts.md)有效：从已绑定工作空间入口定位当前权威正文，按需沿依赖读必要状态/证据，写回原事实源后同步直接导航；不复制状态、不全文读取无关历史。
+
 ## 1. 现状与影响
 
 从 Requirement/AC → Business Behavior → System Capability → Technical Entry 映射需求，不直接跳到代码修改点，不重复全项目扫描。复用既有业务/系统/需求上下文，围绕入口定向追踪 Entry、Flow、Data & State、Dependency、可复用/扩展机制。关键结论用代码、配置、Schema、测试或实际行为验证，区分已确认、推断和待验证。

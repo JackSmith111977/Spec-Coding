@@ -7,6 +7,8 @@ description: 将新项目或存量项目需求收敛为稳定 REQ、范围、业
 
 当前范围通过[接入](../../bootstrap/BOOTSTRAP.md)后，读取[全局](../../rules/global.md)和[协作](../../rules/collaboration.md)，委派时读[委派](../../rules/delegation.md)。不能靠推断填正式需求；已明确确认的事实可自主整理，不重复审批。
 
+产物读写前使[产物组织与读取](../../rules/artifacts.md)有效：从已绑定工作空间入口定位当前权威正文，按需沿依赖读必要状态/证据，写回原事实源后同步直接导航；不复制状态、不全文读取无关历史。
+
 ## 1. 解读与身份
 
 Requirement Input Context 是已有上游产物的消费视图，不新建持久层。Greenfield 读取相关 Project Positioning、Business/System Definition、Requirement Framework 中需求单元、关联/Core Flow/OI，继承原 REQ，不重编号。Brownfield 读取 Project Overview、Business/System Context 和 Requirement Context 的变化/定位/缺口，若缺 ID，在进入本链时只分配一次稳定 `REQ-xx`。身份不代表范围规则AC已确认。两条路径无需同时存在，不补造另一套产物；结合 PRD、补充说明、讨论等材料，只补真正缺失上下文，不重做01。

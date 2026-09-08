@@ -7,6 +7,8 @@ description: 动态调度 Ready Task，在契约内实施、提交、独立验�
 
 当前范围[接入](../../bootstrap/BOOTSTRAP.md)有效后读取[全局](../../rules/global.md)、[协作](../../rules/collaboration.md)、[委派](../../rules/delegation.md)；代码变更读[代码质量](../../rules/code-quality.md)。tasks.md 是定义、主 Requirement 与状态的权威源。失败归因不可靠时先进入[Debug](../spec-debug/SKILL.md)取得证据，随后由本流程收敛 Task 状态。
 
+产物读写前使[产物组织与读取](../../rules/artifacts.md)有效：从已绑定工作空间入口定位当前权威正文，按需沿依赖读必要状态/证据，写回原事实源后同步直接导航；不复制状态、不全文读取无关历史。
+
 ## 1. 调度与启动
 
 筛选 Status=Ready、Depends On已满足、无有效Blocker、执行环境可用的任务。Runnable仅运行时视图，不增加 Queued/Runnable/Scheduled 等持久状态。考虑依赖、边界、争用与关键路径，先降冲突再并行：单写任务用当前Workspace，独立只读可共享，多独立写任务用独立Worktree并行，有依赖或高冲突则串行。隔离方式是动态策略，项目硬约束不允许时选择仍满足要求的执行方式，不固化进Task。
@@ -59,3 +61,5 @@ Inspect→Hypothesize→Implement→Run/Observe→Adjust，契约内自主选文
 新Runnable立即调度，不等固定Wave。没有Runnable时：全部Required需求Task Done且Integration/AC Gate/Push完成才进入[验证收敛](../spec-verification-convergence/SKILL.md)；Required Blocked等待纠偏/外部恢复；需求同步未完继续处理对应环节；Task契约改变重新规划有效性确认。
 
 Task Graph Update按需保存task、requirement、status、result、evidence、code_ref、blocker、dependency_updates、runnable_updates、requirement_sync、next_action。确认状态证据已写回、可执行条件重算、需求边界结果明确和下一动作后继续循环。
+
+写回与恢复遵循产物规则：先固定必要证据，再更新权威产物与直接入口，检查引用及摘要依据；共享写入单一Owner，中断先核对原状态，被正式结论引用的临时证据先晋升/保留再清理。

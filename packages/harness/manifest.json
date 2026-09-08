@@ -1,6 +1,6 @@
 {
-  "version": "0.12.0",
-  "source_revision": "2f585f0faa8c0ba831161858a2e1418fd2d527e7",
+  "version": "0.13.0",
+  "source_revision": "36b92f7257a8b69aeb2f93de8f90c40c66e3f402",
   "build_mode": "FULL",
   "entrypoint": "bootstrap/BOOTSTRAP.md",
   "integrity_definition": "README.md",
@@ -18,13 +18,16 @@
         "docs/rules/global-contracts.md"
       ],
       "applies_when": "所有正式 Workflow 默认继承的全局执行规则",
-      "dependencies": [],
+      "dependencies": [
+        "rule-artifacts"
+      ],
       "requires": [
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "370fe732dded08b27545960304611ea23d495afe365d7d152b61724ff74f95a2"
+      "sha256": "e48fd0a182483c7d38c074d7617c2888378a145aba9f18c1c7b970bfb1581ae5"
     },
     {
       "id": "rule-collaboration",
@@ -35,14 +38,16 @@
       ],
       "applies_when": "正式 Workflow 与涉及 Human 意图 / 权限 / 关键判断的 Meta Protocol 共用的人机协作规则",
       "dependencies": [
-        "rule-global"
+        "rule-global",
+        "rule-artifacts"
       ],
       "requires": [
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "76b46926911494c9ba7c14435f0ab7806cddabc25b257397d11dd68cb270239a"
+      "sha256": "c419227f2639b7efcfc2e75928fcbf08c7fe449151dbbde88e010029bde661ec"
     },
     {
       "id": "rule-delegation",
@@ -54,16 +59,35 @@
       "applies_when": "Main Agent / Subagent 角色、委派协调、运行时能力与模型路由、结果验证与升级规则",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "authority-and-state",
         "trace-and-evidence",
+        "artifact-navigation",
         "independent-review",
         "scoped-execution"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "e31b977407307bf616115fd65b6bc4590766e88d46282f29f0099739a4c7bfa7"
+      "sha256": "c4dd2388de52a34edd70face84a1a2168a8c531ccbeed1cc52c3f20a45d44725"
+    },
+    {
+      "id": "rule-artifacts",
+      "type": "rule",
+      "path": "rules/artifacts.md",
+      "sources": [
+        "docs/rules/artifact-organization-and-reading.md"
+      ],
+      "applies_when": "Main/Exception Workflow 与两个 Meta Protocol 中的产物存储、权威归属、渐进读取、索引维护及恢复约束",
+      "dependencies": [],
+      "requires": [
+        "authority-and-state",
+        "trace-and-evidence",
+        "artifact-navigation"
+      ],
+      "requirements": "bootstrap/requirements.md",
+      "sha256": "52019bebc684a32ddbfe6bbdc46994de9e38fd952cea07d62e9764f5b1ca23b3"
     },
     {
       "id": "rule-code-quality",
@@ -75,14 +99,16 @@
       "applies_when": "代码产物的通用可理解性、信息质量、变更清晰度与一致性规则",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "2ee66c084a039e0b6112125f8070184cc6f350e4973b2e347c48f28c4f947cdd"
+      "sha256": "0413ad8f0c4ac77b6db99cc9e9b86cfeca6c2050cdedaee838c1b989747677e3"
     },
     {
       "id": "spec-project-definition",
@@ -97,15 +123,17 @@
       "applies_when": "项目定义建立",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "5717a0528684e6725132716a35ff6cdcd301a28a546e103c7760347f70303941"
+      "sha256": "5e8cbcdd8da681dcacace7a110963878c4e19229362d91085e800d8880f15333"
     },
     {
       "id": "spec-project-understanding",
@@ -120,15 +148,17 @@
       "applies_when": "项目认知建立",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "47de8cf934cecb63c35f955934a207a500606c87d367c6d37e4b661c26bdd6a5"
+      "sha256": "a12e7dfc08fe5e9b3fa8d05200046795842a6ce5f2cac06873e05f6f9358e682"
     },
     {
       "id": "spec-requirement-clarification",
@@ -143,15 +173,17 @@
       "applies_when": "需求澄清",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "2f91d11a188f9d886aca3bb6322e7d3c33e32a0e5ce5a47a7147c61251ecec16"
+      "sha256": "f4be54ef1634fd184044430a5114bde2bb5248722e75e5bff498fbd9376c8dc2"
     },
     {
       "id": "spec-technical-design",
@@ -166,15 +198,17 @@
       "applies_when": "技术方案设计",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "b1f175343a3b51ec555da4a89004e17a5657544064bc854e6e589ed08cfe6a60"
+      "sha256": "63ff1ec59c795a3b7e261ee1f36364dbfb9e1c738d399a310015e717045dd43c"
     },
     {
       "id": "spec-implementation-planning",
@@ -189,15 +223,17 @@
       "applies_when": "实施规划",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "e16345794774d5c0a4fa6931e3d9ba6f80461db0bbb49296f20654aba10d04e3"
+      "sha256": "827660b1d5dddc5255a4f2815d61ac241bc6252e6aed1fd1dc420ca1ae083986"
     },
     {
       "id": "spec-development-execution",
@@ -213,17 +249,19 @@
       "dependencies": [
         "rule-global",
         "rule-collaboration",
+        "rule-artifacts",
         "rule-code-quality"
       ],
       "requires": [
         "read-and-route",
         "authority-and-state",
         "trace-and-evidence",
+        "artifact-navigation",
         "deterministic-verification",
         "git-lifecycle"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "e495a16771ffd9815a5ba907fe4f925fa16f315439ef7032894f7ab0f3f4c829"
+      "sha256": "770f77e97e2f75011c51e9ecc7b62c633e5618fc3875ba540da441c2db827c45"
     },
     {
       "id": "spec-verification-convergence",
@@ -239,15 +277,17 @@
       "dependencies": [
         "rule-global",
         "rule-collaboration",
+        "rule-artifacts",
         "rule-code-quality"
       ],
       "requires": [
         "read-and-route",
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "0e7264a8e01d3f46315c309d9c5a6c38ec7d19b0c1bb6dfbadb880bd1192d838"
+      "sha256": "e47b97e8951d25378d16f88ee1d397434b5bb3a71251dc393f28dd2a18d8bd6c"
     },
     {
       "id": "spec-process-improvement",
@@ -264,15 +304,17 @@
       "applies_when": "流程复盘改进",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "7a4b9937a85d3455cca48cc917b4060a4b1f0934694bf3907e72ee6e2ac18cf9"
+      "sha256": "d267290c3ca7351c7ad056d63c629f19089faba455cbf193efb9539db62a8358"
     },
     {
       "id": "spec-debug",
@@ -287,15 +329,17 @@
       "applies_when": "调试与缺陷解决",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "f685f463253f7e5836adf263eade712cccb965c764bcbf6e2f04fb739fcb91dd"
+      "sha256": "40f5939441ef32405e4b77164092452d6642655c7f9610fca6e5fc0a2dbc6227"
     },
     {
       "id": "spec-project-onboarding",
@@ -307,14 +351,16 @@
       "applies_when": "建立、复用、刷新或迁移 Target 的 Adoption Baseline，仅持久化长期意图与稳定绑定；不承担维护者 Harness 构建",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "authority-and-state",
-        "trace-and-evidence"
+        "trace-and-evidence",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "490d931561d4a295c3f3dfc890ebed4d62034f5dbb93592b6a6d55268e3642fb"
+      "sha256": "fa3c60c8971f3eead4fd5505e3750101371536e5a4c1c718db1f8a2a0bd78d0e"
     },
     {
       "id": "spec-harness-adoption",
@@ -326,7 +372,8 @@
       "applies_when": "定义包消费契约及目标侧读取、环境发现、适配、验收与恢复；预编译程序随 Harness Package 提供",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
@@ -337,10 +384,11 @@
         "independent-review",
         "scoped-execution",
         "git-lifecycle",
-        "observe-and-recover"
+        "observe-and-recover",
+        "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "2d181fa3982757d060ecd4a8ba4625dc5249cbdfcd0fb091b24db0de5b80d2f0"
+      "sha256": "724b32e940a909b122facaa9d78179b78942ae1e07f6a9f2183e6dfd19f704dd"
     },
     {
       "id": "entry",
@@ -353,14 +401,15 @@
       "applies_when": "包消费入口、组合或完整性核验",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "89914e42519f4543bd83f0c3e527b5e3be6d7d087671129cab0987a32e37c6a7"
+      "sha256": "3bc8d1f4d15821a136b34a803d351c20ae01e7b6f4ef5ab59c74e824f2342bfa"
     },
     {
       "id": "routes",
@@ -370,6 +419,7 @@
         "docs/meta-protocols/harness-adoption-and-adaptation.md",
         "docs/meta-protocols/project-onboarding.md",
         "docs/rules/agent-delegation-and-coordination.md",
+        "docs/rules/artifact-organization-and-reading.md",
         "docs/rules/code-quality.md",
         "docs/rules/global-contracts.md",
         "docs/rules/human-agent-collaboration.md",
@@ -415,14 +465,15 @@
       "applies_when": "包消费入口、组合或完整性核验",
       "dependencies": [
         "rule-global",
-        "rule-collaboration"
+        "rule-collaboration",
+        "rule-artifacts"
       ],
       "requires": [
         "read-and-route",
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "8393f805812ad3053aa7ec5fa1e8406336a0cca42f20c40a3ca9a87e18413332"
+      "sha256": "c2387792cc9b292016e85e3474847d4ac01a90e213791083ee726ff8b5eaec21"
     },
     {
       "id": "requirements",
@@ -432,6 +483,7 @@
         "docs/meta-protocols/harness-adoption-and-adaptation.md",
         "docs/meta-protocols/project-onboarding.md",
         "docs/rules/agent-delegation-and-coordination.md",
+        "docs/rules/artifact-organization-and-reading.md",
         "docs/rules/code-quality.md",
         "docs/rules/global-contracts.md",
         "docs/rules/human-agent-collaboration.md",
@@ -481,7 +533,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "48ab8bb6d2af0d52c9bbefa19c2c107306c9fbb8443d97da04ea801f077cfda4"
+      "sha256": "448962dcfbd2f518ed2ca76edc385026dfb27845f07ba6f5aee04502bac434f8"
     },
     {
       "id": "readme",
@@ -498,7 +550,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "c3a8a708577fead54eb602f60c604061f5a566c549b79c640639c6d48a0edd52"
+      "sha256": "a692b2b349f7085690fdfab996dc5f0d75cc3bcce0c48c2b8f2a9cceb46da625"
     },
     {
       "id": "plugin",
@@ -512,7 +564,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "423cd76906f28638b5e4561c912d4b88538d628ca1f2eb8038258e1b124116c9"
+      "sha256": "7c47d0e2190d95739875dfceca630962ccbf5df599b5d0f06a010559f0e0459a"
     },
     {
       "id": "integrity",
@@ -532,27 +584,28 @@
     }
   ],
   "files": {
-    "bootstrap/BOOTSTRAP.md": "40784682fa52df74b9006d3f7b11f410fad2a385028c51c86a40bf2969f550e2",
-    "bootstrap/requirements.md": "ab68478fe5e106bfbc1a5d8fb1a701d8d9f1856e8fb7022d85704bf0da638c66",
-    "bootstrap/routes.md": "704704864ffd62ab555df40b0ce718a205bfe34b8db0581d0192fa58dc5778d8",
-    "plugin.json": "5ce1881e1359dfb7657c041c8cdb9826db14335cfc8f01eb95450bae4a2c6c80",
-    "README.md": "66e31f7e58e74b01c731e40f1f5830d06f25980b5654eb3108099a9c7e7c21f9",
-    "rules/code-quality.md": "7f6b0e5d05f8a79778dda950844ce3f0bf0aeccd3d9c0666eb307f1c9b3cae89",
-    "rules/collaboration.md": "7ee8da4fbf8fea89fac19f864700d3772f3f489a53a17cc1057e49168768b413",
-    "rules/delegation.md": "8a70b666b2fbcb4cfdbe042f5fd52cb7334ace01cae165878f26ea7057baf20e",
-    "rules/global.md": "9871584999e6d58f9e7cc67bcc712f91bf2c06a4896dd5d585e1b18eca5d015a",
+    "bootstrap/BOOTSTRAP.md": "872f8a3ed9fd3e6564db4c2f1f7c86a12ad9f99b19ae740563bbcac0e94b78ce",
+    "bootstrap/requirements.md": "1e9bb4e3441aed882146b36075f131a8d6c73937bdc93650633fbe03798a7786",
+    "bootstrap/routes.md": "2ab7b6784022f79e2ce405d060d469e6bb5a977c3ec4c797a390629783a16a7f",
+    "plugin.json": "a95ffc6908574ef15d904dbc1ccd7be42860c525dd3534fd3ae1e9427238d147",
+    "README.md": "1ccf9e68b13acc9d87d69540c1134d0de0854a1d9aeff8fc688365ad9deb90fa",
+    "rules/artifacts.md": "a7b1ce0a728068857e679ea7d82d05fe98aaf260cc2e835d6f65efe2c0cfc663",
+    "rules/code-quality.md": "d3cff36ad0bdc285fd76a0ae9d3aa69d3906b1aafd928c84ddf0948a9af68389",
+    "rules/collaboration.md": "d04d0bc5e93046d250296866b04c404c2097d1b5b4c29ae3680dc9b3fc49dcea",
+    "rules/delegation.md": "c9b21959050749d25a715c71c45a07c7b894ea11b2eb2b29124f45c03bf417b5",
+    "rules/global.md": "66f185be8fc18c71477b628e8fdfeb5d4a55353792a7f6ccf965f81eeada5e1d",
     "scripts/verify.py": "62812b7c380421b2dbfb62aa84a72b1543b0efc50c5bf7ca3b7066bbd0b1c6bc",
-    "skills/spec-debug/SKILL.md": "a4b2f6d51b338b76e91d42821a1e6cd44285a69e91c21ee867ff3c351597a26c",
-    "skills/spec-development-execution/SKILL.md": "91c74ffb3c020db1468d2abe19eaa281a8278b3deef72577433099293e821147",
+    "skills/spec-debug/SKILL.md": "214f2193ceb2742faaad9457c8d8245e2f9f50e75f6a454edd712f6852fc4649",
+    "skills/spec-development-execution/SKILL.md": "2f3077bd1937f5201c9d9837932faf63e048c5aa549038b42c102dd0b2e41cdc",
     "skills/spec-harness-adoption/references/candidate-validation.md": "8d0bf9d5e4a2ecb24345c8f51be57d9fbcd22e52fec19b6df78007039cacafd4",
-    "skills/spec-harness-adoption/SKILL.md": "5db3edf416e284ac1b2f62248a61ec327091d3478ed7b4e6c99883543767c664",
-    "skills/spec-implementation-planning/SKILL.md": "394be7b2f687afd9cdf0df60e6f5dfc91cbd8ccc1291598d2f44b35fed2a6b9f",
-    "skills/spec-process-improvement/SKILL.md": "b9d3fc13208c4090a1cc3d436ae9bfd9710374d9f37f62e157939f433e8db123",
-    "skills/spec-project-definition/SKILL.md": "0591557d42d56da275d0007fa61e3aa042af38a518d09e873666d9a1ac83e463",
-    "skills/spec-project-onboarding/SKILL.md": "3abbd8c7b6dc765111a9d9c58b055db6d5b131d86a5ac1696ff77267dc4713ab",
-    "skills/spec-project-understanding/SKILL.md": "b750a21f1992a4f977200bac7afb97dc022067b76c512c8eb75d15f9e2f63878",
-    "skills/spec-requirement-clarification/SKILL.md": "3bed21544cc133281660e51d483b6d9406b6d233484169d6cdb85c71f71c09c8",
-    "skills/spec-technical-design/SKILL.md": "8d61c6eb2d5a4b61ee789cb67145fe2c67023d3b78b8af334147adbe647dbec7",
-    "skills/spec-verification-convergence/SKILL.md": "b6458519f2f62d44499644186b9ba5366042e9008ef641aae6535f23a1f2fad9"
+    "skills/spec-harness-adoption/SKILL.md": "eb4ddf640f62cc3b81225cf4c483b298bf650088679e5c5819e3818fd3c3525d",
+    "skills/spec-implementation-planning/SKILL.md": "e999365ec4cbd61f54ffceeaf25a99978bd21cd62d7f8b03a3881369fca7e50e",
+    "skills/spec-process-improvement/SKILL.md": "6b4148e3ab8f7422d3ab9d929dfa7022a69347f93063ee5513955d119463d326",
+    "skills/spec-project-definition/SKILL.md": "fe53d8d6f9f04215cc18d037becfd4855eafdfff18b5b2d81a13add70bd66efb",
+    "skills/spec-project-onboarding/SKILL.md": "1a4e69920fa0624bb35adb012c397010b429db66ae29b49d78b12c747da88670",
+    "skills/spec-project-understanding/SKILL.md": "981ea965495bb93802dbec89e8b9e811bf9aa30c8cf96fb29255cab7183fe652",
+    "skills/spec-requirement-clarification/SKILL.md": "86571bf0325d9430ac5acacf867cce75b3f57386e2b11d9c59947e965d7b486d",
+    "skills/spec-technical-design/SKILL.md": "7b631dbd714f875273b28fd58abb8d8aba0b26220610787581e49cce43a65c59",
+    "skills/spec-verification-convergence/SKILL.md": "8f7fd6cbeb9607909a564e16b13390c2194f4a26edd92fce713d857d3df70151"
   }
 }
