@@ -4,7 +4,7 @@
 
 Spec Coding 提供开发流程与规则的发行包（Harness）。你在自己的项目中给 Agent 一条接入指令，它就从包内入口开始，结合当前 Agent 的能力、项目环境和可用工具，建立并验收适配的完整 Harness。具体开发目标由接入后的流程承接，按需推进需求、方案、实现与验证。
 
-[当前正式版本：0.12.0](https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.12.0) · [下载完整包](https://github.com/JackSmith111977/Spec-Coding/releases/download/0.12.0/spec-coding-harness-0.12.0.zip) · [查看完整流程](docs/overview.md)
+[当前正式版本：0.13.0](https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.13.0) · [下载完整包](https://github.com/JackSmith111977/Spec-Coding/releases/download/0.13.0/spec-coding-harness-0.13.0.zip) · [查看完整流程](docs/overview.md)
 
 ## 快速开始
 
@@ -16,7 +16,7 @@ Spec Coding 提供开发流程与规则的发行包（Harness）。你在自己�
 
 ```text
 请在当前项目中接入 Spec Coding。
-使用固定发行：https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.12.0
+使用固定发行：https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.13.0
 获取完整 Harness 包和包外验证依据，核验发行身份与完整性。
 从包内 bootstrap/BOOTSTRAP.md 开始，为当前 Agent 和项目环境建立适配的完整 Harness，完成接入、适配与验收后汇报结果，本次指令到此结束。
 ```
@@ -28,16 +28,16 @@ Spec Coding 提供开发流程与规则的发行包（Harness）。你在自己�
 <details>
 <summary>Agent 无法自行下载？手动提供发行包</summary>
 
-从[0.12.0 发行页](https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.12.0)下载以下附件，放到 Agent 能读取的位置：
+从[0.13.0 发行页](https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.13.0)下载以下附件，放到 Agent 能读取的位置：
 
-- `spec-coding-harness-0.12.0.zip`：完整流程与规则包。
-- `spec-coding-harness-0.12.0-verification.zip`：发行身份和包外验证报告。
+- `spec-coding-harness-0.13.0.zip`：完整流程与规则包。
+- `spec-coding-harness-0.13.0-verification.zip`：发行身份和包外验证报告。
 - `SHA256SUMS`：附件校验清单。
 
 保留下载的 ZIP，并解压前两个文件。完整包解压后，入口为 `harness/bootstrap/BOOTSTRAP.md`。把下面的路径替换为实际路径，再交给 Agent：
 
 ```text
-请使用我提供的 Spec Coding 0.12.0 完整包、验证报告和 SHA256SUMS，核验固定发行身份与完整性。
+请使用我提供的 Spec Coding 0.13.0 完整包、验证报告和 SHA256SUMS，核验固定发行身份与完整性。
 入口文件：<解压目录的绝对路径>/harness/bootstrap/BOOTSTRAP.md
 从这个入口接入当前项目，为当前 Agent 和项目环境建立适配的完整 Harness，完成适配与验收后汇报结果，本次指令到此结束。
 ```
@@ -45,6 +45,10 @@ Spec Coding 提供开发流程与规则的发行包（Harness）。你在自己�
 保持包的完整目录结构，流程正文会引用共享规则和支持文件。无需先手动安装每个 Skill，Agent 可以直接读取 Bootstrap 开始接入。
 
 </details>
+
+## 产物放在哪里？
+
+Agent 会优先复用项目已有的流程空间；新建仓内空间默认使用 `spec/`，个人或共享空间可留在代码仓外。总入口负责导航，需求、任务、设计、验证与证据保存在各自正文中。Agent 按当前工作逐层读取，人类也能从入口追到结论及依据。具体布局见[产物组织与读取规则](docs/rules/artifact-organization-and-reading.md)。
 
 ## 接入后，怎么交给它任务？
 
@@ -74,16 +78,16 @@ Agent 根据新项目、存量项目或已有状态选择入口，并按任务�
 
 ## 适用范围
 
-当前正式发行包含 **11个 Skills、4类共享规则，以及接入入口、流程路由、能力要求和完整性工具**。稳定流程已经预编译，目标 Agent 从发行包按需读取，并适配当前环境。
+当前正式发行包含 **11个 Skills、5类共享规则，以及接入入口、流程路由、能力要求和完整性工具**。稳定流程已经预编译，目标 Agent 从发行包按需读取，并适配当前环境。
 
-0.12.0 已完成结构、独立语义和行为验证；实测范围为 Windows 下的 Codex 基础工具与独立 CLI 配置，确认 Python 3.13.7 可运行包内校验器。其他 Agent 或环境需要实际接入验收，格式兼容本身不代表已经验证可用。完整范围与限制见[发行记录](verification/harness/publication.md)。
+0.13.0 已完成结构、独立语义及代表性行为验证。实测包括 Windows 下的产物导航、共享边界、故障与本机 Git 收口，以及 Codex Desktop Fresh Agent 显式读取项目入口后的受控读写；CLI 测试配置存在写入限制。其他 Agent、环境与未激活能力仍需目标项目验收。完整范围、首次失败和修正链见[发行记录](verification/artifact-governance/publication.md)。
 
 ## 了解设计或参与维护
 
 | 我想…… | 从这里开始 |
 |---|---|
 | 理解完整开发流程 | [流程概要](docs/overview.md) |
-| 查看当前发行身份、校验方式和证据 | [发行记录](verification/harness/publication.md) |
+| 查看当前发行身份、校验方式和证据 | [发行记录](verification/artifact-governance/publication.md) |
 | 查看接入程序具体做什么 | [包内 Bootstrap](packages/harness/bootstrap/BOOTSTRAP.md) |
 | 阅读流程与协作规则 | [Workflow](docs/workflows/README.md) · [Rules](docs/rules/README.md) |
 | 查看规范来源与登记 | [文档入口](docs/README.md) · [Manifest](docs/manifest.yaml) |

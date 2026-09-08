@@ -1,0 +1,24 @@
+{
+  "version": "0.13.0",
+  "candidate": "6f95f43f74c5a134c887db167e123fe9c54498b4",
+  "package_sha256": "3a32530d2d28dd43b8c0afed75faa13c130a04d39b78cfce6afa7ed81906540c",
+  "package_files_identical_to_candidate": 24,
+  "archives": [
+    {
+      "archive": "spec-coding-harness-0.13.0-behavior-evidence.zip",
+      "files": 983,
+      "sha256": "757c8f5d92d8df5eb32a1dfc2750c48675279677ad88ac13fa5052f53dd66bb0",
+      "inventory": "PASS"
+    },
+    {
+      "archive": "spec-coding-harness-0.13.0-runtime-evidence.zip",
+      "files": 195,
+      "sha256": "f995c26ce16c291000d720eee74211fea1180032522cdee7d9d0ec42e99b965e",
+      "inventory": "PASS"
+    }
+  ],
+  "markdown_path_checks": 334,
+  "markdown_path_result": "PASS（路径；历史报告及外部URL不作本地重验）",
+  "tool_tests": "11项通过，2026-09-09实际执行unittest discover；并非本脚本重新运行",
+  "publication": "此为发布前核对，不宣称远端Release已存在"
+}

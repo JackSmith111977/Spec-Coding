@@ -1,0 +1,12 @@
+{
+  "v013-adoption-initial.json": ".harness-build/v013-adoption-initial.json",
+  "v013-r2-adoption-initial.json": ".harness-build/v013-r2-adoption-initial.json",
+  "v013-r2-concurrent-initial.json": ".harness-build/v013-r2-concurrent-initial.json",
+  "v013-r2-loading-negative-initial.json": ".harness-build/v013-r2-loading-negative-initial.json",
+  "v013-r2-navigation-initial.json": ".harness-build/v013-r2-navigation-initial.json",
+  "r2-F02-initial-hashes.json": ".harness-build/v013-oracle/r2-F02-initial-hashes.json",
+  "r2-F05-initial-hashes.json": ".harness-build/v013-oracle/r2-F05-initial-hashes.json",
+  "r2-F07-initial-hashes.json": ".harness-build/v013-oracle/r2-F07-initial-hashes.json",
+  "r2-remaining-F01-initial-hashes.json": ".harness-build/v013-oracle/r2-remaining-F01-initial-hashes.json",
+  "r2-remaining-F08-initial-hashes.json": ".harness-build/v013-oracle/r2-remaining-F08-initial-hashes.json"
+}
