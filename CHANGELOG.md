@@ -10,6 +10,7 @@
 
 ## Unreleased｜未发布
 
+- 规划 `0.13.0`：[产物组织与渐进读取设计](docs/governance/designs/artifact-organization/README.md)，覆盖统一工作空间布局、权威产物与索引分离、按需读取、适配记录、迁移恢复及验收。当前为设计阶段，正式规则与新版 Harness 尚未落地。
 - 明确GitHub Release标题直接使用对应Git Tag名称，版本内容与兼容说明写入正文，并在发布后核对标题一致性。
 
 ## 0.12.0 - 2026-09-07
