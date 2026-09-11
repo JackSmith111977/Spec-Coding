@@ -1,0 +1,14 @@
+{
+  "version": "0.13.1",
+  "source_revision": "6ef35782bf836a7795687a6b5919ccb74359c81b",
+  "files": 24,
+  "package_sha256": "34ade88a97f78926f5cb2cc7d5daec005c165ad8710972db40900e0ca3d24b4a",
+  "integrity": "PASS",
+  "structure": "PASS",
+  "canonical_sources": 45,
+  "artifacts": 22,
+  "skills": 11,
+  "limitation": "仅确定性结构与身份检查，不证明来源映射语义或行为正确",
+  "archive": "spec-coding-harness-0.13.1-candidate.zip",
+  "archive_sha256": "d2f4d6677c99d1886becc58ad4101f0802f261dbc733d6341fe86ecc42e9f7df"
+}

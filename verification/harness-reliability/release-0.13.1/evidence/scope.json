@@ -1,0 +1,84 @@
+{
+  "mode": "INCREMENTAL",
+  "release_kind": "PATCH",
+  "version": "0.13.1",
+  "baseline": {
+    "version": "0.13.0",
+    "source_revision": "8a41958f3feaf08f02dabc5fd67c9b70c7f87604",
+    "package_sha256": "3a32530d2d28dd43b8c0afed75faa13c130a04d39b78cfce6afa7ed81906540c"
+  },
+  "source_revision": "6ef35782bf836a7795687a6b5919ccb74359c81b",
+  "changed_sources": [
+    "docs/meta-protocols/harness-adoption-and-adaptation.md",
+    "docs/rules/agent-delegation-and-coordination.md",
+    "docs/workflows/main/05-development-execution/03-verification-and-exception-convergence.md",
+    "docs/workflows/main/06-verification-convergence/01-verification-baseline-establishment.md"
+  ],
+  "declared_defects": [],
+  "direct_artifacts": [
+    "entry",
+    "integrity",
+    "readme",
+    "requirements",
+    "routes",
+    "rule-delegation",
+    "spec-development-execution",
+    "spec-harness-adoption",
+    "spec-verification-convergence"
+  ],
+  "affected_artifacts": [
+    "entry",
+    "integrity",
+    "readme",
+    "requirements",
+    "routes",
+    "rule-delegation",
+    "spec-debug",
+    "spec-development-execution",
+    "spec-harness-adoption",
+    "spec-implementation-planning",
+    "spec-process-improvement",
+    "spec-project-definition",
+    "spec-project-onboarding",
+    "spec-project-understanding",
+    "spec-requirement-clarification",
+    "spec-technical-design",
+    "spec-verification-convergence"
+  ],
+  "refresh_envelope": [
+    "entry",
+    "integrity",
+    "plugin",
+    "readme",
+    "requirements",
+    "routes"
+  ],
+  "rebuild_artifacts": [
+    "entry",
+    "integrity",
+    "plugin",
+    "readme",
+    "requirements",
+    "routes",
+    "rule-delegation",
+    "spec-debug",
+    "spec-development-execution",
+    "spec-harness-adoption",
+    "spec-implementation-planning",
+    "spec-process-improvement",
+    "spec-project-definition",
+    "spec-project-onboarding",
+    "spec-project-understanding",
+    "spec-requirement-clarification",
+    "spec-technical-design",
+    "spec-verification-convergence"
+  ],
+  "reusable_artifacts": [
+    "rule-artifacts",
+    "rule-code-quality",
+    "rule-collaboration",
+    "rule-global"
+  ],
+  "package_integration_required": true,
+  "limitation": "仅确定性范围；基线是否正式可信、Patch语义资格、来源回查及验证证据由维护者审定"
+}

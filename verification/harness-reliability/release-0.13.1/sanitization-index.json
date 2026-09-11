@@ -1,0 +1,145 @@
+{
+  "说明": "原件仅本地留存；公开副本替换仓库与运行时绝对路径、主机及邮箱。无Git数据库、模型推理或宿主原始会话；工具摘录仍只是摘录。",
+  "files": [
+    {
+      "path": "evidence/scope.json",
+      "original_sha256": "9c411185f212b9bdd20fd197243ad9d4b1a60509b38d4221084062280e176056",
+      "public_sha256": "0089bd927769ff7b567e708032c764ece4017a6f28bf05180dd7b2a144ebffeb"
+    },
+    {
+      "path": "evidence/source-inventory.json",
+      "original_sha256": "ea050a0e9954920e334823ff1cfaeeccdd0f321ff0f56060dbddf7918273097e",
+      "public_sha256": "c6e296c5206eea9de985c2864b71ff405e01bf0144fd334ba1b9090222613109"
+    },
+    {
+      "path": "evidence/build-r1.json",
+      "original_sha256": "efeacd26cc430c65f28ef8f37b940f31f9549292a0a814aed805579d4e9db074",
+      "public_sha256": "bc33f25c4be1cd2fe9900ab84e4c709d27bb00c98ef919b175077fa8eb0d0c63"
+    },
+    {
+      "path": "evidence/archive-r1.json",
+      "original_sha256": "5054eb74334b0d52f14e509bb5c29f83a1f65f426fdc92e0fcc2452ea172c3ba",
+      "public_sha256": "b8dc78ec7c2476a8fa1b93f63c9971ec202bf2923f7b3d710900445dbae0ebc3"
+    },
+    {
+      "path": "evidence/builder-backcheck.md",
+      "original_sha256": "d0d377a1ebd9c93d7ed3a487ac56584d3d28d2b7a2e3ffb12f2bdcf12d214186",
+      "public_sha256": "d0d377a1ebd9c93d7ed3a487ac56584d3d28d2b7a2e3ffb12f2bdcf12d214186"
+    },
+    {
+      "path": "evidence/semantic-review.md",
+      "original_sha256": "f52fe7a1eec0f32dd169797322481e632524dca237d890e45580a9c4d9d3e25d",
+      "public_sha256": "38283c0c51106e354c4a7d910a749a3695e2fa23106379f1ec0f5746e0a0e5c1"
+    },
+    {
+      "path": "evidence/behavior-oracle.json",
+      "original_sha256": "60c11ed46ffd650b3ef0f72f7d4342535b72a34d86f5825873251655dab73aa5",
+      "public_sha256": "041c177cdcf22e3d7d7803c937cfb55aadd0dd2599482348fc64645149b2cc4d"
+    },
+    {
+      "path": "evidence/behavior-result.md",
+      "original_sha256": "43f4945ea6d8011d8a56a4af549027d165329ff43e5ae0ab72fe9b1fbb3788cf",
+      "public_sha256": "75d7dad07d050b0a2711db2d9448b38696ff100a4a1c2bbc9b7c16dce9c27451"
+    },
+    {
+      "path": "evidence/behavior-verdict.md",
+      "original_sha256": "631461c7991eee609955d5faa1aa053a245e273aa3c28ae9d0569aaee413875d",
+      "public_sha256": "7e27e4f6d8423a18974cd7c5647b457a72fce6eab32b9f943acdebb0ba17c82d"
+    },
+    {
+      "path": "evidence/stage3-review.md",
+      "original_sha256": "62de2d555df86748c1ce995b851a7075fe772ab74d46702520d97a8ef3918f70",
+      "public_sha256": "62de2d555df86748c1ce995b851a7075fe772ab74d46702520d97a8ef3918f70"
+    },
+    {
+      "path": "evidence/stage3-initial-trace-review.md",
+      "original_sha256": "9f4503b5a702290c4a65e40aee32e7fa8f9cdaa782bcb0157bcaa76e7289cdcb",
+      "public_sha256": "9f4503b5a702290c4a65e40aee32e7fa8f9cdaa782bcb0157bcaa76e7289cdcb"
+    },
+    {
+      "path": "evidence/stage3-final-review.md",
+      "original_sha256": "3c95cb5feb5a55eb372ec6faf4901be2b2da49d202008e3825895fdc20c41592",
+      "public_sha256": "3c95cb5feb5a55eb372ec6faf4901be2b2da49d202008e3825895fdc20c41592"
+    },
+    {
+      "path": "evidence/recovery-oracle.json",
+      "original_sha256": "1f16eb207d25e3242818bbb71a57d650499b7bbbca9e5e93d7d68786ee81ce53",
+      "public_sha256": "1f16eb207d25e3242818bbb71a57d650499b7bbbca9e5e93d7d68786ee81ce53"
+    },
+    {
+      "path": "evidence/initial-project-entry.md",
+      "original_sha256": "52f0c85733dbe6b9fb8ba6b506410589665cfb7d985e253c81adb754492a25eb",
+      "public_sha256": "52f0c85733dbe6b9fb8ba6b506410589665cfb7d985e253c81adb754492a25eb"
+    },
+    {
+      "path": "evidence/traces/01a09179-1d4d-79d2-9677-2ff3bc94bb0d.json",
+      "original_sha256": "1f2e3e2950b90b0863863159ee1979042c58973160f2b15559dc37eb85a06cae",
+      "public_sha256": "cb838daf9374d5b386fec5b5ce5bdcbcb8d6d7b3a47640c06a3df50a1b3fa4ae"
+    },
+    {
+      "path": "evidence/traces/01a091c2-2fa5-7c40-8fa8-f39dd937aa40.json",
+      "original_sha256": "7d484d6dcc4e8b39e03115bd5032a11ce5235db1c2ae4b3170f89ca8c262a1d6",
+      "public_sha256": "66e6f6c9402fe38fae308fa255bc60207739ba0091c89695d15b8e606dcdc705"
+    },
+    {
+      "path": "evidence/behavior-project/check_links.py",
+      "original_sha256": "28c2ba0e128e3837bf6413e01484280a95de94f57cbb8b1b8b4eaa13a520b333",
+      "public_sha256": "28c2ba0e128e3837bf6413e01484280a95de94f57cbb8b1b8b4eaa13a520b333"
+    },
+    {
+      "path": "evidence/behavior-project/guide.md",
+      "original_sha256": "87bb3884bd56ef7103f0f35034fa0aa3e91ee8f269acf2a3df801914c5602809",
+      "public_sha256": "87bb3884bd56ef7103f0f35034fa0aa3e91ee8f269acf2a3df801914c5602809"
+    },
+    {
+      "path": "evidence/behavior-project/queue.json",
+      "original_sha256": "a0e5720ad983884a0f02c08e4e87a841924abf36e0f93c1253c4b8e4d59c74d4",
+      "public_sha256": "d72248e694908f9568eb39aa8620c2adaca1d2be7ca460909dd9ca251dabf23a"
+    },
+    {
+      "path": "evidence/behavior-project/README.md",
+      "original_sha256": "d0cca315147372eaa6669998a5e1d9f39ab70d18ff62020a221aa47f520e2e66",
+      "public_sha256": "d0cca315147372eaa6669998a5e1d9f39ab70d18ff62020a221aa47f520e2e66"
+    },
+    {
+      "path": "evidence/behavior-project/spec/adoption.md",
+      "original_sha256": "15cc00031f48e41691b51817b82c951d7338449869c9da603efc441b869a9fb3",
+      "public_sha256": "b47d280596fc2f72cfa1a0cecfec2d54c18ce5d3b17bd2e56904ade9ee809c51"
+    },
+    {
+      "path": "evidence/behavior-project/spec/harness/README.md",
+      "original_sha256": "1273cf0d5b0666693e5a453e713b3fe346870ca4249fefc4e8faae3469ccce6a",
+      "public_sha256": "05af356fd5ecd44242d13116a4ac154dd5f35a666ce1e0099338feec7f8e65f7"
+    },
+    {
+      "path": "evidence/behavior-project/spec/README.md",
+      "original_sha256": "9dbbc63f82d985e11e2b3fd748381c414cce86b4724958b62d3a2159f06fc182",
+      "public_sha256": "9dbbc63f82d985e11e2b3fd748381c414cce86b4724958b62d3a2159f06fc182"
+    },
+    {
+      "path": "evidence/behavior-project/spec/recovery/evidence.md",
+      "original_sha256": "90202266a75f6b4fa7bacb4f3fc437451abf5621046b7136b1b4aa14c2e0f58f",
+      "public_sha256": "3ff233996be0100e611f6a0e497d421a133ed9f9260dcc06a9c0d7b61ec4f2dd"
+    },
+    {
+      "path": "evidence/behavior-project/spec/recovery/result.md",
+      "original_sha256": "35a49b752323b9e9f731815eb0d43cb3392dd787a896ab48270fbecf1d2c281a",
+      "public_sha256": "0500543e7060af5767992018c6e84e4c2e12e7c34168f11aabff054c1bce7b64"
+    },
+    {
+      "path": "evidence/behavior-project/spec/recovery/summary.md",
+      "original_sha256": "d39c921f57366b365ff91802f82e7785ed012c655eb1af0946f6e860df40995c",
+      "public_sha256": "d39c921f57366b365ff91802f82e7785ed012c655eb1af0946f6e860df40995c"
+    },
+    {
+      "path": "evidence/behavior-project/spec/recovery/tasks.md",
+      "original_sha256": "89ba90b372565af5cab5046dc2d7da187c467c5455dcf80256169c78fd96430d",
+      "public_sha256": "89ba90b372565af5cab5046dc2d7da187c467c5455dcf80256169c78fd96430d"
+    },
+    {
+      "path": "evidence/behavior-project/spec/recovery/writeback.md",
+      "original_sha256": "1c2526d2b7f3c547e89124e724611337a9adcbf7e72b661d23f1a11fd6f1cb53",
+      "public_sha256": "1c2526d2b7f3c547e89124e724611337a9adcbf7e72b661d23f1a11fd6f1cb53"
+    }
+  ]
+}

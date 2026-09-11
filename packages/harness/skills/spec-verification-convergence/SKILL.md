@@ -17,6 +17,8 @@ description: 对完整 Requirement/Change 补齐跨任务、回归、风险和�
 
 建立Critical Flow、Cross-Task/Requirement、Regression、Risk/Security、Runtime Boundary。每项从Source→Target→Type→Method/Requirement→Pass Condition→Evidence推导。确定性工具优先；独立审查尽可能Writer/Verifier分离、默认Fresh、高风险主动找反例、证据优先声明；用户端到端/UI/UX/视觉和业务最终确认不足时安排必要Human Acceptance，执行Agent编排不固化。
 
+Verifier是验证职责，可由工具、Agent或组合承担，不按验证项新建子Agent。工具可判定项目优先确定性检查；相关独立推理项按[委派规则](../../rules/delegation.md)批量审查，仍保持每项Pass Condition、Evidence与独立性。并行只用于真正独立且降低整体成本的工作，不按文件、阶段或可用槽位增加Reviewer。
+
 保存Verification Baseline：Scope、Trace（含code_ref）、Verification Items、按需Review Focus/Human Acceptance、Gates、Environment、OI引用。Finding先作Finding，仅真需跨阶段承接才关联OI；不造新Open Item副本。不写冗长测试计划。
 
 关键AC有验证落点、实际变更可还原、可复用证据与缺口区分、组合/核心/回归/风险无重大遗漏、OI有位置、三类验证边界清晰、关键Pass Condition/Evidence存在且环境可执行，才Verification Ready。
@@ -27,7 +29,9 @@ description: 对完整 Requirement/Change 补齐跨任务、回归、风险和�
 
 默认不得修改被验证业务代码、业务配置、数据模型；可修测试/Fixture/Mock/验证数据/Harness等验证资产环境，但不得降低原Pass Condition或掩盖真实失败。业务问题形成Finding，由下一步路由。
 
-先确定性Build/Static、Unit/Integration/Regression、Contract/Permission/Data、Security、Runtime Check，明确Pass/Fail/Unverified并保存可复现证据。需要跨链推理或高风险正确性/回归/安全/边界，按需Fresh Reviewer；复杂度大可独立并行，Main汇总。Reviewer只补判断不替代Gate、不直接修被审对象、不用个人风格代替规则。代码质量机器难判处按风险独立审查，项目格式由项目规则/工具处理；模型策略动态且能力充分。
+先确定性Build/Static、Unit/Integration/Regression、Contract/Permission/Data、Security、Runtime Check，明确Pass/Fail/Unverified并保存可复现证据。需要跨链推理或高风险正确性/回归/安全/边界，按需Fresh Reviewer；仅在能力、上下文容量、隔离或未解决分歧需要时增加Reviewer，真正独立工作可并行，Main汇总。Reviewer只补判断不替代Gate、不直接修被审对象、不用个人风格代替规则。代码质量机器难判处按风险独立审查，项目格式由项目规则/工具处理；模型策略动态且能力充分。
+
+先完成当前环境、廉价前提与受影响确定性检查，前提失败停止依赖试验，候选稳定后批量交独立Reviewer。修复先由实施者自检，再交未参与实现且隔离有效的原Reviewer复核修复及影响；这不是全新盲测。上下文污染、角色转实施者、首次自主行为或新会话/盲测要求时另用Fresh隔离。已验证证据只在对象、相关依赖、环境、范围及独立性仍成立时复用；Hash不变不能独证依赖不变。没有必要覆盖、新对象、新风险或未解问题不重复调用；预算不足保留Unverified，不降低通过条件。
 
 必要Human Acceptance前给REQ/AC、实际Change、确定性结果、已知Finding和真正待判问题，不让Human重建全部上下文。不存在治理约束不额外造审批。
 

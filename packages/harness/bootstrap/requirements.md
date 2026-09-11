@@ -10,10 +10,14 @@
 | authority-and-state：权限/状态动作 | 复用授权，Human边界不越过，单一事实源、稳定ID、blockingOI和必要Gate；Meta不继承Workflow TaskGate | 原生权限、项目审批/状态工具或有证据会话组合；已授权局部动作继续，未授权AC/风险接受停止，blocking不能过Gate | 回权限Owner或修状态机制 |
 | trace-and-evidence：正式流程和接入记录 | 引用原事实源，区分事实/推断/未知，证据绑定实际对象，动态事实不进稳定基线 | 原文档/任务/Git索引；新会话可回REQ→Design→Task→Change→Verification；稳定基线与运行证据分离 | 补证或回最早失真源 |
 | deterministic-verification：要求确定性验证时 | 真实执行当前契约，证据含命令、环境、对象、结果；不把未运行当Pass、不降标准 | 项目测试/构建/CI/静态/运行；实际通过/失败输入判定正确，局部自证不直接替代正式Gate | 修验证环境/资产，必要Gate不能运行则Blocked |
-| independent-review：流程/风险需要独立推理时 | 直接见目标契约证据，尽量隔离Writer推理，能力充分，默认只读，候选结果Main整合，不替代Gate | 真Fresh会话/子Agent/独立审查者；记录实际输入与上下文边界，Finding可复核，能力不足不假称通过 | 补充分机制或阻断依赖范围 |
+| independent-review：流程/风险需要独立推理时 | 直接见目标契约证据，尽量隔离Writer推理，能力充分，默认只读，候选结果Main整合，不替代Gate | 满足实际隔离要求的会话/子Agent/独立审查者；稳定候选批量审查，原Reviewer未参与实现且隔离有效时定向复核，必要首次加载/新会话/盲测及污染时另用Fresh；复核不标为全新盲测，判定者不兼同一盲测执行者；记录实际输入与上下文边界，Finding可复核，能力不足不假称通过 | 补充分机制或阻断依赖范围 |
 | scoped-execution：委派/并行写/测试隔离 | 有界权限、最小充分上下文、单写Owner、冲突回Main；实际测试加载限授权作用域 | 单写当前区、独立只读共享、多独立写Worktree或语义等价隔离；可串行，验证无写重叠/用户资产覆盖，子结果不升权 | 重新划分/串行/隔离，必要隔离缺失则阻断 |
 | git-lifecycle：Git固化变更或需求同步 | 局部验证→Task Commit/code_ref→正式验证→Done；同REQ全Done后Integration→AC Gate→授权Push；Push非Merge/Release/Deploy/Verified | 实际Git/托管工具及稳定绑定；正式Gate验精确ref；Commit失败保持In Progress，Push失败保留Task事实 | 修环境/绑定/权限，不伪造引用或同步 |
 | observe-and-recover：故障或运行变化 | 必要现场先保护，复现或可靠观察、区分性证据、因果状态、最早源纠正、原故障重验、回Owner；环境变化先复核再动作 | 日志/Trace/测试/安全实验；间歇用重复时序、不安全用替代，Fallback不等价则停 | 保留不确定/阻塞，未复现不等于无故障 |
+
+委派与验证按[共享规则](../rules/delegation.md)执行：Main优先调用工具完成结构/引用/Hash/格式等检查，普通局部验证不默认委派；适用Workflow的独立Gate不能由Worker自检冒充。先查环境与廉价前提，失败停止依赖试验，无依赖且无共享可变状态才可并行。候选稳定后批量送审，不按文件/能力/微小修改创建Reviewer或默认双人；修复自检后定向复核，必要隔离不省略。验收应能区分工具自检、独立审查、原Reviewer复核与Fresh行为执行，并将每项通过条件、对象和证据分别绑定。
+
+证据复用核对来源、对象、依赖、环境、范围及独立性，Hash不变不是依赖不变的充分证明；候选变化使受影响证据失效，重新固定并重验，原证据保留身份并显式关联新候选，不能把旧整体PASS转给新对象。未激活能力不提前验证；减少调用不减少必要覆盖，预算不足明确未验证范围并保持通过条件。调用目的、固定对象、范围、允许输入、预期结果、预算与停止条件放现有临时上下文，不新增逐次审批或长期Task字段。
 
 当前路由与依赖→识别要求→本地证据→选既有/原生/组合→固定原包和本地身份→对转换及依赖直接语义回查→真实加载验证→正常、Authority/Gate、异常、必要恢复→范围内READY/BLOCKED，细节以[接入](../skills/spec-harness-adoption/SKILL.md)为准。
 

@@ -21,6 +21,8 @@
 
 可靠归因的局部实现问题返回原Worker短闭环；需跨层、缺证或无法判断边界根因时Debug。未决只缺人类决策/外部信息时保留Finding/OI承接，不机械诊断。
 
+确定性检查优先由Main调用工具，适用流程要求的独立性仍须满足。稳定候选的相关独立推理问题按委派规则批量审查；实施者修复自检后由原独立Reviewer定向复核，污染或首次自主行为/新会话/盲测要求时另用Fresh。每项仍绑定对象、覆盖、证据与结果，不能把自检称独立验收或把复核称新盲测。复用证据须核对对象、依赖、环境、范围及独立性，Hash不变不能独证依赖未变；保留必要覆盖和当前Gate。
+
 最早失真源路由：REQ/AC→02，Design→03，Task→04，实现→05，验证资产/环境→相应验证或运行治理。只刷新受影响Trace重验。Debug只关闭Failure，Task/Finding/OI/Requirement由Owner写回；Task Done、Push、Failure Resolved不替代06 Verified。
 
 运行时工具/模型/权限/隔离/Fallback变化须在依赖动作前回发现/适配/验收，不重编译或沿旧READY。稳定意图/绑定变才Onboarding。权限、blockingOI、必要Gate不可裁剪；已确认边界不重复请求。

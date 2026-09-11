@@ -1,7 +1,7 @@
 {
-  "version": "0.13.0",
-  "source_revision": "8a41958f3feaf08f02dabc5fd67c9b70c7f87604",
-  "build_mode": "FULL",
+  "version": "0.13.1",
+  "source_revision": "6ef35782bf836a7795687a6b5919ccb74359c81b",
+  "build_mode": "INCREMENTAL",
   "entrypoint": "bootstrap/BOOTSTRAP.md",
   "integrity_definition": "README.md",
   "capability_definitions": "bootstrap/requirements.md",
@@ -70,7 +70,7 @@
         "scoped-execution"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "c4dd2388de52a34edd70face84a1a2168a8c531ccbeed1cc52c3f20a45d44725"
+      "sha256": "87daf33b7caa6719ad6b177e6fa9d247612e31177178b8cd7962149a539f9bbf"
     },
     {
       "id": "rule-artifacts",
@@ -261,7 +261,7 @@
         "git-lifecycle"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "bf0046da13e3c92b60d7ffb8c0238438b9490b3a98ba3b7221a9d7edbde2744d"
+      "sha256": "7548ad914dd5448b412a8e16dcb05883168692fec4e03a52da53fbdb60014830"
     },
     {
       "id": "spec-verification-convergence",
@@ -287,7 +287,7 @@
         "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "e47b97e8951d25378d16f88ee1d397434b5bb3a71251dc393f28dd2a18d8bd6c"
+      "sha256": "9d3b0f6558d86ba84426058e3db7a3255b6b1bfa96245869803932e7bd47578e"
     },
     {
       "id": "spec-process-improvement",
@@ -360,7 +360,7 @@
         "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "8fd1b51bace24813790265a871b10c6f2d1721655f32f3f289b7d7e42b234d56"
+      "sha256": "eae8e966c6323e3cf374b9d543c98ad40c60d35be8781d84adf9e2348063a334"
     },
     {
       "id": "spec-harness-adoption",
@@ -388,7 +388,7 @@
         "artifact-navigation"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "6b0dc18283b841e37cf7d8960e8c26542da397dde6146a0da47c4268b0618e58"
+      "sha256": "6eb3d3530bc565841777872adf562c05b03ed386bc1eac5fcaa08476101fbe36"
     },
     {
       "id": "entry",
@@ -409,7 +409,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "3e8d39e5f7d5be95dcf0d4ebcc50e1d2d6e4ace21540763882de4a36cd530369"
+      "sha256": "00153168f8a59809bde4031a4041c6562be36b01fc91e6c02a0980069fd5c917"
     },
     {
       "id": "routes",
@@ -473,7 +473,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "8cf3b579cf3071240f7ad9ffcda6d1b6c50e2a3cd5c0d009e90a9791b1e3ca07"
+      "sha256": "c5460978d583906392da0acff3c4580a4c25c76675db3dd3fccb9ab233126228"
     },
     {
       "id": "requirements",
@@ -533,7 +533,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "448962dcfbd2f518ed2ca76edc385026dfb27845f07ba6f5aee04502bac434f8"
+      "sha256": "0ce1196c0f2eecdff5cd8ba9ce0c19f8d4bc6359bcb84c2e4f4715996962e96c"
     },
     {
       "id": "readme",
@@ -550,7 +550,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "c022cf3e3df0615b8fdffc558af8cbd9e0e340122eb3b32eb07814424f82ffce"
+      "sha256": "046c824261e7398420afecc25119a2ab8e154b06c9592c6e74931c6fadd84f56"
     },
     {
       "id": "plugin",
@@ -564,7 +564,7 @@
         "identity-and-scope"
       ],
       "requirements": "bootstrap/requirements.md",
-      "sha256": "7c47d0e2190d95739875dfceca630962ccbf5df599b5d0f06a010559f0e0459a"
+      "sha256": "9968d4fa865dd943a3a06e8bd6bddefff088ffcdac7cfec2d06a215a6afc1812"
     },
     {
       "id": "integrity",
@@ -584,28 +584,52 @@
     }
   ],
   "files": {
-    "bootstrap/BOOTSTRAP.md": "7262f4cff2f36af9b9b2accb70ae16fce548bf98ff425887603028c3d045a616",
-    "bootstrap/requirements.md": "1e9bb4e3441aed882146b36075f131a8d6c73937bdc93650633fbe03798a7786",
-    "bootstrap/routes.md": "95be465f182ca6bae97fbdcedfbf3b10caf50ddfa7521a1f0820081707c481ed",
-    "plugin.json": "a95ffc6908574ef15d904dbc1ccd7be42860c525dd3534fd3ae1e9427238d147",
-    "README.md": "a57a2d4109ab7088c03781a47adf3bdc3bbc731c250772dda039e8bf389524be",
+    "bootstrap/BOOTSTRAP.md": "dcce505bf1d3330a07238220360e26f3fb8022e097b17b6e5685c6252eb8fea4",
+    "bootstrap/requirements.md": "740e93f86643ba97c4329092b7b60ebe90d53280d5969e7cfe366d83873df540",
+    "bootstrap/routes.md": "86064b1be38a3d404ed599f9856f3bed5a673963669c9ce60301065f8c279ddb",
+    "plugin.json": "c4d136cda0dad51dabd3d73d84e4e7e6dc94c2e3e6fd88125c0a16a9b96061c6",
+    "README.md": "0b02e1533c4af10fbdd818d41c328c654a31b1dc9efa529f79db0f450d240a44",
     "rules/artifacts.md": "374039703a2439de81ef836ba0d30bdabd5be819fb13a6d6227ef8753c0fd535",
     "rules/code-quality.md": "d3cff36ad0bdc285fd76a0ae9d3aa69d3906b1aafd928c84ddf0948a9af68389",
     "rules/collaboration.md": "d04d0bc5e93046d250296866b04c404c2097d1b5b4c29ae3680dc9b3fc49dcea",
-    "rules/delegation.md": "c9b21959050749d25a715c71c45a07c7b894ea11b2eb2b29124f45c03bf417b5",
+    "rules/delegation.md": "66cad3a65a3a82032c65f9e1c0d04afbf39b695ac22224e41296954290a4be3c",
     "rules/global.md": "66f185be8fc18c71477b628e8fdfeb5d4a55353792a7f6ccf965f81eeada5e1d",
     "scripts/verify.py": "62812b7c380421b2dbfb62aa84a72b1543b0efc50c5bf7ca3b7066bbd0b1c6bc",
     "skills/spec-debug/SKILL.md": "214f2193ceb2742faaad9457c8d8245e2f9f50e75f6a454edd712f6852fc4649",
-    "skills/spec-development-execution/SKILL.md": "4356fda5d01029a0ce1170042a43674764adc8b8049ab505070a8bc67ba382b8",
-    "skills/spec-harness-adoption/references/candidate-validation.md": "8d0bf9d5e4a2ecb24345c8f51be57d9fbcd22e52fec19b6df78007039cacafd4",
-    "skills/spec-harness-adoption/SKILL.md": "c5aaccfd7214be7c6ec7a7588bdc731b46372f4df1a88506b7b45cd1d5e367f7",
+    "skills/spec-development-execution/SKILL.md": "3ecc0f14bf23c6453114226b0ce400fc24ef963561bc8d6fe5b77acbb0ec924c",
+    "skills/spec-harness-adoption/references/candidate-validation.md": "1deec2f8bb012c6e325f00067f8c34b7f8e6b8925455b5bd3d8c96cc605b44db",
+    "skills/spec-harness-adoption/SKILL.md": "c1cc8e72fcc96d00757a7f7f431cd9c14cbdb02102b4495efac8e2af1461dca1",
     "skills/spec-implementation-planning/SKILL.md": "e999365ec4cbd61f54ffceeaf25a99978bd21cd62d7f8b03a3881369fca7e50e",
     "skills/spec-process-improvement/SKILL.md": "6b4148e3ab8f7422d3ab9d929dfa7022a69347f93063ee5513955d119463d326",
     "skills/spec-project-definition/SKILL.md": "fe53d8d6f9f04215cc18d037becfd4855eafdfff18b5b2d81a13add70bd66efb",
-    "skills/spec-project-onboarding/SKILL.md": "3801c4097148f53959dd43660f64d98bb2de27ca75a288c7565748f42ed6793c",
+    "skills/spec-project-onboarding/SKILL.md": "00e112f4d639b60d0a8f1e5eb772471c5371719f2955e193c81f29ef6226388d",
     "skills/spec-project-understanding/SKILL.md": "981ea965495bb93802dbec89e8b9e811bf9aa30c8cf96fb29255cab7183fe652",
     "skills/spec-requirement-clarification/SKILL.md": "86571bf0325d9430ac5acacf867cce75b3f57386e2b11d9c59947e965d7b486d",
     "skills/spec-technical-design/SKILL.md": "7b631dbd714f875273b28fd58abb8d8aba0b26220610787581e49cce43a65c59",
-    "skills/spec-verification-convergence/SKILL.md": "8f7fd6cbeb9607909a564e16b13390c2194f4a26edd92fce713d857d3df70151"
-  }
+    "skills/spec-verification-convergence/SKILL.md": "7bcf60c352f6b1b7fb88966aa98693f04116bcecaeba86d3642f95b7bfbe98dc"
+  },
+  "patch_baseline": {
+    "version": "0.13.0",
+    "source_revision": "8a41958f3feaf08f02dabc5fd67c9b70c7f87604",
+    "package_sha256": "3a32530d2d28dd43b8c0afed75faa13c130a04d39b78cfce6afa7ed81906540c"
+  },
+  "affected_artifacts": [
+    "entry",
+    "integrity",
+    "readme",
+    "requirements",
+    "routes",
+    "rule-delegation",
+    "spec-debug",
+    "spec-development-execution",
+    "spec-harness-adoption",
+    "spec-implementation-planning",
+    "spec-process-improvement",
+    "spec-project-definition",
+    "spec-project-onboarding",
+    "spec-project-understanding",
+    "spec-requirement-clarification",
+    "spec-technical-design",
+    "spec-verification-convergence"
+  ]
 }

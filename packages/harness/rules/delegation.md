@@ -65,6 +65,16 @@ Subagent 在委派边界内自治，但默认不得自行改变：
 
 没有明显收益时由 Main Agent 直接处理，不为 Multi-Agent 形式本身增加成本。
 
+结构、引用、Hash、格式及工具可确定判定的检查，优先由 Main Agent 调用工具完成。普通局部验证不默认启动 Subagent；适用 Workflow 明确要求的独立性仍须满足，Main Agent 自检不能冒充独立验收。
+
+### Review Batching & Reuse｜批量审查与复核
+
+需要独立推理时，先完成自检和受影响的确定性检查，再将稳定候选及一组相关问题交给符合隔离要求的 Reviewer。一次审查可覆盖相关文件、任务或阶段；不按文件、微小修改或阶段数量机械创建 Reviewer，也不默认双人审查。仅在能力、上下文容量、隔离或未解决分歧需要时增加审查者。
+
+Finding 修复后先由实施者完成相关自检，再由原独立 Reviewer 复核修复及其影响范围；复核期间 Reviewer 不承担被审查实现。若上下文已污染、角色已转为实施者，或验证目标要求首次自主行为、新会话恢复及其他 Fresh 条件，使用新的隔离上下文。原 Reviewer 的复核不得标为全新盲测。
+
+委派时在现有临时执行上下文中明确验证问题、独立性或专门能力的价值、固定对象、范围、允许输入、预期结果、成本预算和停止条件。无需新增长期委派表或逐次人类审批；既有权限要求仍适用。没有必要覆盖、新对象、新风险或未解决问题，不重复调用。同一测试中持有预期答案的判定者不能同时作为要求盲测的执行者。
+
 ### Delegability｜委派准入
 
 候选 Work Unit 应按以下维度判断：
@@ -230,6 +240,10 @@ Fallback 只有在候选配置仍满足当前 Capability Requirement 时才可�
 
 ### Validation & Completion｜验证与完成
 
+验证按影响范围执行，先检查环境与廉价前提，失败时停止依赖该前提的昂贵工作；无依赖且无共享可变状态的检查可并行。修复不自动要求全部重跑，只有对象、依赖、环境、范围和独立性仍适用的证据可以复用；影响不明时扩大必要验证。内容 Hash 不变不能单独证明依赖未变。
+
+需要评估委派成本时复用运行记录，区分准备、读取、执行、等待、审查与重跑，记录调用目的和重跑原因；不可测项标为未知。无新 Finding 不代表审查无价值，必要独立覆盖本身具有价值。超时或无进展先归因再调整，不原样无限重派；预算不足时明确未验证范围，不能降低通过条件。模型、耗时及调用次数不成为每个正式 Task 的新增必填字段。
+
 Reviewer 只能补充独立判断，不替代正式 Verification；Formal Task 仍按现有 Deterministic Gate、Fresh Review（按需）、Verification Result 与 Task State 收敛。
 
 Subagent 完成仅表示当前 Delegated Work 完成，不自动意味着 Task `Done`、Requirement `Verified`、Finding Closed 或 Workflow 完成。
@@ -240,7 +254,7 @@ Subagent 完成仅表示当前 Delegated Work 完成，不自动意味着 Task `
 
 本规则负责稳定的 Main Agent / Subagent 协作语义；Workflow 只声明局部委派条件或验证需要并引用本规则，不复制角色与调度正文。
 
-维护者按 维护者的 Harness 构建与发布流程（客户端不执行） 预编译本规则中的稳定角色、边界与能力要求。目标侧按 [`Harness Adoption & Adaptation`](../skills/spec-harness-adoption/SKILL.md) 发现当前 Agent / Model / Thinking / Tools / Workspace，以最低必要复杂度实现 Role、Context Isolation、Model Routing、Fallback 与 Runtime Coordination，并完成验收。
+维护者按其 Harness 构建与发布流程（客户端不执行） 预编译本规则中的稳定角色、边界与能力要求。目标侧按 [Harness Adoption & Adaptation](../skills/spec-harness-adoption/SKILL.md) 发现当前 Agent / Model / Thinking / Tools / Workspace，以最低必要复杂度实现 Role、Context Isolation、Model Routing、Fallback 与 Runtime Coordination，并完成验收。
 
 执行期间由 Main Agent 与当前 Harness 按本规则的 Capability-aware Routing 选择具体配置；任务需求或能力变化时，只刷新并验证受影响机制。稳定规范不绑定具体模型，运行时调度不重新启动 Canonical → Harness 预编译。
 

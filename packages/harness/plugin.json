@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "spec-coding",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Spec Coding 预编译流程、共享规则与目标侧按需接入程序",
   "repository": "https://github.com/JackSmith111977/Spec-Coding"
 }

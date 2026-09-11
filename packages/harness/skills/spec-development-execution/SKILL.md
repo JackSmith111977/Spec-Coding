@@ -37,6 +37,10 @@ Inspect→Hypothesize→Implement→Run/Observe→Adjust，契约内自主选文
 
 确定性优先：Build/Compile/Typecheck/Lint、Unit/Integration、API/Contract、DB/MQ/Async、Browser/E2E、架构依赖Schema、安全等。机器难判的复杂UX、语义、代码质量或高风险按需Fresh Reviewer，隔离原Worker实施上下文，能力与复杂度匹配，默认只读找问题；Reviewer不替代Gate。
 
+Verifier是正式验证职责，不等于每Task新建子Agent。结构、引用、Hash、格式等可确定检查优先由Main调用工具；正式Gate仍走满足本步骤独立性的执行路径，Worker自检不能改称独立通过。先检查环境与廉价前提，失败时停止依赖的昂贵验证；无依赖且无共享可变状态的检查可并行。
+
+需要独立推理时，先完成自检及受影响确定性检查，再按[委派规则](../../rules/delegation.md)将稳定候选和相关问题批量送审，不按文件/Task数量机械建Reviewer或默认双人审查。每Task仍分别绑定实际对象、Coverage与结果，不绕Depends On、不改变状态归属。修复先由原Worker自检，存在Git固化变更时形成新Commit，再由未参与实施且隔离仍成立的原Reviewer定向复核；污染、转为实施者或首次自主行为/新会话/盲测需要时另用Fresh上下文，原Reviewer复核不称全新盲测。仅在对象、依赖、环境、范围及独立性仍适用时复用证据，Hash不变单独不能证明依赖不变；影响不明扩大必要验证，预算不足明确未验证范围，不降低Gate。
+
 先证据归因再分流：
 
 | 问题 | 返回与状态 |
