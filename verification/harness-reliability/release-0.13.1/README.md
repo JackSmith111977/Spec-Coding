@@ -1,6 +1,6 @@
 # 0.13.1 发行验证材料
 
-本目录保存冻结候选的包外验证及公开副本。[Stage 3最终判定](stage-3.md)为PASS；正式发布事实须核对[GitHub Release](https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.13.1)与发布后收据。
+0.13.1已正式发布，[GitHub Release](https://github.com/JackSmith111977/Spec-Coding/releases/tag/0.13.1)标题与Tag一致，非草稿、非预发布。[发布收据](publication-receipt.json)已核对四个附件的服务器摘要；Tag指向 `e5a847b15187b31827b30c020e22140a103ba2d8`。收据在发布后另行提交，不修改已发布包、附件或Tag。[Stage 3最终判定](stage-3.md)为PASS。
 
 版本 `0.13.1`，规范源 `6ef35782bf836a7795687a6b5919ccb74359c81b`；包 SHA256 为 `34ade88a97f78926f5cb2cc7d5daec005c165ad8710972db40900e0ca3d24b4a`；完整 ZIP SHA256 为 `d2f4d6677c99d1886becc58ad4101f0802f261dbc733d6341fe86ecc42e9f7df`。正式 ZIP 与候选 ZIP 仅文件名不同，字节不变。
 
