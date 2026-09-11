@@ -73,7 +73,8 @@ def write_json(path, data):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
-def assemble(revision):
+def assemble(revision, package=None):
+    package = Path(package) if package is not None else PACKAGE
     data = source_manifest(revision)
     sources = canonical(data)
     version = git("show", f"{revision}:VERSION").decode().strip()
@@ -83,7 +84,7 @@ def assemble(revision):
         current = (ROOT / path).read_bytes().replace(b"\r\n", b"\n")
         if current != git("show", f"{revision}:{path}").replace(b"\r\n", b"\n"):
             raise ValueError(f"工作树规范已偏离固定源，须重新构建：{path}")
-    files = {p: h for p, h in integrity.inventory(PACKAGE).items() if p != "manifest.json"}
+    files = {p: h for p, h in integrity.inventory(package).items() if p != "manifest.json"}
     artifacts = []
 
     def artifact(ident, kind, path, source_paths, applies, dependencies, requires):
@@ -124,8 +125,8 @@ def assemble(revision):
               "integrity_definition": "README.md", "capability_definitions": "bootstrap/requirements.md",
               "conditional_dependencies": {"delegation-isolation-review-routing": "rule-delegation", "code-changes": "rule-code-quality"},
               "artifacts": artifacts, "files": files}
-    write_json(PACKAGE / "manifest.json", result)
-    return validate(PACKAGE)
+    write_json(package / "manifest.json", result)
+    return validate(package)
 
 
 def validate(package=PACKAGE):
@@ -226,18 +227,19 @@ def validate(package=PACKAGE):
     return report
 
 
-def archive(output):
-    report = validate()
+def archive(output, package=None):
+    package = Path(package).resolve() if package is not None else PACKAGE
+    report = validate(package)
     output = Path(output).resolve()
-    if output.is_relative_to(PACKAGE):
+    if output.is_relative_to(package):
         raise ValueError("归档与证据不得放进冻结包")
     output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_STORED) as bundle:
-        for relative in sorted(integrity.inventory(PACKAGE)):
+        for relative in sorted(integrity.inventory(package)):
             entry = zipfile.ZipInfo("harness/" + relative, date_time=(1980, 1, 1, 0, 0, 0))
             entry.create_system = 3
             entry.external_attr = 0o100644 << 16
-            bundle.writestr(entry, (PACKAGE / relative).read_bytes())
+            bundle.writestr(entry, (package / relative).read_bytes())
     report.update(archive=output.name, archive_sha256=integrity.digest(output.read_bytes()))
     return report
 
@@ -247,17 +249,18 @@ def main():
     parser.add_argument("action", choices=["assemble", "verify", "archive"])
     parser.add_argument("--source-revision")
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--package", type=Path, default=PACKAGE, help="待装配、验证或归档的完整包目录")
     args = parser.parse_args()
     if args.action == "assemble":
         if not args.source_revision:
             parser.error("assemble必须显式绑定--source-revision")
-        report = assemble(args.source_revision)
+        report = assemble(args.source_revision, args.package)
     elif args.action == "archive":
         if not args.output:
             parser.error("archive必须指定--output")
-        report = archive(args.output)
+        report = archive(args.output, args.package)
     else:
-        report = validate()
+        report = validate(args.package)
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
 

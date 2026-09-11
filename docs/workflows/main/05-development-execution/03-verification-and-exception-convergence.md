@@ -55,6 +55,8 @@ Worker Self Verification 不直接视为正式证据，正式验证尽可能对�
 
 Reviewer 的 Context 应尽量与原 Worker 实施过程隔离；复杂 Review 的有效能力不应明显低于被审查结果所需的推理能力。具体 Model / Thinking 由 Harness 基于当前 Runtime 动态路由，不写回 Task Contract。
 
+Verifier 是职责，不等于每个 Task 必须新建子 Agent。确定性验证由满足本步骤独立性要求的执行路径完成，不能把 Worker Self Verification 直接改称正式通过。需要独立推理的相关结果按[委派与协调规则](../../../rules/agent-delegation-and-coordination.md)批量审查、定向复核；每个 Task 仍分别绑定实际验证对象、覆盖和结果，批量处理不绕过 Depends On 或改变状态归属。
+
 ---
 
 ## 3.4 归因失败并分流异常

@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-12",
+  "base_commit": "ad7bbc3aa9b25a83642d134f6dcd54e578662b27",
+  "scope": "未提交来源、治理、工具与测试；不含未变更的0.13.0发行包",
+  "files": {
+    "docs/governance/README.md": "f7996e1766184808f1b30649663a814429a025a202c8f17e87f9a97348ba4db6",
+    "docs/governance/designs/harness-reliability/README.md": "1e19da55034ff077271db6ca514fed4ae0db815c9e7c1825f0a890d62dcdb38d",
+    "docs/governance/designs/harness-reliability/implementation.md": "1f7de582f2e11452f548be6c6fe68133a5b7d54b7074495e35ccfc910064f5a1",
+    "docs/governance/harness-build-and-release.md": "aa0c37091e8b05e372f190f627fe438a28169f09422192670f850b49785ec973",
+    "docs/governance/patch-release.md": "c380cf3285e6fed34342b9b2f951a4d5e2ae7ddf9e0d1ae37498bf083a92282b",
+    "docs/meta-protocols/harness-adoption-and-adaptation.md": "4cb0710f293c59fc2a0182bb568b5bee584cb3fd1c490f5c98615b21be57b756",
+    "docs/rules/agent-delegation-and-coordination.md": "fe4e7126732ff0cb5dd3cfbf0a5d878cf02a67f0370a74ca3b69e19fe5dd4233",
+    "docs/workflows/main/05-development-execution/03-verification-and-exception-convergence.md": "3695e581d07e0bc6f8e44603a8eec3d0540cacfa212caff139e6d7b4dfcc8bc2",
+    "docs/workflows/main/06-verification-convergence/01-verification-baseline-establishment.md": "6c1cf1dfaffd1f8785790c7e0409f82ad49a15089bc2982e2afd59826a2c1288",
+    "tools/README.md": "ef92c4762a5c9386df445cbd4176686685d7a63f83a4ec757a1fd6337f5955bf",
+    "tools/harness_package.py": "042fd1fa866856bf4a1091484f5795fca384827bf68bdd0111c271e7f83ba5f3",
+    "tools/harness_patch.py": "f583fdd64c45f99bd28caa426f531b8cf121e63f3b13a26c5644d82e30988ecc",
+    "tools/test_harness_patch.py": "20722ae762275dbada9b734f2f508c5e2fe6963cad0c44cacfa9b37296b7baf3",
+    "tools/test_harness_patch_cli.py": "685624cd8ab84a93866ab70f9b9cb45a4f513a927d674ba80385c79018873878"
+  },
+  "snapshot_sha256": "bdac5ab1261d6678700c4e90b824e7f21f3dd9287615c838dcc32a314470cb26"
+}

@@ -30,6 +30,8 @@ Canonical Workflow / Rules / Meta Protocol
 
 本流程覆盖首次创建、Canonical 更新、Harness 缺陷修复、外部标准 / Packaging 变化、组件删除、发布与回滚。
 
+不改变Canonical语义的修复版本可采用[Patch发行包构建](patch-release.md)的维护工具执行基线核验、范围计算及完整候选冻结。Patch不豁免本流程的完整来源读取、独立审查与必要行为验证，也不要求客户端安装差分补丁链。
+
 维护者输出与目标侧输入统一遵循 [`Harness 读取与适配：包消费契约`](../meta-protocols/harness-adoption-and-adaptation.md#2-package-consumption-contract包消费契约)。Build 负责提供完整的包内入口、行为、适配要求和验收依据；目标侧按该契约读取和实现环境差异。
 
 ---
@@ -330,7 +332,7 @@ Build Manifest 只记录最终派生关系与内容身份，不记录 Builder �
 
 证明候选 Package **结构合法、语义忠实，并能作为真实 Harness 被 Agent 消费**。
 
-进入验证后必须固定 Candidate 的内容身份（Commit / Hash）。验证期间一旦修改任何 Harness Artifact、Manifest 或 Package Envelope，当前 Candidate 即失效，必须形成新的 Candidate 并重新验证。
+进入验证后必须固定 Candidate 的内容身份（Commit / Hash）。验证期间一旦修改任何 Harness Artifact、Manifest 或 Package Envelope，当前 Candidate 即失效，必须形成新的 Candidate 并重新验证。新 Candidate 不能直接继承旧包的 PASS；重新验证的范围按 §3.5 确定，不等于机械重跑全部独立审查和行为试验。
 
 ```text
 Fixed Harness Package Candidate
@@ -432,6 +434,18 @@ exception / routing
 
 未受影响且内容 Hash 未变化的 Artifact 不要求机械重复全文 Semantic Review；如果影响边界无法可靠证明，则扩大验证范围。
 
+### Verification Cost & Recheck｜验证成本与复核
+
+Builder 先完成环境快速检查、结构验证和来源回查，再将稳定候选集中交给独立 Reviewer；不为每次编辑安排独立审查。相关资产优先由一名满足隔离与能力要求的 Reviewer 批量覆盖，只有专业、容量、隔离或未解决分歧需要时增加角色。语义审查的来源直读要求与行为执行者不见 Canonical / Oracle 的边界保持不变。
+
+修复产生新 Candidate 后，全量结构验证仍须执行；比较来源、Manifest、资产及其消费者，确定受影响语义、行为和共享集成范围。原独立 Reviewer 可在未参与实现且隔离仍成立时，对新 Candidate 的修复及影响范围定向复核；这属于复核，不是新的 Fresh 盲测。需要首次自主行为或上下文已污染的挑战，必须另用 Fresh Agent 或隔离 Session。
+
+可复用证据需记录原验证对象、适用来源、范围及未受影响依据，并在新 Candidate 的验证记录中显式列出复用关系；相关环境、依赖、作用域和方法独立性也须仍成立。旧报告保持原身份，不改写为新 Candidate 报告。最终覆盖包含本轮新证据与经核验可复用证据，不以旧包整体 PASS 替代新候选判定。
+
+默认不固定重复次数或穷举全部 Runtime。追加运行须有未解决的不确定性、受影响行为或适用验证要求；共享变化仍执行必要包级集成挑战。确定性前提失败时先修复，再启动依赖它的昂贵试验。独立且无共享可变状态的检查可以并行，不按可用并行槽位机械创建 Agent。
+
+维护者在现有 Worklist / 运行收据中记录调用目的、固定对象、范围、预算、停止条件与重跑原因，按需统计准备、读取、执行、等待、审查耗时及子 Agent 次数；并行总耗时与墙钟时间分开。预算耗尽保留 BLOCKED 或未验证范围，不降低发布标准，也不要求每次委派新增长期产物。
+
 ## 3.6 Verdict & Failure Routing｜结论与失败回流
 
 最终结论只使用：
@@ -458,7 +472,7 @@ Stage 3 负责发现、归因和阻断，不直接修改 Candidate 后继续判�
 - Structural Verification 通过；
 - Independent Semantic Review 无 Blocking Finding；
 - 必要 Behavioral Challenge 通过；
-- Candidate 内容身份与全部验证对象一致；
+- 本轮验证对象绑定最终 Candidate；复用证据保留原身份，且按 §3.5 证明对最终 Candidate 的相关范围仍适用；
 - 本轮 `validation_focus` 已得到覆盖。
 
 ---

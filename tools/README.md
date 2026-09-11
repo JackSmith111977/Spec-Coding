@@ -2,6 +2,8 @@
 
 `harness_package.py`只装配已由Builder直接读规范后编写的程序、核验结构身份和生成可复现ZIP，不生成Workflow语义，不是客户端编译器。
 
+Patch机制见[Patch发行包构建](../docs/governance/patch-release.md)。`harness_patch.py plan/build`支持固定旧包Hash、源版本比较、依赖传播、范围外变更拒绝及完整增量候选冻结；不自动认证语义或发行。`harness_package.py`的三个动作均可用 `--package <暂存或冻结目录>` 指定包，默认仍为仓库包目录。
+
 Python 3.10或更新版本，维护者依赖见requirements.txt；包内完整性脚本只用标准库。
 
 ```powershell

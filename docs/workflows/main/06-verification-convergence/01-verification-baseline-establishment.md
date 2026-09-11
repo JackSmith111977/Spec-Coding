@@ -83,7 +83,7 @@ Build / Static Check、Unit / Integration / Regression Test、Contract / Permiss
 - **Adversarial Review for Risk｜高风险对抗式审查**：高风险主动寻找反例。
 - **Evidence over Claim｜证据优于声明**：以可复核 Evidence 为准。
 
-是否采用单个或并行 Verifier Subagent，由执行阶段根据风险和复杂度动态决定。
+独立审查不等于每个验证项都启动 Verifier Subagent。工具可确定判定的项目优先使用确定性验证；需要独立推理时，按[委派与协调规则](../../../rules/agent-delegation-and-coordination.md)对相关项批量审查，保持每项 Pass Condition、Evidence 和独立性。修复按影响定向复核；需要新会话或盲测时保留 Fresh 隔离。并行仅用于真正独立且能降低整体成本的工作。
 
 ### Human Acceptance（人工验收）
 
